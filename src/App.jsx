@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-route
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import BookingModal from './components/BookingModal';
+import FloatingActions from './components/FloatingActions';
 import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
 import SafariInfoPage from './pages/SafariInfoPage';
@@ -45,6 +46,9 @@ function MainLayout() {
       </main>
 
       <Footer />
+
+      {/* Floating Book Now, WhatsApp & Scroll-to-Top Actions */}
+      <FloatingActions onOpenBooking={() => setBookingOpen(true)} />
 
       {/* Global Booking Modal */}
       <BookingModal

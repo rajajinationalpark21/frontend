@@ -1,12 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Download, Compass, Eye } from 'lucide-react';
 import { safariImages, galleryPhotos } from '../data/safariData';
+import { fetchGallery } from '../api/client';
 import LightboxModal from '../components/LightboxModal';
 import SEO from '../components/SEO';
 
 export default function GalleryPage({ onOpenBooking }) {
   const [selectedFilter, setSelectedFilter] = useState('All Photos');
   const [activePhotoIndex, setActivePhotoIndex] = useState(null);
+  const [photos, setPhotos] = useState(galleryPhotos);
+
+  useEffect(() => {
+    fetchGallery()
+      .then((data) => {
+        const images = data?.data?.images || data?.images;
+        if (Array.isArray(images) && images.length > 0) {
+          setPhotos(images.map((img, i) => ({
+            id: img._id || i,
+            title: img.title || img.name || 'Untitled',
+            category: img.category || 'Wildlife',
+            src: img.url || img.src,
+            desc: img.description || img.desc || '',
+          })));
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   const gallerySchema = {
     "@context": "https://schema.org",
@@ -18,7 +37,7 @@ export default function GalleryPage({ onOpenBooking }) {
 
   const filterTabs = ['All Photos', 'Wildlife', 'Nature', 'Vehicles', 'Visitors'];
 
-  const filteredPhotos = galleryPhotos.filter((photo) => {
+  const filteredPhotos = photos.filter((photo) => {
     if (selectedFilter === 'All Photos') return true;
     return photo.category === selectedFilter;
   });

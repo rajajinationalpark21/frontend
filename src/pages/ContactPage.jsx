@@ -8,6 +8,7 @@ import {
   CheckCircle2 
 } from 'lucide-react';
 import { safariImages, faqs } from '../data/safariData';
+import { submitContact } from '../api/client';
 import SEO from '../components/SEO';
 
 export default function ContactPage() {
@@ -36,7 +37,7 @@ export default function ContactPage() {
     }))
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     // Silent drop if honeypot was filled by an automated bot
     if (honeypot) {
@@ -47,12 +48,17 @@ export default function ContactPage() {
     if (isSubmitting || cooldown) return;
 
     setIsSubmitting(true);
-    setSubmitted(true);
-    setCooldown(true);
 
-    setTimeout(() => {
-      setSubmitted(false);
-      setIsSubmitting(false);
+    try {
+      await submitContact({
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        subject: formData.subject,
+        message: formData.message,
+      });
+      setSubmitted(true);
+      setCooldown(true);
       setFormData({
         name: '',
         email: '',
@@ -60,12 +66,14 @@ export default function ContactPage() {
         subject: 'General Inquiry',
         message: ''
       });
-    }, 3000);
-
-    // 30s submission cooldown against rapid spamming
-    setTimeout(() => {
-      setCooldown(false);
-    }, 30000);
+      setTimeout(() => setSubmitted(false), 3000);
+      setTimeout(() => setCooldown(false), 30000);
+    } catch (err) {
+      console.error("Contact form error:", err);
+      alert("Failed to send message. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (

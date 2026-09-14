@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { 
   Sun, 
@@ -9,9 +9,40 @@ import {
   Calendar 
 } from 'lucide-react';
 import { safariImages } from '../data/safariData';
+import { fetchContent } from '../api/client';
 import SEO from '../components/SEO';
 
+const fallbackContent = {
+  tagline: "Unleash Your Wild Side",
+  heroTitle: "Unleash Your Wild Side",
+  heroSubtitle: "Experience the heart of the jungle. Witness nature in its purest form.",
+  heroBanner: safariImages.homeHero,
+  timings: "06:00 AM - 06:00 PM",
+  zones: "Buffer, Core & River Safari",
+  rules: "Do's & Don'ts Guide",
+  aboutTitle: "The Sanctuary Legacy",
+  aboutDescription: "Dedicated to conservation and protecting our wildlife for generations to come. Discover the story behind the sanctuary, our efforts in anti-poaching, and how we maintain the delicate balance of the ecosystem.",
+  stats: { tigers: "50+", acres: "120k" },
+};
+
 export default function HomePage({ onOpenBooking }) {
+  const [content, setContent] = useState(fallbackContent);
+
+  useEffect(() => {
+    fetchContent()
+      .then((data) => {
+        const home = data?.data?.home || data?.home;
+        if (home && home.heroTitle) {
+          setContent((prev) => ({
+            ...prev,
+            ...home,
+            heroBanner: home.heroBanner || prev.heroBanner,
+            stats: { ...prev.stats, ...(home.stats || {}) },
+          }));
+        }
+      })
+      .catch(() => {});
+  }, []);
   const homeSchema = {
     "@context": "https://schema.org",
     "@type": "TouristAttraction",
@@ -38,7 +69,7 @@ export default function HomePage({ onOpenBooking }) {
         {/* Background Image with Dark Vignette Overlay */}
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-transform duration-1000 scale-105"
-          style={{ backgroundImage: `url("${safariImages.homeHero}")` }}
+          style={{ backgroundImage: `url("${content.heroBanner || safariImages.homeHero}")` }}
         >
           {/* Subtle dark gradient overlay matching the mockup */}
           <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70" />
@@ -47,10 +78,10 @@ export default function HomePage({ onOpenBooking }) {
         {/* Hero Content */}
         <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6">
           <h1 className="text-4xl sm:text-6xl md:text-7xl font-extrabold text-white tracking-tight leading-[1.1] mb-5">
-            Unleash Your Wild Side
+            {content.heroTitle || "Unleash Your Wild Side"}
           </h1>
           <p className="text-lg sm:text-xl text-gray-200 max-w-2xl mx-auto font-normal mb-9">
-            Experience the heart of the jungle. Witness nature in its purest form.
+            {content.heroSubtitle || "Experience the heart of the jungle. Witness nature in its purest form."}
           </p>
 
           {/* Call to Actions */}
@@ -80,7 +111,7 @@ export default function HomePage({ onOpenBooking }) {
               </div>
               <div>
                 <h4 className="font-bold text-gray-900 text-base">Timings</h4>
-                <p className="text-xs font-semibold text-gray-700 mt-0.5">06:00 AM - 06:00 PM</p>
+                <p className="text-xs font-semibold text-gray-700 mt-0.5">{content.timings || "06:00 AM - 06:00 PM"}</p>
                 <p className="text-[11px] text-gray-400">Open all days except Tuesday</p>
               </div>
             </div>
@@ -92,7 +123,7 @@ export default function HomePage({ onOpenBooking }) {
               </div>
               <div>
                 <h4 className="font-bold text-gray-900 text-base">Zones</h4>
-                <p className="text-xs font-semibold text-gray-700 mt-0.5">Buffer, Core & River Safari</p>
+                <p className="text-xs font-semibold text-gray-700 mt-0.5">{content.zones || "Buffer, Core & River Safari"}</p>
                 <p className="text-[11px] text-gray-400">Explore 5 distinct habitats</p>
               </div>
             </div>
@@ -104,7 +135,7 @@ export default function HomePage({ onOpenBooking }) {
               </div>
               <div>
                 <h4 className="font-bold text-gray-900 text-base">Rules</h4>
-                <p className="text-xs font-semibold text-gray-700 mt-0.5">Do's & Don'ts Guide</p>
+                <p className="text-xs font-semibold text-gray-700 mt-0.5">{content.rules || "Do's & Don'ts Guide"}</p>
                 <p className="text-[11px] text-gray-400">Strict conservation policies</p>
               </div>
             </div>
@@ -136,17 +167,17 @@ export default function HomePage({ onOpenBooking }) {
               CONSERVATION FIRST
             </span>
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 tracking-tight">
-              The Sanctuary Legacy
+              {content.aboutTitle || "The Sanctuary Legacy"}
             </h2>
             <p className="text-gray-600 leading-relaxed text-sm sm:text-base">
-              Dedicated to conservation and protecting our wildlife for generations to come. Discover the story behind the sanctuary, our efforts in anti-poaching, and how we maintain the delicate balance of the ecosystem.
+              {content.aboutDescription || "Dedicated to conservation and protecting our wildlife for generations to come. Discover the story behind the sanctuary, our efforts in anti-poaching, and how we maintain the delicate balance of the ecosystem."}
             </p>
 
             {/* Statistics */}
             <div className="flex items-center gap-10 pt-2 border-l-2 border-safari-500 pl-5">
               <div>
                 <div className="text-3xl sm:text-4xl font-extrabold text-gray-900">
-                  50+
+                  {content.stats?.tigers || "50+"}
                 </div>
                 <div className="text-xs text-gray-500 font-medium mt-0.5">
                   Tigers Protected
@@ -155,7 +186,7 @@ export default function HomePage({ onOpenBooking }) {
               <div className="w-px h-10 bg-gray-200" />
               <div>
                 <div className="text-3xl sm:text-4xl font-extrabold text-gray-900">
-                  120k
+                  {content.stats?.acres || "120k"}
                 </div>
                 <div className="text-xs text-gray-500 font-medium mt-0.5">
                   Acres of Forest

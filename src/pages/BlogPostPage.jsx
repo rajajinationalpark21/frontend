@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { 
   Calendar, 
@@ -12,20 +12,62 @@ import {
   ArrowRight
 } from 'lucide-react';
 import { blogArticles, safariImages } from '../data/safariData';
+import { fetchBlog, fetchBlogs } from '../api/client';
 import SEO from '../components/SEO';
 
 export default function BlogPostPage() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const [article, setArticle] = useState(null);
+  const [relatedArticles, setRelatedArticles] = useState([]);
 
-  // Look up the requested article or default to first
-  const article = blogArticles.find(
-    (a) => a.id === id || a.title.toLowerCase().replace(/[^a-z0-9]+/g, '-') === id
-  ) || blogArticles[0];
+  useEffect(() => {
+    // Try fetching single blog from API first
+    fetchBlog(id)
+      .then((data) => {
+        const blog = data?.data?.blog || data?.blog;
+        if (blog) {
+          setArticle({
+            id: blog._id || blog.id,
+            title: blog.title || 'Untitled',
+            category: blog.category || 'Uncategorized',
+            date: blog.createdAt ? new Date(blog.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '',
+            readTime: blog.readTime || '5 min read',
+            image: blog.image || safariImages.tigerEye,
+            excerpt: blog.summary || '',
+            content: blog.content || '',
+          });
+          // Fetch related articles
+          fetchBlogs()
+            .then((res) => {
+              const blogs = res?.data?.blogs || res?.blogs || [];
+              setRelatedArticles(
+                blogs
+                  .filter((b) => (b._id || b.id) !== id)
+                  .slice(0, 3)
+                  .map((b) => ({
+                    id: b._id || b.id,
+                    title: b.title,
+                    category: b.category,
+                    image: b.image || safariImages.tigerEye,
+                    excerpt: b.summary || '',
+                  }))
+              );
+            })
+            .catch(() => {});
+        }
+      })
+      .catch(() => {
+        // Fallback to local data
+        const fallback = blogArticles.find(
+          (a) => a.id === id || a.title.toLowerCase().replace(/[^a-z0-9]+/g, '-') === id
+        ) || blogArticles[0];
+        setArticle(fallback);
+        setRelatedArticles(blogArticles.filter((a) => a.id !== fallback.id).slice(0, 3));
+      });
+  }, [id]);
 
-  const relatedArticles = blogArticles
-    .filter((a) => a.id !== article.id)
-    .slice(0, 3);
+  if (!article) return null;
 
   const articleSchema = {
     "@context": "https://schema.org",

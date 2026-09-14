@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Search, ArrowRight, CheckCircle2 } from 'lucide-react';
-import { blogArticles } from '../data/safariData';
+import { blogArticles, safariImages } from '../data/safariData';
+import { fetchBlogs } from '../api/client';
 import SEO from '../components/SEO';
 
 export default function BlogPage() {
@@ -9,6 +10,27 @@ export default function BlogPage() {
   const [newsletterEmail, setNewsletterEmail] = useState('');
   const [newsletterSubscribed, setNewsletterSubscribed] = useState(false);
   const [readingArticle, setReadingArticle] = useState(null);
+  const [articles, setArticles] = useState(blogArticles);
+
+  useEffect(() => {
+    fetchBlogs()
+      .then((data) => {
+        const blogs = data?.data?.blogs || data?.blogs;
+        if (Array.isArray(blogs) && blogs.length > 0) {
+          setArticles(blogs.map((b) => ({
+            id: b._id || b.id,
+            title: b.title || 'Untitled',
+            category: b.category || 'Uncategorized',
+            date: b.createdAt ? new Date(b.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '',
+            readTime: b.readTime || '5 min read',
+            image: b.image || safariImages.tigerEye,
+            featured: b.featured || false,
+            excerpt: b.summary || b.excerpt || '',
+          })));
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   const blogSchema = {
     "@context": "https://schema.org",
@@ -16,7 +38,7 @@ export default function BlogPage() {
     "name": "Wilderness Journal - Jungle Safari",
     "description": "Field guides, leopard tracking, birdwatching canopy notes, and conservation stories.",
     "url": "https://junglesafari.org/blog",
-    "blogPost": blogArticles.map((b) => ({
+    "blogPost": articles.map((b) => ({
       "@type": "BlogPosting",
       "headline": b.title,
       "description": b.excerpt,
@@ -34,8 +56,8 @@ export default function BlogPage() {
     'Travel Tips',
   ];
 
-  const featuredArticle = blogArticles.find((a) => a.featured) || blogArticles[0];
-  const regularArticles = blogArticles.filter((a) => !a.featured);
+  const featuredArticle = articles.find((a) => a.featured) || articles[0];
+  const regularArticles = articles.filter((a) => !a.featured);
 
   const filteredArticles = regularArticles.filter((article) => {
     const matchesCategory =
