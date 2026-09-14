@@ -82,7 +82,7 @@ export default function BlogPostPage() {
     },
     "publisher": {
       "@type": "Organization",
-      "name": "Jungle Safari National Reserve"
+      "name": "Rajaji National Park Tiger Reserve"
     }
   };
 
@@ -100,11 +100,11 @@ export default function BlogPostPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white pt-6 pb-24">
+    <div className="min-h-screen bg-white dark:bg-gray-950 transition-colors pt-6 pb-24">
       <SEO
         title={article.title}
         description={article.excerpt}
-        keywords={`${article.category.toLowerCase()}, wildlife, jungle safari, tracking guide`}
+        keywords={`${article.category.toLowerCase()}, wildlife, rajaji national park, tracking guide, uttarakhand`}
         ogImage={article.image}
         ogType="article"
         schemaJson={articleSchema}

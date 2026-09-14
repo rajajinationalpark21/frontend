@@ -6,10 +6,10 @@ import SEO from '../components/SEO';
 
 export default function NotFoundPage() {
   return (
-    <div className="min-h-[75vh] flex items-center justify-center py-16 px-4 sm:px-6 bg-[#fbfcfa]">
+    <div className="min-h-[75vh] flex items-center justify-center py-16 px-4 sm:px-6 bg-[#fbfcfa] dark:bg-gray-950 transition-colors">
       <SEO
-        title="Page Not Found (404) | Jungle Safari"
-        description="The requested safari trail could not be found. Return to Jungle Safari base camp."
+        title="Page Not Found (404) | Rajaji National Park"
+        description="The requested safari trail could not be found. Return to Rajaji National Park base camp."
       />
 
       <div className="max-w-md w-full text-center space-y-6">

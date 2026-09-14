@@ -56,41 +56,41 @@ export default function BookingModal({ isOpen, onClose }) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fadeIn">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-sm animate-fadeIn">
       <div 
-        className="relative w-full max-w-lg bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-100 p-6 sm:p-8 max-h-[90vh] overflow-y-auto"
+        className="relative w-full max-w-lg bg-white dark:bg-gray-900 rounded-3xl shadow-2xl overflow-hidden border border-gray-100 dark:border-gray-800 p-5 sm:p-8 max-h-[92dvh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-5 right-5 p-2 rounded-full text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition"
+          className="absolute top-4 right-4 sm:top-5 sm:right-5 p-2 rounded-full text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition"
         >
           <X className="w-5 h-5" />
         </button>
 
         {isSuccess ? (
           <div className="py-12 text-center space-y-4">
-            <div className="w-16 h-16 bg-safari-100 text-safari-600 rounded-full flex items-center justify-center mx-auto">
+            <div className="w-16 h-16 bg-safari-100 dark:bg-safari-900/40 text-safari-600 dark:text-safari-400 rounded-full flex items-center justify-center mx-auto">
               <CheckCircle2 className="w-10 h-10" />
             </div>
-            <h3 className="text-2xl font-bold text-gray-900">
+            <h3 className="text-2xl font-bold text-gray-900 dark:text-white">
               Permit Reserved!
             </h3>
-            <p className="text-gray-600 text-sm max-w-xs mx-auto">
+            <p className="text-gray-600 dark:text-gray-300 text-sm max-w-xs mx-auto">
               Thank you, <strong>{fullName || 'Explorer'}</strong>. Your provisional booking for <strong>{zone}</strong> on <strong>{date}</strong> ({slot}) has been confirmed. Confirmation details sent to <strong>{email}</strong>.
             </p>
           </div>
         ) : (
           <>
             <div className="mb-6">
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-safari-50 text-safari-700 text-xs font-semibold mb-2">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-safari-50 dark:bg-safari-900/40 text-safari-700 dark:text-safari-300 text-xs font-semibold mb-2">
                 <ShieldCheck className="w-3.5 h-3.5" /> Official Safari Permit Portal
               </div>
-              <h3 className="text-2xl font-bold text-gray-900">
+              <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">
                 Reserve Your Safari Permit
               </h3>
-              <p className="text-xs text-gray-500 mt-1">
+              <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
                 Daily visitor quotas are capped to protect the pristine wildlife habitat.
               </p>
             </div>
@@ -111,9 +111,9 @@ export default function BookingModal({ isOpen, onClose }) {
               </div>
 
               {/* Visitor Contact Info */}
-              <div className="space-y-3 pb-2 border-b border-gray-100">
+              <div className="space-y-3 pb-2 border-b border-gray-100 dark:border-gray-800">
                 <div>
-                  <label className="block text-xs font-semibold text-gray-700 mb-1 flex items-center gap-1">
+                  <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1 flex items-center gap-1">
                     <User className="w-3.5 h-3.5 text-gray-400" /> Full Name
                   </label>
                   <input
@@ -123,13 +123,13 @@ export default function BookingModal({ isOpen, onClose }) {
                     placeholder="Primary Permit Holder Name"
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
-                    className="w-full px-3 py-2 text-xs bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:border-safari-500"
+                    className="w-full px-3 py-2 text-xs bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:outline-none focus:border-safari-500"
                   />
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                   <div>
-                    <label className="block text-xs font-semibold text-gray-700 mb-1 flex items-center gap-1">
+                    <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1 flex items-center gap-1">
                       <Mail className="w-3.5 h-3.5 text-gray-400" /> Email
                     </label>
                     <input
@@ -139,11 +139,11 @@ export default function BookingModal({ isOpen, onClose }) {
                       placeholder="permit@example.com"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      className="w-full px-3 py-2 text-xs bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:border-safari-500"
+                      className="w-full px-3 py-2 text-xs bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:outline-none focus:border-safari-500"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-gray-700 mb-1 flex items-center gap-1">
+                    <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1 flex items-center gap-1">
                       <Phone className="w-3.5 h-3.5 text-gray-400" /> Mobile Phone
                     </label>
                     <input
@@ -153,7 +153,7 @@ export default function BookingModal({ isOpen, onClose }) {
                       placeholder="+91 98765 43210"
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
-                      className="w-full px-3 py-2 text-xs bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:border-safari-500"
+                      className="w-full px-3 py-2 text-xs bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:outline-none focus:border-safari-500"
                     />
                   </div>
                 </div>
@@ -161,7 +161,7 @@ export default function BookingModal({ isOpen, onClose }) {
 
               {/* Safari Zone */}
               <div>
-                <label className="block text-xs font-semibold text-gray-700 mb-1.5">
+                <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1.5">
                   Select Zone
                 </label>
                 <div className="grid grid-cols-2 gap-2">
@@ -177,8 +177,8 @@ export default function BookingModal({ isOpen, onClose }) {
                       onClick={() => setZone(item)}
                       className={`px-3 py-2 text-xs rounded-xl border text-left transition font-medium ${
                         zone === item
-                          ? 'border-safari-500 bg-safari-50/70 text-safari-900 ring-1 ring-safari-500'
-                          : 'border-gray-200 hover:border-gray-300 text-gray-700'
+                          ? 'border-safari-500 bg-safari-50/70 dark:bg-safari-950/60 text-safari-900 dark:text-safari-300 ring-1 ring-safari-500'
+                          : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800'
                       }`}
                     >
                       {item}
@@ -190,7 +190,7 @@ export default function BookingModal({ isOpen, onClose }) {
               {/* Date & Slot */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-semibold text-gray-700 mb-1.5 flex items-center gap-1">
+                  <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1.5 flex items-center gap-1">
                     <Calendar className="w-3.5 h-3.5 text-gray-400" /> Date
                   </label>
                   <input
@@ -198,17 +198,17 @@ export default function BookingModal({ isOpen, onClose }) {
                     required
                     value={date}
                     onChange={(e) => setDate(e.target.value)}
-                    className="w-full px-3 py-2 text-xs bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:border-safari-500"
+                    className="w-full px-3 py-2 text-xs bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:outline-none focus:border-safari-500"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold text-gray-700 mb-1.5 flex items-center gap-1">
+                  <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1.5 flex items-center gap-1">
                     <Clock className="w-3.5 h-3.5 text-gray-400" /> Time Slot
                   </label>
                   <select
                     value={slot}
                     onChange={(e) => setSlot(e.target.value)}
-                    className="w-full px-3 py-2 text-xs bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:border-safari-500"
+                    className="w-full px-3 py-2 text-xs bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:outline-none focus:border-safari-500"
                   >
                     <option>06:00 AM - Morning Shift (Summer)</option>
                     <option>07:00 AM - Morning Shift (Winter)</option>
@@ -221,24 +221,24 @@ export default function BookingModal({ isOpen, onClose }) {
               {/* Guests & Vehicle */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-semibold text-gray-700 mb-1.5 flex items-center gap-1">
+                  <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1.5 flex items-center gap-1">
                     <Users className="w-3.5 h-3.5 text-gray-400" /> Number of Guests
                   </label>
-                  <div className="flex items-center border border-gray-200 rounded-xl overflow-hidden bg-gray-50">
+                  <div className="flex items-center border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden bg-gray-50 dark:bg-gray-800">
                     <button
                       type="button"
                       onClick={() => setGuests(Math.max(1, guests - 1))}
-                      className="px-3 py-2 text-gray-600 hover:bg-gray-200 font-bold"
+                      className="px-3 py-2 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 font-bold"
                     >
                       -
                     </button>
-                    <span className="flex-1 text-center font-semibold text-xs text-gray-900">
+                    <span className="flex-1 text-center font-semibold text-xs text-gray-900 dark:text-white">
                       {guests} {guests === 1 ? 'Guest' : 'Guests'}
                     </span>
                     <button
                       type="button"
                       onClick={() => setGuests(Math.min(8, guests + 1))}
-                      className="px-3 py-2 text-gray-600 hover:bg-gray-200 font-bold"
+                      className="px-3 py-2 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 font-bold"
                     >
                       +
                     </button>
@@ -246,13 +246,13 @@ export default function BookingModal({ isOpen, onClose }) {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-gray-700 mb-1.5 flex items-center gap-1">
+                  <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1.5 flex items-center gap-1">
                     <Compass className="w-3.5 h-3.5 text-gray-400" /> Vehicle Type
                   </label>
                   <select
                     value={vehicle}
                     onChange={(e) => setVehicle(e.target.value)}
-                    className="w-full px-3 py-2 text-xs bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:border-safari-500"
+                    className="w-full px-3 py-2 text-xs bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:outline-none focus:border-safari-500"
                   >
                     <option>Open 4x4 Safari Gypsy (Max 6 Guests)</option>
                   </select>

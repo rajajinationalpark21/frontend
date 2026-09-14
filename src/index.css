@@ -2,14 +2,75 @@
 @tailwind components;
 @tailwind utilities;
 
+:root,
+[data-theme="emerald"] {
+  --safari-50: #f0fdf4;
+  --safari-100: #dcfce7;
+  --safari-200: #bbf7d0;
+  --safari-300: #86efac;
+  --safari-400: #4ade80;
+  --safari-500: #22c55e;
+  --safari-600: #16a34a;
+  --safari-700: #15803d;
+  --safari-800: #166534;
+  --safari-900: #14532d;
+  --safari-950: #052e16;
+}
+
+[data-theme="golden"] {
+  --safari-50: #fffbeb;
+  --safari-100: #fef3c7;
+  --safari-200: #fde68a;
+  --safari-300: #fcd34d;
+  --safari-400: #fbbf24;
+  --safari-500: #f59e0b;
+  --safari-600: #d97706;
+  --safari-700: #b45309;
+  --safari-800: #92400e;
+  --safari-900: #78350f;
+  --safari-950: #451a03;
+}
+
+[data-theme="midnight"] {
+  --safari-50: #064e3b;
+  --safari-100: #047857;
+  --safari-200: #059669;
+  --safari-300: #10b981;
+  --safari-400: #34d399;
+  --safari-500: #10b981;
+  --safari-600: #059669;
+  --safari-700: #047857;
+  --safari-800: #065f46;
+  --safari-900: #022c22;
+  --safari-950: #01140f;
+}
+
+[data-theme="himalayan"] {
+  --safari-50: #f0f9ff;
+  --safari-100: #e0f2fe;
+  --safari-200: #bae6fd;
+  --safari-300: #7dd3fc;
+  --safari-400: #38bdf8;
+  --safari-500: #0284c7;
+  --safari-600: #0369a1;
+  --safari-700: #075985;
+  --safari-800: #0c4a6e;
+  --safari-900: #082f49;
+  --safari-950: #041a29;
+}
+
 @layer base {
   *, ::before, ::after {
     font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   }
 
   body {
-    @apply text-gray-800 bg-white antialiased font-sans;
+    @apply text-gray-800 bg-white antialiased font-sans transition-colors duration-300;
     font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+
+  .dark body {
+    @apply text-gray-100 bg-gray-950;
   }
   
   h1, h2, h3, h4, h5, h6 {
@@ -30,9 +91,15 @@
 ::-webkit-scrollbar-track {
   background: #f1f5f9;
 }
+.dark ::-webkit-scrollbar-track {
+  background: #0f172a;
+}
 ::-webkit-scrollbar-thumb {
   background: #cbd5e1;
   border-radius: 4px;
+}
+.dark ::-webkit-scrollbar-thumb {
+  background: #334155;
 }
 ::-webkit-scrollbar-thumb:hover {
   background: #94a3b8;

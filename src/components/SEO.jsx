@@ -15,14 +15,14 @@ export default function SEO({
   schemaJson,
 }) {
   const location = useLocation();
-  const siteUrl = 'https://junglesafari.org';
+  const siteUrl = 'https://rajajinationalpark.org';
   const currentUrl = `${siteUrl}${location.pathname}`;
-  const defaultImage = 'https://images.unsplash.com/photo-1561731216-c3a4d99437d5?auto=format&fit=crop&w=1200&q=85';
+  const defaultImage = '/logo.png';
   const finalImage = ogImage || defaultImage;
 
-  const fullTitle = title.includes('Jungle Safari') 
+  const fullTitle = title.includes('Rajaji') 
     ? title 
-    : `${title} | Jungle Safari National Reserve`;
+    : `${title} | Rajaji National Park`;
 
   useEffect(() => {
     // 1. Update Title
@@ -51,7 +51,7 @@ export default function SEO({
     setMetaTag('meta[property="og:image"]', 'property', 'og:image', finalImage);
     setMetaTag('meta[property="og:url"]', 'property', 'og:url', currentUrl);
     setMetaTag('meta[property="og:type"]', 'property', 'og:type', ogType);
-    setMetaTag('meta[property="og:site_name"]', 'property', 'og:site_name', 'Jungle Safari National Reserve');
+    setMetaTag('meta[property="og:site_name"]', 'property', 'og:site_name', 'Rajaji National Park & Tiger Reserve');
 
     // 4. Twitter Cards
     setMetaTag('meta[name="twitter:card"]', 'name', 'twitter:card', 'summary_large_image');

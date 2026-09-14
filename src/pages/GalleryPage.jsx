@@ -30,9 +30,9 @@ export default function GalleryPage({ onOpenBooking }) {
   const gallerySchema = {
     "@context": "https://schema.org",
     "@type": "ImageGallery",
-    "name": "Captured in the Wild - Jungle Safari Gallery",
-    "description": "High-resolution wildlife photography featuring Royal Bengal tigers, leopards, Asian elephants, and flora.",
-    "url": "https://junglesafari.org/gallery"
+    "name": "Captured in the Wild - Rajaji National Park Gallery",
+    "description": "High-resolution wildlife photography featuring Royal Bengal tigers, leopards, Asian elephants, and Himalayan birds in Rajaji National Park.",
+    "url": "https://rajajinationalpark.org/gallery"
   };
 
   const filterTabs = ['All Photos', 'Wildlife', 'Nature', 'Vehicles', 'Visitors'];
@@ -59,15 +59,15 @@ export default function GalleryPage({ onOpenBooking }) {
   };
 
   const handleDownloadBrochure = () => {
-    alert("Downloading official Jungle Safari Wildlife Expedition Guide & Flora/Fauna Catalog (PDF)...");
+    alert("Downloading official Rajaji National Park Wildlife Expedition Guide & Flora/Fauna Catalog (PDF)...");
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white dark:bg-gray-950 transition-colors">
       <SEO
-        title="Wild Gallery - High-Res Wildlife & Nature Photography | Jungle Safari"
-        description="Explore stunning photographs of Royal Bengal tigers, leopards, Asian elephants, exotic birds, and safari expeditions captured in the wild."
-        keywords="wildlife photography, tiger photos, safari photos, jungle images, wildlife gallery"
+        title="Wild Gallery - High-Res Wildlife & Nature Photography | Rajaji National Park"
+        description="Explore stunning photographs of Royal Bengal tigers, leopards, Asian elephants, exotic birds, and safari expeditions captured in Rajaji National Park."
+        keywords="rajaji wildlife photography, tiger photos, chilla safari photos, elephant reserve images, uttarakhand wildlife gallery"
         ogImage={safariImages.tigerStalking}
         schemaJson={gallerySchema}
       />
@@ -89,20 +89,22 @@ export default function GalleryPage({ onOpenBooking }) {
           </p>
 
           {/* Filter Bar in Hero */}
-          <div className="mt-8 inline-flex items-center p-1.5 rounded-full bg-black/40 backdrop-blur-md border border-white/15 gap-1.5 overflow-x-auto max-w-full">
-            {filterTabs.map((tab) => (
-              <button
-                key={tab}
-                onClick={() => setSelectedFilter(tab)}
-                className={`px-5 py-2 text-xs font-semibold rounded-full whitespace-nowrap transition duration-200 ${
-                  selectedFilter === tab
-                    ? 'bg-safari-500 text-white shadow-md'
-                    : 'text-gray-200 hover:text-white hover:bg-white/10'
-                }`}
-              >
-                {tab}
-              </button>
-            ))}
+          <div className="mt-8 max-w-full overflow-x-auto scrollbar-none px-2 flex justify-center">
+            <div className="inline-flex items-center p-1.5 rounded-full bg-black/40 backdrop-blur-md border border-white/15 gap-1.5 min-w-max shadow-lg">
+              {filterTabs.map((tab) => (
+                <button
+                  key={tab}
+                  onClick={() => setSelectedFilter(tab)}
+                  className={`px-4 sm:px-5 py-2 text-xs font-semibold rounded-full whitespace-nowrap transition duration-200 active:scale-95 ${
+                    selectedFilter === tab
+                      ? 'bg-safari-500 text-white shadow-md'
+                      : 'text-gray-200 hover:text-white hover:bg-white/10'
+                  }`}
+                >
+                  {tab}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
       </section>

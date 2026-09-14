@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
+import ThemeSelector from './ThemeSelector';
 
 export default function Navbar({ onOpenBooking }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -29,20 +30,26 @@ export default function Navbar({ onOpenBooking }) {
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-100 transition-all">
+    <header className="sticky top-0 z-50 bg-white/95 dark:bg-gray-950/95 backdrop-blur-md border-b border-gray-100 dark:border-gray-800 transition-all">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2.5 group">
-            <div className="w-10 h-10 rounded-xl bg-safari-50 flex items-center justify-center text-safari-500 group-hover:bg-safari-100 transition">
-              {/* Distinctive pine tree icon matching mockup */}
-              <svg className="w-7 h-7 fill-safari-500" viewBox="0 0 24 24">
-                <path d="m12 2 4 6h-3l4 6h-3l3 6H4l3-6H4l4-6H5l7-6z" />
-              </svg>
+            <div className="w-11 h-11 rounded-xl bg-white dark:bg-gray-900 p-1 flex items-center justify-center border border-gray-100 dark:border-gray-800 shadow-sm group-hover:scale-105 transition shrink-0">
+              <img 
+                src="/logo.png" 
+                alt="Rajaji Tiger Reserve Logo" 
+                className="w-full h-full object-contain"
+              />
             </div>
-            <span className="text-xl font-bold tracking-tight text-gray-900 group-hover:text-safari-600 transition">
-              Jungle Safari
-            </span>
+            <div>
+              <span className="text-lg sm:text-xl font-extrabold tracking-tight text-gray-900 dark:text-white group-hover:text-safari-600 transition block leading-none">
+                Rajaji
+              </span>
+              <span className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-safari-600 dark:text-safari-400 block mt-0.5">
+                Tiger Reserve
+              </span>
+            </div>
           </Link>
 
           {/* Desktop Navigation Links */}
@@ -55,8 +62,8 @@ export default function Navbar({ onOpenBooking }) {
                   to={link.path}
                   className={`text-sm font-medium transition-colors relative py-1 ${
                     isActive
-                      ? 'text-safari-600 font-semibold'
-                      : 'text-gray-600 hover:text-gray-900'
+                      ? 'text-safari-600 dark:text-safari-400 font-semibold'
+                      : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'
                   }`}
                 >
                   {link.name}
@@ -68,8 +75,9 @@ export default function Navbar({ onOpenBooking }) {
             })}
           </nav>
 
-          {/* Action CTA Button */}
+          {/* Action CTA Button & Theme Selector */}
           <div className="hidden md:flex items-center gap-3">
+            <ThemeSelector />
             <button
               onClick={onOpenBooking}
               className="inline-flex items-center justify-center px-6 py-2.5 text-sm font-semibold text-white bg-safari-500 hover:bg-safari-600 active:scale-[0.98] rounded-full shadow-sm hover:shadow-md transition duration-200"
@@ -80,15 +88,16 @@ export default function Navbar({ onOpenBooking }) {
 
           {/* Mobile menu button */}
           <div className="flex md:hidden items-center gap-2">
+            <ThemeSelector />
             <button
               onClick={onOpenBooking}
-              className="px-4 py-1.5 text-xs font-semibold text-white bg-safari-500 rounded-full"
+              className="px-3 py-1.5 text-xs font-semibold text-white bg-safari-500 rounded-full"
             >
               Book
             </button>
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 rounded-lg text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+              className="p-2 rounded-lg text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800"
               aria-label="Toggle Menu"
             >
               {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -99,7 +108,7 @@ export default function Navbar({ onOpenBooking }) {
 
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-t border-gray-100 bg-white px-4 pt-3 pb-6 space-y-2 shadow-xl animate-fadeIn">
+        <div className="md:hidden border-t border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-950 px-4 pt-3 pb-6 space-y-2 shadow-xl animate-fadeIn">
           {navLinks.map((link) => {
             const isActive = location.pathname === link.path;
             return (
@@ -109,21 +118,21 @@ export default function Navbar({ onOpenBooking }) {
                 onClick={() => setMobileMenuOpen(false)}
                 className={`block px-4 py-2.5 rounded-lg text-base font-medium transition ${
                   isActive
-                    ? 'bg-safari-50 text-safari-600 font-semibold'
-                    : 'text-gray-700 hover:bg-gray-50'
+                    ? 'bg-safari-50 dark:bg-safari-900/30 text-safari-600 dark:text-safari-400 font-semibold'
+                    : 'text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-900'
                 }`}
               >
                 {link.name}
               </Link>
             );
           })}
-          <div className="pt-3">
+          <div className="pt-3 border-t border-gray-100 dark:border-gray-800 flex justify-center">
             <button
               onClick={() => {
                 setMobileMenuOpen(false);
                 onOpenBooking();
               }}
-              className="w-full py-3 text-center text-sm font-semibold text-white bg-safari-500 hover:bg-safari-600 rounded-full shadow"
+              className="w-full py-3 rounded-xl bg-safari-500 text-white font-semibold text-center text-sm shadow-md"
             >
               {getButtonText()}
             </button>

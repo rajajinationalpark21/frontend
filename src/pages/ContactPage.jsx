@@ -77,11 +77,11 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#fbfcfa]">
+    <div className="min-h-screen bg-[#fbfcfa] dark:bg-gray-950 transition-colors">
       <SEO
-        title="Get in Touch & Forest Gate Location | Jungle Safari"
-        description="Contact the Jungle Safari expedition desk. Inquire about safari permits, custom expeditions, school trips, and national park visitor guidelines."
-        keywords="contact jungle safari, safari permit help, jungle safari phone number, national park gate location"
+        title="Get in Touch & Forest Gate Location | Rajaji National Park"
+        description="Contact the Rajaji National Park expedition desk. Inquire about safari permits, custom expeditions, school trips, and national park visitor guidelines."
+        keywords="contact rajaji national park, safari permit help, rajaji safari phone number, national park gate location chilla haridwar"
         ogImage={safariImages.contactHero}
         schemaJson={contactFaqSchema}
       />

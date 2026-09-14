@@ -22,11 +22,11 @@ export default function SafariInfoPage({ onOpenBooking }) {
   const safariSchema = {
     "@context": "https://schema.org",
     "@type": "Product",
-    "name": "Jungle Safari Permit & Expedition Tour",
-    "description": "Official guided 4x4 open gypsy safari exploring 5 protected wildlife zones in Jungle Safari National Reserve.",
+    "name": "Rajaji National Park Safari Permit & Expedition",
+    "description": "Official guided 4x4 open gypsy safari exploring protected wildlife zones in Rajaji National Park & Tiger Reserve.",
     "brand": {
       "@type": "Brand",
-      "name": "Jungle Safari"
+      "name": "Rajaji National Park"
     },
     "offers": {
       "@type": "AggregateOffer",
@@ -127,11 +127,11 @@ export default function SafariInfoPage({ onOpenBooking }) {
   ];
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white dark:bg-gray-950 transition-colors">
       <SEO
-        title="Safari Zones, Timings & Entry Permits | Jungle Safari"
+        title="Safari Zones, Timings & Entry Permits | Rajaji National Park"
         description="Explore 5 safari ranges: Chila Core, Motichur Elephant Corridor, Gohari birding, and Jhilmil wetlands. View open timings, 4x4 gypsy vehicles, and conservation rules."
-        keywords="safari zones, safari timings, chila range, motichur, safari rules, 4x4 gypsy booking, national park permit"
+        keywords="rajaji safari zones, safari timings, chilla range, motichur, safari rules, 4x4 gypsy booking, rajaji national park permit"
         ogImage={safariImages.walkingTiger}
         schemaJson={safariSchema}
       />

@@ -16,25 +16,32 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-white border-t border-gray-100 pt-16 pb-12">
+    <footer className="bg-white dark:bg-gray-950 border-t border-gray-100 dark:border-gray-800 pt-16 pb-28 sm:pb-16 transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 lg:gap-8 mb-12">
           {/* Brand & Mission */}
           <div className="lg:col-span-2 space-y-4">
-            <Link to="/" className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-lg bg-safari-50 flex items-center justify-center text-safari-500">
-                <svg className="w-6 h-6 fill-safari-500" viewBox="0 0 24 24">
-                  <path d="m12 2 4 6h-3l4 6h-3l3 6H4l3-6H4l4-6H5l7-6z" />
-                </svg>
+            <Link to="/" className="flex items-center gap-2.5 group">
+              <div className="w-10 h-10 rounded-xl bg-white dark:bg-gray-900 p-1 flex items-center justify-center border border-gray-100 dark:border-gray-800 shadow-sm shrink-0">
+                <img 
+                  src="/logo.png" 
+                  alt="Rajaji Tiger Reserve Logo" 
+                  className="w-full h-full object-contain"
+                />
               </div>
-              <span className="text-lg font-bold text-gray-900 tracking-tight">
-                Jungle Safari
-              </span>
+              <div>
+                <span className="text-lg font-extrabold text-gray-900 dark:text-white tracking-tight block leading-none">
+                  Rajaji
+                </span>
+                <span className="text-[10px] font-bold uppercase tracking-widest text-safari-600 dark:text-safari-400 block mt-0.5">
+                  Tiger Reserve
+                </span>
+              </div>
             </Link>
-            <p className="text-gray-500 text-sm leading-relaxed max-w-sm">
+            <p className="text-gray-500 dark:text-gray-400 text-sm leading-relaxed max-w-sm">
               Protecting the wild since 1983 across the Shiwalik foothills. Join us in our mission to conserve nature while experiencing its raw beauty through sustainable, zero-disturbance expeditions in Rajaji National Park.
             </p>
-            <div className="text-xs text-gray-600 space-y-1 pt-1">
+            <div className="text-xs text-gray-600 dark:text-gray-400 space-y-1 pt-1">
               <p>📍 5/1 Ansari Road, Dehradun, Uttarakhand</p>
               <p>📞 <a href="tel:+919660871429" className="hover:text-safari-600 transition">+91-9660871429</a> | <a href="tel:01352621669" className="hover:text-safari-600 transition">0135-2621669</a></p>
               <p>✉️ <a href="mailto:wildbrookrajaji@gmail.com" className="hover:text-safari-600 transition">wildbrookrajaji@gmail.com</a></p>
@@ -164,12 +171,12 @@ export default function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="pt-8 mt-8 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-gray-500">
-          <p>© {new Date().getFullYear()} Jungle Safari Inc. All rights reserved.</p>
+        <div className="pt-8 mt-8 border-t border-gray-100 dark:border-gray-800 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-gray-500 dark:text-gray-400">
+          <p>© {new Date().getFullYear()} Rajaji Tiger Reserve & National Park. All rights reserved.</p>
           <div className="flex items-center space-x-6">
-            <a href="#privacy" className="hover:text-gray-900 transition">Privacy Policy</a>
-            <a href="#terms" className="hover:text-gray-900 transition">Terms of Service</a>
-            <a href="#sitemap" className="hover:text-gray-900 transition">Sitemap</a>
+            <a href="#privacy" className="hover:text-gray-900 dark:hover:text-white transition">Privacy Policy</a>
+            <a href="#terms" className="hover:text-gray-900 dark:hover:text-white transition">Terms of Service</a>
+            <a href="#sitemap" className="hover:text-gray-900 dark:hover:text-white transition">Sitemap</a>
           </div>
         </div>
       </div>

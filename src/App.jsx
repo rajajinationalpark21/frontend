@@ -12,6 +12,7 @@ import BlogPostPage from './pages/BlogPostPage';
 import GalleryPage from './pages/GalleryPage';
 import ContactPage from './pages/ContactPage';
 import NotFoundPage from './pages/NotFoundPage';
+import { ThemeProvider } from './context/ThemeContext';
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -61,9 +62,11 @@ function MainLayout() {
 
 export default function App() {
   return (
-    <Router>
-      <ScrollToTop />
-      <MainLayout />
-    </Router>
+    <ThemeProvider>
+      <Router>
+        <ScrollToTop />
+        <MainLayout />
+      </Router>
+    </ThemeProvider>
   );
 }

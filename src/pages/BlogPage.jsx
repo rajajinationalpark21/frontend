@@ -35,9 +35,9 @@ export default function BlogPage() {
   const blogSchema = {
     "@context": "https://schema.org",
     "@type": "Blog",
-    "name": "Wilderness Journal - Jungle Safari",
-    "description": "Field guides, leopard tracking, birdwatching canopy notes, and conservation stories.",
-    "url": "https://junglesafari.org/blog",
+    "name": "Wilderness Journal - Rajaji National Park",
+    "description": "Field guides, leopard tracking, birdwatching canopy notes, and conservation stories from Rajaji Tiger Reserve.",
+    "url": "https://rajajinationalpark.org/blog",
     "blogPost": articles.map((b) => ({
       "@type": "BlogPosting",
       "headline": b.title,
@@ -79,11 +79,11 @@ export default function BlogPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white pt-10 pb-20">
+    <div className="min-h-screen bg-white dark:bg-gray-950 transition-colors pt-10 pb-20">
       <SEO
-        title="Wilderness Journal - Field Guides & Wildlife Stories | Jungle Safari"
-        description="Read real-time wildlife sighting reports, big cat tracking guides, photography tips, and forest conservation stories from expert field naturalists."
-        keywords="wildlife blog, tiger sightings, leopard tracking guide, bird watching canopy, safari travel tips"
+        title="Wilderness Journal - Field Guides & Wildlife Stories | Rajaji National Park"
+        description="Read real-time wildlife sighting reports, big cat tracking guides, photography tips, and forest conservation stories from Rajaji National Park field naturalists."
+        keywords="rajaji wildlife blog, tiger sightings chilla, leopard tracking guide, elephant corridor stories, safari travel tips"
         ogImage={featuredArticle?.image}
         schemaJson={blogSchema}
       />

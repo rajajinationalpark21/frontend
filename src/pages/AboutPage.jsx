@@ -28,20 +28,20 @@ export default function AboutPage({ onOpenBooking }) {
     "@type": "AboutPage",
     "mainEntity": {
       "@type": "Organization",
-      "name": "Jungle Safari Conservation Trust",
-      "foundingDate": "1995",
-      "description": "Three decades of wildlife conservation, elephant corridors, and Royal Bengal tiger breeding programs.",
-      "url": "https://junglesafari.org/about",
-      "award": "Global Conservation Award 2015"
+      "name": "Rajaji National Park Conservation Trust",
+      "foundingDate": "1983",
+      "description": "Four decades of wildlife conservation, Asian elephant corridors, and Royal Bengal tiger breeding programs across Shiwalik foothills.",
+      "url": "https://rajajinationalpark.org/about",
+      "award": "Project Tiger Reserve Notification 2015"
     }
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white dark:bg-gray-950 transition-colors">
       <SEO
-        title="Our Wild Legacy & Conservation History Since 1995 | Jungle Safari"
-        description="Learn about our 30-year legacy of tiger conservation, protecting 120 sq km of pristine forest, and supporting ethical, community-driven eco-tourism."
-        keywords="tiger conservation, wildlife sanctuary history, sanctuary legacy, royal bengal tiger protection, eco-tourism"
+        title="Our Wild Legacy & Conservation History Since 1983 | Rajaji National Park"
+        description="Learn about our 40-year legacy of tiger and elephant conservation, protecting 820 sq km of pristine Himalayan foothills forest in Uttarakhand."
+        keywords="rajaji national park history, tiger conservation, asian elephant corridor, c rajagopalachari reserve, eco-tourism uttarakhand"
         ogImage={safariImages.tigerPortrait}
         schemaJson={aboutSchema}
       />
