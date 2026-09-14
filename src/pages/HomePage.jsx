@@ -154,9 +154,9 @@ export default function HomePage({ onOpenBooking }) {
                 alt="Bengal Tiger walking in grassland"
                 className="w-full h-full object-cover object-center group-hover:scale-105 transition duration-700"
               />
-              {/* EST. 1982 Badge */}
+              {/* EST. 1983 Badge */}
               <div className="absolute bottom-5 left-5 bg-white/90 backdrop-blur-md px-3.5 py-1.5 rounded-full shadow-md text-xs font-bold text-gray-900 tracking-wider">
-                EST. 1982
+                EST. 1983
               </div>
             </div>
           </div>
@@ -186,10 +186,10 @@ export default function HomePage({ onOpenBooking }) {
               <div className="w-px h-10 bg-gray-200" />
               <div>
                 <div className="text-3xl sm:text-4xl font-extrabold text-gray-900">
-                  {content.stats?.acres || "120k"}
+                  {content.stats?.sqKm || "820+"}
                 </div>
                 <div className="text-xs text-gray-500 font-medium mt-0.5">
-                  Acres of Forest
+                  Sq Km of Forest
                 </div>
               </div>
             </div>

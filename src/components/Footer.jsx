@@ -32,8 +32,13 @@ export default function Footer() {
               </span>
             </Link>
             <p className="text-gray-500 text-sm leading-relaxed max-w-sm">
-              Protecting the wild since 1982. Join us in our mission to conserve nature while experiencing its raw beauty through sustainable, zero-disturbance expeditions.
+              Protecting the wild since 1983 across the Shiwalik foothills. Join us in our mission to conserve nature while experiencing its raw beauty through sustainable, zero-disturbance expeditions in Rajaji National Park.
             </p>
+            <div className="text-xs text-gray-600 space-y-1 pt-1">
+              <p>📍 5/1 Ansari Road, Dehradun, Uttarakhand</p>
+              <p>📞 <a href="tel:+919660871429" className="hover:text-safari-600 transition">+91-9660871429</a> | <a href="tel:01352621669" className="hover:text-safari-600 transition">0135-2621669</a></p>
+              <p>✉️ <a href="mailto:wildbrookrajaji@gmail.com" className="hover:text-safari-600 transition">wildbrookrajaji@gmail.com</a></p>
+            </div>
             <div className="flex items-center space-x-3 pt-2">
               <a
                 href="#instagram"

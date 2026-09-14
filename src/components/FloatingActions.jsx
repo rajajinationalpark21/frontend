@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ChevronUp, Ticket, MessageCircle } from 'lucide-react';
+import { contactInfo } from '../data/safariData';
 
 export default function FloatingActions({ onOpenBooking }) {
   const [showScrollTop, setShowScrollTop] = useState(false);
@@ -24,8 +25,8 @@ export default function FloatingActions({ onOpenBooking }) {
     });
   };
 
-  const whatsappNumber = "15550192834";
-  const defaultMessage = encodeURIComponent("Hello! I would like to inquire about Jungle Safari permits, zones, and tour packages.");
+  const whatsappNumber = contactInfo.safari.whatsapp.replace(/\D/g, '') || "919660871429";
+  const defaultMessage = encodeURIComponent("Hello! I would like to inquire about Rajaji National Park safari permits, zones, and gypsy bookings.");
   const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${defaultMessage}`;
 
   return (

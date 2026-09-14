@@ -57,13 +57,13 @@ export default function AboutPage({ onOpenBooking }) {
 
         <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6">
           <span className="inline-block text-xs font-bold tracking-widest text-safari-400 uppercase mb-3">
-            SINCE 1995
+            ESTD. 1983 • UTTARAKHAND
           </span>
           <h1 className="text-4xl sm:text-6xl font-extrabold text-white tracking-tight mb-4">
             Our Wild Legacy
           </h1>
           <p className="text-base sm:text-lg text-gray-200 font-normal leading-relaxed max-w-2xl mx-auto">
-            Exploring the heart of nature, preserving wildlife, and creating unforgettable adventures for nearly three decades.
+            Exploring the heart of nature, preserving wildlife corridors, and creating unforgettable adventures across the Shiwalik foothills.
           </p>
         </div>
       </section>
@@ -77,17 +77,17 @@ export default function AboutPage({ onOpenBooking }) {
               Preserving Nature & Wildlife
             </h2>
             <p className="text-gray-600 text-sm sm:text-base leading-relaxed">
-              From dense forests to a world-class sanctuary, our mission has always been conservation first. We provide a safe haven for endangered species while educating the public about the delicate balance of our ecosystem.
+              Formed in 1983 by amalgamating Rajaji, Motichur, and Chilla wildlife sanctuaries, Rajaji National Park spans 820.42 sq km across the foothills of the Himalayas. Our mission has always been conservation first, maintaining crucial elephant corridors and tiger habitats.
             </p>
             <p className="text-gray-600 text-sm sm:text-base leading-relaxed">
-              Our team of dedicated rangers and biologists work around the clock to ensure the safety of our inhabitants, conducting research that contributes to global conservation efforts.
+              Protected under Project Tiger and Project Elephant, our dedicated rangers and eco-naturalists monitor migration trails along the Ganges basin, ensuring ethical, zero-disturbance exploration for travelers worldwide.
             </p>
             <div className="pt-2">
               <button
                 onClick={onOpenBooking}
                 className="inline-flex items-center gap-2 text-sm font-bold text-gray-900 hover:text-safari-600 transition group"
               >
-                Read Our Full Mission
+                Book a Guided Safari
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition" />
               </button>
             </div>
@@ -130,33 +130,33 @@ export default function AboutPage({ onOpenBooking }) {
             {/* Stat 2 */}
             <div className="space-y-3 flex flex-col items-center">
               <div className="w-12 h-12 rounded-full bg-safari-100 flex items-center justify-center text-safari-600 shadow-sm">
-                <Bird className="w-6 h-6" />
+                <Users className="w-6 h-6" />
               </div>
               <div>
-                <div className="text-3xl font-extrabold text-gray-900">300+</div>
-                <div className="text-xs text-gray-500 font-medium mt-0.5">Bird Species</div>
+                <div className="text-3xl font-extrabold text-gray-900">500+</div>
+                <div className="text-xs text-gray-500 font-medium mt-0.5">Asian Elephants</div>
               </div>
             </div>
 
             {/* Stat 3 */}
             <div className="space-y-3 flex flex-col items-center">
               <div className="w-12 h-12 rounded-full bg-safari-100 flex items-center justify-center text-safari-600 shadow-sm">
-                <Mountain className="w-6 h-6" />
+                <Bird className="w-6 h-6" />
               </div>
               <div>
-                <div className="text-3xl font-extrabold text-gray-900">120</div>
-                <div className="text-xs text-gray-500 font-medium mt-0.5">Sq Km Protected</div>
+                <div className="text-3xl font-extrabold text-gray-900">400+</div>
+                <div className="text-xs text-gray-500 font-medium mt-0.5">Bird Species</div>
               </div>
             </div>
 
             {/* Stat 4 */}
             <div className="space-y-3 flex flex-col items-center">
               <div className="w-12 h-12 rounded-full bg-safari-100 flex items-center justify-center text-safari-600 shadow-sm">
-                <Users className="w-6 h-6" />
+                <Mountain className="w-6 h-6" />
               </div>
               <div>
-                <div className="text-3xl font-extrabold text-gray-900">1M+</div>
-                <div className="text-xs text-gray-500 font-medium mt-0.5">Happy Visitors</div>
+                <div className="text-3xl font-extrabold text-gray-900">820+</div>
+                <div className="text-xs text-gray-500 font-medium mt-0.5">Sq Km Protected</div>
               </div>
             </div>
           </div>

@@ -4,8 +4,8 @@ import { X, Calendar, Clock, Users, Compass, CheckCircle2, ShieldCheck, User, Ma
 // import { submitBooking } from '../api/client';
 
 export default function BookingModal({ isOpen, onClose }) {
-  const [zone, setZone] = useState('Core Sanctuary Zone');
-  const [slot, setSlot] = useState('06:00 AM - Dawn Patrol');
+  const [zone, setZone] = useState('Chila Core Range');
+  const [slot, setSlot] = useState('06:00 AM - Morning Shift');
   const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
   const [guests, setGuests] = useState(2);
   const [vehicle, setVehicle] = useState('Open 4x4 Safari Gypsy');
@@ -150,7 +150,7 @@ export default function BookingModal({ isOpen, onClose }) {
                       type="tel"
                       required
                       maxLength={30}
-                      placeholder="+1 (555) 000-0000"
+                      placeholder="+91 98765 43210"
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
                       className="w-full px-3 py-2 text-xs bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:border-safari-500"
@@ -166,10 +166,10 @@ export default function BookingModal({ isOpen, onClose }) {
                 </label>
                 <div className="grid grid-cols-2 gap-2">
                   {[
-                    'Core Sanctuary Zone',
-                    'Buffer Forest Zone',
-                    'River Cruise Safari',
-                    'Night Wilderness Trail'
+                    'Chila Core Range',
+                    'Motichur Range',
+                    'Jhilmil Jheel Sanctuary',
+                    'Gohari Range'
                   ].map((item) => (
                     <button
                       key={item}
@@ -210,10 +210,10 @@ export default function BookingModal({ isOpen, onClose }) {
                     onChange={(e) => setSlot(e.target.value)}
                     className="w-full px-3 py-2 text-xs bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:border-safari-500"
                   >
-                    <option>06:00 AM - Dawn Patrol</option>
-                    <option>10:30 AM - Midday Safari</option>
-                    <option>03:30 PM - Sunset Quest</option>
-                    <option>07:00 PM - Night Expedition</option>
+                    <option>06:00 AM - Morning Shift (Summer)</option>
+                    <option>07:00 AM - Morning Shift (Winter)</option>
+                    <option>02:30 PM - Afternoon Shift (Winter)</option>
+                    <option>03:00 PM - Afternoon Shift (Summer)</option>
                   </select>
                 </div>
               </div>
@@ -254,9 +254,7 @@ export default function BookingModal({ isOpen, onClose }) {
                     onChange={(e) => setVehicle(e.target.value)}
                     className="w-full px-3 py-2 text-xs bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:border-safari-500"
                   >
-                    <option>Open 4x4 Safari Gypsy (6 seats)</option>
-                    <option>Enclosed Expedition Cruiser</option>
-                    <option>Solar River Catamaran</option>
+                    <option>Open 4x4 Safari Gypsy (Max 6 Guests)</option>
                   </select>
                 </div>
               </div>

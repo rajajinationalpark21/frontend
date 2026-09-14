@@ -13,7 +13,7 @@ import {
   ArrowRight,
   Info
 } from 'lucide-react';
-import { safariImages } from '../data/safariData';
+import { safariImages, ticketPrices, contactInfo } from '../data/safariData';
 import SEO from '../components/SEO';
 
 export default function SafariInfoPage({ onOpenBooking }) {
@@ -316,7 +316,124 @@ export default function SafariInfoPage({ onOpenBooking }) {
         </div>
       </section>
 
-      {/* 5. PARK RULES (DO'S & DON'TS) */}
+      {/* 5. OFFICIAL PERMIT TARIFFS & GYPSY FEES */}
+      <section className="py-20 bg-white border-t border-gray-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-2xl mx-auto mb-14">
+            <span className="text-xs font-bold tracking-widest text-safari-600 uppercase">
+              OFFICIAL GOVERNMENT RATES
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight mt-1">
+              Safari Tariffs & Gypsy Fees
+            </h2>
+            <p className="text-gray-500 text-sm mt-2">
+              Transparent, regulated forest department rates for entry permits, vehicle road entry, and registered 4x4 gypsies.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* Indian Visitors Card */}
+            <div className="bg-safari-card/70 border border-gray-100 rounded-3xl p-7 flex flex-col justify-between space-y-6">
+              <div>
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-lg font-bold text-gray-900">Indian Visitors</h3>
+                  <span className="px-3 py-1 rounded-full bg-safari-100 text-safari-700 text-xs font-bold">Standard</span>
+                </div>
+                <div className="space-y-3.5 text-xs text-gray-700">
+                  <div className="flex justify-between py-2 border-b border-gray-200/60">
+                    <span className="text-gray-600">Park Entrance Fee:</span>
+                    <span className="font-bold text-gray-900">₹{ticketPrices.indians.entranceFee} / person</span>
+                  </div>
+                  <div className="flex justify-between py-2 border-b border-gray-200/60">
+                    <span className="text-gray-600">Road Entry Fee (Per Vehicle):</span>
+                    <span className="font-bold text-gray-900">₹{ticketPrices.indians.roadFee}</span>
+                  </div>
+                  <div className="flex justify-between py-2 border-b border-gray-200/60">
+                    <span className="text-gray-600">Still Camera:</span>
+                    <span className="font-bold text-safari-600">{ticketPrices.indians.stillCamera}</span>
+                  </div>
+                  <div className="flex justify-between py-2 border-b border-gray-200/60">
+                    <span className="text-gray-600">Commercial Video Camera:</span>
+                    <span className="font-bold text-gray-900">₹{ticketPrices.indians.movieCamera}</span>
+                  </div>
+                </div>
+              </div>
+              <p className="text-[11px] text-gray-400 italic">
+                *Valid government photo ID required at the gate for all members.
+              </p>
+            </div>
+
+            {/* Foreign Nationals Card */}
+            <div className="bg-safari-card/70 border border-gray-100 rounded-3xl p-7 flex flex-col justify-between space-y-6">
+              <div>
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-lg font-bold text-gray-900">Foreign Nationals</h3>
+                  <span className="px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-xs font-bold">International</span>
+                </div>
+                <div className="space-y-3.5 text-xs text-gray-700">
+                  <div className="flex justify-between py-2 border-b border-gray-200/60">
+                    <span className="text-gray-600">Park Entrance Fee:</span>
+                    <span className="font-bold text-gray-900">₹{ticketPrices.foreigners.entranceFee} / person</span>
+                  </div>
+                  <div className="flex justify-between py-2 border-b border-gray-200/60">
+                    <span className="text-gray-600">Road Entry Fee (Per Vehicle):</span>
+                    <span className="font-bold text-gray-900">₹{ticketPrices.foreigners.roadFee}</span>
+                  </div>
+                  <div className="flex justify-between py-2 border-b border-gray-200/60">
+                    <span className="text-gray-600">Still Camera:</span>
+                    <span className="font-bold text-gray-900">₹{ticketPrices.foreigners.stillCamera}</span>
+                  </div>
+                  <div className="flex justify-between py-2 border-b border-gray-200/60">
+                    <span className="text-gray-600">Commercial Video Camera:</span>
+                    <span className="font-bold text-gray-900">₹{ticketPrices.foreigners.movieCamera}</span>
+                  </div>
+                </div>
+              </div>
+              <p className="text-[11px] text-gray-400 italic">
+                *Original passport and visa details required for permit issuance.
+              </p>
+            </div>
+
+            {/* Gypsy Hire Rates Card */}
+            <div className="bg-safari-dark text-white rounded-3xl p-7 flex flex-col justify-between space-y-6 shadow-xl">
+              <div>
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-lg font-bold">4x4 Gypsy Rates</h3>
+                  <span className="px-3 py-1 rounded-full bg-safari-500 text-white text-xs font-bold">Per Shift</span>
+                </div>
+                <div className="space-y-3.5 text-xs text-gray-300">
+                  <div className="flex justify-between py-2 border-b border-white/10">
+                    <span>Chila Core Range:</span>
+                    <span className="font-bold text-white">₹{ticketPrices.gypsy.chila}</span>
+                  </div>
+                  <div className="flex justify-between py-2 border-b border-white/10">
+                    <span>Motichur Range:</span>
+                    <span className="font-bold text-white">₹{ticketPrices.gypsy.motichur}</span>
+                  </div>
+                  <div className="flex justify-between py-2 border-b border-white/10">
+                    <span>Jhilmil Jheel Sanctuary:</span>
+                    <span className="font-bold text-white">₹{ticketPrices.gypsy.jhilmil}</span>
+                  </div>
+                  <div className="flex justify-between py-2 border-b border-white/10">
+                    <span>Gohari Range:</span>
+                    <span className="font-bold text-white">₹{ticketPrices.gypsy.gohari}</span>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <button
+                  onClick={onOpenBooking}
+                  className="w-full py-2.5 rounded-xl bg-safari-500 hover:bg-safari-400 text-white font-bold text-xs transition active:scale-95 text-center"
+                >
+                  Reserve Gypsy & Permit
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 6. PARK RULES (DO'S & DON'TS) */}
       <section className="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-2xl mx-auto mb-16">
           <span className="text-xs font-bold tracking-widest text-safari-600 uppercase">

@@ -7,7 +7,7 @@ import {
   Map, 
   CheckCircle2 
 } from 'lucide-react';
-import { safariImages, faqs } from '../data/safariData';
+import { safariImages, faqs, contactInfo, parkInfo } from '../data/safariData';
 import { submitContact } from '../api/client';
 import SEO from '../components/SEO';
 
@@ -126,8 +126,11 @@ export default function ContactPage() {
                       VISIT US
                     </span>
                     <p className="text-sm font-semibold text-gray-900 mt-0.5 leading-snug">
-                      123 Rainforest Way,<br />Canopy District, Amazonia
+                      {contactInfo.address}
                     </p>
+                    <span className="text-xs text-safari-700 font-medium block mt-0.5">
+                      {parkInfo.name} Range Office
+                    </span>
                   </div>
                 </div>
 
@@ -140,12 +143,12 @@ export default function ContactPage() {
                     <span className="text-[11px] font-bold text-gray-400 uppercase tracking-wider block">
                       CALL US
                     </span>
-                    <p className="text-sm font-semibold text-gray-900 mt-0.5">
-                      +1 (555) 019-2834
-                    </p>
-                    <span className="text-xs text-gray-400 block mt-0.5">
-                      Mon-Fri, 9am - 6pm
-                    </span>
+                    <a href={`tel:${contactInfo.safari.phone}`} className="text-sm font-semibold text-gray-900 hover:text-safari-600 transition block mt-0.5">
+                      {contactInfo.safari.phone} <span className="text-xs text-gray-500 font-normal">({contactInfo.safari.name})</span>
+                    </a>
+                    <a href={`tel:${contactInfo.phone}`} className="text-xs text-gray-600 hover:text-safari-600 transition block mt-0.5">
+                      Landline: {contactInfo.phone}
+                    </a>
                   </div>
                 </div>
 
@@ -159,10 +162,16 @@ export default function ContactPage() {
                       EMAIL US
                     </span>
                     <a
-                      href="mailto:hello@junglesafari.com"
+                      href={`mailto:${contactInfo.email}`}
                       className="text-sm font-semibold text-gray-900 hover:text-safari-600 transition block mt-0.5"
                     >
-                      hello@junglesafari.com
+                      {contactInfo.email}
+                    </a>
+                    <a
+                      href={`mailto:${contactInfo.safariEmail}`}
+                      className="text-xs text-gray-500 hover:text-safari-600 transition block mt-0.5"
+                    >
+                      {contactInfo.safariEmail}
                     </a>
                   </div>
                 </div>
@@ -186,13 +195,13 @@ export default function ContactPage() {
 
               {/* View on Maps Button */}
               <a
-                href="https://maps.google.com"
+                href="https://www.google.com/maps/search/?api=1&query=Rajaji+National+Park+Uttarakhand"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="relative z-10 px-5 py-2.5 bg-white/95 backdrop-blur-md rounded-full text-xs font-bold text-gray-900 shadow-md hover:shadow-lg border border-gray-100 flex items-center gap-2 hover:text-safari-600 transition"
               >
                 <Map className="w-4 h-4 text-safari-500" />
-                View on Maps
+                View on Google Maps
               </a>
             </div>
           </div>
@@ -349,25 +358,18 @@ export default function ContactPage() {
         </h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* FAQ Card 1 */}
-          <div className="bg-safari-card/70 border border-gray-100 rounded-3xl p-7 shadow-sm">
-            <h4 className="text-sm font-bold text-safari-500 mb-2">
-              What should I pack?
-            </h4>
-            <p className="text-xs text-gray-600 leading-relaxed">
-              We recommend light, breathable clothing, sturdy hiking boots, and plenty of sunscreen. Don't forget your camera!
-            </p>
-          </div>
-
-          {/* FAQ Card 2 */}
-          <div className="bg-safari-card/70 border border-gray-100 rounded-3xl p-7 shadow-sm">
-            <h4 className="text-sm font-bold text-safari-500 mb-2">
-              Is it safe for kids?
-            </h4>
-            <p className="text-xs text-gray-600 leading-relaxed">
-              Absolutely! We have special family-friendly tours designed to be safe and educational for children of all ages.
-            </p>
-          </div>
+          {faqs.map((faq, idx) => (
+            <div key={idx} className="bg-safari-card/70 border border-gray-100 rounded-3xl p-7 shadow-sm flex flex-col justify-between">
+              <div>
+                <h4 className="text-sm font-bold text-safari-700 mb-2">
+                  {faq.question}
+                </h4>
+                <p className="text-xs text-gray-600 leading-relaxed">
+                  {faq.answer}
+                </p>
+              </div>
+            </div>
+          ))}
         </div>
       </section>
     </div>
