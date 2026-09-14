@@ -147,7 +147,7 @@ export default function BlogPostPage() {
         </div>
 
         {/* Title & Lead */}
-        <h1 className="text-3xl sm:text-5xl font-extrabold font-serif text-gray-950 tracking-tight leading-[1.15] mb-6">
+        <h1 className="text-3xl sm:text-5xl font-extrabold text-gray-950 tracking-tight leading-[1.15] mb-6">
           {article.title}
         </h1>
 
@@ -176,7 +176,7 @@ export default function BlogPostPage() {
 
           {/* Pull Quote */}
           <div className="my-8 p-6 sm:p-8 bg-safari-card/70 border-l-4 border-safari-500 rounded-r-3xl">
-            <p className="text-base sm:text-lg font-serif italic text-gray-900 leading-snug">
+            <p className="text-base sm:text-lg italic text-gray-900 leading-snug">
               "The wild does not yield its secrets to haste. In the silence between our footsteps, the real jungle reveals itself."
             </p>
             <span className="block text-xs font-bold text-safari-600 mt-2 uppercase tracking-wider">
@@ -184,7 +184,7 @@ export default function BlogPostPage() {
             </span>
           </div>
 
-          <h3 className="text-2xl font-bold font-serif text-gray-950 mt-8 mb-3">
+          <h3 className="text-2xl font-bold text-gray-950 mt-8 mb-3">
             Reading the Canopy and Territory
           </h3>
           <p>
@@ -194,7 +194,7 @@ export default function BlogPostPage() {
             Sustainable safari expeditions follow strict non-intrusive protocols. Drivers cut vehicle engines at sighting points, leaving only the natural sounds of the wild. These practices prevent habituation and protect breeding corridors for future generations of big cats and elephants.
           </p>
 
-          <h3 className="text-2xl font-bold font-serif text-gray-950 mt-8 mb-3">
+          <h3 className="text-2xl font-bold text-gray-950 mt-8 mb-3">
             Conservation and Community Stewardship
           </h3>
           <p>
@@ -223,7 +223,7 @@ export default function BlogPostPage() {
 
         {/* Related Stories */}
         <div className="mt-20 pt-12 border-t border-gray-100">
-          <h3 className="text-2xl font-bold font-serif text-gray-950 mb-8">
+          <h3 className="text-2xl font-bold text-gray-950 mb-8">
             Related Field Stories
           </h3>
 

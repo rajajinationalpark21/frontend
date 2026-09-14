@@ -22,7 +22,7 @@ export default function NotFoundPage() {
           <span className="text-xs font-bold text-safari-600 tracking-widest uppercase">
             ERROR 404 • UNCHARTED TERRITORY
           </span>
-          <h1 className="text-3xl sm:text-4xl font-extrabold font-serif text-gray-950">
+          <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-950">
             Lost in the Dense Canopy?
           </h1>
           <p className="text-xs sm:text-sm text-gray-500 leading-relaxed max-w-sm mx-auto">

@@ -219,7 +219,7 @@ export default function SafariInfoPage({ onOpenBooking }) {
               {/* Body */}
               <div className="p-6 sm:p-8 flex-1 flex flex-col justify-between space-y-5">
                 <div>
-                  <h3 className="text-2xl font-bold font-serif text-gray-900 group-hover:text-safari-600 transition">
+                  <h3 className="text-2xl font-bold text-gray-900 group-hover:text-safari-600 transition">
                     {zone.name}
                   </h3>
                   <p className="text-xs sm:text-sm text-gray-600 mt-2 leading-relaxed">
@@ -294,7 +294,7 @@ export default function SafariInfoPage({ onOpenBooking }) {
                 </div>
                 <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
                   <div>
-                    <h3 className="text-xl font-bold font-serif text-gray-900">{v.name}</h3>
+                    <h3 className="text-xl font-bold text-gray-900">{v.name}</h3>
                     <p className="text-xs font-bold text-safari-600 mt-1">{v.seats}</p>
                     <ul className="mt-4 space-y-2 text-xs text-gray-600">
                       {v.features.map((feat, fi) => (
@@ -337,7 +337,7 @@ export default function SafariInfoPage({ onOpenBooking }) {
               <div className="w-10 h-10 rounded-full bg-safari-100 flex items-center justify-center text-safari-600">
                 <ShieldCheck className="w-5 h-5" />
               </div>
-              <h3 className="text-xl font-bold text-gray-900 font-serif">
+              <h3 className="text-xl font-bold text-gray-900">
                 Mandatory Do's
               </h3>
             </div>
@@ -359,7 +359,7 @@ export default function SafariInfoPage({ onOpenBooking }) {
               <div className="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center text-red-600">
                 <ShieldAlert className="w-5 h-5" />
               </div>
-              <h3 className="text-xl font-bold text-gray-900 font-serif">
+              <h3 className="text-xl font-bold text-gray-900">
                 Strict Prohibitions (Don'ts)
               </h3>
             </div>
@@ -380,7 +380,7 @@ export default function SafariInfoPage({ onOpenBooking }) {
       {/* 6. BOTTOM CTA */}
       <section className="bg-safari-dark text-white py-20 px-4 sm:px-6 text-center">
         <div className="max-w-3xl mx-auto space-y-6">
-          <h2 className="text-3xl sm:text-4xl font-extrabold font-serif tracking-tight">
+          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight">
             Ready to Plan Your Safari?
           </h2>
           <p className="text-gray-300 text-xs sm:text-sm max-w-xl mx-auto leading-relaxed">

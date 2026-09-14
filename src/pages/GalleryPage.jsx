@@ -81,7 +81,7 @@ export default function GalleryPage({ onOpenBooking }) {
         </div>
 
         <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6">
-          <h1 className="text-4xl sm:text-6xl font-extrabold font-serif text-white tracking-tight mb-4">
+          <h1 className="text-4xl sm:text-6xl font-extrabold text-white tracking-tight mb-4">
             Captured in the Wild
           </h1>
           <p className="text-base sm:text-lg text-gray-200 font-normal leading-relaxed max-w-2xl mx-auto">
@@ -127,7 +127,7 @@ export default function GalleryPage({ onOpenBooking }) {
                 <span className="text-[10px] uppercase font-bold tracking-wider text-safari-400 mb-1">
                   {photo.category}
                 </span>
-                <h4 className="text-lg font-bold font-serif">{photo.title}</h4>
+                <h4 className="text-lg font-bold">{photo.title}</h4>
                 <div className="flex items-center gap-1.5 text-xs text-gray-300 mt-2">
                   <Eye className="w-3.5 h-3.5 text-safari-400" /> Click to view full preview
                 </div>
@@ -140,7 +140,7 @@ export default function GalleryPage({ onOpenBooking }) {
       {/* 3. READY TO EXPERIENCE IT YOURSELF CTA BANNER */}
       <section className="bg-safari-darker text-white py-24 px-4 sm:px-6 text-center border-t border-gray-900">
         <div className="max-w-3xl mx-auto space-y-6">
-          <h2 className="text-3xl sm:text-5xl font-extrabold font-serif tracking-tight">
+          <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight">
             Ready to experience it yourself?
           </h2>
           <p className="text-gray-300 text-sm sm:text-base leading-relaxed max-w-xl mx-auto">

@@ -74,7 +74,7 @@ export default function BookingModal({ isOpen, onClose }) {
             <div className="w-16 h-16 bg-safari-100 text-safari-600 rounded-full flex items-center justify-center mx-auto">
               <CheckCircle2 className="w-10 h-10" />
             </div>
-            <h3 className="text-2xl font-bold text-gray-900 font-serif">
+            <h3 className="text-2xl font-bold text-gray-900">
               Permit Reserved!
             </h3>
             <p className="text-gray-600 text-sm max-w-xs mx-auto">
@@ -87,7 +87,7 @@ export default function BookingModal({ isOpen, onClose }) {
               <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-safari-50 text-safari-700 text-xs font-semibold mb-2">
                 <ShieldCheck className="w-3.5 h-3.5" /> Official Safari Permit Portal
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 font-serif">
+              <h3 className="text-2xl font-bold text-gray-900">
                 Reserve Your Safari Permit
               </h3>
               <p className="text-xs text-gray-500 mt-1">

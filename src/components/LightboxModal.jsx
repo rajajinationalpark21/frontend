@@ -52,7 +52,7 @@ export default function LightboxModal({ activePhoto, onClose, onPrev, onNext }) 
               <span className="inline-block px-2.5 py-0.5 text-xs font-semibold uppercase tracking-wider text-safari-300 bg-safari-900/60 rounded-full mb-1">
                 {activePhoto.category}
               </span>
-              <h3 className="text-xl font-bold font-serif">{activePhoto.title}</h3>
+              <h3 className="text-xl font-bold">{activePhoto.title}</h3>
             </div>
           </div>
           <p className="text-gray-300 text-sm mt-1.5 leading-relaxed">

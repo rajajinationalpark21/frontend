@@ -90,7 +90,7 @@ export default function BlogPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* 1. HEADER */}
         <div className="mb-12">
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold font-serif text-gray-950 tracking-tight mb-3">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-gray-950 tracking-tight mb-3">
             Wilderness Journal
           </h1>
           <p className="text-sm sm:text-base font-medium text-safari-800 max-w-2xl">
@@ -120,7 +120,7 @@ export default function BlogPage() {
                 <span>•</span>
                 <span className="text-gray-400 font-normal">{featuredArticle.date}</span>
               </div>
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold font-serif text-gray-900 leading-tight">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-gray-900 leading-tight">
                 {featuredArticle.title}
               </h2>
               <p className="text-sm text-gray-600 leading-relaxed">
@@ -196,7 +196,7 @@ export default function BlogPage() {
                       <span>{article.category}</span>
                       <span className="text-gray-400 font-normal">{article.date}</span>
                     </div>
-                    <h3 className="text-lg font-bold font-serif text-gray-900 group-hover:text-safari-600 transition leading-snug">
+                    <h3 className="text-lg font-bold text-gray-900 group-hover:text-safari-600 transition leading-snug">
                       {article.title}
                     </h3>
                     <p className="text-xs text-gray-500 mt-2 line-clamp-3 leading-relaxed">
@@ -229,7 +229,7 @@ export default function BlogPage() {
         <div className="rounded-3xl bg-safari-dark text-white p-8 sm:p-12 shadow-xl">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             <div className="lg:col-span-7 space-y-2">
-              <h3 className="text-2xl sm:text-3xl font-extrabold font-serif tracking-tight">
+              <h3 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
                 Join the Expedition
               </h3>
               <p className="text-xs sm:text-sm text-gray-300 leading-relaxed max-w-lg">
@@ -286,7 +286,7 @@ export default function BlogPage() {
               <span>•</span>
               <span className="text-gray-400">{readingArticle.date}</span>
             </div>
-            <h2 className="text-2xl font-bold font-serif text-gray-950 mb-4">
+            <h2 className="text-2xl font-bold text-gray-950 mb-4">
               {readingArticle.title}
             </h2>
             <p className="text-gray-700 text-sm leading-relaxed mb-4">
