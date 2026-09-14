@@ -1,4 +1,4 @@
-const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:4000/api";
+const API_BASE = import.meta.env.VITE_API_BASE || "https://backend-hbkg.onrender.com/api";
 
 async function request(endpoint, options = {}) {
   const url = `${API_BASE}/${endpoint}`;
