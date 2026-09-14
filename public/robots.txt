@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+
+# Host and sitemap
+Host: https://junglesafari.org
+Sitemap: https://junglesafari.org/sitemap.xml
