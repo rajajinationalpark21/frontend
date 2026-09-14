@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { X, Calendar, Clock, Users, Compass, CheckCircle2, ShieldCheck, User, Mail, Phone } from 'lucide-react';
+// TODO: When booking backend is ready, uncomment:
+// import { submitBooking } from '../api/client';
 
 export default function BookingModal({ isOpen, onClose }) {
   const [zone, setZone] = useState('Core Sanctuary Zone');
   const [slot, setSlot] = useState('06:00 AM - Dawn Patrol');
   const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
   const [guests, setGuests] = useState(2);
-  const [vehicle, setVehicle] = useState('Open 4x4 Gypsy');
+  const [vehicle, setVehicle] = useState('Open 4x4 Safari Gypsy');
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
@@ -16,7 +18,7 @@ export default function BookingModal({ isOpen, onClose }) {
 
   if (!isOpen) return null;
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     // Silent drop if automated spam bot filled honeypot
     if (honeypot) {
@@ -25,8 +27,24 @@ export default function BookingModal({ isOpen, onClose }) {
     }
 
     if (isSubmitting) return;
-
     setIsSubmitting(true);
+
+    // TODO: When booking backend is ready, replace the setTimeout below with:
+    //
+    // try {
+    //   const res = await submitBooking({
+    //     zone, date, timeSlot: slot, guests, vehicle,
+    //     fullName, email, phone
+    //   });
+    //   setIsSuccess(true);
+    //   setTimeout(() => { setIsSuccess(false); onClose(); }, 3000);
+    // } catch (err) {
+    //   alert("Failed to submit booking. Please try again.");
+    // } finally {
+    //   setIsSubmitting(false);
+    // }
+
+    // Current: fake success with timeout (no backend)
     setTimeout(() => {
       setIsSubmitting(false);
       setIsSuccess(true);
