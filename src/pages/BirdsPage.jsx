@@ -15,17 +15,18 @@ export default function BirdsPage({ onOpenBooking }) {
       />
 
       {/* Hero Header */}
-      <section className="relative py-20 bg-safari-900 text-white overflow-hidden">
-        <div className="absolute inset-0 z-0 opacity-25">
+      <section className="relative py-20 bg-zinc-950 text-white overflow-hidden">
+        <div className="absolute inset-0 z-0">
           <img
             src={safariImages.kingfisher}
             alt="Crested Kingfisher at Rajaji"
             className="w-full h-full object-cover"
           />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/85 via-black/70 to-black/90" />
         </div>
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl">
-            <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-safari-500/20 text-safari-300 text-xs font-bold uppercase tracking-wider mb-4 border border-safari-500/30">
+            <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-white text-xs font-bold uppercase tracking-wider mb-4 border border-white/15 backdrop-blur-sm">
               <Feather className="w-3.5 h-3.5" />
               Avian Sanctuary
             </span>
@@ -40,7 +41,7 @@ export default function BirdsPage({ onOpenBooking }) {
       </section>
 
       {/* Birding Stats Ribbon */}
-      <section className="py-8 bg-safari-800/20 dark:bg-safari-900/30 border-b border-safari-500/20">
+      <section className="py-8 bg-gray-50 dark:bg-gray-900/90 border-b border-gray-200 dark:border-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
             <div>

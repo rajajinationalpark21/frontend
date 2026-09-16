@@ -15,17 +15,18 @@ export default function HowToReachPage({ onOpenBooking }) {
       />
 
       {/* Hero Header */}
-      <section className="relative py-20 bg-safari-900 text-white overflow-hidden">
-        <div className="absolute inset-0 z-0 opacity-25">
+      <section className="relative py-20 bg-zinc-950 text-white overflow-hidden">
+        <div className="absolute inset-0 z-0">
           <img
             src={safariImages.safariJeepRiver}
             alt="Transit to Rajaji"
             className="w-full h-full object-cover"
           />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/85 via-black/70 to-black/90" />
         </div>
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl">
-            <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-safari-500/20 text-safari-300 text-xs font-bold uppercase tracking-wider mb-4 border border-safari-500/30">
+            <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-white text-xs font-bold uppercase tracking-wider mb-4 border border-white/15 backdrop-blur-sm">
               <Navigation className="w-3.5 h-3.5" />
               Visitor Transit Guide
             </span>
