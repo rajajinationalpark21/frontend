@@ -18,6 +18,7 @@ import { fetchContent, fetchBlogs, fetchGallery } from '../api/client';
 import { slugify } from '../utils/slugify';
 import SEO from '../components/SEO';
 import FeedbackSection from '../components/FeedbackSection';
+import CallToAction from '../components/CallToAction';
 
 const fallbackContent = {
   tagline: "Unleash Your Wild Side",
@@ -460,64 +461,14 @@ export default function HomePage({ onOpenBooking }) {
       <FeedbackSection />
 
       {/* 6. CALL TO ACTION SECTION */}
-      <section className="py-14 sm:py-20 px-4 sm:px-6 lg:px-8 bg-gray-50/50 dark:bg-black/40 transition-colors">
-        <div className="max-w-6xl mx-auto rounded-3xl relative overflow-hidden bg-gradient-to-br from-[#05160d] via-[#072012] to-[#020b06] text-white p-8 sm:p-14 lg:p-16 shadow-2xl border border-safari-500/20">
-          
-          {/* Crisp Background Forest Imagery */}
-          <div 
-            className="absolute inset-0 bg-cover bg-center opacity-30 pointer-events-none"
-            style={{ backgroundImage: `url("${safariImages.homeHero || safariImages.mistyDarkPines}")` }}
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/55 to-black/75 pointer-events-none" />
-
-          {/* Inner Content */}
-          <div className="max-w-3xl mx-auto text-center space-y-4 relative z-10">
-
-            <h2 className="text-2xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-white leading-tight">
-              Ready to Answer the Call of the Wild?
-            </h2>
-
-            <p className="text-gray-300 text-xs sm:text-sm md:text-base max-w-xl mx-auto leading-relaxed">
-              Daily gypsy permits and visitor quotas are strictly capped to ensure minimal disturbance to wildlife. Plan your adventure early to secure your spot in the heart of nature.
-            </p>
-
-            {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-3.5 pt-4">
-              <button
-                onClick={onOpenBooking}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-3.5 rounded-full bg-safari-500 hover:bg-safari-400 text-white font-bold text-sm shadow-xl shadow-safari-500/25 hover:shadow-safari-400/40 active:scale-95 transition-all duration-200 cursor-pointer group"
-              >
-                <Ticket className="w-4 h-4" />
-                <span>Book Permit Now</span>
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </button>
-              <Link
-                to="/contact"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-white font-semibold text-sm active:scale-95 transition duration-200"
-              >
-                <Phone className="w-4 h-4 text-safari-400" />
-                <span>Contact Ranger Office</span>
-              </Link>
-            </div>
-
-            {/* Trust Badges */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 pt-8 mt-6 border-t border-white/10 max-w-2xl mx-auto">
-              <div className="flex items-center justify-center sm:justify-start gap-2 text-xs text-gray-300 font-medium">
-                <ShieldCheck className="w-4 h-4 text-safari-400 shrink-0" />
-                <span>Official Forest E-Permits</span>
-              </div>
-              <div className="flex items-center justify-center gap-2 text-xs text-gray-300 font-medium">
-                <Compass className="w-4 h-4 text-safari-400 shrink-0" />
-                <span>4x4 Gypsy & Registered Guides</span>
-              </div>
-              <div className="flex items-center justify-center sm:justify-end gap-2 text-xs text-gray-300 font-medium">
-                <CheckCircle2 className="w-4 h-4 text-safari-400 shrink-0" />
-                <span>Instant Quota Confirmation</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <CallToAction
+        onPrimaryClick={onOpenBooking}
+        primaryText="Book Permit Now"
+        secondaryText="Contact Ranger Office"
+        secondaryLink="/contact"
+        secondaryIcon={Phone}
+        bgImage={safariImages.homeHero || safariImages.mistyDarkPines}
+      />
     </div>
   );
 }

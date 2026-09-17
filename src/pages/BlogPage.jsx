@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, ArrowRight, X, Ticket, Sparkles } from 'lucide-react';
+import { Search, ArrowRight, X, Ticket, Sparkles, Phone } from 'lucide-react';
 import { blogArticles, safariImages } from '../data/safariData';
 import { fetchBlogs } from '../api/client';
 import { slugify } from '../utils/slugify';
 import SEO from '../components/SEO';
+import CallToAction from '../components/CallToAction';
 
 export default function BlogPage({ onOpenBooking }) {
   const [selectedCategory, setSelectedCategory] = useState('All Stories');
@@ -237,36 +238,17 @@ export default function BlogPage({ onOpenBooking }) {
           </div>
         )}
 
-        {/* 5. BOOK YOUR RIDE TODAY CTA CONTAINER */}
-        <div className="rounded-3xl bg-gradient-to-br from-safari-900/90 via-safari-dark to-black text-white p-8 sm:p-12 shadow-2xl border border-safari-500/20 relative overflow-hidden">
-          <div className="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
-            <div className="max-w-2xl space-y-3">
-              <h3 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white leading-tight">
-                Book Your Ride Today
-              </h3>
-              <p className="text-xs sm:text-sm text-gray-300 leading-relaxed">
-                Daily visitor quotas and gypsy permits are strictly capped to preserve natural habitats. Reserve your open-top 4x4 safari jeep, registered guide, and official entry permits for Chila, Motichur, Gohari & Jhilmil.
-              </p>
-            </div>
-
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 w-full lg:w-auto shrink-0">
-              <button
-                onClick={onOpenBooking}
-                className="inline-flex items-center justify-center gap-2.5 px-8 py-4 text-sm font-bold text-gray-950 bg-safari-400 hover:bg-safari-300 active:scale-95 rounded-2xl shadow-lg hover:shadow-safari-400/25 transition-all duration-200 cursor-pointer"
-              >
-                <Ticket className="w-4 h-4" />
-                Book Your Ride Now
-              </button>
-
-              <Link
-                to="/safari/tickets"
-                className="inline-flex items-center justify-center gap-2 px-6 py-4 text-sm font-semibold text-white bg-white/10 hover:bg-white/15 border border-white/20 rounded-2xl transition duration-200"
-              >
-                View Tariffs <ArrowRight className="w-4 h-4 text-safari-400" />
-              </Link>
-            </div>
-          </div>
-        </div>
+        {/* 5. BOOK YOUR RIDE TODAY CTA */}
+        <CallToAction
+          className="!px-0 !py-4 sm:!py-8 !bg-transparent"
+          title="Book Your Ride Today"
+          subtitle="Daily visitor quotas and gypsy permits are strictly capped to preserve natural habitats. Reserve your open-top 4x4 safari jeep, registered guide, and official entry permits for Chila, Motichur, Gohari & Jhilmil."
+          primaryText="Book Your Ride Now"
+          onPrimaryClick={onOpenBooking}
+          secondaryText="View Tariffs"
+          secondaryLink="/safari/tickets"
+          secondaryIcon={ArrowRight}
+        />
       </div>
     </div>
   );

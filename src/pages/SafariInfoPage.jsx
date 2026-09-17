@@ -3,6 +3,7 @@ import { Compass, Clock, MapPin, ShieldAlert, ShieldCheck, Check, X, Car, Eye, S
 import { safariImages, ticketPrices, contactInfo } from '../data/safariData';
 import { fetchContent } from '../api/client';
 import SEO from '../components/SEO';
+import CallToAction from '../components/CallToAction';
 
 export default function SafariInfoPage({ onOpenBooking }) {
   const [safari, setSafari] = useState(null);
@@ -169,29 +170,20 @@ export default function SafariInfoPage({ onOpenBooking }) {
       </section>
 
       {/* BOTTOM CTA */}
-      <section className="py-14 sm:py-20 px-4 sm:px-6 lg:px-8 bg-gray-50/50 dark:bg-black/40 transition-colors">
-        <div className="max-w-6xl mx-auto rounded-3xl relative overflow-hidden bg-gradient-to-br from-[#05160d] via-[#072012] to-[#020b06] text-white p-8 sm:p-14 lg:p-16 shadow-2xl border border-safari-500/20 text-center">
-          <div className="absolute inset-0 bg-cover bg-center opacity-30 pointer-events-none" style={{ backgroundImage: `url("${safariImages.homeHero || safariImages.mistyDarkPines}")` }} />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/55 to-black/75 pointer-events-none" />
-          <div className="max-w-3xl mx-auto space-y-4 relative z-10">
-            <h2 className="text-2xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-white leading-tight">Ready to Plan Your Safari?</h2>
-            <p className="text-gray-300 text-xs sm:text-sm md:text-base max-w-xl mx-auto leading-relaxed">Reserve your zone permit online in advance. Our expedition naturalists handle entry gates, gypsies, and eco-guidance.</p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-3.5 pt-4">
-              <button onClick={onOpenBooking} className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-3.5 rounded-full bg-safari-500 hover:bg-safari-400 text-white font-bold text-sm shadow-xl shadow-safari-500/25 hover:shadow-safari-400/40 active:scale-95 transition-all duration-200 cursor-pointer group">
-                <Ticket className="w-4 h-4" /><span>Reserve Safari Permit</span><ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </button>
-              <a href={`tel:${contactInfo.phone.replace(/[^0-9+]/g, '')}`} className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-white font-semibold text-sm active:scale-95 transition duration-200">
-                <Phone className="w-4 h-4 text-safari-400" /><span>Call Helpdesk ({contactInfo.phone})</span>
-              </a>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 pt-8 mt-6 border-t border-white/10 max-w-2xl mx-auto">
-              <div className="flex items-center justify-center sm:justify-start gap-2 text-xs text-gray-300 font-medium"><ShieldCheck className="w-4 h-4 text-safari-400 shrink-0" /><span>Govt Authorized Tariffs</span></div>
-              <div className="flex items-center justify-center gap-2 text-xs text-gray-300 font-medium"><Compass className="w-4 h-4 text-safari-400 shrink-0" /><span>Chilla, Motichur & Ranipur</span></div>
-              <div className="flex items-center justify-center sm:justify-end gap-2 text-xs text-gray-300 font-medium"><Check className="w-4 h-4 text-safari-400 shrink-0" /><span>Instant Confirmation</span></div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <CallToAction
+        title="Ready to Plan Your Safari?"
+        subtitle="Reserve your zone permit online in advance. Our expedition naturalists handle entry gates, gypsies, and eco-guidance."
+        primaryText="Reserve Safari Permit"
+        onPrimaryClick={onOpenBooking}
+        secondaryText={`Call Helpdesk (${contactInfo.phone})`}
+        secondaryLink={`tel:${contactInfo.phone.replace(/[^0-9+]/g, '')}`}
+        secondaryIcon={Phone}
+        badges={[
+          { icon: ShieldCheck, text: "Govt Authorized Tariffs" },
+          { icon: Compass, text: "Chilla, Motichur & Ranipur" },
+          { icon: Check, text: "Instant Confirmation" }
+        ]}
+      />
     </div>
   );
 }

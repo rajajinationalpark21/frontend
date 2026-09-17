@@ -16,6 +16,7 @@ import {
 import { safariImages } from '../data/safariData';
 import { fetchContent } from '../api/client';
 import SEO from '../components/SEO';
+import CallToAction from '../components/CallToAction';
 
 export default function AboutPage({ onOpenBooking }) {
   const [about, setAbout] = useState(null);
@@ -278,6 +279,18 @@ export default function AboutPage({ onOpenBooking }) {
           )}
         </div>
       </section>
+
+      {/* CALL TO ACTION */}
+      <CallToAction
+        title="Experience the Sanctuary Firsthand"
+        subtitle="Join wildlife enthusiasts from around the world who have journeyed through Rajaji. Reserve your official safari permit and registered naturalist guide today."
+        primaryText="Book Your Safari"
+        onPrimaryClick={onOpenBooking}
+        secondaryText="Explore Safari Zones"
+        secondaryLink="/safari"
+        secondaryIcon={ArrowRight}
+        bgImage={safariImages.chilaZone || safariImages.homeHero}
+      />
     </div>
   );
 }

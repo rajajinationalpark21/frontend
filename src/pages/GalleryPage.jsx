@@ -4,6 +4,7 @@ import { safariImages, galleryPhotos } from '../data/safariData';
 import { fetchGallery } from '../api/client';
 import LightboxModal from '../components/LightboxModal';
 import SEO from '../components/SEO';
+import CallToAction from '../components/CallToAction';
 
 /**
  * Smart image optimizer (Option A + Option C hybrid)
@@ -183,31 +184,16 @@ export default function GalleryPage({ onOpenBooking }) {
       </section>
 
       {/* 3. READY TO EXPERIENCE IT YOURSELF CTA BANNER */}
-      <section className="bg-safari-darker text-white py-24 px-4 sm:px-6 text-center border-t border-gray-900">
-        <div className="max-w-3xl mx-auto space-y-6">
-          <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight">
-            Ready to experience it yourself?
-          </h2>
-          <p className="text-gray-300 text-sm sm:text-base leading-relaxed max-w-xl mx-auto">
-            These photos are just a glimpse. Book your adventure today and witness the wild in person.
-          </p>
-
-          <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
-            <button
-              onClick={onOpenBooking}
-              className="px-8 py-3.5 rounded-full bg-safari-500 hover:bg-safari-600 text-white font-semibold text-sm transition duration-200 shadow-lg active:scale-95"
-            >
-              Book Your Safari
-            </button>
-            <button
-              onClick={handleDownloadBrochure}
-              className="px-8 py-3.5 rounded-full border border-gray-700 hover:border-gray-500 text-white font-semibold text-sm hover:bg-white/5 transition duration-200 flex items-center gap-2"
-            >
-              <Download className="w-4 h-4" /> Download Brochure
-            </button>
-          </div>
-        </div>
-      </section>
+      <CallToAction
+        title="Ready to Experience It Yourself?"
+        subtitle="These photos are just a glimpse. Book your adventure today and witness the wild in person."
+        primaryText="Book Your Safari"
+        onPrimaryClick={onOpenBooking}
+        secondaryText="Download Brochure"
+        onSecondaryClick={handleDownloadBrochure}
+        secondaryIcon={Download}
+        bgImage={safariImages.chilaZone || safariImages.homeHero}
+      />
 
       {/* Lightbox Modal */}
       {activePhotoIndex !== null && (
