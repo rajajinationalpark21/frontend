@@ -1,4 +1,9 @@
-const API_BASE = import.meta.env.VITE_API_BASE || "/api";
+const rawBase =
+  import.meta.env.VITE_API_BASE ||
+  import.meta.env.VITE_BASE_URL_API ||
+  import.meta.env.VITE_API_URL ||
+  "https://backend-hbkg.onrender.com/api";
+const API_BASE = rawBase.replace(/\/+$/, "");
 
 async function request(endpoint, options = {}) {
   const url = `${API_BASE}/${endpoint}`;
