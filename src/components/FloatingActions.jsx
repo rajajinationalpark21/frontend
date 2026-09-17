@@ -69,11 +69,6 @@ export default function FloatingActions({ onOpenBooking }) {
         onClick={onOpenBooking}
         className="group flex items-center gap-2 sm:gap-2.5 px-4 py-2.5 sm:px-5 sm:py-3 rounded-full bg-safari-500 hover:bg-safari-600 text-white font-bold text-xs sm:text-sm shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 active:scale-95 border border-safari-400/50"
       >
-        {/* Pulsing indicator dot */}
-        <span className="relative flex h-2 w-2 sm:h-2.5 sm:w-2.5">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
-          <span className="relative inline-flex rounded-full h-2 w-2 sm:h-2.5 sm:w-2.5 bg-white"></span>
-        </span>
         <Ticket className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
         <span>Book Permit</span>
       </button>

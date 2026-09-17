@@ -52,8 +52,8 @@ export default function Navbar({ onOpenBooking }) {
       items: [
         { name: 'Birds of Rajaji', path: '/wildlife/birds', icon: Feather, desc: '400+ avian species & hornbills' },
         { name: 'Major Birding Areas', path: '/wildlife/birding-areas', icon: Compass, desc: 'Top 4 trails and river circuits' },
-        { name: 'Wildlife — Fauna', path: '/wildlife/fauna', icon: ShieldCheck, desc: 'Elephants, tigers, leopards & bears' },
-        { name: 'Forests — Flora', path: '/wildlife/flora', icon: Trees, desc: 'Sal canopies & botanical trees' },
+        { name: 'Fauna & Wildlife', path: '/wildlife/fauna', icon: ShieldCheck, desc: 'Elephants, tigers, leopards & bears' },
+        { name: 'Flora & Forests', path: '/wildlife/flora', icon: Trees, desc: 'Sal canopies & botanical trees' },
         { name: 'Butterflies & Insects', path: '/wildlife/butterflies', icon: Sparkles, desc: 'Mud-puddling & Lepidoptera' }
       ]
     },
@@ -84,11 +84,11 @@ export default function Navbar({ onOpenBooking }) {
   return (
     <header className="sticky top-0 z-50 bg-white/95 dark:bg-gray-950/95 backdrop-blur-md border-b border-gray-100 dark:border-gray-800 transition-all">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20">
+        <div className="flex items-center justify-between h-16 sm:h-18">
           
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2.5 group shrink-0">
-            <div className="w-11 h-11 rounded-xl bg-white dark:bg-gray-900 p-1 flex items-center justify-center border border-gray-100 dark:border-gray-800 shadow-sm group-hover:scale-105 transition shrink-0">
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-white dark:bg-gray-900 p-1 flex items-center justify-center border border-gray-100 dark:border-gray-800 shadow-sm group-hover:scale-105 transition shrink-0">
               <img 
                 src="/logo.png" 
                 alt="Rajaji Tiger Reserve Logo" 
@@ -96,10 +96,10 @@ export default function Navbar({ onOpenBooking }) {
               />
             </div>
             <div>
-              <span className="text-lg sm:text-xl font-extrabold tracking-tight text-gray-900 dark:text-white group-hover:text-safari-600 transition block leading-none">
+              <span className="text-base sm:text-lg font-extrabold tracking-tight text-gray-900 dark:text-white group-hover:text-safari-600 transition block leading-none">
                 Rajaji
               </span>
-              <span className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-safari-600 dark:text-safari-400 block mt-0.5">
+              <span className="text-[9px] sm:text-[10px] font-bold uppercase tracking-widest text-safari-600 dark:text-safari-400 block mt-0.5">
                 Tiger Reserve
               </span>
             </div>

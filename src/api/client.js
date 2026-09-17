@@ -43,3 +43,15 @@ export function submitContact(data) {
 export function fetchSafari() {
   return request("safari/get");
 }
+
+export function fetchFeedback() {
+  return request("feedback/get");
+}
+
+export function submitFeedback(data) {
+  return request("feedback/submit", {
+    method: "POST",
+    body: JSON.stringify(data),
+  });
+}
+

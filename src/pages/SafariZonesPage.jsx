@@ -54,8 +54,8 @@ export default function SafariZonesPage({ onOpenBooking }) {
               onClick={() => setSelectedZone('all')}
               className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition whitespace-nowrap ${
                 selectedZone === 'all'
-                  ? 'bg-safari-600 text-white shadow-sm'
-                  : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+                  ? 'bg-safari-600 dark:bg-safari-500 text-white shadow-sm'
+                  : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700'
               }`}
             >
               All Zones ({safariZonesData.length})
@@ -66,8 +66,8 @@ export default function SafariZonesPage({ onOpenBooking }) {
                 onClick={() => setSelectedZone(zone.id)}
                 className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition whitespace-nowrap ${
                   selectedZone === zone.id
-                    ? 'bg-safari-600 text-white shadow-sm'
-                    : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+                    ? 'bg-safari-600 dark:bg-safari-500 text-white shadow-sm'
+                    : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700'
                 }`}
               >
                 {zone.name.split('(')[0]}

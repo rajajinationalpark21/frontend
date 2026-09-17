@@ -113,8 +113,8 @@ export default function BookingModal({ isOpen, onClose }) {
               {/* Visitor Contact Info */}
               <div className="space-y-3 pb-2 border-b border-gray-100 dark:border-gray-800">
                 <div>
-                  <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1 flex items-center gap-1">
-                    <User className="w-3.5 h-3.5 text-gray-400" /> Full Name
+                  <label className="block text-xs sm:text-sm font-semibold text-gray-800 dark:text-gray-200 mb-1.5 flex items-center gap-1.5">
+                    <User className="w-3.5 h-3.5 text-safari-600 dark:text-safari-400" /> Full Name
                   </label>
                   <input
                     type="text"
@@ -123,14 +123,14 @@ export default function BookingModal({ isOpen, onClose }) {
                     placeholder="Primary Permit Holder Name"
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
-                    className="w-full px-3 py-2 text-xs bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:outline-none focus:border-safari-500"
+                    className="w-full px-3.5 py-2.5 text-sm bg-gray-50 dark:bg-gray-800/90 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:outline-none focus:border-safari-500 dark:focus:border-safari-500 focus:ring-2 focus:ring-safari-500/20 placeholder:text-gray-400 dark:placeholder:text-gray-500 font-medium transition"
                   />
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1 flex items-center gap-1">
-                      <Mail className="w-3.5 h-3.5 text-gray-400" /> Email
+                    <label className="block text-xs sm:text-sm font-semibold text-gray-800 dark:text-gray-200 mb-1.5 flex items-center gap-1.5">
+                      <Mail className="w-3.5 h-3.5 text-safari-600 dark:text-safari-400" /> Email
                     </label>
                     <input
                       type="email"
@@ -139,12 +139,12 @@ export default function BookingModal({ isOpen, onClose }) {
                       placeholder="permit@example.com"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      className="w-full px-3 py-2 text-xs bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:outline-none focus:border-safari-500"
+                      className="w-full px-3.5 py-2.5 text-sm bg-gray-50 dark:bg-gray-800/90 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:outline-none focus:border-safari-500 dark:focus:border-safari-500 focus:ring-2 focus:ring-safari-500/20 placeholder:text-gray-400 dark:placeholder:text-gray-500 font-medium transition"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1 flex items-center gap-1">
-                      <Phone className="w-3.5 h-3.5 text-gray-400" /> Mobile Phone
+                    <label className="block text-xs sm:text-sm font-semibold text-gray-800 dark:text-gray-200 mb-1.5 flex items-center gap-1.5">
+                      <Phone className="w-3.5 h-3.5 text-safari-600 dark:text-safari-400" /> Mobile Phone
                     </label>
                     <input
                       type="tel"
@@ -153,7 +153,7 @@ export default function BookingModal({ isOpen, onClose }) {
                       placeholder="+91 98765 43210"
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
-                      className="w-full px-3 py-2 text-xs bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:outline-none focus:border-safari-500"
+                      className="w-full px-3.5 py-2.5 text-sm bg-gray-50 dark:bg-gray-800/90 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:outline-none focus:border-safari-500 dark:focus:border-safari-500 focus:ring-2 focus:ring-safari-500/20 placeholder:text-gray-400 dark:placeholder:text-gray-500 font-medium transition"
                     />
                   </div>
                 </div>
@@ -161,7 +161,7 @@ export default function BookingModal({ isOpen, onClose }) {
 
               {/* Safari Zone */}
               <div>
-                <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1.5">
+                <label className="block text-xs sm:text-sm font-semibold text-gray-800 dark:text-gray-200 mb-1.5">
                   Select Zone
                 </label>
                 <div className="grid grid-cols-2 gap-2">
@@ -175,10 +175,10 @@ export default function BookingModal({ isOpen, onClose }) {
                       key={item}
                       type="button"
                       onClick={() => setZone(item)}
-                      className={`px-3 py-2 text-xs rounded-xl border text-left transition font-medium ${
+                      className={`px-3 py-2 text-xs sm:text-sm rounded-xl border text-left transition font-medium ${
                         zone === item
                           ? 'border-safari-500 bg-safari-50/70 dark:bg-safari-950/60 text-safari-900 dark:text-safari-300 ring-1 ring-safari-500'
-                          : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800'
+                          : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600 text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800'
                       }`}
                     >
                       {item}
@@ -190,30 +190,30 @@ export default function BookingModal({ isOpen, onClose }) {
               {/* Date & Slot */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1.5 flex items-center gap-1">
-                    <Calendar className="w-3.5 h-3.5 text-gray-400" /> Date
+                  <label className="block text-xs sm:text-sm font-semibold text-gray-800 dark:text-gray-200 mb-1.5 flex items-center gap-1.5">
+                    <Calendar className="w-3.5 h-3.5 text-safari-600 dark:text-safari-400" /> Date
                   </label>
                   <input
                     type="date"
                     required
                     value={date}
                     onChange={(e) => setDate(e.target.value)}
-                    className="w-full px-3 py-2 text-xs bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:outline-none focus:border-safari-500"
+                    className="w-full px-3.5 py-2.5 text-sm bg-gray-50 dark:bg-gray-800/90 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:outline-none focus:border-safari-500 dark:focus:border-safari-500 focus:ring-2 focus:ring-safari-500/20 font-medium transition"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1.5 flex items-center gap-1">
-                    <Clock className="w-3.5 h-3.5 text-gray-400" /> Time Slot
+                  <label className="block text-xs sm:text-sm font-semibold text-gray-800 dark:text-gray-200 mb-1.5 flex items-center gap-1.5">
+                    <Clock className="w-3.5 h-3.5 text-safari-600 dark:text-safari-400" /> Time Slot
                   </label>
                   <select
                     value={slot}
                     onChange={(e) => setSlot(e.target.value)}
-                    className="w-full px-3 py-2 text-xs bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:outline-none focus:border-safari-500"
+                    className="w-full px-3.5 py-2.5 text-sm bg-gray-50 dark:bg-gray-800/90 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:outline-none focus:border-safari-500 dark:focus:border-safari-500 focus:ring-2 focus:ring-safari-500/20 font-medium transition"
                   >
-                    <option>06:00 AM - Morning Shift (Summer)</option>
-                    <option>07:00 AM - Morning Shift (Winter)</option>
-                    <option>02:30 PM - Afternoon Shift (Winter)</option>
-                    <option>03:00 PM - Afternoon Shift (Summer)</option>
+                    <option className="bg-white dark:bg-gray-800 text-gray-900 dark:text-white">06:00 AM - Morning Shift (Summer)</option>
+                    <option className="bg-white dark:bg-gray-800 text-gray-900 dark:text-white">07:00 AM - Morning Shift (Winter)</option>
+                    <option className="bg-white dark:bg-gray-800 text-gray-900 dark:text-white">02:30 PM - Afternoon Shift (Winter)</option>
+                    <option className="bg-white dark:bg-gray-800 text-gray-900 dark:text-white">03:00 PM - Afternoon Shift (Summer)</option>
                   </select>
                 </div>
               </div>

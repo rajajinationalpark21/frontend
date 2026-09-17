@@ -9,7 +9,7 @@ export const howToReachData = {
     details: "Daily flights connect Dehradun with New Delhi, Mumbai, and other major Indian hubs. Taxis and private rentals are readily available at the airport terminal to transfer directly to any park entry gate or nearby resorts."
   },
   rail: {
-    nearestRailhead: "Haridwar Junction (HW) — 24 km from main core",
+    nearestRailhead: "Haridwar Junction (HW) - 24 km from main core",
     stations: [
       { name: "Haridwar Railway Station", distance: "24 km to Core / 8 km to Chilla Gate", note: "Primary railhead connected to all major metros" },
       { name: "Rishikesh Railway Station", distance: "18 km to Park", note: "Ideal for travelers heading to Gohari and northern zones" },
@@ -152,7 +152,7 @@ export const parkRulesData = {
   donts: [
     { title: "Strictly No Entry After Dark", desc: "No entry is permitted before sunrise or after sunset. Night driving inside the core tiger reserve is strictly prohibited and punishable by law." },
     { title: "Zero Plastic & Zero Litter", desc: "Rajaji is a strict zero-litter conservation zone. Do not throw wrappers, fruit peels, polythene, or bottles. Whatever goes into the park must come out." },
-    { title: "Fire Hazard — No Cigarettes or Matches", desc: "Sal forests dry out rapidly in summer and represent a critical fire hazard. Smoking, lighting fires, or dropping lit matchsticks is strictly outlawed." },
+    { title: "Fire Hazard: No Cigarettes or Matches", desc: "Sal forests dry out rapidly in summer and represent a critical fire hazard. Smoking, lighting fires, or dropping lit matchsticks is strictly outlawed." },
     { title: "No Feeding or Baiting Animals", desc: "Never feed, tease, or throw food items at animals. It disrupts natural foraging habits and can trigger defensive animal aggression." },
     { title: "No Firearms, Traps, or Pets", desc: "Firearms, hunting nets, fishing rods, and domestic pets are strictly prohibited from entering the reserve boundary." },
     { title: "Speed Limit & No Honking", desc: "Vehicle speed must not exceed 30 km/h under any circumstances. Blowing vehicle horns or playing music players/radios is strictly prohibited." }

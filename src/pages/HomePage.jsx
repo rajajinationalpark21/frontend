@@ -6,11 +6,17 @@ import {
   Shield, 
   ArrowRight, 
   ArrowUpRight, 
-  Calendar 
+  Calendar,
+  Ticket,
+  Sparkles,
+  ShieldCheck,
+  CheckCircle2,
+  Phone
 } from 'lucide-react';
 import { safariImages } from '../data/safariData';
 import { fetchContent } from '../api/client';
 import SEO from '../components/SEO';
+import FeedbackSection from '../components/FeedbackSection';
 
 const fallbackContent = {
   tagline: "Unleash Your Wild Side",
@@ -78,29 +84,29 @@ export default function HomePage({ onOpenBooking }) {
         </div>
 
         {/* Hero Content */}
-        <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 pt-24 pb-28">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/15 backdrop-blur-md text-white text-xs font-semibold uppercase tracking-wider mb-6 border border-white/20 shadow-md">
-            <span className="w-2 h-2 rounded-full bg-safari-400 animate-ping" />
+        <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 pt-16 pb-20 sm:pt-20 sm:pb-24">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/15 backdrop-blur-md text-white text-xs font-semibold uppercase tracking-wider mb-5 border border-white/20 shadow-md">
+            <Shield className="w-3.5 h-3.5 text-safari-400" />
             Official Tiger Reserve & National Park
           </div>
-          <h1 className="text-4xl sm:text-6xl md:text-7xl font-extrabold text-white tracking-tight leading-[1.1] mb-5 drop-shadow-sm">
+          <h1 className="text-3xl sm:text-5xl md:text-6xl font-extrabold text-white tracking-tight leading-[1.15] mb-4 drop-shadow-sm">
             {content.heroTitle || "Experience the Heart of the Jungle"}
           </h1>
-          <p className="text-lg sm:text-xl text-gray-200 max-w-2xl mx-auto font-normal mb-9">
+          <p className="text-sm sm:text-base text-gray-200 max-w-xl mx-auto font-normal mb-7">
             {content.heroSubtitle || "Track royal Bengal tigers across open meadows, listen to the forest wake at dawn, and discover a national park where every trail tells a story."}
           </p>
 
           {/* Call to Actions */}
-          <div className="flex flex-wrap items-center justify-center gap-4">
+          <div className="flex flex-wrap items-center justify-center gap-3.5">
             <button
               onClick={onOpenBooking}
-              className="px-8 py-3.5 rounded-full bg-safari-500 hover:bg-safari-600 text-white font-semibold text-sm sm:text-base shadow-lg hover:shadow-xl active:scale-95 transition duration-200"
+              className="px-6 py-3 rounded-full bg-safari-500 hover:bg-safari-600 text-white font-semibold text-sm shadow-lg hover:shadow-xl active:scale-95 transition duration-200"
             >
               Explore Safari
             </button>
             <Link
               to="/gallery"
-              className="px-8 py-3.5 rounded-full border-2 border-white/80 hover:border-white text-white font-semibold text-sm sm:text-base hover:bg-white/10 active:scale-95 transition duration-200"
+              className="px-6 py-3 rounded-full border-2 border-white/80 hover:border-white text-white font-semibold text-sm hover:bg-white/10 active:scale-95 transition duration-200"
             >
               View Gallery
             </Link>
@@ -108,8 +114,8 @@ export default function HomePage({ onOpenBooking }) {
         </div>
       </section>
 
-      {/* 3 Floating Info Cards - positioned naturally overlapping Hero & Legacy without overflow clipping */}
-      <div className="relative z-20 -mt-14 max-w-5xl mx-auto px-4 sm:px-6">
+      {/* 3 Floating Info Cards */}
+      <div className="relative z-20 -mt-10 max-w-5xl mx-auto px-4 sm:px-6">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {/* Card 1: Timings */}
           <div className="bg-white dark:bg-gray-900 rounded-3xl p-5 shadow-2xl border border-gray-100 dark:border-gray-800 flex items-center gap-4 text-left transition hover:-translate-y-1 duration-200">
@@ -172,10 +178,10 @@ export default function HomePage({ onOpenBooking }) {
             <span className="text-xs font-bold tracking-widest text-safari-600 dark:text-safari-400 uppercase">
               CONSERVATION FIRST
             </span>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 dark:text-white tracking-tight">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-gray-900 dark:text-white tracking-tight">
               {content.aboutTitle || "The Sanctuary Legacy"}
             </h2>
-            <p className="text-gray-600 dark:text-gray-300 leading-relaxed text-sm sm:text-base">
+            <p className="text-gray-600 dark:text-gray-300 leading-relaxed text-sm">
               {content.aboutDescription || "Dedicated to conservation and protecting our wildlife for generations to come. Discover the story behind the sanctuary, our efforts in anti-poaching, and how we maintain the delicate balance of the ecosystem."}
             </p>
 
@@ -220,10 +226,10 @@ export default function HomePage({ onOpenBooking }) {
           {/* Header */}
           <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-10 gap-4">
             <div>
-              <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white tracking-tight">
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight">
                 Captured Moments
               </h2>
-              <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">
+              <p className="text-gray-500 dark:text-gray-400 text-xs sm:text-sm mt-1">
                 Glimpses of the wild, caught in the perfect light.
               </p>
             </div>
@@ -300,128 +306,178 @@ export default function HomePage({ onOpenBooking }) {
         {/* 3 Blog Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Card 1 */}
-          <div className="bg-white dark:bg-gray-900 rounded-3xl overflow-hidden border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-md transition flex flex-col group">
-            <div className="relative aspect-[16/10] overflow-hidden bg-gray-100">
+          <Link
+            to="/blog/spotting-the-elusive-leopard-a-guide"
+            className="group bg-white dark:bg-gray-900 rounded-3xl overflow-hidden border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-2xl hover:shadow-safari-950/20 dark:hover:shadow-safari-950/40 hover:border-safari-500/40 dark:hover:border-safari-500/40 transition-all duration-500 ease-out hover:-translate-y-2 flex flex-col cursor-pointer block transform-gpu will-change-transform"
+          >
+            <div className="relative aspect-[16/10] overflow-hidden bg-gray-100 dark:bg-gray-800">
               <img
                 src={safariImages.tigerEye}
                 alt="Tiger Eye"
-                className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out will-change-transform"
               />
-              <span className="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-bold tracking-wider text-gray-900 uppercase">
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+              <span className="absolute top-4 left-4 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-bold tracking-wider text-gray-900 dark:text-white uppercase shadow-sm group-hover:bg-safari-500 group-hover:text-white transition-all duration-300">
                 SIGHTING REPORT
               </span>
             </div>
             <div className="p-6 flex-1 flex flex-col justify-between space-y-3">
               <div>
-                <div className="flex items-center gap-1.5 text-xs text-gray-400 mb-2">
+                <div className="flex items-center gap-1.5 text-xs text-gray-400 dark:text-gray-400 group-hover:text-safari-600 dark:group-hover:text-safari-400 mb-2 transition-colors duration-200">
                   <Calendar className="w-3.5 h-3.5" /> Oct 12, 2023
                 </div>
-                <h3 className="text-lg font-bold text-gray-900 dark:text-white group-hover:text-safari-600 transition leading-snug">
+                <h3 className="text-lg font-bold text-gray-900 dark:text-white group-hover:text-safari-600 dark:group-hover:text-safari-400 transition-colors duration-200 leading-snug">
                   Rare Black Panther Sighting in Chilla Range
                 </h3>
-                <p className="text-xs text-gray-500 dark:text-gray-400 mt-2 line-clamp-2 leading-relaxed">
+                <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-300 mt-2 line-clamp-2 leading-relaxed">
                   A once in a lifetime sighting happened yesterday evening during the routine patrol...
                 </p>
               </div>
-              <Link
-                to="/blog"
-                className="inline-flex items-center gap-1 text-xs font-bold text-gray-900 dark:text-white hover:text-safari-600 dark:hover:text-safari-400 transition pt-2"
-              >
-                Read More <ArrowRight className="w-3.5 h-3.5" />
-              </Link>
+              <div className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-gray-900 dark:text-white group-hover:text-safari-600 dark:group-hover:text-safari-400 transition-colors pt-2">
+                <span>Read More</span>
+                <ArrowRight className="w-3.5 h-3.5 text-safari-500 group-hover:translate-x-1.5 transition-transform duration-300 ease-out" />
+              </div>
             </div>
-          </div>
+          </Link>
 
           {/* Card 2 */}
-          <div className="bg-white dark:bg-gray-900 rounded-3xl overflow-hidden border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-md transition flex flex-col group">
+          <Link
+            to="/blog/the-symphony-of-the-canopy"
+            className="group bg-white dark:bg-gray-900 rounded-3xl overflow-hidden border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-2xl hover:shadow-safari-950/20 dark:hover:shadow-safari-950/40 hover:border-safari-500/40 dark:hover:border-safari-500/40 transition-all duration-500 ease-out hover:-translate-y-2 flex flex-col cursor-pointer block transform-gpu will-change-transform"
+          >
             <div className="relative aspect-[16/10] overflow-hidden bg-gray-100 dark:bg-gray-800">
               <img
                 src={safariImages.mistyHills}
                 alt="Misty forest"
-                className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out will-change-transform"
               />
-              <span className="absolute top-4 left-4 bg-white/90 dark:bg-gray-900/90 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-bold tracking-wider text-gray-900 dark:text-white uppercase">
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+              <span className="absolute top-4 left-4 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-bold tracking-wider text-gray-900 dark:text-white uppercase shadow-sm group-hover:bg-safari-500 group-hover:text-white transition-all duration-300">
                 TRAVEL GUIDE
               </span>
             </div>
             <div className="p-6 flex-1 flex flex-col justify-between space-y-3">
               <div>
-                <div className="flex items-center gap-1.5 text-xs text-gray-400 mb-2">
+                <div className="flex items-center gap-1.5 text-xs text-gray-400 dark:text-gray-400 group-hover:text-safari-600 dark:group-hover:text-safari-400 mb-2 transition-colors duration-200">
                   <Calendar className="w-3.5 h-3.5" /> Sep 28, 2023
                 </div>
-                <h3 className="text-lg font-bold text-gray-900 dark:text-white group-hover:text-safari-600 transition leading-snug">
+                <h3 className="text-lg font-bold text-gray-900 dark:text-white group-hover:text-safari-600 dark:group-hover:text-safari-400 transition-colors duration-200 leading-snug">
                   Best Season to Visit for Himalayan Bird Watching
                 </h3>
-                <p className="text-xs text-gray-500 dark:text-gray-400 mt-2 line-clamp-2 leading-relaxed">
+                <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-300 mt-2 line-clamp-2 leading-relaxed">
                   Winter brings migratory birds from across the Himalayas to Rajaji. Here is your guide to the best spots...
                 </p>
               </div>
-              <Link
-                to="/blog"
-                className="inline-flex items-center gap-1 text-xs font-bold text-gray-900 dark:text-white hover:text-safari-600 dark:hover:text-safari-400 transition pt-2"
-              >
-                Read More <ArrowRight className="w-3.5 h-3.5" />
-              </Link>
+              <div className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-gray-900 dark:text-white group-hover:text-safari-600 dark:group-hover:text-safari-400 transition-colors pt-2">
+                <span>Read More</span>
+                <ArrowRight className="w-3.5 h-3.5 text-safari-500 group-hover:translate-x-1.5 transition-transform duration-300 ease-out" />
+              </div>
             </div>
-          </div>
+          </Link>
 
           {/* Card 3 */}
-          <div className="bg-white dark:bg-gray-900 rounded-3xl overflow-hidden border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-md transition flex flex-col group">
+          <Link
+            to="/blog/protecting-the-elephant-corridors"
+            className="group bg-white dark:bg-gray-900 rounded-3xl overflow-hidden border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-2xl hover:shadow-safari-950/20 dark:hover:shadow-safari-950/40 hover:border-safari-500/40 dark:hover:border-safari-500/40 transition-all duration-500 ease-out hover:-translate-y-2 flex flex-col cursor-pointer block transform-gpu will-change-transform"
+          >
             <div className="relative aspect-[16/10] overflow-hidden bg-gray-100 dark:bg-gray-800">
               <img
                 src={safariImages.rangerSolo}
                 alt="Ranger with binoculars"
-                className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out will-change-transform"
               />
-              <span className="absolute top-4 left-4 bg-white/90 dark:bg-gray-900/90 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-bold tracking-wider text-gray-900 dark:text-white uppercase">
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+              <span className="absolute top-4 left-4 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-bold tracking-wider text-gray-900 dark:text-white uppercase shadow-sm group-hover:bg-safari-500 group-hover:text-white transition-all duration-300">
                 CONSERVATION
               </span>
             </div>
             <div className="p-6 flex-1 flex flex-col justify-between space-y-3">
               <div>
-                <div className="flex items-center gap-1.5 text-xs text-gray-400 mb-2">
+                <div className="flex items-center gap-1.5 text-xs text-gray-400 dark:text-gray-400 group-hover:text-safari-600 dark:group-hover:text-safari-400 mb-2 transition-colors duration-200">
                   <Calendar className="w-3.5 h-3.5" /> Sep 15, 2023
                 </div>
-                <h3 className="text-lg font-bold text-gray-900 dark:text-white group-hover:text-safari-600 transition leading-snug">
+                <h3 className="text-lg font-bold text-gray-900 dark:text-white group-hover:text-safari-600 dark:group-hover:text-safari-400 transition-colors duration-200 leading-snug">
                   Rajaji Tiger & Elephant Corridor Protection
                 </h3>
-                <p className="text-xs text-gray-500 dark:text-gray-400 mt-2 line-clamp-2 leading-relaxed">
+                <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-300 mt-2 line-clamp-2 leading-relaxed">
                   Protecting vital ecological corridors between Chilla and Motichur ranges...
                 </p>
               </div>
-              <Link
-                to="/blog"
-                className="inline-flex items-center gap-1 text-xs font-bold text-gray-900 dark:text-white hover:text-safari-600 dark:hover:text-safari-400 transition pt-2"
-              >
-                Read More <ArrowRight className="w-3.5 h-3.5" />
-              </Link>
+              <div className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-gray-900 dark:text-white group-hover:text-safari-600 dark:group-hover:text-safari-400 transition-colors pt-2">
+                <span>Read More</span>
+                <ArrowRight className="w-3.5 h-3.5 text-safari-500 group-hover:translate-x-1.5 transition-transform duration-300 ease-out" />
+              </div>
             </div>
-          </div>
+          </Link>
         </div>
       </section>
 
-      {/* 5. CALL TO ACTION SECTION */}
-      <section className="bg-safari-dark text-white py-20 px-4 sm:px-6 relative overflow-hidden">
-        <div className="max-w-4xl mx-auto text-center space-y-6 relative z-10">
-          <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight">
-            Ready to Answer the Call of the Wild?
-          </h2>
-          <p className="text-gray-300 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
-            Permits are limited to ensure minimal disturbance to the wildlife. Plan your adventure early to secure your spot in the heart of nature.
-          </p>
-          <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
-            <button
-              onClick={onOpenBooking}
-              className="px-8 py-3.5 rounded-full bg-safari-500 hover:bg-safari-600 text-white font-semibold text-sm sm:text-base transition duration-200 shadow-lg active:scale-95"
-            >
-              Book Permit Now
-            </button>
-            <Link
-              to="/contact"
-              className="px-8 py-3.5 rounded-full border border-gray-600 hover:border-gray-400 text-white font-semibold text-sm sm:text-base hover:bg-white/5 transition duration-200 active:scale-95"
-            >
-              Contact Us
-            </Link>
+      {/* 5. VISITOR REVIEWS & FEEDBACK SECTION */}
+      <FeedbackSection />
+
+      {/* 6. CALL TO ACTION SECTION */}
+      <section className="py-14 sm:py-20 px-4 sm:px-6 lg:px-8 bg-gray-50/50 dark:bg-black/40 transition-colors">
+        <div className="max-w-6xl mx-auto rounded-3xl relative overflow-hidden bg-gradient-to-br from-[#05160d] via-[#072012] to-[#020b06] text-white p-8 sm:p-14 lg:p-16 shadow-2xl border border-safari-500/20">
+          
+          {/* Subtle Background Forest Imagery & Ambient Glow */}
+          <div 
+            className="absolute inset-0 bg-cover bg-center opacity-25 mix-blend-luminosity scale-105 pointer-events-none"
+            style={{ backgroundImage: `url("${safariImages.mistyDarkPines || safariImages.homeHero}")` }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/80 pointer-events-none" />
+          <div className="absolute -top-32 -left-32 w-80 h-80 rounded-full bg-safari-500/15 blur-3xl pointer-events-none" />
+          <div className="absolute -bottom-32 -right-32 w-80 h-80 rounded-full bg-safari-400/10 blur-3xl pointer-events-none" />
+
+          {/* Inner Content */}
+          <div className="max-w-3xl mx-auto text-center space-y-4 relative z-10">
+            {/* Top Pill Badge */}
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-safari-500/20 border border-safari-400/30 text-safari-300 text-xs font-bold uppercase tracking-wider shadow-sm">
+              <Sparkles className="w-3.5 h-3.5 text-safari-400" />
+              <span>Official E-Permit & Safari Portal</span>
+            </div>
+
+            <h2 className="text-2xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-white leading-tight">
+              Ready to Answer the Call of the Wild?
+            </h2>
+
+            <p className="text-gray-300 text-xs sm:text-sm md:text-base max-w-xl mx-auto leading-relaxed">
+              Daily gypsy permits and visitor quotas are strictly capped to ensure minimal disturbance to wildlife. Plan your adventure early to secure your spot in the heart of nature.
+            </p>
+
+            {/* CTA Buttons */}
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3.5 pt-4">
+              <button
+                onClick={onOpenBooking}
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-3.5 rounded-full bg-safari-500 hover:bg-safari-400 text-white font-bold text-sm shadow-xl shadow-safari-500/25 hover:shadow-safari-400/40 active:scale-95 transition-all duration-200 cursor-pointer group"
+              >
+                <Ticket className="w-4 h-4" />
+                <span>Book Permit Now</span>
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </button>
+              <Link
+                to="/contact"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-white/10 hover:bg-white/15 border border-white/20 text-white font-semibold text-sm backdrop-blur-sm active:scale-95 transition duration-200"
+              >
+                <Phone className="w-4 h-4 text-safari-400" />
+                <span>Contact Ranger Office</span>
+              </Link>
+            </div>
+
+            {/* Trust Badges */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 pt-8 mt-6 border-t border-white/10 max-w-2xl mx-auto">
+              <div className="flex items-center justify-center sm:justify-start gap-2 text-xs text-gray-300 font-medium">
+                <ShieldCheck className="w-4 h-4 text-safari-400 shrink-0" />
+                <span>Official Forest E-Permits</span>
+              </div>
+              <div className="flex items-center justify-center gap-2 text-xs text-gray-300 font-medium">
+                <Compass className="w-4 h-4 text-safari-400 shrink-0" />
+                <span>4x4 Gypsy & Registered Guides</span>
+              </div>
+              <div className="flex items-center justify-center sm:justify-end gap-2 text-xs text-gray-300 font-medium">
+                <CheckCircle2 className="w-4 h-4 text-safari-400 shrink-0" />
+                <span>Instant Quota Confirmation</span>
+              </div>
+            </div>
           </div>
         </div>
       </section>

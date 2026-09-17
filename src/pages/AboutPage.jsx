@@ -73,19 +73,19 @@ export default function AboutPage({ onOpenBooking }) {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           {/* Left Narrative */}
           <div className="lg:col-span-6 space-y-6">
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight leading-tight">
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white tracking-tight leading-tight">
               Preserving Nature & Wildlife
             </h2>
-            <p className="text-gray-600 text-sm sm:text-base leading-relaxed">
+            <p className="text-gray-600 dark:text-gray-300 text-sm sm:text-base leading-relaxed">
               Formed in 1983 by amalgamating Rajaji, Motichur, and Chilla wildlife sanctuaries, Rajaji National Park spans 820.42 sq km across the foothills of the Himalayas. Our mission has always been conservation first, maintaining crucial elephant corridors and tiger habitats.
             </p>
-            <p className="text-gray-600 text-sm sm:text-base leading-relaxed">
+            <p className="text-gray-600 dark:text-gray-300 text-sm sm:text-base leading-relaxed">
               Protected under Project Tiger and Project Elephant, our dedicated rangers and eco-naturalists monitor migration trails along the Ganges basin, ensuring ethical, zero-disturbance exploration for travelers worldwide.
             </p>
             <div className="pt-2">
               <button
                 onClick={onOpenBooking}
-                className="inline-flex items-center gap-2 text-sm font-bold text-gray-900 hover:text-safari-600 transition group"
+                className="inline-flex items-center gap-2 text-sm font-bold text-gray-900 dark:text-white hover:text-safari-600 dark:hover:text-safari-400 transition group"
               >
                 Book a Guided Safari
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition" />
@@ -102,8 +102,8 @@ export default function AboutPage({ onOpenBooking }) {
                 className="w-full h-full object-cover group-hover:scale-105 transition duration-700"
               />
               {/* Floating Quote Box */}
-              <div className="absolute -bottom-2 -left-2 sm:bottom-4 sm:left-4 max-w-[280px] bg-white/95 backdrop-blur-md p-4 rounded-2xl shadow-xl border border-gray-100">
-                <p className="text-xs font-semibold text-gray-800 italic leading-snug">
+              <div className="absolute -bottom-2 -left-2 sm:bottom-4 sm:left-4 max-w-[280px] bg-white/95 dark:bg-gray-900/95 backdrop-blur-md p-4 rounded-2xl shadow-xl border border-gray-100 dark:border-gray-800">
+                <p className="text-xs font-semibold text-gray-800 dark:text-gray-200 italic leading-snug">
                   "Nature does not hurry, yet everything is accomplished."
                 </p>
               </div>
@@ -164,19 +164,19 @@ export default function AboutPage({ onOpenBooking }) {
       </section>
 
       {/* 4. OUR JOURNEY TIMELINE SECTION */}
-      <section className="py-20 bg-gray-50/50 border-t border-gray-100">
+      <section className="py-20 bg-gray-50/50 dark:bg-gray-900/40 border-t border-gray-100 dark:border-gray-800 transition-colors">
         <div className="max-w-4xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight">
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white tracking-tight">
               Our Journey
             </h2>
-            <p className="text-gray-500 text-sm mt-1">
+            <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">
               From a small plot of land to a globally recognized sanctuary.
             </p>
           </div>
 
           {/* Vertical Timeline */}
-          <div className="relative border-l-2 border-gray-200 ml-4 sm:ml-32 space-y-10">
+          <div className="relative border-l-2 border-gray-200 dark:border-gray-800 ml-4 sm:ml-32 space-y-10">
             {journeyMilestones.map((item, idx) => {
               const IconComp = milestoneIcons[item.icon] || Flag;
               return (
@@ -187,14 +187,14 @@ export default function AboutPage({ onOpenBooking }) {
                   </div>
 
                   {/* Year Tag & Content Card */}
-                  <div className="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm hover:shadow-md transition">
-                    <span className="text-xs font-bold text-safari-600 tracking-wider">
+                  <div className="bg-white dark:bg-gray-900 p-6 rounded-3xl border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-md transition">
+                    <span className="text-xs font-bold text-safari-600 dark:text-safari-400 tracking-wider">
                       {item.year}
                     </span>
-                    <h3 className="text-lg font-bold text-gray-900 mt-1 mb-2">
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mt-1 mb-2">
                       {item.title}
                     </h3>
-                    <p className="text-xs sm:text-sm text-gray-500 leading-relaxed">
+                    <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 leading-relaxed">
                       {item.description}
                     </p>
                   </div>
@@ -209,10 +209,10 @@ export default function AboutPage({ onOpenBooking }) {
       <section className="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-12 gap-4">
           <div>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight">
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white tracking-tight">
               Experience the Jungle
             </h2>
-            <p className="text-gray-500 text-sm mt-1">
+            <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">
               More than just a drive, it's an immersion.
             </p>
           </div>
