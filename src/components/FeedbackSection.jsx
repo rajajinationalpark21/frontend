@@ -42,10 +42,6 @@ export default function FeedbackSection() {
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-safari-50 dark:bg-safari-900/30 text-safari-700 dark:text-safari-300 text-xs font-bold uppercase tracking-wider border border-safari-200 dark:border-safari-800/50 mb-3 shadow-sm">
-              <MessageSquareQuote className="w-3.5 h-3.5 text-safari-600 dark:text-safari-400" />
-              <span>Visitor Reviews & Feedback</span>
-            </div>
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-gray-950 dark:text-white tracking-tight">
               Stories & Ratings from the Trail
             </h2>

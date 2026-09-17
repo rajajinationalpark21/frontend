@@ -45,10 +45,6 @@ export default function BirdsPage({ onOpenBooking }) {
         </div>
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl">
-            <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-white text-xs font-bold uppercase tracking-wider mb-4 border border-white/15 backdrop-blur-sm">
-              <Feather className="w-3.5 h-3.5" />
-              Avian Sanctuary
-            </span>
             <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-white mb-6">
               Birds of Rajaji National Park
             </h1>

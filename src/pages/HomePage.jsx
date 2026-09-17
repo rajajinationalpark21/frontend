@@ -146,10 +146,6 @@ export default function HomePage({ onOpenBooking }) {
 
         {/* Hero Content */}
         <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 pt-16 pb-20 sm:pt-20 sm:pb-24">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/15 backdrop-blur-md text-white text-xs font-semibold uppercase tracking-wider mb-5 border border-white/20 shadow-md">
-            <Shield className="w-3.5 h-3.5 text-safari-400" />
-            Official Tiger Reserve & National Park
-          </div>
           <h1 className="text-3xl sm:text-5xl md:text-6xl font-extrabold text-white tracking-tight leading-[1.15] mb-4 drop-shadow-sm">
             {content.heroTitle || "Experience the Heart of the Jungle"}
           </h1>
@@ -478,11 +474,7 @@ export default function HomePage({ onOpenBooking }) {
 
           {/* Inner Content */}
           <div className="max-w-3xl mx-auto text-center space-y-4 relative z-10">
-            {/* Top Pill Badge */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-safari-500/20 border border-safari-400/30 text-safari-300 text-xs font-bold uppercase tracking-wider shadow-sm">
-              <Sparkles className="w-3.5 h-3.5 text-safari-400" />
-              <span>Official E-Permit & Safari Portal</span>
-            </div>
+
 
             <h2 className="text-2xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-white leading-tight">
               Ready to Answer the Call of the Wild?

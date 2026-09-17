@@ -245,10 +245,6 @@ export default function BlogPage({ onOpenBooking }) {
 
           <div className="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
             <div className="max-w-2xl space-y-3">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-safari-500/20 border border-safari-400/30 text-safari-300 text-xs font-bold uppercase tracking-wider">
-                <Sparkles className="w-3.5 h-3.5 text-safari-400" />
-                Official Forest Reserve Booking
-              </div>
               <h3 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white leading-tight">
                 Book Your Ride Today
               </h3>

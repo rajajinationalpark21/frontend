@@ -84,9 +84,6 @@ export default function BookingModal({ isOpen, onClose }) {
         ) : (
           <>
             <div className="mb-6">
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-safari-50 dark:bg-safari-900/40 text-safari-700 dark:text-safari-300 text-xs font-semibold mb-2">
-                <ShieldCheck className="w-3.5 h-3.5" /> Official Safari Permit Portal
-              </div>
               <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">
                 Reserve Your Safari Permit
               </h3>

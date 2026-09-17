@@ -176,9 +176,6 @@ export default function SafariInfoPage({ onOpenBooking }) {
           <div className="absolute -top-32 -left-32 w-80 h-80 rounded-full bg-safari-500/15 blur-3xl pointer-events-none" />
           <div className="absolute -bottom-32 -right-32 w-80 h-80 rounded-full bg-safari-400/10 blur-3xl pointer-events-none" />
           <div className="max-w-3xl mx-auto space-y-4 relative z-10">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-safari-500/20 border border-safari-400/30 text-safari-300 text-xs font-bold uppercase tracking-wider shadow-sm">
-              <Sparkles className="w-3.5 h-3.5 text-safari-400" /><span>Official Reserve Quotas</span>
-            </div>
             <h2 className="text-2xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-white leading-tight">Ready to Plan Your Safari?</h2>
             <p className="text-gray-300 text-xs sm:text-sm md:text-base max-w-xl mx-auto leading-relaxed">Reserve your zone permit online in advance. Our expedition naturalists handle entry gates, gypsies, and eco-guidance.</p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3.5 pt-4">

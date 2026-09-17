@@ -125,10 +125,6 @@ export default function BookingPage() {
 
         {/* Page Hero Header */}
         <div className="mb-10 max-w-3xl">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-safari-50 dark:bg-safari-900/40 border border-safari-200 dark:border-safari-800/60 text-safari-700 dark:text-safari-300 text-xs font-bold uppercase tracking-wider mb-3">
-            <ShieldCheck className="w-4 h-4 text-safari-600 dark:text-safari-400" />
-            Official Forest Department Quota
-          </div>
           <h1 className="text-3xl sm:text-5xl font-extrabold text-gray-950 dark:text-white tracking-tight leading-tight mb-3">
             Reserve Your Safari Permit
           </h1>
