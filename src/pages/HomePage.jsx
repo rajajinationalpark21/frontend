@@ -463,18 +463,15 @@ export default function HomePage({ onOpenBooking }) {
       <section className="py-14 sm:py-20 px-4 sm:px-6 lg:px-8 bg-gray-50/50 dark:bg-black/40 transition-colors">
         <div className="max-w-6xl mx-auto rounded-3xl relative overflow-hidden bg-gradient-to-br from-[#05160d] via-[#072012] to-[#020b06] text-white p-8 sm:p-14 lg:p-16 shadow-2xl border border-safari-500/20">
           
-          {/* Subtle Background Forest Imagery & Ambient Glow */}
+          {/* Crisp Background Forest Imagery */}
           <div 
-            className="absolute inset-0 bg-cover bg-center opacity-25 mix-blend-luminosity scale-105 pointer-events-none"
-            style={{ backgroundImage: `url("${safariImages.mistyDarkPines || safariImages.homeHero}")` }}
+            className="absolute inset-0 bg-cover bg-center opacity-30 pointer-events-none"
+            style={{ backgroundImage: `url("${safariImages.homeHero || safariImages.mistyDarkPines}")` }}
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/80 pointer-events-none" />
-          <div className="absolute -top-32 -left-32 w-80 h-80 rounded-full bg-safari-500/15 blur-3xl pointer-events-none" />
-          <div className="absolute -bottom-32 -right-32 w-80 h-80 rounded-full bg-safari-400/10 blur-3xl pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/55 to-black/75 pointer-events-none" />
 
           {/* Inner Content */}
           <div className="max-w-3xl mx-auto text-center space-y-4 relative z-10">
-
 
             <h2 className="text-2xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-white leading-tight">
               Ready to Answer the Call of the Wild?
@@ -496,7 +493,7 @@ export default function HomePage({ onOpenBooking }) {
               </button>
               <Link
                 to="/contact"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-white/10 hover:bg-white/15 border border-white/20 text-white font-semibold text-sm backdrop-blur-sm active:scale-95 transition duration-200"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-white font-semibold text-sm active:scale-95 transition duration-200"
               >
                 <Phone className="w-4 h-4 text-safari-400" />
                 <span>Contact Ranger Office</span>

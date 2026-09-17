@@ -239,10 +239,6 @@ export default function BlogPage({ onOpenBooking }) {
 
         {/* 5. BOOK YOUR RIDE TODAY CTA CONTAINER */}
         <div className="rounded-3xl bg-gradient-to-br from-safari-900/90 via-safari-dark to-black text-white p-8 sm:p-12 shadow-2xl border border-safari-500/20 relative overflow-hidden">
-          {/* Subtle background glow */}
-          <div className="absolute -right-16 -top-16 w-64 h-64 rounded-full bg-safari-500/10 blur-3xl pointer-events-none" />
-          <div className="absolute -left-16 -bottom-16 w-64 h-64 rounded-full bg-safari-400/10 blur-3xl pointer-events-none" />
-
           <div className="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
             <div className="max-w-2xl space-y-3">
               <h3 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white leading-tight">
