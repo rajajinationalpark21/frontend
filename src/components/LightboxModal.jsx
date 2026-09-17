@@ -42,6 +42,10 @@ export default function LightboxModal({ activePhoto, onClose, onPrev, onNext }) 
             src={activePhoto.src}
             alt={activePhoto.title}
             className="w-full h-full max-h-[75vh] object-contain select-none"
+            onError={(e) => {
+              e.currentTarget.onerror = null;
+              e.currentTarget.src = "https://images.unsplash.com/photo-1561731216-c3a4d99437d5?auto=format&fit=crop&w=1200&q=80";
+            }}
           />
         </div>
 

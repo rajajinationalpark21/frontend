@@ -88,30 +88,10 @@ export default function FeedbackModal({ isOpen, onClose, onFeedbackSubmitted }) 
     };
 
     try {
-      let savedReview = null;
-      try {
-        const res = await submitFeedback(payload);
-        savedReview = res?.feedback;
-      } catch (err) {
-        // Fallback for offline or remote cold-start: construct local review object
-        console.warn('API feedback submission fallback:', err);
-      }
-
-      const finalReview = savedReview || {
-        id: `local-${Date.now()}`,
-        ...payload,
-        isVerified: true,
-        createdAt: new Date().toISOString(),
-      };
-
-      // Save locally to persist across refresh
-      try {
-        const existing = JSON.parse(localStorage.getItem('user_safari_feedbacks') || '[]');
-        localStorage.setItem('user_safari_feedbacks', JSON.stringify([finalReview, ...existing]));
-      } catch {}
+      await submitFeedback(payload);
 
       if (onFeedbackSubmitted) {
-        onFeedbackSubmitted(finalReview);
+        onFeedbackSubmitted();
       }
 
       setIsSuccess(true);
@@ -175,7 +155,7 @@ export default function FeedbackModal({ isOpen, onClose, onFeedbackSubmitted }) 
                 Thank You for Your Feedback!
               </h4>
               <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 max-w-xs mx-auto leading-relaxed">
-                Your experience has been recorded and will inspire upcoming explorers on the Rajaji trails.
+                Your review has been submitted and will appear on the site after moderator approval.
               </p>
             </div>
           ) : (
@@ -314,12 +294,12 @@ export default function FeedbackModal({ isOpen, onClose, onFeedbackSubmitted }) 
                   {isSubmitting ? (
                     <>
                       <Loader2 className="w-4 h-4 animate-spin" />
-                      <span>Publishing...</span>
+                      <span>Submitting...</span>
                     </>
                   ) : (
                     <>
                       <Sparkles className="w-4 h-4" />
-                      <span>Publish Experience</span>
+                      <span>Submit Review</span>
                     </>
                   )}
                 </button>

@@ -5,26 +5,53 @@ import { fetchGallery } from '../api/client';
 import LightboxModal from '../components/LightboxModal';
 import SEO from '../components/SEO';
 
+/**
+ * Smart image optimizer (Option A + Option C hybrid)
+ * Automatically injects Cloudinary WebP/AVIF auto-formatting, compression, and width limits.
+ * Gracefully preserves third-party or local static URLs if Cloudinary is not used.
+ */
+function getOptimizedImageUrl(url) {
+  if (!url || typeof url !== 'string') return url;
+  if (url.includes('res.cloudinary.com') && url.includes('/upload/')) {
+    if (url.includes('/upload/c_') || url.includes('/upload/f_') || url.includes('/upload/w_') || url.includes('/upload/q_')) {
+      return url;
+    }
+    return url.replace('/upload/', '/upload/f_auto,q_auto,w_1400,c_limit/');
+  }
+  return url;
+}
+
 export default function GalleryPage({ onOpenBooking }) {
   const [selectedFilter, setSelectedFilter] = useState('All Photos');
   const [activePhotoIndex, setActivePhotoIndex] = useState(null);
   const [photos, setPhotos] = useState(galleryPhotos);
 
   useEffect(() => {
+    let isMounted = true;
     fetchGallery()
       .then((data) => {
+        if (!isMounted) return;
         const images = data?.data?.images || data?.images;
         if (Array.isArray(images) && images.length > 0) {
-          setPhotos(images.map((img, i) => ({
-            id: img._id || i,
-            title: img.title || img.name || 'Untitled',
-            category: img.category || 'Wildlife',
-            src: img.url || img.src,
-            desc: img.description || img.desc || '',
-          })));
+          const apiPhotos = images
+            .filter((img) => img && (img.url || img.src))
+            .map((img, i) => ({
+              id: img._id || `api-img-${i}`,
+              title: img.title?.trim() || 'Wilderness Capture',
+              category: img.category?.trim() || 'Wildlife',
+              src: img.url || img.src,
+              desc: img.description?.trim() || img.desc?.trim() || 'Captured inside Rajaji Tiger Reserve habitat.',
+            }));
+          // As soon as the backend sends live data, dynamic items fully take over and static fallbacks vanish
+          setPhotos(apiPhotos);
         }
       })
-      .catch(() => {});
+      .catch((err) => {
+        console.warn('Gallery live API unavailable, using offline gallery cache:', err);
+      });
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   const gallerySchema = {
@@ -38,11 +65,13 @@ export default function GalleryPage({ onOpenBooking }) {
   const filterTabs = ['All Photos', 'Wildlife', 'Nature', 'Vehicles', 'Visitors'];
 
   const filteredPhotos = photos.filter((photo) => {
+    if (!photo || !photo.src) return false;
     if (selectedFilter === 'All Photos') return true;
-    return photo.category === selectedFilter;
+    return photo.category?.toLowerCase() === selectedFilter.toLowerCase();
   });
 
   const handlePrev = () => {
+    if (filteredPhotos.length === 0) return;
     if (activePhotoIndex > 0) {
       setActivePhotoIndex(activePhotoIndex - 1);
     } else {
@@ -51,6 +80,7 @@ export default function GalleryPage({ onOpenBooking }) {
   };
 
   const handleNext = () => {
+    if (filteredPhotos.length === 0) return;
     if (activePhotoIndex < filteredPhotos.length - 1) {
       setActivePhotoIndex(activePhotoIndex + 1);
     } else {
@@ -94,7 +124,10 @@ export default function GalleryPage({ onOpenBooking }) {
               {filterTabs.map((tab) => (
                 <button
                   key={tab}
-                  onClick={() => setSelectedFilter(tab)}
+                  onClick={() => {
+                    setSelectedFilter(tab);
+                    setActivePhotoIndex(null);
+                  }}
                   className={`px-4 sm:px-5 py-2 text-xs font-semibold rounded-full whitespace-nowrap transition duration-200 active:scale-95 ${
                     selectedFilter === tab
                       ? 'bg-safari-500 text-white shadow-md'
@@ -109,27 +142,37 @@ export default function GalleryPage({ onOpenBooking }) {
         </div>
       </section>
 
-      {/* 2. 3x3 IMAGE GRID */}
+      {/* 2. DYNAMIC MASONRY GALLERY */}
       <section className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 [column-fill:_balance]">
           {filteredPhotos.map((photo, idx) => (
             <div
               key={photo.id}
               onClick={() => setActivePhotoIndex(idx)}
-              className="relative aspect-square rounded-4xl overflow-hidden shadow-sm hover:shadow-2xl transition duration-500 group cursor-pointer bg-gray-100"
+              className="break-inside-avoid mb-6 relative rounded-3xl overflow-hidden shadow-sm hover:shadow-2xl transition duration-500 group cursor-pointer bg-gray-100 dark:bg-gray-900 border border-gray-200/60 dark:border-gray-800/80"
             >
               <img
-                src={photo.src}
+                src={getOptimizedImageUrl(photo.src)}
                 alt={photo.title}
-                className="w-full h-full object-cover group-hover:scale-105 transition duration-700"
+                loading="lazy"
+                className="w-full h-auto block object-cover group-hover:scale-[1.03] transition duration-700"
+                onError={(e) => {
+                  e.currentTarget.onerror = null;
+                  e.currentTarget.src = safariImages.tigerStalking;
+                }}
               />
 
               {/* Hover Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition duration-300 flex flex-col justify-end p-6 text-white">
+              <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition duration-300 flex flex-col justify-end p-6 text-white">
                 <span className="text-[10px] uppercase font-bold tracking-wider text-safari-400 mb-1">
                   {photo.category}
                 </span>
                 <h4 className="text-lg font-bold">{photo.title}</h4>
+                {photo.desc && (
+                  <p className="text-xs text-gray-200 mt-1 line-clamp-2 leading-relaxed">
+                    {photo.desc}
+                  </p>
+                )}
                 <div className="flex items-center gap-1.5 text-xs text-gray-300 mt-2">
                   <Eye className="w-3.5 h-3.5 text-safari-400" /> Click to view full preview
                 </div>

@@ -163,6 +163,8 @@ export default function BlogPostPage() {
             image: blog.image || safariImages.tigerEye,
             excerpt: blog.summary || '',
             content: blog.content || '',
+            quote: blog.quote || '',
+            quoteAuthor: blog.quoteAuthor || '',
           };
           setArticle(fetchedArticle);
 
@@ -337,15 +339,19 @@ export default function BlogPostPage() {
             </div>
           )}
 
-          {/* Pull Quote */}
-          <div className="my-6 p-4 sm:p-5 bg-gray-50 dark:bg-gray-900 border-l-4 border-safari-500 rounded-r-2xl">
-            <p className="text-sm sm:text-base italic text-gray-900 dark:text-white leading-snug">
-              "The wild does not yield its secrets to haste. In the silence between our footsteps, the real jungle reveals itself."
-            </p>
-            <span className="block text-[11px] font-bold text-safari-600 dark:text-safari-400 mt-1.5 uppercase tracking-wider">
-              - Senior Forest Ranger Field Notes
-            </span>
-          </div>
+          {/* Dynamic Optional Pull Quote */}
+          {article.quote && article.quote.trim() && (
+            <div className="my-6 p-4 sm:p-5 bg-gray-50 dark:bg-gray-900 border-l-4 border-safari-500 rounded-r-2xl">
+              <p className="text-sm sm:text-base italic text-gray-900 dark:text-white leading-snug">
+                "{article.quote.trim().replace(/^["']|["']$/g, '')}"
+              </p>
+              {article.quoteAuthor && article.quoteAuthor.trim() && (
+                <span className="block text-[11px] font-bold text-safari-600 dark:text-safari-400 mt-1.5 uppercase tracking-wider">
+                  - {article.quoteAuthor.trim()}
+                </span>
+              )}
+            </div>
+          )}
         </article>
 
         {/* Share & Actions Bar */}

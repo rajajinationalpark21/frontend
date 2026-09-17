@@ -129,7 +129,9 @@ Forest rangers listen closely to the language of the jungle. Sambar deer issue a
 
 Early morning shifts (6:00 AM – 9:00 AM) and twilight evening safaris (3:30 PM – 6:00 PM) offer peak activity windows. Chilla Range and the buffer trails near Motichur offer frequent sightings, especially around natural mineral licks and waterholes during dry summer months.
 
-Always maintain complete silence in safari vehicles. Modern eco-tourism practices urge travellers to keep engine noise to zero during sightings, ensuring the natural wildlife corridors remain undisturbed.`
+Always maintain complete silence in safari vehicles. Modern eco-tourism practices urge travellers to keep engine noise to zero during sightings, ensuring the natural wildlife corridors remain undisturbed.`,
+    quote: "The wild does not yield its secrets to haste. In the silence between our footsteps, the real jungle reveals itself.",
+    quoteAuthor: "Senior Forest Ranger Field Notes"
   },
   {
     id: "symphony-of-canopy",
