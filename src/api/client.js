@@ -60,3 +60,10 @@ export function submitFeedback(data) {
   });
 }
 
+export function submitBooking(data) {
+  return request("booking/submit", {
+    method: "POST",
+    body: JSON.stringify(data),
+  });
+}
+

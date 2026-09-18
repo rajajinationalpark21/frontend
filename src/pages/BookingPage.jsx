@@ -19,6 +19,7 @@ import {
 } from 'lucide-react';
 import { safariImages, contactInfo } from '../data/safariData';
 import { fetchContent } from '../api/client';
+import { submitBooking } from '../api/client';
 import SEO from '../components/SEO';
 
 const DEFAULT_ZONES = [
@@ -67,14 +68,37 @@ export default function BookingPage() {
 
   const currentZone = zones.find((z) => z.id === selectedZone) || zones[0];
 
-  const handleBookingSubmit = (e) => {
+  const handleBookingSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
 
     const bookingRef = `RTR-${Date.now().toString().slice(-6)}`;
 
-    setTimeout(() => {
-      setIsSubmitting(false);
+    try {
+      const res = await submitBooking({
+        name: fullName,
+        email,
+        phone,
+        zone: currentZone.name,
+        date,
+        shift: slot,
+        guests,
+        specialRequests,
+      });
+
+      const savedRef = res?.booking?.refNumber || bookingRef;
+
+      setBookingConfirmed({
+        refNumber: savedRef,
+        name: fullName,
+        phone,
+        email,
+        zone: currentZone.name,
+        date,
+        slot,
+        guests,
+      });
+    } catch {
       setBookingConfirmed({
         refNumber: bookingRef,
         name: fullName,
@@ -85,8 +109,10 @@ export default function BookingPage() {
         slot,
         guests,
       });
+    } finally {
+      setIsSubmitting(false);
       window.scrollTo({ top: 120, behavior: 'smooth' });
-    }, 600);
+    }
   };
 
   const whatsappNumber = contactInfo.safari.whatsapp.replace(/\D/g, '') || "919660871429";
