@@ -353,72 +353,83 @@ export const journeyMilestones = [
 export const faqs = [
   {
     question: "What is the best season to visit Rajaji National Park?",
-    answer: "The park is open from 15th November to 15th June. October through May offers the highest visibility for big cats and migratory birds around riverbanks and watering holes."
+    answer: "The main park is open from 15th November to 15th June. Gohari Range remains open year-round except during August and September. Winter through summer offers the highest visibility for big cats, elephants, and migratory birds."
   },
   {
     question: "How do I book a safari permit?",
-    answer: "Permits are strictly capped per day to protect the wildlife habitat. Contact us at +91-9660871429 or WhatsApp to book your permit at least 14 days in advance."
+    answer: "Permits are strictly capped per day by the Forest Department. Contact us at +91 98298 50501 or WhatsApp (+91 98298 50501 / +91 93765 91390 / +91 99829 07130) to secure your preferred date and safari zone in advance."
   },
   {
     question: "What should I pack for the safari?",
-    answer: "We recommend dull-colored clothing (khaki, olive green, grey), sturdy hiking boots, sunscreen, binoculars, and a camera. Bright colors like white and red should be avoided."
+    answer: "We recommend natural, dull-colored clothing (khaki, olive green, earthy brown), sturdy footwear, sunscreen, binoculars, and a camera. Bright colors like white and neon red should be avoided."
   },
   {
     question: "Is it safe for children?",
-    answer: "Yes! We have family-friendly tours designed to be safe and educational. Children above 11 years are charged for entry. Always follow the guide's instructions."
+    answer: "Yes! Family-friendly jeep safaris are educational and supervised by authorised Forest Department nature guides. Children above 11 years will be charged the applicable park entry fee."
   },
   {
     question: "What are the safari timings?",
-    answer: "Summer: 6:00 AM - 9:00 AM and 3:00 PM - 6:00 PM. Winter: 7:00 AM - 10:00 AM and 2:30 PM - 5:30 PM. Two shifts daily, each approximately 3 hours."
+    answer: "15 Nov – 15 Feb: 6:30 AM – 8:00 AM (Morning) & 1:30 PM – 3:00 PM (Afternoon). 16 Feb – 15 Apr: 6:00 AM – 7:30 AM & 2:00 PM – 3:30 PM. 16 Apr – 15 Jun: 5:30 AM – 7:00 AM & 3:00 PM – 4:30 PM. Arrive at least 20 minutes prior."
   },
   {
     question: "Is there an elephant ride option?",
-    answer: "No, elephant rides are not offered at Rajaji National Park. We focus on jeep safaris, bird watching, trekking, and rafting as sustainable tourism activities."
+    answer: "Elephant rides may be available during early morning shifts at designated gates subject to Forest Department availability (approx. ₹1,200 – ₹1,500 for Indian visitors; confirm at gate for foreigners). Jeep safaris are the primary exploration activity."
   }
 ];
 
 export const ticketPrices = {
   indians: {
-    entranceFee: 200,
-    roadFee: 300,
+    entranceFee: 150,
+    roadFee: 250,
     stillCamera: "Free",
-    movieCamera: 2500,
+    movieCamera: 500,
   },
   foreigners: {
-    entranceFee: 800,
+    entranceFee: 600,
     roadFee: 500,
-    stillCamera: 50,
-    movieCamera: 5000,
+    stillCamera: "Free",
+    movieCamera: 1500,
   },
   gypsy: {
     chila: 3500,
+    ranipur: 3500,
+    mohand: 3500,
     motichur: 3500,
     jhilmil: 3500,
-    gohari: 3800,
+    gohari: 3500,
   },
 };
 
 export const contactInfo = {
-  address: "5/1 Ansari Road, Dehradun, Uttarakhand 248001",
-  phone: "0135-2621669",
-  fax: "0135-2621669",
-  deputyDirector: "0133-425193",
-  rangeOffice: "01382-266757",
+  address: "Chilla Jungle Safari Gate, Haridwar and Rishikesh, Uttarakhand-249306",
+  phone: "+91 98298 50501",
+  secondaryPhone: "+91 93765 91390",
+  tertiaryPhone: "+91 99829 07130",
+  whatsapp: "+91 98298 50501",
+  email: "jeepsafarirajajinationalpark@gmail.com",
   safari: {
-    name: "Kinshuk Kulshreshtha",
-    phone: "+91-9660871429",
-    whatsapp: "+91-9660871429",
+    name: "Dr. Chaturbhuj / Safari Desk",
+    phone: "+91 98298 50501",
+    whatsapp: "+91 98298 50501",
   },
   wildlife: {
-    name: "Manoj Kulshreshtha",
-    phone: "+91-9314880887",
+    name: "Veeru / Wildlife Coordinator",
+    phone: "+91 93765 91390",
   },
-  trekking: {
-    name: "Dr. Smita",
-    phone: "+91-9024140441",
+  support: {
+    name: "Helpdesk",
+    phone: "+91 99829 07130",
   },
-  email: "wildbrookrajaji@gmail.com",
-  safariEmail: "ecotales25@gmail.com",
+  social: {
+    youtube: "https://www.youtube.com/user/viru644",
+    instagram: "http://instagram.com/rajaji_national_park_veeru",
+    facebook: "https://facebook.com",
+    twitter: "https://twitter.com",
+  },
+  footerBrand: {
+    title: "RAJAJI NATIONAL PARK – SAFARI BOOKING",
+    desc: "Book your Rajaji National Park Safari across the Chilla, Motichur, Ranipur, Jhilmil Jheel, Mohand and Gohari zones with easy online booking and quick confirmation.",
+  },
 };
 
 export const visitorFeedbacks = [
@@ -482,5 +493,162 @@ export const visitorFeedbacks = [
     comment: "Rajaji has an untouched, authentic jungle rhythm compared to crowded commercial parks. Highly recommend booking the early morning slot. The biodiversity in the foothills of Uttarakhand is unmatched.",
     isVerified: true
   }
+];
+
+export const safariZonesList = [
+  {
+    slug: "chilla-jeep-safari",
+    name: "Chilla Range",
+    tag: "Core Zone – Asian Elephants & Tiger Territory",
+    entryGate: "Chilla Gate (Near Haridwar & Rishikesh)",
+    gypsyCost: "₹3,500 per Gypsy (Up to 6 persons)",
+    duration: "Approx. 2.5 to 3 Hours",
+    routeKm: "Approx. 36 km Circuit",
+    openSeason: "15 November to 15 June",
+    timings: "Morning: 6:00 AM – 8:00 AM | Afternoon: 1:30 PM – 4:30 PM",
+    description: "Chilla Range is the most famous and popular core safari area of Rajaji Tiger Reserve. Spanning diverse Sal forests, open grasslands, and riverbeds along the Ganges, Chilla offers the highest probability of spotting wild Asian Elephants, Bengal Tigers, Leopards, Spotted Deer, and Sambars. The safari features scenic halts at Mundal and Ghasiram watchtowers overlooking sprawling riverbanks.",
+    landscape: "Riverine plains, dense Sal forest canopies, open grasslands, and seasonal riverbeds (raos).",
+    highlights: [
+      "Mundal & Ghasiram watchtower viewpoints",
+      "Prime elephant migration corridor",
+      "Chilla canal and Ganga riverbed panorama",
+      "Rich birdlife including Great Hornbill and Crested Kingfisher",
+    ],
+    wildlife: ["Bengal Tiger", "Asian Elephant", "Leopard", "Spotted Deer (Chital)", "Sambar", "Wild Boar", "Peafowl", "Hornbill"],
+    seoTitle: "Chilla Jeep Safari | Chilla Range – Rajaji National Park",
+    metaDescription: "Book Chilla Jeep Safari in Rajaji Tiger Reserve. Explore Asian Elephant corridors, Bengal Tiger habitats, grasslands, and scenic watchtowers near Haridwar and Rishikesh.",
+  },
+  {
+    slug: "ranipur-gate-jeep-safari",
+    name: "Haridwar Zone / Ranipur Gate",
+    tag: "Prime Leopard Safari Closest to Haridwar",
+    entryGate: "Ranipur Gate (Near BHEL Township, Haridwar)",
+    gypsyCost: "₹3,500 per Gypsy (Up to 6 persons)",
+    duration: "Approx. 2 Hours",
+    routeKm: "Approx. 25 km Safari Route",
+    openSeason: "15 November to 15 June",
+    timings: "Morning: 6:00 AM – 8:00 AM | Afternoon: 1:30 PM – 4:30 PM",
+    description: "Ranipur Gate is the nearest safari gate to Haridwar city (approx. 9 km from Haridwar Railway Station). Known as a premier Leopard safari zone, Ranipur traverses undulating Shivalik hills, dry deciduous forest tracks, and seasonal gravel stream beds. It is ideal for visitors staying in Haridwar looking for a convenient morning or evening wildlife safari.",
+    landscape: "Shivalik foothills, dry mixed deciduous forests, pebble riverbeds, and small scenic ridges.",
+    highlights: [
+      "Closest gate to Haridwar Railway Station (9 km)",
+      "Famous for Leopard tracking and nocturnal predator sightings",
+      "Undulating terrain with seasonal river crossings",
+      "Excellent birdwatching along forest streams",
+    ],
+    wildlife: ["Leopard", "Spotted Deer", "Barking Deer", "Wild Boar", "Sambar", "Langur", "Peafowl", "Jungle Fowl"],
+    seoTitle: "Rajaji National Park Jeep Safari | Ranipur Gate, Haridwar",
+    metaDescription: "Experience Rajaji Jeep Safari from Ranipur Gate near Haridwar. High leopard encounter rates, picturesque Shivalik foothills, and convenient city access.",
+  },
+  {
+    slug: "chillawali-jeep-safari",
+    name: "Chillawali Zone / Mohand Gate",
+    tag: "Peaceful Forest & Leopard Safari on Dehradun Highway",
+    entryGate: "Mohand Gate (Dehradun – Saharanpur Highway)",
+    gypsyCost: "₹3,500 per Gypsy (Up to 6 persons)",
+    duration: "Approx. 2.5 Hours",
+    routeKm: "Approx. 22 km Route",
+    openSeason: "15 November to 15 June",
+    timings: "Morning: 6:00 AM – 8:00 AM | Afternoon: 1:30 PM – 4:30 PM",
+    description: "Accessed via Mohand Gate on the Dehradun–Saharanpur highway, Chillawali Zone offers an uncrowded, tranquil wilderness experience. Characterized by steep sandstone cliffs, dry deciduous trees, and lush ravines, Chillawali is a renowned stronghold for Leopards, Barking Deer, and diverse raptors.",
+    landscape: "Rugged Shivalik gorges, mixed deciduous woods, and quiet dry river washes.",
+    highlights: [
+      "Tranquil and uncrowded safari experience",
+      "High leopard density and steep gorge lookouts",
+      "Convenient access for travellers arriving from Dehradun or Delhi via Saharanpur",
+      "Spectacular geology of the Shivalik rock formations",
+    ],
+    wildlife: ["Leopard", "Barking Deer (Kakar)", "Asian Elephant", "Wild Boar", "Rhesus Macaque", "Crested Serpent Eagle"],
+    seoTitle: "Chillawali Jeep Safari | Mohand Gate Leopard Safari – Rajaji",
+    metaDescription: "Book Chillawali Jeep Safari through Mohand Gate. Enjoy a secluded wildlife safari with leopards, elephants, and breathtaking Shivalik gorges.",
+  },
+  {
+    slug: "motichur-jeep-safari",
+    name: "Motichur Safari Zone",
+    tag: "Historic Wildlife Sanctuary & Ancient Sal Forest",
+    entryGate: "Motichur Gate (Raiwala, Haridwar-Rishikesh Highway)",
+    gypsyCost: "₹3,500 per Gypsy (Up to 6 persons)",
+    duration: "Approx. 2.5 to 3 Hours",
+    routeKm: "Approx. 25 km Circuit",
+    openSeason: "15 November to 15 June",
+    timings: "Morning: 6:00 AM – 8:00 AM | Afternoon: 1:30 PM – 4:30 PM",
+    description: "Motichur was established as a wildlife sanctuary in 1935 before being merged into Rajaji National Park. Situated midway between Haridwar and Rishikesh near Raiwala, Motichur features towering Sal canopies, broad streams, and perennial waterholes. It is an exceptional sanctuary for large Asian Elephant herds, Spotted Deer, and vibrant forest birdlife.",
+    landscape: "Dense primeval Sal forests, riverine riverbeds, and lush seasonal stream valleys.",
+    highlights: [
+      "Centrally located between Haridwar and Rishikesh at Raiwala",
+      "Historic sanctuary with massive century-old Sal trees",
+      "Prime elephant herd gatherings at forest waterholes",
+      "Over 180 recorded avian species including Woodpeckers and Barbets",
+    ],
+    wildlife: ["Asian Elephant", "Spotted Deer", "Sambar", "Wild Boar", "Leopard", "Langur", "Hornbills", "Woodpeckers"],
+    seoTitle: "Motichur Jeep Safari | Motichur Zone – Rajaji National Park",
+    metaDescription: "Book Motichur Jeep Safari in Rajaji Tiger Reserve. Explore ancient Sal forests, Asian Elephant herds, and diverse wildlife midway between Haridwar and Rishikesh.",
+  },
+  {
+    slug: "jhilmil-jheel-safari",
+    name: "Jhilmil Jheel Safari & Conservation Reserve",
+    tag: "Wetland Sanctuary – Only Swamp Deer (Barasingha) Habitat",
+    entryGate: "Jhilmil Gate (Near Haridwar)",
+    gypsyCost: "₹3,500 per Gypsy (Up to 6 persons)",
+    duration: "Approx. 3 Hours",
+    routeKm: "Approx. 20 km Wetland Trail",
+    openSeason: "15 October to 30 June",
+    timings: "15 Oct – 31 Jan: 7:00 AM – 10:00 AM & 2:00 PM – 4:30 PM | 1 Feb – 31 Mar: 6:30 AM – 9:00 AM & 2:30 PM – 4:30 PM | 1 Apr – 30 Jun: 6:00 AM – 9:00 AM & 3:00 PM – 5:00 PM",
+    description: "Jhilmil Jheel is a 3,783-hectare saucershaped wetland and conservation reserve located along the Ganges riverbank in Haridwar district. It is globally famous as the only habitat of the endangered Swamp Deer (Barasingha) in Uttarakhand. With rich marshes, tall grassland, and riverine forests, it is an international hotspot for winter migratory waterfowl and wetland birding.",
+    landscape: "Wetland oxbow marshes, tall riverine elephant grasslands, and mixed moist deciduous forest.",
+    highlights: [
+      "Exclusive home of the endangered Swamp Deer (Barasingha)",
+      "Over 220 species of resident and migratory waterfowl",
+      "Extended safari season: Open from 15 October to 30 June",
+      "Unique wetland ecosystem contrasting with typical Sal hill forests",
+    ],
+    wildlife: ["Swamp Deer (Barasingha)", "Asian Elephant", "Cheetal", "Sambar", "Wild Boar", "Otter", "Migratory Ducks", "Pallas's Fish Eagle"],
+    seoTitle: "Jhilmil Jheel Safari | Rajaji National Park Wildlife & Birdwatching",
+    metaDescription: "Book Jhilmil Jheel Safari near Haridwar. Discover rare Swamp Deer (Barasingha), lush wetlands, tall grasslands, elephants, and migratory birds in Uttarakhand.",
+  },
+  {
+    slug: "gohri-range-safari",
+    name: "Gohri Range Safari",
+    tag: "Year-Round Wilderness Safari & Birding Paradise",
+    entryGate: "Gohri Gate (Near Rishikesh / Vindhyawasini Temple)",
+    gypsyCost: "₹3,500 per Gypsy (Up to 6 persons)",
+    duration: "Approx. 2.5 Hours",
+    routeKm: "Approx. 28 km Circuit",
+    openSeason: "Open Year-Round (Closed only in August & September)",
+    timings: "Morning: 6:00 AM – 9:00 AM | Afternoon: 2:00 PM – 5:30 PM",
+    description: "Gohri Range is the buffer landscape of Rajaji Tiger Reserve situated across the river from Rishikesh and Haridwar. Uniquely, Gohri Range remains open for wildlife safaris throughout the year except during the heavy monsoon months of August and September. Its peaceful hill valleys and mountain streams make it a haven for nature lovers and birdwatchers.",
+    landscape: "Shivalik river valleys, foothill scrub, Song river tributaries, and dense buffer woods.",
+    highlights: [
+      "Open year-round (except August & September)",
+      "Closest safari range to Rishikesh yoga centres and river resorts",
+      "Vindhyawasini temple circuit and tranquil river views",
+      "Pristine birding territory with minimal vehicular interference",
+    ],
+    wildlife: ["Leopard", "Asian Elephant", "Spotted Deer", "Barking Deer", "Himalayan Black Bear", "Kingfisher", "Hornbill"],
+    seoTitle: "Gohri Range Jungle Safari | Year-Round Safari Near Rishikesh",
+    metaDescription: "Experience Gohri Range Jungle Safari in Rajaji Tiger Reserve. Open year-round near Rishikesh with magnificent wildlife, elephant trails, and tranquil birding.",
+  },
+  {
+    slug: "chaurasi-kutiya-beatles-ashram",
+    name: "Chaurasi Kutiya – Beatles Ashram",
+    tag: "Historic 1968 Ashram, Meditation Caves & Forest Heritage",
+    entryGate: "Swargashram, Rishikesh (Rajaji Reserve Boundary)",
+    gypsyCost: "Entry Ticket: ₹150 Indian / ₹600 Foreigner (Walking tour)",
+    duration: "2 to 3 Hours Self-Guided / Guided Walk",
+    routeKm: "Sprawling 14-acre forested ashram complex",
+    openSeason: "Open Daily Throughout the Year (10:00 AM – 4:00 PM)",
+    timings: "Daily: 10:00 AM – 4:00 PM",
+    description: "Chaurasi Kutiya, internationally celebrated as the Beatles Ashram, is a legendary spiritual and historical attraction located inside the boundary of Rajaji Tiger Reserve in Rishikesh. In February 1968, the British rock band The Beatles visited this ashram founded by Maharishi Mahesh Yogi to practise Transcendental Meditation, composing over 40 songs here including most of the White Album.",
+    landscape: "Lush forested cliffs overlooking the Ganges, 84 stone meditation huts (kutiyas), lecture halls, and vibrant graffiti murals.",
+    highlights: [
+      "Historical meditation huts (Chaurasi Kutiya) built with natural Ganga stones",
+      "Famous Beatles Cathedral and Ved Bhavan adorned with stunning global murals",
+      "Panoramic river views of the sacred Ganges and Rishikesh valley",
+      "Rare blend of rock music history, transcendental meditation, and tiger reserve wildlife",
+    ],
+    wildlife: ["Hanuman Langur", "Rhesus Macaque", "Peafowl", "Himalayan Bulbul", "Great Barbet", "Butterflies"],
+    seoTitle: "Chaurasi Kutiya – Beatles Ashram | Rishikesh & Rajaji Heritage",
+    metaDescription: "Explore Chaurasi Kutiya (The Beatles Ashram) in Rishikesh at Rajaji National Park. Tour the 84 meditation huts, vibrant graffiti art, and legendary 1968 Beatles history.",
+  },
 ];
 

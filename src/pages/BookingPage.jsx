@@ -52,15 +52,18 @@ export default function BookingPage() {
         const safari = data?.data?.safari || data?.safari;
         if (safari?.zones && safari.zones.length > 0) {
           const mapped = safari.zones.map((z, i) => ({
-            id: `zone-${i}`,
+            id: z.slug || `zone-${i}`,
             name: z.name,
-            tag: z.description ? z.description.substring(0, 40) : 'Safari Zone',
-            distance: '',
-            highlights: z.description || '',
-            gates: '',
-            image: DEFAULT_ZONES[i % DEFAULT_ZONES.length].image,
+            tag: z.tag || 'Safari Zone',
+            distance: z.routeKm || '',
+            highlights: Array.isArray(z.highlights) ? z.highlights.join(', ') : (z.description || ''),
+            gates: z.entryGate || '',
+            image: DEFAULT_ZONES[i % DEFAULT_ZONES.length]?.image || safariImages.chillaRiverbed,
           }));
           setZones(mapped);
+          if (mapped.length > 0 && !selectedZone) {
+            setSelectedZone(mapped[0].id);
+          }
         }
       })
       .catch(() => {});

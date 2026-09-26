@@ -163,10 +163,10 @@ export default function HomePage({ onOpenBooking }) {
               Explore Safari
             </button>
             <Link
-              to="/gallery"
+              to="/zones"
               className="px-6 py-3 rounded-full border-2 border-white/80 hover:border-white text-white font-semibold text-sm hover:bg-white/10 active:scale-95 transition duration-200"
             >
-              View Gallery
+              Explore Safari Zones
             </Link>
           </div>
         </div>
@@ -213,8 +213,8 @@ export default function HomePage({ onOpenBooking }) {
         </div>
       </div>
 
-      {/* 2. THE SANCTUARY LEGACY SECTION */}
-      <section className="pt-20 pb-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* 2. THE SANCTUARY LEGACY (ABOUT RAJAJI) SECTION */}
+      <section id="about-rajaji" className="pt-20 pb-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           {/* Left: Walking Tiger Image with EST badge */}
           <div className="lg:col-span-6 relative">
@@ -234,7 +234,7 @@ export default function HomePage({ onOpenBooking }) {
           {/* Right: Sanctuary Legacy Narrative */}
           <div className="lg:col-span-6 space-y-6">
             <span className="text-xs font-bold tracking-widest text-safari-600 dark:text-safari-400 uppercase">
-              CONSERVATION FIRST
+              ABOUT RAJAJI TIGER RESERVE
             </span>
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-gray-900 dark:text-white tracking-tight">
               {content.aboutTitle || "The Sanctuary Legacy"}
@@ -267,10 +267,10 @@ export default function HomePage({ onOpenBooking }) {
             {/* Link */}
             <div className="pt-2">
               <Link
-                to="/about"
+                to="/wildlife"
                 className="inline-flex items-center gap-2 font-bold text-gray-900 dark:text-white hover:text-safari-600 dark:hover:text-safari-400 transition group text-sm sm:text-base"
               >
-                Read Our Story
+                Explore Wildlife & Biodiversity
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition" />
               </Link>
             </div>
@@ -292,10 +292,10 @@ export default function HomePage({ onOpenBooking }) {
               </p>
             </div>
             <Link
-              to="/gallery"
+              to="/wildlife"
               className="inline-flex items-center gap-1.5 text-xs font-bold text-gray-900 dark:text-white hover:text-safari-600 dark:hover:text-safari-400 transition group"
             >
-              View Full Gallery
+              Explore Wildlife Species
               <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition" />
             </Link>
           </div>
