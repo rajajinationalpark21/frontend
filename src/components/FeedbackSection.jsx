@@ -36,13 +36,23 @@ export default function FeedbackSection() {
   const loopItems = [...baseList, ...baseList];
 
   return (
-    <section id="reviews" className="py-16 sm:py-20 bg-gray-50/50 dark:bg-black/30 border-t border-gray-100 dark:border-gray-800 transition-colors overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
+    <section id="reviews" className="py-20 bg-[#f7f5ed]/90 dark:bg-[#08110a]/80 border-t border-emerald-900/10 dark:border-emerald-900/40 transition-colors overflow-hidden relative">
+      {/* Subtle Botanical Leaf Texture */}
+      <div 
+        className="absolute inset-0 opacity-[0.035] pointer-events-none pattern-leaf-delicate"
+      />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10 relative z-10">
 
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-gray-950 dark:text-white tracking-tight">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-200 dark:border-emerald-900/40 mb-3">
+              <span className="text-[11px] font-bold tracking-widest text-emerald-700 dark:text-emerald-400 uppercase">
+                VISITOR VOICES
+              </span>
+            </div>
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-950 dark:text-white tracking-tight font-serif">
               Stories & Ratings from the Trail
             </h2>
             <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 max-w-xl mt-2 leading-relaxed">
@@ -53,7 +63,7 @@ export default function FeedbackSection() {
           <div className="flex items-center gap-3.5 shrink-0">
             <button
               onClick={() => setIsModalOpen(true)}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-safari-500 hover:bg-safari-600 active:scale-95 text-white font-bold text-xs sm:text-sm shadow-md hover:shadow-lg transition duration-200 cursor-pointer"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-safari-500 hover:bg-safari-400 active:scale-95 text-white font-bold text-xs sm:text-sm shadow-md hover:shadow-lg transition duration-200 cursor-pointer"
             >
               <PlusCircle className="w-4 h-4" />
               <span>Share Your Experience</span>
@@ -75,8 +85,8 @@ export default function FeedbackSection() {
         </div>
       ) : (
         <div className="relative w-full overflow-hidden py-2 group">
-          <div className="absolute left-0 top-0 bottom-0 w-16 sm:w-28 bg-gradient-to-r from-gray-50/95 dark:from-[#090e0b]/95 to-transparent z-10 pointer-events-none" />
-          <div className="absolute right-0 top-0 bottom-0 w-16 sm:w-28 bg-gradient-to-l from-gray-50/95 dark:from-[#090e0b]/95 to-transparent z-10 pointer-events-none" />
+          <div className="absolute left-0 top-0 bottom-0 w-16 sm:w-28 bg-gradient-to-r from-[#f7f5ed] dark:from-[#08110a] to-transparent z-10 pointer-events-none" />
+          <div className="absolute right-0 top-0 bottom-0 w-16 sm:w-28 bg-gradient-to-l from-[#f7f5ed] dark:from-[#08110a] to-transparent z-10 pointer-events-none" />
 
           <div className="animate-marquee-ltr gap-6 flex items-stretch py-3 pl-4">
             {loopItems.map((item, idx) => {
@@ -85,7 +95,7 @@ export default function FeedbackSection() {
               return (
                 <div
                   key={`${item._id || item.id || idx}-${idx}`}
-                  className="w-[300px] sm:w-[360px] shrink-0 bg-white dark:bg-gray-900 rounded-2xl p-6 border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-xl hover:border-safari-500/30 transition-all duration-300 flex flex-col justify-between select-none"
+                  className="w-[300px] sm:w-[360px] shrink-0 bg-[#fdfcf8]/90 dark:bg-[#0c1f13]/90 backdrop-blur-md rounded-2xl p-6 border border-emerald-900/15 dark:border-emerald-800/40 shadow-sm hover:shadow-xl hover:border-safari-500/30 transition-all duration-300 flex flex-col justify-between select-none"
                 >
                   <div>
                     <div className="flex items-center justify-between gap-2 mb-3">

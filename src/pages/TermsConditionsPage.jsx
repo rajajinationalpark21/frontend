@@ -105,7 +105,10 @@ export default function TermsConditionsPage() {
   const whatsappUrl = `https://wa.me/${phone.replace(/\D/g, '')}?text=${encodeURIComponent("Hello! I have a question regarding Rajaji safari booking terms and cancellation policy.")}`;
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-950 transition-colors">
+    <div className="relative min-h-screen bg-[#f7f5ed] dark:bg-[#07120a] transition-colors">
+      {/* Delicate tactile ambient leaf texture */}
+      <div className="pattern-leaf-delicate pointer-events-none z-0" aria-hidden="true" />
+
       <SEO
         title="Rajaji Jeep Safari Terms & Conditions, Cancellation & Refund Policy"
         description="Read official Rajaji National Park Jeep Safari terms and conditions, cancellation policy, refund rules, gate arrival guidelines, and visitor regulations."
@@ -113,22 +116,47 @@ export default function TermsConditionsPage() {
         ogImage={safariImages.safariJeepTrail}
       />
 
-      {/* Hero Header */}
-      <section className="relative py-20 lg:py-24 bg-zinc-950 text-white overflow-hidden">
+      {/* Hero Header with Inverted Tiger & Leaf Watermark Overlay */}
+      <section className="relative py-24 bg-[#07150c] text-white overflow-hidden border-b border-emerald-950/60">
         <div className="absolute inset-0 z-0">
-          <img src={safariImages.safariJeepTrail} alt="Safari terms" className="w-full h-full object-cover opacity-30" />
-          <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/70 to-transparent" />
+          <img src={safariImages.safariJeepTrail} alt="Safari terms" className="w-full h-full object-cover opacity-25 scale-105" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#07150c] via-[#07150c]/90 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#07150c] via-transparent to-[#07150c]/70" />
         </div>
+
+        {/* Tiger Watermark in forest shadow */}
+        <div
+          className="absolute right-0 bottom-0 top-0 w-full sm:w-2/3 pointer-events-none z-[1] bg-no-repeat bg-right-bottom bg-contain opacity-[0.14]"
+          style={{
+            backgroundImage: `url('${safariImages.tigerBgOverlay}')`,
+            filter: 'invert(1)',
+            mixBlendMode: 'screen',
+          }}
+          aria-hidden="true"
+        />
+
+        {/* Corner Leaf Foliage Overlay */}
+        <div
+          className="absolute -top-16 -left-16 w-80 h-80 pointer-events-none z-[1] bg-no-repeat bg-contain opacity-20"
+          style={{
+            backgroundImage: `url('${safariImages.leafCta}')`,
+            filter: 'invert(1)',
+            mixBlendMode: 'screen',
+          }}
+          aria-hidden="true"
+        />
+
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl space-y-4">
-            <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-safari-500/20 text-safari-300 text-xs font-bold uppercase tracking-wider border border-safari-400/30">
-              <FileText className="w-3.5 h-3.5" />
-              Visitor Guidelines
+            <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-950/80 border border-emerald-500/30 text-emerald-300 text-xs font-semibold uppercase tracking-widest backdrop-blur-md">
+              <FileText className="w-3.5 h-3.5 text-emerald-400" />
+              <span>Visitor Guidelines</span>
             </span>
-            <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white leading-tight">
-              Rajaji Jeep Safari Terms & Conditions
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif font-extrabold tracking-tight text-white leading-tight">
+              Rajaji Jeep Safari <br className="hidden sm:block" />
+              <span className="italic font-normal text-emerald-400">Terms & Conditions</span>
             </h1>
-            <p className="text-lg text-gray-300 leading-relaxed">
+            <p className="text-base sm:text-lg text-emerald-100/80 font-light leading-relaxed pt-2">
               Cancellation, Refunds, Gate Arrival Timings & Forest Department Safari Regulations
             </p>
           </div>
@@ -136,15 +164,19 @@ export default function TermsConditionsPage() {
       </section>
 
       {/* Main Policy Content */}
-      <section className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
+      <section className="relative z-10 py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
         
         {/* 8 Core Clauses */}
         <div className="space-y-6">
           <div className="max-w-3xl">
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-900 dark:text-white">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="h-px w-8 bg-emerald-500"></span>
+              <span className="text-xs font-bold tracking-widest text-emerald-700 dark:text-emerald-400 uppercase">Operating Protocols</span>
+            </div>
+            <h2 className="text-2xl sm:text-3xl font-serif font-extrabold text-gray-900 dark:text-emerald-50">
               Safari Terms & Cancellation Policy
             </h2>
-            <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+            <p className="text-sm text-gray-500 dark:text-emerald-100/70 mt-1">
               Please review these mandatory operational conditions before confirming your safari booking.
             </p>
           </div>
@@ -153,17 +185,17 @@ export default function TermsConditionsPage() {
             {policies.map((p, idx) => (
               <div 
                 key={idx}
-                className="bg-white dark:bg-gray-900 rounded-3xl p-6 sm:p-8 border border-gray-200 dark:border-gray-800 shadow-sm space-y-3 flex flex-col justify-start"
+                className="bg-[#fdfcf8]/90 dark:bg-[#0c1f13]/90 backdrop-blur-md rounded-3xl p-6 sm:p-8 border border-emerald-900/15 dark:border-emerald-800/40 shadow-sm space-y-3 flex flex-col justify-start"
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-xl bg-safari-500/10 text-safari-600 dark:text-safari-400 font-extrabold flex items-center justify-center shrink-0">
+                  <div className="w-8 h-8 rounded-xl bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 font-extrabold flex items-center justify-center shrink-0">
                     {p.num || idx + 1}
                   </div>
-                  <h3 className="text-lg font-bold text-gray-900 dark:text-white">
+                  <h3 className="text-lg font-serif font-bold text-gray-900 dark:text-emerald-50">
                     {p.title}
                   </h3>
                 </div>
-                <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed pl-11">
+                <p className="text-sm text-gray-600 dark:text-emerald-100/80 leading-relaxed pl-11 font-light">
                   {p.desc}
                 </p>
               </div>
@@ -211,7 +243,7 @@ export default function TermsConditionsPage() {
         </div>
 
         {/* Contact Help */}
-        <div className="bg-gray-50 dark:bg-gray-900 rounded-3xl p-8 border border-gray-200 dark:border-gray-800 flex flex-col sm:flex-row items-center justify-between gap-6">
+        <div className="bg-[#fdfcf8]/90 dark:bg-[#0c1f13]/90 backdrop-blur-md rounded-3xl p-8 border border-emerald-900/15 dark:border-emerald-800/40 flex flex-col sm:flex-row items-center justify-between gap-6">
           <div className="space-y-1 text-center sm:text-left">
             <h4 className="text-lg font-bold text-gray-900 dark:text-white">
               Questions regarding permits or cancellation policies?

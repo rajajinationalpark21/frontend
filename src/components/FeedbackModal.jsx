@@ -114,11 +114,14 @@ export default function FeedbackModal({ isOpen, onClose, onFeedbackSubmitted }) 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-fadeIn">
       <div 
-        className="relative w-full max-w-lg bg-white dark:bg-gray-900 rounded-3xl shadow-2xl border border-gray-100 dark:border-gray-800 overflow-hidden max-h-[92vh] flex flex-col"
+        className="relative w-full max-w-lg bg-[#fdfcf8] dark:bg-[#0c1f13] rounded-3xl shadow-2xl border border-emerald-900/15 dark:border-emerald-800/40 overflow-hidden max-h-[92vh] flex flex-col"
         onClick={(e) => e.stopPropagation()}
       >
+        {/* Subtle ambient botanical leaf vein texture */}
+        <div className="pattern-leaf-delicate pointer-events-none absolute inset-0 opacity-[0.04] dark:opacity-[0.03] z-0" aria-hidden="true" />
+
         {/* Modal Header */}
-        <div className="relative px-6 pt-6 pb-4 border-b border-gray-100 dark:border-gray-800 bg-gray-50/50 dark:bg-gray-950/40 shrink-0">
+        <div className="relative z-10 px-6 pt-6 pb-4 border-b border-emerald-900/15 dark:border-emerald-800/40 bg-[#f7f5ed]/80 dark:bg-emerald-950/50 shrink-0">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <div className="w-8 h-8 rounded-xl bg-safari-500/10 text-safari-600 dark:text-safari-400 flex items-center justify-center">
@@ -214,7 +217,7 @@ export default function FeedbackModal({ isOpen, onClose, onFeedbackSubmitted }) 
                       onChange={(e) => setName(e.target.value)}
                       placeholder="e.g. Vikramaditya Rathore"
                       required
-                      className="w-full pl-9 pr-3 py-2 text-xs sm:text-sm bg-gray-50 dark:bg-gray-800/60 border border-gray-200 dark:border-gray-700 rounded-xl focus:outline-none focus:border-safari-500 text-gray-900 dark:text-white"
+                      className="w-full pl-9 pr-3 py-2 text-xs sm:text-sm bg-[#f7f5ed]/80 dark:bg-emerald-950/40 border border-emerald-900/15 dark:border-emerald-800/40 rounded-xl focus:outline-none focus:border-safari-500 text-gray-900 dark:text-white"
                     />
                   </div>
                 </div>
@@ -230,7 +233,7 @@ export default function FeedbackModal({ isOpen, onClose, onFeedbackSubmitted }) 
                       value={location}
                       onChange={(e) => setLocation(e.target.value)}
                       placeholder="e.g. Dehradun / New Delhi"
-                      className="w-full pl-9 pr-3 py-2 text-xs sm:text-sm bg-gray-50 dark:bg-gray-800/60 border border-gray-200 dark:border-gray-700 rounded-xl focus:outline-none focus:border-safari-500 text-gray-900 dark:text-white"
+                      className="w-full pl-9 pr-3 py-2 text-xs sm:text-sm bg-[#f7f5ed]/80 dark:bg-emerald-950/40 border border-emerald-900/15 dark:border-emerald-800/40 rounded-xl focus:outline-none focus:border-safari-500 text-gray-900 dark:text-white"
                     />
                   </div>
                 </div>
@@ -246,10 +249,10 @@ export default function FeedbackModal({ isOpen, onClose, onFeedbackSubmitted }) 
                   <select
                     value={zone}
                     onChange={(e) => setZone(e.target.value)}
-                    className="w-full pl-9 pr-3 py-2 text-xs sm:text-sm bg-gray-50 dark:bg-gray-800/60 border border-gray-200 dark:border-gray-700 rounded-xl focus:outline-none focus:border-safari-500 text-gray-900 dark:text-white appearance-none cursor-pointer"
+                    className="w-full pl-9 pr-3 py-2 text-xs sm:text-sm bg-[#f7f5ed]/80 dark:bg-emerald-950/40 border border-emerald-900/15 dark:border-emerald-800/40 rounded-xl focus:outline-none focus:border-safari-500 text-gray-900 dark:text-white appearance-none cursor-pointer"
                   >
                     {ZONES.map((z) => (
-                      <option key={z} value={z} className="bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
+                      <option key={z} value={z} className="bg-[#fdfcf8] dark:bg-gray-900 text-gray-900 dark:text-white">
                         {z}
                       </option>
                     ))}
@@ -273,7 +276,7 @@ export default function FeedbackModal({ isOpen, onClose, onFeedbackSubmitted }) 
                   placeholder="Share details about your safari: wildlife spotted, guide knowledge, landscape impressions, or tips for future visitors..."
                   rows={4}
                   required
-                  className="w-full p-3 text-xs sm:text-sm bg-gray-50 dark:bg-gray-800/60 border border-gray-200 dark:border-gray-700 rounded-xl focus:outline-none focus:border-safari-500 text-gray-900 dark:text-white leading-relaxed resize-none"
+                  className="w-full p-3 text-xs sm:text-sm bg-[#f7f5ed]/80 dark:bg-emerald-950/40 border border-emerald-900/15 dark:border-emerald-800/40 rounded-xl focus:outline-none focus:border-safari-500 text-gray-900 dark:text-white leading-relaxed resize-none"
                 />
               </div>
 

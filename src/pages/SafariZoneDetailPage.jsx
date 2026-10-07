@@ -50,7 +50,10 @@ export default function SafariZoneDetailPage({ onOpenBooking, defaultSlug }) {
   const whatsappUrl = `https://wa.me/${whatsappNum}?text=${encodeURIComponent(`Hello! I would like to book a safari for ${currentZone.name} in Rajaji National Park.`)}`;
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-950 transition-colors">
+    <div className="relative min-h-screen bg-[#faf8f5] dark:bg-[#07120a] transition-colors">
+      {/* Delicate tactile ambient leaf texture */}
+      <div className="pattern-leaf-delicate pointer-events-none z-0" aria-hidden="true" />
+
       <SEO
         title={currentZone.seoTitle || `${currentZone.name} | Rajaji National Park Jeep Safari`}
         description={currentZone.metaDescription || currentZone.description?.substring(0, 160)}
@@ -58,35 +61,58 @@ export default function SafariZoneDetailPage({ onOpenBooking, defaultSlug }) {
         ogImage={safariImages.safariJeepSavannah}
       />
 
-      {/* Hero Header */}
-      <section className="relative py-20 lg:py-28 bg-zinc-950 text-white overflow-hidden">
+      {/* Hero Header with Inverted Tiger & Leaf Watermark Overlay */}
+      <section className="relative py-20 lg:py-28 bg-[#07150c] text-white overflow-hidden border-b border-emerald-950/60">
         <div className="absolute inset-0 z-0">
           <img 
             src={safariImages.safariJeepSavannah} 
             alt={currentZone.name} 
-            className="w-full h-full object-cover opacity-35" 
+            className="w-full h-full object-cover opacity-30 scale-105" 
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/70 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#07150c] via-[#07150c]/90 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#07150c] via-transparent to-[#07150c]/80" />
         </div>
 
+        {/* Tiger Watermark Overlay in forest shadow */}
+        <div
+          className="absolute right-0 bottom-0 top-0 w-full sm:w-2/3 pointer-events-none z-[1] bg-no-repeat bg-right-bottom bg-contain opacity-[0.14]"
+          style={{
+            backgroundImage: `url('${safariImages.tigerBgOverlay}')`,
+            filter: 'invert(1)',
+            mixBlendMode: 'screen',
+          }}
+          aria-hidden="true"
+        />
+
+        {/* Corner Leaf Foliage Overlay */}
+        <div
+          className="absolute -top-16 -left-16 w-80 h-80 pointer-events-none z-[1] bg-no-repeat bg-contain opacity-20"
+          style={{
+            backgroundImage: `url('${safariImages.leafCta}')`,
+            filter: 'invert(1)',
+            mixBlendMode: 'screen',
+          }}
+          aria-hidden="true"
+        />
+
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl space-y-4">
+          <div className="max-w-3xl space-y-5">
             <div className="flex flex-wrap items-center gap-2">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-safari-500/20 text-safari-300 text-xs font-bold uppercase tracking-wider border border-safari-400/30">
-                <Compass className="w-3.5 h-3.5" />
+              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-950/80 text-emerald-300 text-xs font-bold uppercase tracking-wider border border-emerald-500/30 backdrop-blur-md">
+                <Compass className="w-3.5 h-3.5 text-emerald-400" />
                 Rajaji Safari Zone
               </span>
-              <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-white/10 text-white text-xs font-semibold backdrop-blur-sm">
-                <MapPin className="w-3.5 h-3.5" />
+              <span className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-white/10 text-emerald-100 text-xs font-semibold backdrop-blur-sm border border-white/10">
+                <MapPin className="w-3.5 h-3.5 text-amber-400" />
                 {currentZone.entryGate || "Official Park Gate"}
               </span>
             </div>
 
-            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-tight">
+            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-serif font-extrabold tracking-tight text-white leading-tight">
               {currentZone.name}
             </h1>
 
-            <p className="text-lg sm:text-xl text-gray-300 font-medium leading-relaxed">
+            <p className="text-lg sm:text-xl text-emerald-100/80 font-light leading-relaxed">
               {currentZone.tag}
             </p>
 
@@ -94,7 +120,7 @@ export default function SafariZoneDetailPage({ onOpenBooking, defaultSlug }) {
             <div className="flex flex-wrap items-center gap-3 pt-4">
               <button
                 onClick={handleBooking}
-                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-safari-500 hover:bg-safari-600 text-white font-bold text-sm shadow-xl hover:shadow-2xl transition hover:scale-105 active:scale-95"
+                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-gradient-to-r from-emerald-500 to-safari-600 hover:from-emerald-600 hover:to-safari-700 text-white font-bold text-sm shadow-xl shadow-emerald-950/50 hover:shadow-emerald-500/25 transition hover:scale-105 active:scale-95"
               >
                 <Ticket className="w-4 h-4" /> Book {currentZone.name}
               </button>
@@ -112,7 +138,7 @@ export default function SafariZoneDetailPage({ onOpenBooking, defaultSlug }) {
                 href={`tel:${phone.replace(/\s+/g, '')}`}
                 className="inline-flex items-center gap-2 px-5 py-3.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-sm border border-white/15 backdrop-blur-sm transition"
               >
-                <Phone className="w-4 h-4 text-safari-400" /> Call: {phone}
+                <Phone className="w-4 h-4 text-emerald-400" /> Call: {phone}
               </a>
             </div>
           </div>
@@ -120,41 +146,41 @@ export default function SafariZoneDetailPage({ onOpenBooking, defaultSlug }) {
       </section>
 
       {/* Meta Specs Bar */}
-      <section className="bg-gray-50 dark:bg-gray-900 border-y border-gray-200 dark:border-gray-800 py-6">
+      <section className="relative z-10 bg-[#fdfcf8]/90 dark:bg-[#0a1a0f]/90 backdrop-blur-md border-y border-emerald-900/15 py-6">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-sm">
             <div className="space-y-1">
-              <span className="text-xs uppercase font-bold text-gray-500 dark:text-gray-400 flex items-center gap-1.5">
-                <Ticket className="w-3.5 h-3.5 text-safari-500" /> Gypsy Tariff
+              <span className="text-xs uppercase font-bold text-gray-500 dark:text-emerald-400/80 flex items-center gap-1.5 tracking-wider">
+                <Ticket className="w-3.5 h-3.5 text-emerald-500" /> Gypsy Tariff
               </span>
-              <p className="font-extrabold text-gray-900 dark:text-white text-base">
+              <p className="font-serif font-extrabold text-gray-900 dark:text-emerald-50 text-base sm:text-lg">
                 {currentZone.gypsyCost || "₹3,500 per Gypsy"}
               </p>
             </div>
 
             <div className="space-y-1">
-              <span className="text-xs uppercase font-bold text-gray-500 dark:text-gray-400 flex items-center gap-1.5">
-                <Clock className="w-3.5 h-3.5 text-safari-500" /> Duration
+              <span className="text-xs uppercase font-bold text-gray-500 dark:text-emerald-400/80 flex items-center gap-1.5 tracking-wider">
+                <Clock className="w-3.5 h-3.5 text-emerald-500" /> Duration
               </span>
-              <p className="font-extrabold text-gray-900 dark:text-white text-base">
+              <p className="font-serif font-extrabold text-gray-900 dark:text-emerald-50 text-base sm:text-lg">
                 {currentZone.duration || "2.5 – 3 Hours"}
               </p>
             </div>
 
             <div className="space-y-1">
-              <span className="text-xs uppercase font-bold text-gray-500 dark:text-gray-400 flex items-center gap-1.5">
-                <Calendar className="w-3.5 h-3.5 text-safari-500" /> Operating Season
+              <span className="text-xs uppercase font-bold text-gray-500 dark:text-emerald-400/80 flex items-center gap-1.5 tracking-wider">
+                <Calendar className="w-3.5 h-3.5 text-emerald-500" /> Operating Season
               </span>
-              <p className="font-extrabold text-gray-900 dark:text-white text-base">
+              <p className="font-serif font-extrabold text-gray-900 dark:text-emerald-50 text-base sm:text-lg">
                 {currentZone.openSeason || "15 Nov to 15 June"}
               </p>
             </div>
 
             <div className="space-y-1">
-              <span className="text-xs uppercase font-bold text-gray-500 dark:text-gray-400 flex items-center gap-1.5">
-                <ShieldCheck className="w-3.5 h-3.5 text-safari-500" /> Capacity
+              <span className="text-xs uppercase font-bold text-gray-500 dark:text-emerald-400/80 flex items-center gap-1.5 tracking-wider">
+                <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" /> Capacity
               </span>
-              <p className="font-extrabold text-gray-900 dark:text-white text-base">
+              <p className="font-serif font-extrabold text-gray-900 dark:text-emerald-50 text-base sm:text-lg">
                 Up to 6 Persons
               </p>
             </div>
@@ -163,27 +189,31 @@ export default function SafariZoneDetailPage({ onOpenBooking, defaultSlug }) {
       </section>
 
       {/* Main Content Body */}
-      <section className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="relative z-10 py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
           
           {/* Main 2 Columns: Description & Features */}
           <div className="lg:col-span-2 space-y-10">
             
             {/* Overview */}
-            <div className="bg-white dark:bg-gray-900 rounded-3xl p-8 sm:p-10 border border-gray-200 dark:border-gray-800 shadow-sm space-y-6">
-              <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">
+            <div className="bg-[#fdfcf8]/90 dark:bg-[#0c1f13]/90 backdrop-blur-md rounded-3xl p-8 sm:p-10 border border-emerald-900/15 dark:border-emerald-800/40 shadow-sm space-y-6">
+              <div className="flex items-center gap-2">
+                <span className="h-px w-8 bg-emerald-500"></span>
+                <span className="text-xs font-bold tracking-widest text-emerald-700 dark:text-emerald-400 uppercase">Sanctuary Overview</span>
+              </div>
+              <h2 className="text-2xl sm:text-3xl font-serif font-bold text-gray-900 dark:text-emerald-50">
                 About {currentZone.name}
               </h2>
-              <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
+              <p className="text-base sm:text-lg text-gray-600 dark:text-emerald-100/80 leading-relaxed font-light">
                 {currentZone.description}
               </p>
 
               {currentZone.landscape && (
-                <div className="pt-4 border-t border-gray-100 dark:border-gray-800">
-                  <h3 className="text-sm font-bold uppercase tracking-wider text-gray-900 dark:text-white mb-2">
+                <div className="pt-6 border-t border-emerald-900/10 dark:border-emerald-800/40">
+                  <h3 className="text-xs font-bold uppercase tracking-widest text-emerald-800 dark:text-emerald-400 mb-2">
                     Landscape & Terrain
                   </h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                  <p className="text-sm text-gray-600 dark:text-emerald-100/70 leading-relaxed">
                     {currentZone.landscape}
                   </p>
                 </div>
@@ -192,18 +222,18 @@ export default function SafariZoneDetailPage({ onOpenBooking, defaultSlug }) {
 
             {/* Highlights */}
             {currentZone.highlights && currentZone.highlights.length > 0 && (
-              <div className="bg-white dark:bg-gray-900 rounded-3xl p-8 sm:p-10 border border-gray-200 dark:border-gray-800 shadow-sm space-y-6">
-                <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
-                  <Sparkles className="w-5 h-5 text-safari-500" />
+              <div className="bg-[#fdfcf8]/90 dark:bg-[#0c1f13]/90 backdrop-blur-md rounded-3xl p-8 sm:p-10 border border-emerald-900/15 dark:border-emerald-800/40 shadow-sm space-y-6">
+                <h2 className="text-xl sm:text-2xl font-serif font-bold text-gray-900 dark:text-emerald-50 flex items-center gap-2">
+                  <Sparkles className="w-5 h-5 text-amber-500" />
                   Key Safari Highlights
                 </h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {currentZone.highlights.map((item, idx) => (
-                    <div key={idx} className="flex items-start gap-3 p-3.5 rounded-2xl bg-gray-50 dark:bg-gray-800/60 border border-gray-100 dark:border-gray-800">
-                      <div className="w-6 h-6 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0 mt-0.5">
+                    <div key={idx} className="flex items-start gap-3 p-4 rounded-2xl bg-emerald-50/50 dark:bg-[#07150c]/60 border border-emerald-900/10 dark:border-emerald-800/30">
+                      <div className="w-6 h-6 rounded-full bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0 mt-0.5">
                         <Check className="w-3.5 h-3.5 stroke-[3]" />
                       </div>
-                      <span className="text-sm font-semibold text-gray-800 dark:text-gray-200">
+                      <span className="text-sm font-semibold text-gray-800 dark:text-emerald-100/90">
                         {item}
                       </span>
                     </div>
@@ -214,61 +244,61 @@ export default function SafariZoneDetailPage({ onOpenBooking, defaultSlug }) {
 
             {/* Wildlife Sightings */}
             {currentZone.wildlife && currentZone.wildlife.length > 0 && (
-              <div className="bg-white dark:bg-gray-900 rounded-3xl p-8 sm:p-10 border border-gray-200 dark:border-gray-800 shadow-sm space-y-6">
-                <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">
+              <div className="bg-[#fdfcf8]/90 dark:bg-[#0c1f13]/90 backdrop-blur-md rounded-3xl p-8 sm:p-10 border border-emerald-900/15 dark:border-emerald-800/40 shadow-sm space-y-6">
+                <h2 className="text-xl sm:text-2xl font-serif font-bold text-gray-900 dark:text-emerald-50">
                   Wildlife You May Encounter
                 </h2>
                 <div className="flex flex-wrap gap-2.5">
                   {currentZone.wildlife.map((animal, idx) => (
                     <span 
                       key={idx}
-                      className="px-4 py-2 rounded-xl bg-safari-50 dark:bg-safari-950/40 text-safari-800 dark:text-safari-300 text-sm font-semibold border border-safari-200/60 dark:border-safari-800/50"
+                      className="px-4 py-2 rounded-xl bg-emerald-50/80 dark:bg-emerald-950/40 text-emerald-900 dark:text-emerald-300 text-sm font-semibold border border-emerald-200/60 dark:border-emerald-800/50"
                     >
                       {animal}
                     </span>
                   ))}
                 </div>
-                <p className="text-xs text-gray-500 dark:text-gray-400 italic pt-2">
+                <p className="text-xs text-gray-500 dark:text-emerald-400/60 italic pt-2">
                   * Note: Wildlife encounters are natural events and cannot be guaranteed. Every safari offers a unique window into the Himalayan foothill ecosystem.
                 </p>
               </div>
             )}
 
             {/* Shift Timings */}
-            <div className="bg-white dark:bg-gray-900 rounded-3xl p-8 sm:p-10 border border-gray-200 dark:border-gray-800 shadow-sm space-y-6">
-              <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
-                <Clock className="w-5 h-5 text-safari-500" />
+            <div className="bg-[#fdfcf8]/90 dark:bg-[#0c1f13]/90 backdrop-blur-md rounded-3xl p-8 sm:p-10 border border-emerald-900/15 dark:border-emerald-800/40 shadow-sm space-y-6">
+              <h2 className="text-xl sm:text-2xl font-serif font-bold text-gray-900 dark:text-emerald-50 flex items-center gap-2">
+                <Clock className="w-5 h-5 text-emerald-500" />
                 Jeep Safari Entry Timings
               </h2>
               <div className="overflow-x-auto">
                 <table className="w-full text-left text-sm">
-                  <thead className="bg-gray-100/75 dark:bg-gray-800/80 text-gray-700 dark:text-gray-300 font-semibold text-xs uppercase tracking-wider">
+                  <thead className="bg-emerald-50/80 dark:bg-emerald-950/60 text-emerald-900 dark:text-emerald-300 font-semibold text-xs uppercase tracking-wider border-b border-emerald-900/15">
                     <tr>
                       <th className="px-5 py-3 rounded-l-xl">Season / Period</th>
                       <th className="px-5 py-3">Morning Entry</th>
                       <th className="px-5 py-3 rounded-r-xl">Afternoon Entry</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-gray-100 dark:divide-gray-800">
-                    <tr className="hover:bg-gray-50 dark:hover:bg-gray-800/40 transition">
-                      <td className="px-5 py-4 font-bold text-gray-900 dark:text-white">15 Nov – 15 Feb</td>
-                      <td className="px-5 py-4 text-emerald-600 dark:text-emerald-400 font-semibold">6:30 AM – 8:00 AM</td>
+                  <tbody className="divide-y divide-emerald-900/10 dark:divide-emerald-900/30">
+                    <tr className="hover:bg-emerald-50/50 dark:hover:bg-emerald-900/20 transition">
+                      <td className="px-5 py-4 font-bold text-gray-900 dark:text-emerald-100">15 Nov – 15 Feb</td>
+                      <td className="px-5 py-4 text-emerald-700 dark:text-emerald-400 font-semibold">6:30 AM – 8:00 AM</td>
                       <td className="px-5 py-4 text-amber-600 dark:text-amber-400 font-semibold">1:30 PM – 3:00 PM</td>
                     </tr>
-                    <tr className="hover:bg-gray-50 dark:hover:bg-gray-800/40 transition">
-                      <td className="px-5 py-4 font-bold text-gray-900 dark:text-white">16 Feb – 15 Apr</td>
-                      <td className="px-5 py-4 text-emerald-600 dark:text-emerald-400 font-semibold">6:00 AM – 7:30 AM</td>
+                    <tr className="hover:bg-emerald-50/50 dark:hover:bg-emerald-900/20 transition">
+                      <td className="px-5 py-4 font-bold text-gray-900 dark:text-emerald-100">16 Feb – 15 Apr</td>
+                      <td className="px-5 py-4 text-emerald-700 dark:text-emerald-400 font-semibold">6:00 AM – 7:30 AM</td>
                       <td className="px-5 py-4 text-amber-600 dark:text-amber-400 font-semibold">2:00 PM – 3:30 PM</td>
                     </tr>
-                    <tr className="hover:bg-gray-50 dark:hover:bg-gray-800/40 transition">
-                      <td className="px-5 py-4 font-bold text-gray-900 dark:text-white">16 Apr – 15 Jun</td>
-                      <td className="px-5 py-4 text-emerald-600 dark:text-emerald-400 font-semibold">5:30 AM – 7:00 AM</td>
+                    <tr className="hover:bg-emerald-50/50 dark:hover:bg-emerald-900/20 transition">
+                      <td className="px-5 py-4 font-bold text-gray-900 dark:text-emerald-100">16 Apr – 15 Jun</td>
+                      <td className="px-5 py-4 text-emerald-700 dark:text-emerald-400 font-semibold">5:30 AM – 7:00 AM</td>
                       <td className="px-5 py-4 text-amber-600 dark:text-amber-400 font-semibold">3:00 PM – 4:30 PM</td>
                     </tr>
                   </tbody>
                 </table>
               </div>
-              <p className="text-xs text-gray-500 dark:text-gray-400">
+              <p className="text-xs text-gray-500 dark:text-emerald-400/60">
                 Please report at the gate at least 20 minutes prior to scheduled entry time. Entry is strictly non-refundable for late arrivals.
               </p>
             </div>
@@ -277,22 +307,31 @@ export default function SafariZoneDetailPage({ onOpenBooking, defaultSlug }) {
           {/* Right Sidebar: Booking Form & Other Zones */}
           <div className="space-y-8">
             
-            {/* Quick Booking Card */}
-            <div className="bg-gradient-to-br from-safari-600 to-safari-700 text-white rounded-3xl p-8 shadow-xl space-y-6">
-              <span className="inline-block px-3 py-1 rounded-full bg-white/15 text-white text-xs font-bold uppercase tracking-wider">
+            {/* Quick Booking Card with Deep Forest Tone & Tiger Stencil */}
+            <div className="relative overflow-hidden bg-[#07150c] text-white rounded-3xl p-8 shadow-2xl border border-emerald-800/40 space-y-6">
+              <div
+                className="absolute right-0 bottom-0 top-0 w-3/4 pointer-events-none bg-no-repeat bg-right-bottom bg-contain opacity-20"
+                style={{
+                  backgroundImage: `url('${safariImages.tigerBgOverlay}')`,
+                  filter: 'invert(1)',
+                  mixBlendMode: 'screen',
+                }}
+                aria-hidden="true"
+              />
+              <span className="relative z-10 inline-block px-3 py-1.5 rounded-full bg-emerald-950 border border-emerald-500/40 text-emerald-300 text-xs font-bold uppercase tracking-wider">
                 Instant Permit Assistance
               </span>
-              <h3 className="text-2xl font-extrabold text-white leading-snug">
+              <h3 className="relative z-10 text-2xl font-serif font-extrabold text-white leading-snug">
                 Book Your {currentZone.name} Safari
               </h3>
-              <p className="text-sm text-safari-100 leading-relaxed">
+              <p className="relative z-10 text-sm text-emerald-100/80 leading-relaxed font-light">
                 Permits are capped per day by the Forest Department. Reserve your date, Gypsy vehicle, and certified guide in advance.
               </p>
 
-              <div className="space-y-3 pt-2">
+              <div className="relative z-10 space-y-3 pt-2">
                 <button
                   onClick={handleBooking}
-                  className="w-full py-3.5 rounded-xl bg-white hover:bg-gray-100 text-safari-800 font-extrabold text-sm shadow-md transition hover:scale-[1.02] active:scale-95"
+                  className="w-full py-3.5 rounded-xl bg-gradient-to-r from-emerald-500 to-safari-600 hover:from-emerald-600 hover:to-safari-700 text-white font-extrabold text-sm shadow-lg shadow-emerald-950/50 transition hover:scale-[1.02] active:scale-95"
                 >
                   Book Safari Online →
                 </button>
@@ -308,16 +347,16 @@ export default function SafariZoneDetailPage({ onOpenBooking, defaultSlug }) {
 
                 <a
                   href={`tel:${phone.replace(/\s+/g, '')}`}
-                  className="w-full py-3.5 rounded-xl bg-safari-800/40 hover:bg-safari-800/60 text-white font-bold text-sm border border-white/20 transition flex items-center justify-center gap-2"
+                  className="w-full py-3.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-sm border border-white/15 backdrop-blur-sm transition flex items-center justify-center gap-2"
                 >
-                  <Phone className="w-4 h-4" /> Call: {phone}
+                  <Phone className="w-4 h-4 text-emerald-400" /> Call: {phone}
                 </a>
               </div>
             </div>
 
             {/* Other Safari Zones Links */}
-            <div className="bg-white dark:bg-gray-900 rounded-3xl p-6 sm:p-8 border border-gray-200 dark:border-gray-800 shadow-sm space-y-4">
-              <h3 className="text-base font-bold text-gray-900 dark:text-white uppercase tracking-wider">
+            <div className="bg-[#fdfcf8]/90 dark:bg-[#0c1f13]/90 backdrop-blur-md rounded-3xl p-6 sm:p-8 border border-emerald-900/15 dark:border-emerald-800/40 shadow-sm space-y-4">
+              <h3 className="text-xs font-bold text-gray-900 dark:text-emerald-300 uppercase tracking-widest">
                 Explore Other Safari Zones
               </h3>
               <ul className="space-y-2.5">
@@ -325,20 +364,20 @@ export default function SafariZoneDetailPage({ onOpenBooking, defaultSlug }) {
                   <li key={idx}>
                     <Link
                       to={`/${z.slug}`}
-                      className="group flex items-center justify-between p-3 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800/50 transition border border-transparent hover:border-gray-200 dark:hover:border-gray-700"
+                      className="group flex items-center justify-between p-3.5 rounded-xl hover:bg-emerald-50/60 dark:hover:bg-[#07150c]/60 transition border border-transparent hover:border-emerald-500/20"
                     >
-                      <span className="text-sm font-semibold text-gray-700 dark:text-gray-300 group-hover:text-safari-600 dark:group-hover:text-safari-400 transition">
+                      <span className="text-sm font-semibold text-gray-700 dark:text-emerald-100/80 group-hover:text-emerald-700 dark:group-hover:text-emerald-300 transition">
                         {z.name}
                       </span>
-                      <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-safari-600 group-hover:translate-x-1 transition" />
+                      <ArrowRight className="w-4 h-4 text-emerald-600/50 group-hover:text-emerald-500 group-hover:translate-x-1 transition" />
                     </Link>
                   </li>
                 ))}
               </ul>
-              <div className="pt-2 border-t border-gray-100 dark:border-gray-800">
+              <div className="pt-3 border-t border-emerald-900/10 dark:border-emerald-800/30">
                 <Link
                   to="/safari/zones"
-                  className="text-xs font-bold text-safari-600 dark:text-safari-400 hover:underline inline-flex items-center gap-1"
+                  className="text-xs font-bold text-emerald-700 dark:text-emerald-400 hover:underline inline-flex items-center gap-1"
                 >
                   Compare All Zones on Map →
                 </Link>

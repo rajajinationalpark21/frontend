@@ -45,14 +45,14 @@ export default function SafariZonesPage({ onOpenBooking }) {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-white dark:bg-gray-950 flex items-center justify-center">
+      <div className="min-h-screen bg-transparent flex items-center justify-center">
         <Loader2 className="w-8 h-8 text-safari-500 animate-spin" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-950 transition-colors">
+    <div className="min-h-screen bg-transparent transition-colors relative overflow-hidden">
       <SEO
         title="Rajaji Jungle Safari Zones | Chilla, Ranipur, Motichur, Jhilmil, Mohand"
         description="Explore all official safari zones of Rajaji Tiger Reserve. Check entry gates, gypsy tariffs, elephant habitats, and wetland reserves near Haridwar and Rishikesh."
@@ -61,21 +61,21 @@ export default function SafariZonesPage({ onOpenBooking }) {
       />
 
       {/* Hero Header */}
-      <section className="relative py-20 bg-zinc-950 text-white overflow-hidden">
+      <section className="relative py-24 bg-[#07120a] text-white overflow-hidden">
         <div className="absolute inset-0 z-0">
-          <img src={safariImages.safariJeepSavannah} alt="Safari zone in Rajaji" className="w-full h-full object-cover opacity-40" />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/85 via-black/70 to-black/90" />
+          <img src={safariImages.safariJeepSavannah} alt="Safari zone in Rajaji" className="w-full h-full object-cover opacity-35" />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#040b06]/85 via-[#07120a]/70 to-[#040b06]/90" />
         </div>
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl">
-            <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-white text-xs font-bold uppercase tracking-wider mb-4 border border-white/15 backdrop-blur-sm">
+            <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-950/60 text-emerald-400 text-xs font-bold uppercase tracking-wider mb-4 border border-emerald-500/30 backdrop-blur-sm">
               <Compass className="w-3.5 h-3.5" />
               Exploration Zones
             </span>
-            <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-white mb-6">
+            <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-white mb-6 font-serif">
               Safari Zones of Rajaji National Park
             </h1>
-            <p className="text-lg text-gray-300 leading-relaxed">
+            <p className="text-lg text-gray-200/90 leading-relaxed font-normal">
               Explore 7 distinct safari ranges and historical reserves across the Shivalik foothills and Ganges riverbanks. Each zone features unique landscapes, specific entry gates, and prime wildlife sightings.
             </p>
           </div>
@@ -83,12 +83,12 @@ export default function SafariZonesPage({ onOpenBooking }) {
       </section>
 
       {/* Filter Tabs */}
-      <section className="py-6 bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 sticky top-16 sm:top-18 z-30">
+      <section className="py-6 bg-[#f7f5ed]/95 dark:bg-[#07120a]/95 backdrop-blur-md border-b border-emerald-950/10 dark:border-emerald-900/40 sticky top-16 sm:top-18 z-30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between overflow-x-auto gap-3">
           <div className="flex items-center gap-2">
             <button
               onClick={() => setSelectedZone('all')}
-              className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition whitespace-nowrap ${selectedZone === 'all' ? 'bg-safari-600 dark:bg-safari-500 text-white shadow-sm' : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700'}`}
+              className={`px-4 py-2 rounded-full text-xs sm:text-sm font-bold transition whitespace-nowrap ${selectedZone === 'all' ? 'bg-safari-600 dark:bg-safari-500 text-white shadow-sm' : 'bg-[#fdfcf8]/90 dark:bg-[#0c1610]/90 text-gray-700 dark:text-gray-200 hover:bg-emerald-50 dark:hover:bg-emerald-950/50 border border-emerald-900/15 dark:border-emerald-800/40'}`}
             >
               All Zones ({safariZonesData.length})
             </button>
@@ -96,7 +96,7 @@ export default function SafariZonesPage({ onOpenBooking }) {
               <button
                 key={zone.id || zone.slug}
                 onClick={() => setSelectedZone(zone.id || zone.slug)}
-                className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition whitespace-nowrap ${selectedZone === (zone.id || zone.slug) ? 'bg-safari-600 dark:bg-safari-500 text-white shadow-sm' : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700'}`}
+                className={`px-4 py-2 rounded-full text-xs sm:text-sm font-bold transition whitespace-nowrap ${selectedZone === (zone.id || zone.slug) ? 'bg-safari-600 dark:bg-safari-500 text-white shadow-sm' : 'bg-[#fdfcf8]/90 dark:bg-[#0c1610]/90 text-gray-700 dark:text-gray-200 hover:bg-emerald-50 dark:hover:bg-emerald-950/50 border border-emerald-900/15 dark:border-emerald-800/40'}`}
               >
                 {zone.name.split('(')[0]}
               </button>
@@ -106,16 +106,16 @@ export default function SafariZonesPage({ onOpenBooking }) {
       </section>
 
       {/* Zones List */}
-      <section className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+      <section className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10 relative z-10">
         {filteredZones.map((zone, idx) => (
           <div 
             key={zone.id || zone.slug} 
             id={zone.slug} 
-            className="bg-white dark:bg-gray-900 rounded-3xl p-8 sm:p-10 border border-gray-200 dark:border-gray-800 shadow-sm hover:border-safari-500/40 transition flex flex-col lg:flex-row gap-8 items-start justify-between"
+            className="bg-[#fdfcf8]/90 dark:bg-[#0c1610]/90 backdrop-blur-md rounded-2xl p-8 sm:p-10 border border-emerald-950/10 dark:border-emerald-500/20 shadow-sm hover:border-safari-500/40 transition flex flex-col lg:flex-row gap-8 items-start justify-between"
           >
             <div className="space-y-6 max-w-3xl">
               <div className="flex flex-wrap items-center gap-3">
-                <span className="px-3 py-1 rounded-full bg-safari-500/10 text-safari-700 dark:text-safari-300 text-xs font-bold uppercase tracking-wider">
+                <span className="px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 text-xs font-bold uppercase tracking-wider border border-emerald-100 dark:border-emerald-900/40">
                   {zone.tag}
                 </span>
                 <span className="text-xs text-gray-500 dark:text-gray-400 flex items-center gap-1 font-medium">
@@ -125,7 +125,7 @@ export default function SafariZonesPage({ onOpenBooking }) {
               </div>
 
               <div>
-                <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-900 dark:text-white">
+                <h2 className="text-2xl sm:text-3xl font-bold text-gray-950 dark:text-white font-serif">
                   {zone.name}
                 </h2>
                 <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 mt-2 leading-relaxed">
@@ -190,7 +190,7 @@ export default function SafariZonesPage({ onOpenBooking }) {
                 </button>
                 <Link
                   to={`/${zone.slug}`}
-                  className="w-full py-2.5 rounded-xl bg-white dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-200 font-bold text-xs uppercase tracking-wider transition border border-gray-200 dark:border-gray-700 text-center block"
+                  className="w-full py-2.5 rounded-xl bg-[#fdfcf8] dark:bg-[#0f1d14] hover:bg-emerald-50 dark:hover:bg-emerald-900/40 text-gray-800 dark:text-gray-200 font-bold text-xs uppercase tracking-wider transition border border-emerald-900/20 dark:border-emerald-700/40 text-center block"
                 >
                   Detailed Page
                 </Link>

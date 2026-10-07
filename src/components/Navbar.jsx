@@ -92,13 +92,13 @@ export default function Navbar({ onOpenBooking }) {
   ];
 
   return (
-    <header className="sticky top-0 z-50 bg-white/95 dark:bg-gray-950/95 backdrop-blur-md border-b border-gray-100 dark:border-gray-800 transition-all">
+    <header className="sticky top-0 z-50 bg-[#fdfcf8]/95 dark:bg-[#07120a]/95 backdrop-blur-md border-b border-emerald-950/10 dark:border-emerald-900/40 transition-all">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 sm:h-18">
           
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2.5 group shrink-0">
-            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-white dark:bg-gray-900 p-1 flex items-center justify-center border border-gray-100 dark:border-gray-800 shadow-sm group-hover:scale-105 transition shrink-0">
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-white dark:bg-gray-900 p-1 flex items-center justify-center border border-gray-200/80 dark:border-gray-800 shadow-sm group-hover:scale-105 transition shrink-0">
               <img 
                 src="/logo.png" 
                 alt="Rajaji National Park Logo" 
@@ -106,10 +106,10 @@ export default function Navbar({ onOpenBooking }) {
               />
             </div>
             <div>
-              <span className="text-base sm:text-lg font-extrabold tracking-tight text-gray-900 dark:text-white group-hover:text-safari-600 transition block leading-none">
+              <span className="text-base sm:text-lg font-bold tracking-tight text-gray-950 dark:text-white group-hover:text-safari-600 transition block leading-none font-serif">
                 Rajaji
               </span>
-              <span className="text-[9px] sm:text-[10px] font-bold uppercase tracking-widest text-safari-600 dark:text-safari-400 block mt-0.5">
+              <span className="text-[9px] sm:text-[10px] font-bold uppercase tracking-widest text-emerald-600 dark:text-emerald-400 block mt-0.5">
                 National Park
               </span>
             </div>
@@ -156,35 +156,37 @@ export default function Navbar({ onOpenBooking }) {
 
                   {/* Dropdown Menu Panel */}
                   {isOpen && (
-                    <div className="absolute top-full left-0 w-72 bg-white dark:bg-gray-900 rounded-2xl p-2 shadow-xl border border-gray-100 dark:border-gray-800 animate-fadeIn z-50">
-                      <div className="space-y-1">
-                        {group.items.map((item) => {
-                          const isItemActive = location.pathname === item.path;
-                          const Icon = item.icon;
-                          return (
-                            <Link
-                              key={item.name}
-                              to={item.path}
-                              className={`flex items-start gap-3 p-2.5 rounded-xl transition ${
-                                isItemActive
-                                  ? 'bg-safari-50 dark:bg-safari-900/40 text-safari-600 dark:text-safari-400'
-                                  : 'hover:bg-gray-50 dark:hover:bg-gray-800/60 text-gray-800 dark:text-gray-200'
-                              }`}
-                            >
-                              <div className="w-8 h-8 rounded-lg bg-safari-500/10 text-safari-600 dark:text-safari-400 flex items-center justify-center shrink-0 mt-0.5">
-                                <Icon className="w-4 h-4" />
-                              </div>
-                              <div>
-                                <div className="text-xs font-bold leading-tight text-gray-900 dark:text-white">
-                                  {item.name}
+                    <div className="absolute top-full left-0 w-72 pt-1.5 z-[60]">
+                      <div className="bg-white dark:bg-[#0b1b11] rounded-2xl p-2 shadow-2xl border border-gray-200/90 dark:border-emerald-800/60 animate-fadeIn">
+                        <div className="space-y-1">
+                          {group.items.map((item) => {
+                            const isItemActive = location.pathname === item.path;
+                            const Icon = item.icon;
+                            return (
+                              <Link
+                                key={item.name}
+                                to={item.path}
+                                className={`flex items-start gap-3 p-2.5 rounded-xl transition ${
+                                  isItemActive
+                                    ? 'bg-safari-50 dark:bg-safari-900/40 text-safari-600 dark:text-safari-400'
+                                    : 'hover:bg-emerald-50/70 dark:hover:bg-emerald-950/60 text-gray-800 dark:text-gray-200'
+                                }`}
+                              >
+                                <div className="w-8 h-8 rounded-lg bg-safari-500/10 text-safari-600 dark:text-safari-400 flex items-center justify-center shrink-0 mt-0.5">
+                                  <Icon className="w-4 h-4" />
                                 </div>
-                                <div className="text-[11px] text-gray-400 dark:text-gray-500 mt-0.5 leading-snug">
-                                  {item.desc}
+                                <div>
+                                  <div className="text-xs font-bold leading-tight text-gray-950 dark:text-white">
+                                    {item.name}
+                                  </div>
+                                  <div className="text-[11px] text-gray-500 dark:text-gray-400 mt-0.5 leading-snug">
+                                    {item.desc}
+                                  </div>
                                 </div>
-                              </div>
-                            </Link>
-                          );
-                        })}
+                              </Link>
+                            );
+                          })}
+                        </div>
                       </div>
                     </div>
                   )}
@@ -243,35 +245,37 @@ export default function Navbar({ onOpenBooking }) {
 
                   {/* Dropdown Menu Panel */}
                   {isOpen && (
-                    <div className="absolute top-full left-0 w-72 bg-white dark:bg-gray-900 rounded-2xl p-2 shadow-xl border border-gray-100 dark:border-gray-800 animate-fadeIn z-50">
-                      <div className="space-y-1">
-                        {group.items.map((item) => {
-                          const isItemActive = location.pathname === item.path;
-                          const Icon = item.icon;
-                          return (
-                            <Link
-                              key={item.name}
-                              to={item.path}
-                              className={`flex items-start gap-3 p-2.5 rounded-xl transition ${
-                                isItemActive
-                                  ? 'bg-safari-50 dark:bg-safari-900/40 text-safari-600 dark:text-safari-400'
-                                  : 'hover:bg-gray-50 dark:hover:bg-gray-800/60 text-gray-800 dark:text-gray-200'
-                              }`}
-                            >
-                              <div className="w-8 h-8 rounded-lg bg-safari-500/10 text-safari-600 dark:text-safari-400 flex items-center justify-center shrink-0 mt-0.5">
-                                <Icon className="w-4 h-4" />
-                              </div>
-                              <div>
-                                <div className="text-xs font-bold leading-tight text-gray-900 dark:text-white">
-                                  {item.name}
+                    <div className="absolute top-full left-0 w-72 pt-1.5 z-[60]">
+                      <div className="bg-white dark:bg-[#0b1b11] rounded-2xl p-2 shadow-2xl border border-gray-200/90 dark:border-emerald-800/60 animate-fadeIn">
+                        <div className="space-y-1">
+                          {group.items.map((item) => {
+                            const isItemActive = location.pathname === item.path;
+                            const Icon = item.icon;
+                            return (
+                              <Link
+                                key={item.name}
+                                to={item.path}
+                                className={`flex items-start gap-3 p-2.5 rounded-xl transition ${
+                                  isItemActive
+                                    ? 'bg-safari-50 dark:bg-safari-900/40 text-safari-600 dark:text-safari-400'
+                                    : 'hover:bg-emerald-50/70 dark:hover:bg-emerald-950/60 text-gray-800 dark:text-gray-200'
+                                }`}
+                              >
+                                <div className="w-8 h-8 rounded-lg bg-safari-500/10 text-safari-600 dark:text-safari-400 flex items-center justify-center shrink-0 mt-0.5">
+                                  <Icon className="w-4 h-4" />
                                 </div>
-                                <div className="text-[11px] text-gray-400 dark:text-gray-500 mt-0.5 leading-snug">
-                                  {item.desc}
+                                <div>
+                                  <div className="text-xs font-bold leading-tight text-gray-950 dark:text-white">
+                                    {item.name}
+                                  </div>
+                                  <div className="text-[11px] text-gray-500 dark:text-gray-400 mt-0.5 leading-snug">
+                                    {item.desc}
+                                  </div>
                                 </div>
-                              </div>
-                            </Link>
-                          );
-                        })}
+                              </Link>
+                            );
+                          })}
+                        </div>
                       </div>
                     </div>
                   )}
@@ -306,35 +310,37 @@ export default function Navbar({ onOpenBooking }) {
 
                   {/* Dropdown Menu Panel */}
                   {isOpen && (
-                    <div className="absolute top-full left-0 w-72 bg-white dark:bg-gray-900 rounded-2xl p-2 shadow-xl border border-gray-100 dark:border-gray-800 animate-fadeIn z-50">
-                      <div className="space-y-1">
-                        {group.items.map((item) => {
-                          const isItemActive = location.pathname === item.path;
-                          const Icon = item.icon;
-                          return (
-                            <Link
-                              key={item.name}
-                              to={item.path}
-                              className={`flex items-start gap-3 p-2.5 rounded-xl transition ${
-                                isItemActive
-                                  ? 'bg-safari-50 dark:bg-safari-900/40 text-safari-600 dark:text-safari-400'
-                                  : 'hover:bg-gray-50 dark:hover:bg-gray-800/60 text-gray-800 dark:text-gray-200'
-                              }`}
-                            >
-                              <div className="w-8 h-8 rounded-lg bg-safari-500/10 text-safari-600 dark:text-safari-400 flex items-center justify-center shrink-0 mt-0.5">
-                                <Icon className="w-4 h-4" />
-                              </div>
-                              <div>
-                                <div className="text-xs font-bold leading-tight text-gray-900 dark:text-white">
-                                  {item.name}
+                    <div className="absolute top-full left-0 w-72 pt-1.5 z-[60]">
+                      <div className="bg-white dark:bg-[#0b1b11] rounded-2xl p-2 shadow-2xl border border-gray-200/90 dark:border-emerald-800/60 animate-fadeIn">
+                        <div className="space-y-1">
+                          {group.items.map((item) => {
+                            const isItemActive = location.pathname === item.path;
+                            const Icon = item.icon;
+                            return (
+                              <Link
+                                key={item.name}
+                                to={item.path}
+                                className={`flex items-start gap-3 p-2.5 rounded-xl transition ${
+                                  isItemActive
+                                    ? 'bg-safari-50 dark:bg-safari-900/40 text-safari-600 dark:text-safari-400'
+                                    : 'hover:bg-emerald-50/70 dark:hover:bg-emerald-950/60 text-gray-800 dark:text-gray-200'
+                                }`}
+                              >
+                                <div className="w-8 h-8 rounded-lg bg-safari-500/10 text-safari-600 dark:text-safari-400 flex items-center justify-center shrink-0 mt-0.5">
+                                  <Icon className="w-4 h-4" />
                                 </div>
-                                <div className="text-[11px] text-gray-400 dark:text-gray-500 mt-0.5 leading-snug">
-                                  {item.desc}
+                                <div>
+                                  <div className="text-xs font-bold leading-tight text-gray-950 dark:text-white">
+                                    {item.name}
+                                  </div>
+                                  <div className="text-[11px] text-gray-500 dark:text-gray-400 mt-0.5 leading-snug">
+                                    {item.desc}
+                                  </div>
                                 </div>
-                              </div>
-                            </Link>
-                          );
-                        })}
+                              </Link>
+                            );
+                          })}
+                        </div>
                       </div>
                     </div>
                   )}
@@ -413,12 +419,12 @@ export default function Navbar({ onOpenBooking }) {
 
       {/* Mobile Drawer (Strictly client's pages) */}
       {mobileMenuOpen && (
-        <div className="xl:hidden max-h-[80vh] overflow-y-auto border-t border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-950 px-4 pt-3 pb-8 space-y-2 shadow-2xl animate-fadeIn">
+        <div className="xl:hidden max-h-[80vh] overflow-y-auto border-t border-emerald-900/15 dark:border-emerald-800/40 bg-white dark:bg-[#07120a] px-4 pt-3 pb-8 space-y-2 shadow-2xl animate-fadeIn">
           {/* 1. Home */}
           <Link
             to="/"
             onClick={() => setMobileMenuOpen(false)}
-            className="block px-4 py-2.5 rounded-xl text-sm font-bold text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-900"
+            className="block px-4 py-2.5 rounded-xl text-sm font-bold text-gray-900 dark:text-white hover:bg-[#f5f2e8]/80 dark:hover:bg-emerald-950/40"
           >
             Home
           </Link>

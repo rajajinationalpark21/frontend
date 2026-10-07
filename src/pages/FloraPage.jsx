@@ -17,7 +17,7 @@ export default function FloraPage({ onOpenBooking }) {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-white dark:bg-gray-950 flex items-center justify-center">
+      <div className="min-h-screen bg-transparent flex items-center justify-center">
         <Loader2 className="w-8 h-8 text-safari-500 animate-spin" />
       </div>
     );
@@ -28,7 +28,10 @@ export default function FloraPage({ onOpenBooking }) {
   const dominantTrees = data.dominantTrees || [];
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-950 transition-colors">
+    <div className="relative min-h-screen bg-[#faf8f5] dark:bg-[#07120a] transition-colors">
+      {/* Delicate tactile ambient leaf texture */}
+      <div className="pattern-leaf-delicate pointer-events-none z-0" aria-hidden="true" />
+
       <SEO
         title="Flora & Forest Types | Sal Forest Ecology of Rajaji National Park"
         description="Botanical diversity of Rajaji National Park. Shorea robusta (Sal) forests, riverine Khair-Sissoo woodlands, medicinal trees, and altitudinal forest bands."
@@ -36,29 +39,76 @@ export default function FloraPage({ onOpenBooking }) {
         ogImage={safariImages.tropicalLeafDew}
       />
 
-      {/* Hero Header */}
-      <section className="relative py-20 bg-zinc-950 text-white overflow-hidden">
+      {/* Hero Header with Inverted Tiger & Leaf Watermark Overlay */}
+      <section className="relative py-24 bg-[#07150c] text-white overflow-hidden border-b border-emerald-950/60">
         <div className="absolute inset-0 z-0">
-          <img src={safariImages.mistyDarkPines} alt="Dense Sal forest canopy" className="w-full h-full object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/85 via-black/70 to-black/90" />
+          <img src={safariImages.mistyDarkPines} alt="Dense Sal forest canopy" className="w-full h-full object-cover opacity-25 scale-105" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#07150c] via-[#07150c]/90 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#07150c] via-transparent to-[#07150c]/70" />
         </div>
+
+        {/* Tiger Watermark in forest shadow */}
+        <div
+          className="absolute right-0 bottom-0 top-0 w-full sm:w-2/3 pointer-events-none z-[1] bg-no-repeat bg-right-bottom bg-contain opacity-[0.14]"
+          style={{
+            backgroundImage: `url('${safariImages.tigerBgOverlay}')`,
+            filter: 'invert(1)',
+            mixBlendMode: 'screen',
+          }}
+          aria-hidden="true"
+        />
+
+        {/* Corner Leaf Foliage Overlay */}
+        <div
+          className="absolute -top-16 -left-16 w-80 h-80 pointer-events-none z-[1] bg-no-repeat bg-contain opacity-20"
+          style={{
+            backgroundImage: `url('${safariImages.leafCta}')`,
+            filter: 'invert(1)',
+            mixBlendMode: 'screen',
+          }}
+          aria-hidden="true"
+        />
+
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl">
-            <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-white mb-6">Flora & Forest Types of Rajaji</h1>
-            <p className="text-lg text-gray-300 leading-relaxed">{data.overview}</p>
+          <div className="max-w-3xl space-y-4">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-950/80 border border-emerald-500/30 text-emerald-300 text-xs font-semibold uppercase tracking-widest backdrop-blur-md">
+              <Trees className="w-3.5 h-3.5 text-emerald-400" />
+              <span>Botanical Legacy & Canopy</span>
+            </div>
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif font-extrabold tracking-tight text-white leading-tight">
+              Flora & Forest Types <br className="hidden sm:block" />
+              <span className="italic font-normal text-emerald-400">of Rajaji</span>
+            </h1>
+            <p className="text-base sm:text-lg text-emerald-100/80 font-light leading-relaxed pt-2">
+              {data.overview}
+            </p>
           </div>
         </div>
       </section>
 
       {/* Altitudinal Bands */}
-      <section className="py-12 bg-gray-50 dark:bg-gray-900/90 border-b border-gray-200 dark:border-gray-800">
+      <section className="relative z-10 py-16 bg-[#fdfcf8]/80 dark:bg-[#0a1a0f]/80 backdrop-blur-md border-b border-emerald-900/20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Altitudinal Vegetation Bands</h2>
+          <div className="flex items-center gap-2 mb-2">
+            <span className="h-px w-8 bg-emerald-500"></span>
+            <span className="text-xs font-bold tracking-widest text-emerald-700 dark:text-emerald-400 uppercase">Stratification</span>
+          </div>
+          <h2 className="text-2xl sm:text-3xl font-serif font-bold text-gray-900 dark:text-emerald-50 mb-8">
+            Altitudinal Vegetation Bands
+          </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {altitudinalBands.map((band, idx) => (
-              <div key={idx} className="bg-white dark:bg-gray-900 p-6 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-sm">
-                <span className="font-extrabold text-safari-600 dark:text-safari-400 text-sm block mb-1">{band.band}</span>
-                <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 leading-relaxed">{band.trees}</p>
+              <div 
+                key={idx} 
+                className="group relative bg-[#fbfdfa] dark:bg-[#0c1f13] p-7 rounded-2xl border border-emerald-900/15 dark:border-emerald-800/40 shadow-sm hover:shadow-xl hover:border-emerald-500/40 transition-all duration-300 overflow-hidden"
+              >
+                <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-500/5 rounded-full blur-2xl group-hover:bg-emerald-500/10 transition" />
+                <span className="font-serif font-bold text-emerald-800 dark:text-emerald-400 text-base block mb-2">
+                  {band.band}
+                </span>
+                <p className="text-xs sm:text-sm text-gray-600 dark:text-emerald-100/70 leading-relaxed">
+                  {band.trees}
+                </p>
               </div>
             ))}
           </div>
@@ -66,16 +116,24 @@ export default function FloraPage({ onOpenBooking }) {
       </section>
 
       {/* Dominant Trees Catalog */}
-      <section className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+      <section className="relative z-10 py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         <div className="max-w-2xl">
-          <h2 className="text-3xl font-extrabold text-gray-900 dark:text-white">Major Forest Tree Species</h2>
-          <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">The foundational trees and flowering hardwoods forming Rajaji's multi-tiered forest canopy.</p>
+          <div className="flex items-center gap-2 mb-2">
+            <span className="h-px w-8 bg-emerald-500"></span>
+            <span className="text-xs font-bold tracking-widest text-emerald-700 dark:text-emerald-400 uppercase">Dendrological Index</span>
+          </div>
+          <h2 className="text-3xl sm:text-4xl font-serif font-extrabold text-gray-900 dark:text-emerald-50">
+            Major Forest Tree Species
+          </h2>
+          <p className="text-sm text-gray-600 dark:text-emerald-100/70 mt-2">
+            The foundational trees and flowering hardwoods forming Rajaji's multi-tiered forest canopy.
+          </p>
         </div>
 
-        <div className="bg-white dark:bg-gray-900 rounded-3xl overflow-hidden border border-gray-200 dark:border-gray-800 shadow-sm">
+        <div className="bg-[#fdfcf8]/90 dark:bg-[#0c1e13]/90 backdrop-blur-md rounded-3xl overflow-hidden border border-emerald-900/20 dark:border-emerald-800/40 shadow-lg">
           <div className="overflow-x-auto">
             <table className="w-full text-left text-sm">
-              <thead className="bg-gray-100/75 dark:bg-gray-800/80 text-gray-700 dark:text-gray-300 font-semibold text-xs uppercase tracking-wider">
+              <thead className="bg-emerald-50/80 dark:bg-emerald-950/60 text-emerald-900 dark:text-emerald-300 font-semibold text-xs uppercase tracking-wider border-b border-emerald-900/15">
                 <tr>
                   <th className="px-6 py-4">Common Name</th>
                   <th className="px-6 py-4">Botanical / Scientific Name</th>
@@ -83,13 +141,13 @@ export default function FloraPage({ onOpenBooking }) {
                   <th className="px-6 py-4">Ecological Significance</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-100 dark:divide-gray-800">
+              <tbody className="divide-y divide-emerald-900/10 dark:divide-emerald-900/30">
                 {dominantTrees.map((tree, idx) => (
-                  <tr key={idx} className="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition">
-                    <td className="px-6 py-4 font-bold text-gray-900 dark:text-white">{tree.common}</td>
-                    <td className="px-6 py-4 italic text-emerald-600 dark:text-emerald-400 font-medium">{tree.scientific}</td>
-                    <td className="px-6 py-4 text-xs text-gray-500 dark:text-gray-400">{tree.family}</td>
-                    <td className="px-6 py-4 text-xs text-gray-600 dark:text-gray-300">{tree.desc}</td>
+                  <tr key={idx} className="hover:bg-emerald-50/50 dark:hover:bg-emerald-900/20 transition">
+                    <td className="px-6 py-4 font-bold text-gray-900 dark:text-emerald-100">{tree.common}</td>
+                    <td className="px-6 py-4 italic font-serif text-emerald-700 dark:text-emerald-400 font-medium">{tree.scientific}</td>
+                    <td className="px-6 py-4 text-xs text-gray-500 dark:text-emerald-300/70">{tree.family}</td>
+                    <td className="px-6 py-4 text-xs text-gray-600 dark:text-emerald-100/80 leading-relaxed">{tree.desc}</td>
                   </tr>
                 ))}
               </tbody>
@@ -97,12 +155,28 @@ export default function FloraPage({ onOpenBooking }) {
           </div>
         </div>
 
-        <div className="bg-emerald-50/50 dark:bg-emerald-950/20 p-8 rounded-3xl border border-emerald-100 dark:border-emerald-900/30 flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="space-y-2">
-            <h3 className="text-xl font-bold text-gray-900 dark:text-white">Experience the Pristine Sal Canopy</h3>
-            <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 max-w-2xl leading-relaxed">Witness ancient Shorea robusta trees towering over 100 feet tall on an open-top gypsy safari drive through Chila and Motichur ranges.</p>
+        {/* Experience Box with Forest Tone & Tiger Stencil Watermark */}
+        <div className="relative overflow-hidden bg-[#07150c] text-white p-8 sm:p-10 rounded-3xl border border-emerald-800/40 shadow-2xl flex flex-col md:flex-row items-center justify-between gap-8">
+          <div
+            className="absolute right-0 bottom-0 top-0 w-1/2 pointer-events-none bg-no-repeat bg-right-bottom bg-contain opacity-15"
+            style={{
+              backgroundImage: `url('${safariImages.tigerBgOverlay}')`,
+              filter: 'invert(1)',
+              mixBlendMode: 'screen',
+            }}
+            aria-hidden="true"
+          />
+          <div className="relative z-10 space-y-2 max-w-2xl">
+            <span className="text-xs font-bold uppercase tracking-widest text-emerald-400 block">Canopy Expedition</span>
+            <h3 className="text-2xl sm:text-3xl font-serif font-bold text-white">Experience the Pristine Sal Canopy</h3>
+            <p className="text-xs sm:text-sm text-emerald-100/75 leading-relaxed">
+              Witness ancient Shorea robusta trees towering over 100 feet tall on an open-top gypsy safari drive through Chila and Motichur ranges.
+            </p>
           </div>
-          <button onClick={onOpenBooking} className="px-6 py-3 rounded-xl bg-safari-500 hover:bg-safari-600 text-white font-bold text-xs uppercase tracking-wider transition shrink-0">
+          <button 
+            onClick={onOpenBooking} 
+            className="relative z-10 px-8 py-4 rounded-xl bg-gradient-to-r from-emerald-500 to-safari-600 hover:from-emerald-600 hover:to-safari-700 text-white font-bold text-xs uppercase tracking-wider transition-all duration-300 shadow-lg shadow-emerald-950/50 hover:shadow-emerald-500/25 shrink-0"
+          >
             Plan Jungle Tour
           </button>
         </div>

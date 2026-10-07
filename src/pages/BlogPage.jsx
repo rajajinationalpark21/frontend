@@ -90,7 +90,7 @@ export default function BlogPage({ onOpenBooking }) {
   });
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-950 transition-colors pt-10 pb-20">
+    <div className="min-h-screen bg-[#fafaf7] dark:bg-[#070c09] transition-colors pt-10 pb-20 relative overflow-hidden">
       <SEO
         title="Wilderness Journal - Field Guides & Wildlife Stories | Rajaji National Park"
         description="Read real-time wildlife sighting reports, big cat tracking guides, photography tips, and forest conservation stories from Rajaji National Park field naturalists."
@@ -98,13 +98,19 @@ export default function BlogPage({ onOpenBooking }) {
         ogImage={featuredArticle?.image}
         schemaJson={blogSchema}
       />
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+      {/* Subtle Ambient Botanical Leaf Texture Background */}
+      <div 
+        className="absolute inset-0 opacity-[0.03] dark:opacity-[0.04] pointer-events-none pattern-leaf-delicate"
+      />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* 1. HEADER */}
         <div className="mb-10">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-950 dark:text-white tracking-tight mb-2.5">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-950 dark:text-white tracking-tight mb-2.5 font-serif">
             Wilderness Journal
           </h1>
-          <p className="text-xs sm:text-sm font-medium text-gray-600 dark:text-gray-300 max-w-xl">
+          <p className="text-sm font-medium text-emerald-800/80 dark:text-emerald-400/90 max-w-xl">
             Insights from the Heart of the Jungle. Explore our stories, field guides, and conservation reports.
           </p>
         </div>
@@ -113,7 +119,7 @@ export default function BlogPage({ onOpenBooking }) {
         {featuredArticle && (
           <Link
             to={`/blog/${featuredArticle.slug || slugify(featuredArticle.title) || featuredArticle.id}`}
-            className="mb-14 rounded-3xl overflow-hidden border border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-sm hover:shadow-xl transition duration-300 grid grid-cols-1 lg:grid-cols-12 group block cursor-pointer"
+            className="mb-14 rounded-2xl overflow-hidden border border-emerald-950/10 dark:border-emerald-500/20 bg-[#fdfcf8]/90 dark:bg-[#0c1610]/90 backdrop-blur-md shadow-sm hover:shadow-xl transition duration-300 grid grid-cols-1 lg:grid-cols-12 group block cursor-pointer"
           >
             {/* Left: Featured Image */}
             <div className="lg:col-span-7 aspect-[16/10] lg:aspect-auto overflow-hidden bg-gray-100 dark:bg-gray-800">
@@ -126,12 +132,12 @@ export default function BlogPage({ onOpenBooking }) {
 
             {/* Right: Featured Narrative */}
             <div className="lg:col-span-5 p-8 sm:p-12 flex flex-col justify-center space-y-4">
-              <div className="flex items-center gap-2 text-xs font-bold text-safari-600 dark:text-safari-400 uppercase tracking-wider">
+              <div className="flex items-center gap-2 text-xs font-bold text-emerald-700 dark:text-emerald-400 uppercase tracking-wider">
                 <span>FEATURED STORY</span>
                 <span>•</span>
                 <span className="text-gray-400 dark:text-gray-400 font-normal">{featuredArticle.date}</span>
               </div>
-              <h2 className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-gray-900 dark:text-white leading-tight group-hover:text-safari-600 dark:group-hover:text-safari-400 transition">
+              <h2 className="text-2xl sm:text-3xl font-bold text-gray-950 dark:text-white leading-tight group-hover:text-safari-600 dark:group-hover:text-safari-400 transition font-serif">
                 {featuredArticle.title}
               </h2>
               <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
@@ -157,7 +163,7 @@ export default function BlogPage({ onOpenBooking }) {
                 className={`px-4 py-2 text-xs sm:text-sm font-semibold rounded-full whitespace-nowrap transition-all duration-200 ${
                   selectedCategory === cat
                     ? 'bg-safari-600 dark:bg-safari-500 text-white shadow-md shadow-safari-600/20'
-                    : 'bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-200 hover:text-gray-950 dark:hover:text-white border border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600 shadow-sm'
+                    : 'bg-[#fdfcf8]/90 dark:bg-[#0c1610]/90 text-gray-700 dark:text-gray-200 hover:text-gray-950 dark:hover:text-white border border-emerald-900/15 dark:border-emerald-800/40 shadow-sm'
                 }`}
               >
                 {cat}
@@ -173,7 +179,7 @@ export default function BlogPage({ onOpenBooking }) {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search articles, wildlife, flora..."
-              className="w-full pl-11 pr-9 py-2.5 text-sm bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-500 rounded-full focus:outline-none focus:border-safari-500 dark:focus:border-safari-500 focus:ring-2 focus:ring-safari-500/20 shadow-sm transition font-medium"
+              className="w-full pl-11 pr-9 py-2.5 text-sm bg-[#fdfcf8]/90 dark:bg-[#0c1610]/90 border border-emerald-900/15 dark:border-emerald-800/40 text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-500 rounded-full focus:outline-none focus:border-safari-500 dark:focus:border-safari-500 focus:ring-2 focus:ring-safari-500/20 shadow-sm transition font-medium"
             />
             {searchQuery && (
               <button
@@ -200,7 +206,7 @@ export default function BlogPage({ onOpenBooking }) {
                 <Link
                   key={article.id}
                   to={`/blog/${articleSlug}`}
-                  className="bg-white dark:bg-gray-900 rounded-3xl overflow-hidden border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-xl transition duration-300 flex flex-col group block cursor-pointer"
+                  className="bg-[#fdfcf8]/90 dark:bg-[#0c1610]/90 backdrop-blur-md rounded-2xl overflow-hidden border border-emerald-950/10 dark:border-emerald-500/20 shadow-sm hover:shadow-xl transition duration-300 flex flex-col group block cursor-pointer"
                 >
                   {/* Article Image */}
                   <div className="aspect-[16/10] overflow-hidden bg-gray-100 dark:bg-gray-800">
@@ -214,14 +220,14 @@ export default function BlogPage({ onOpenBooking }) {
                   {/* Article Body */}
                   <div className="p-6 flex-1 flex flex-col justify-between space-y-3">
                     <div>
-                      <div className="flex items-center justify-between text-xs font-bold uppercase tracking-wider text-safari-600 dark:text-safari-400 mb-2">
+                      <div className="flex items-center justify-between text-xs font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-400 mb-2">
                         <span>{article.category}</span>
                         <span className="text-gray-400 dark:text-gray-400 font-normal">{article.date}</span>
                       </div>
-                      <h3 className="text-base sm:text-lg font-bold text-gray-900 dark:text-white group-hover:text-safari-600 dark:group-hover:text-safari-400 transition leading-snug">
+                      <h3 className="text-base sm:text-lg font-bold text-gray-950 dark:text-white group-hover:text-safari-600 dark:group-hover:text-safari-400 transition leading-snug font-serif">
                         {article.title}
                       </h3>
-                      <p className="text-xs text-gray-500 dark:text-gray-300 mt-2 line-clamp-3 leading-relaxed">
+                      <p className="text-xs text-gray-600 dark:text-gray-300 mt-2 line-clamp-3 leading-relaxed">
                         {article.excerpt}
                       </p>
                     </div>

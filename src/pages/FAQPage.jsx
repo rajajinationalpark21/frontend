@@ -69,7 +69,10 @@ export default function FAQPage({ onOpenBooking }) {
   const headerOverview = content?.faqs?.overview || "Find quick answers to common questions regarding Rajaji National Park Jeep Safaris, entry fees, vehicle permits, timings, and booking guidelines.";
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-950 transition-colors">
+    <div className="relative min-h-screen bg-[#f7f5ed] dark:bg-[#07120a] transition-colors">
+      {/* Delicate tactile ambient leaf texture */}
+      <div className="pattern-leaf-delicate pointer-events-none z-0" aria-hidden="true" />
+
       <SEO
         title="Frequently Asked Questions (FAQ) | Rajaji National Park Safari"
         description="Get answers to common questions about Rajaji National Park Jeep Safari: costs, entry fees, booking procedures, timings, gate locations, and permit guidelines."
@@ -77,22 +80,47 @@ export default function FAQPage({ onOpenBooking }) {
         ogImage={safariImages.safariJeepSavannah}
       />
 
-      {/* Hero Header */}
-      <section className="relative py-20 lg:py-24 bg-zinc-950 text-white overflow-hidden">
+      {/* Hero Header with Inverted Tiger & Leaf Watermark Overlay */}
+      <section className="relative py-24 bg-[#07150c] text-white overflow-hidden border-b border-emerald-950/60">
         <div className="absolute inset-0 z-0">
-          <img src={safariImages.safariJeepSavannah} alt="FAQ header" className="w-full h-full object-cover opacity-30" />
-          <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/70 to-transparent" />
+          <img src={safariImages.safariJeepSavannah} alt="FAQ header" className="w-full h-full object-cover opacity-25 scale-105" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#07150c] via-[#07150c]/90 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#07150c] via-transparent to-[#07150c]/70" />
         </div>
+
+        {/* Tiger Watermark in forest shadow */}
+        <div
+          className="absolute right-0 bottom-0 top-0 w-full sm:w-2/3 pointer-events-none z-[1] bg-no-repeat bg-right-bottom bg-contain opacity-[0.14]"
+          style={{
+            backgroundImage: `url('${safariImages.tigerBgOverlay}')`,
+            filter: 'invert(1)',
+            mixBlendMode: 'screen',
+          }}
+          aria-hidden="true"
+        />
+
+        {/* Corner Leaf Foliage Overlay */}
+        <div
+          className="absolute -top-16 -left-16 w-80 h-80 pointer-events-none z-[1] bg-no-repeat bg-contain opacity-20"
+          style={{
+            backgroundImage: `url('${safariImages.leafCta}')`,
+            filter: 'invert(1)',
+            mixBlendMode: 'screen',
+          }}
+          aria-hidden="true"
+        />
+
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl space-y-4">
-            <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-safari-500/20 text-safari-300 text-xs font-bold uppercase tracking-wider border border-safari-400/30">
-              <HelpCircle className="w-3.5 h-3.5" />
-              Visitor Helpdesk
+            <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-950/80 border border-emerald-500/30 text-emerald-300 text-xs font-semibold uppercase tracking-widest backdrop-blur-md">
+              <HelpCircle className="w-3.5 h-3.5 text-emerald-400" />
+              <span>Visitor Helpdesk</span>
             </span>
-            <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white leading-tight">
-              Frequently Asked Questions (FAQ)
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif font-extrabold tracking-tight text-white leading-tight">
+              Frequently Asked <br className="hidden sm:block" />
+              <span className="italic font-normal text-emerald-400">Questions (FAQ)</span>
             </h1>
-            <p className="text-lg text-gray-300 leading-relaxed">
+            <p className="text-base sm:text-lg text-emerald-100/80 font-light leading-relaxed pt-2">
               {headerOverview}
             </p>
           </div>
@@ -100,31 +128,33 @@ export default function FAQPage({ onOpenBooking }) {
       </section>
 
       {/* FAQ Accordion Section */}
-      <section className="py-16 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+      <section className="relative z-10 py-20 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         <div className="space-y-4">
           {faqsList.map((faq, idx) => {
             const isOpen = openIdx === idx;
             return (
               <div
                 key={idx}
-                className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-sm overflow-hidden transition"
+                className="bg-[#fdfcf8]/90 dark:bg-[#0c1f13]/90 backdrop-blur-md rounded-2xl border border-emerald-900/15 dark:border-emerald-800/40 shadow-sm overflow-hidden transition-all duration-300"
               >
                 <button
                   onClick={() => setOpenIdx(isOpen ? -1 : idx)}
-                  className="w-full p-6 text-left flex items-center justify-between gap-4 font-bold text-base sm:text-lg text-gray-900 dark:text-white hover:text-safari-600 dark:hover:text-safari-400 transition"
+                  className="w-full p-6 text-left flex items-center justify-between gap-4 font-serif font-bold text-base sm:text-lg text-gray-900 dark:text-emerald-50 hover:text-emerald-700 dark:hover:text-emerald-400 transition"
                 >
                   <span>{faq.q}</span>
-                  <div className="w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center shrink-0">
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition ${
+                    isOpen ? 'bg-emerald-500/20 text-emerald-600 dark:text-emerald-400' : 'bg-[#f5f2e8]/80 dark:bg-[#07150c] text-gray-500 dark:text-emerald-400/60'
+                  }`}>
                     {isOpen ? (
-                      <ChevronUp className="w-4 h-4 text-safari-600" />
+                      <ChevronUp className="w-4 h-4 stroke-[2.5]" />
                     ) : (
-                      <ChevronDown className="w-4 h-4 text-gray-500" />
+                      <ChevronDown className="w-4 h-4" />
                     )}
                   </div>
                 </button>
 
                 {isOpen && (
-                  <div className="px-6 pb-6 pt-2 text-sm text-gray-600 dark:text-gray-300 leading-relaxed border-t border-gray-100 dark:border-gray-800">
+                  <div className="px-6 pb-6 pt-2 text-sm text-gray-600 dark:text-emerald-100/80 leading-relaxed font-light border-t border-emerald-900/10 dark:border-emerald-800/30">
                     <p>{faq.a}</p>
                   </div>
                 )}
@@ -133,17 +163,26 @@ export default function FAQPage({ onOpenBooking }) {
           })}
         </div>
 
-        {/* Quick Assistance Help Card */}
-        <div className="mt-12 bg-gradient-to-br from-safari-900 to-zinc-900 rounded-3xl p-8 sm:p-10 text-white relative overflow-hidden shadow-2xl">
+        {/* Quick Assistance Help Card with Deep Forest & Tiger Stencil */}
+        <div className="mt-12 bg-[#07150c] rounded-3xl p-8 sm:p-10 text-white relative overflow-hidden shadow-2xl border border-emerald-800/40">
+          <div
+            className="absolute right-0 bottom-0 top-0 w-1/2 pointer-events-none bg-no-repeat bg-right-bottom bg-contain opacity-20"
+            style={{
+              backgroundImage: `url('${safariImages.tigerBgOverlay}')`,
+              filter: 'invert(1)',
+              mixBlendMode: 'screen',
+            }}
+            aria-hidden="true"
+          />
           <div className="relative z-10 max-w-2xl space-y-4">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-safari-500/20 text-safari-300 text-xs font-bold uppercase tracking-wider border border-safari-400/30">
-              <Sparkles className="w-3.5 h-3.5" />
+            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-950 border border-emerald-500/40 text-emerald-300 text-xs font-bold uppercase tracking-wider">
+              <Sparkles className="w-3.5 h-3.5 text-amber-400" />
               Still have questions?
             </span>
-            <h3 className="text-2xl sm:text-3xl font-extrabold text-white">
+            <h3 className="text-2xl sm:text-3xl font-serif font-extrabold text-white">
               Speak Directly with our Safari Desk
             </h3>
-            <p className="text-sm text-gray-300 leading-relaxed">
+            <p className="text-sm text-emerald-100/80 leading-relaxed font-light">
               Our reservation officers are available daily to assist with zone recommendations, permit confirmations, Gypsy allocation, and seasonal gate updates.
             </p>
             <div className="flex flex-wrap items-center gap-3 pt-2">
@@ -157,13 +196,13 @@ export default function FAQPage({ onOpenBooking }) {
               </a>
               <a
                 href={`tel:${phone.replace(/\s+/g, '')}`}
-                className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-sm border border-white/15 transition"
+                className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-sm border border-white/15 backdrop-blur-sm transition"
               >
-                <Phone className="w-4 h-4 text-safari-400" /> Call {phone}
+                <Phone className="w-4 h-4 text-emerald-400" /> Call {phone}
               </a>
               <button
                 onClick={onOpenBooking}
-                className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-safari-500 hover:bg-safari-600 text-white font-bold text-sm shadow-md transition hover:scale-105 active:scale-95"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-safari-600 hover:from-emerald-600 hover:to-safari-700 text-white font-bold text-sm shadow-lg shadow-emerald-950/50 hover:shadow-emerald-500/25 transition hover:scale-105 active:scale-95"
               >
                 <Ticket className="w-4 h-4" /> Book Safari Online
               </button>

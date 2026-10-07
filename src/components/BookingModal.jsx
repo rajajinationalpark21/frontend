@@ -58,13 +58,16 @@ export default function BookingModal({ isOpen, onClose }) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-sm animate-fadeIn">
       <div 
-        className="relative w-full max-w-lg bg-white dark:bg-gray-900 rounded-3xl shadow-2xl overflow-hidden border border-gray-100 dark:border-gray-800 p-5 sm:p-8 max-h-[92dvh] overflow-y-auto"
+        className="relative w-full max-w-lg bg-[#fdfcf8] dark:bg-[#0c1f13] rounded-3xl shadow-2xl overflow-hidden border border-emerald-900/20 dark:border-emerald-800/40 p-5 sm:p-8 max-h-[92dvh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
+        {/* Subtle ambient botanical leaf vein texture */}
+        <div className="pattern-leaf-delicate pointer-events-none absolute inset-0 opacity-[0.04] dark:opacity-[0.03] z-0" aria-hidden="true" />
+
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 sm:top-5 sm:right-5 p-2 rounded-full text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition"
+          className="relative z-10 absolute top-4 right-4 sm:top-5 sm:right-5 p-2 rounded-full text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-emerald-50 dark:hover:bg-emerald-950/50 transition"
         >
           <X className="w-5 h-5" />
         </button>
@@ -108,7 +111,7 @@ export default function BookingModal({ isOpen, onClose }) {
               </div>
 
               {/* Visitor Contact Info */}
-              <div className="space-y-3 pb-2 border-b border-gray-100 dark:border-gray-800">
+              <div className="relative z-10 space-y-3 pb-2 border-b border-emerald-900/10 dark:border-emerald-800/40">
                 <div>
                   <label className="block text-xs sm:text-sm font-semibold text-gray-800 dark:text-gray-200 mb-1.5 flex items-center gap-1.5">
                     <User className="w-3.5 h-3.5 text-safari-600 dark:text-safari-400" /> Full Name
@@ -120,7 +123,7 @@ export default function BookingModal({ isOpen, onClose }) {
                     placeholder="Primary Permit Holder Name"
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
-                    className="w-full px-3.5 py-2.5 text-sm bg-gray-50 dark:bg-gray-800/90 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:outline-none focus:border-safari-500 dark:focus:border-safari-500 focus:ring-2 focus:ring-safari-500/20 placeholder:text-gray-400 dark:placeholder:text-gray-500 font-medium transition"
+                    className="w-full px-3.5 py-2.5 text-sm bg-[#f7f5ed]/80 dark:bg-emerald-950/40 border border-emerald-900/15 dark:border-emerald-800/40 text-gray-900 dark:text-white rounded-xl focus:outline-none focus:border-safari-500 dark:focus:border-safari-500 focus:ring-2 focus:ring-safari-500/20 placeholder:text-gray-400 dark:placeholder:text-gray-500 font-medium transition"
                   />
                 </div>
 
@@ -136,7 +139,7 @@ export default function BookingModal({ isOpen, onClose }) {
                       placeholder="permit@example.com"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      className="w-full px-3.5 py-2.5 text-sm bg-gray-50 dark:bg-gray-800/90 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:outline-none focus:border-safari-500 dark:focus:border-safari-500 focus:ring-2 focus:ring-safari-500/20 placeholder:text-gray-400 dark:placeholder:text-gray-500 font-medium transition"
+                      className="w-full px-3.5 py-2.5 text-sm bg-[#f7f5ed]/80 dark:bg-emerald-950/40 border border-emerald-900/15 dark:border-emerald-800/40 text-gray-900 dark:text-white rounded-xl focus:outline-none focus:border-safari-500 dark:focus:border-safari-500 focus:ring-2 focus:ring-safari-500/20 placeholder:text-gray-400 dark:placeholder:text-gray-500 font-medium transition"
                     />
                   </div>
                   <div>
@@ -150,14 +153,14 @@ export default function BookingModal({ isOpen, onClose }) {
                       placeholder="+91 98765 43210"
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
-                      className="w-full px-3.5 py-2.5 text-sm bg-gray-50 dark:bg-gray-800/90 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:outline-none focus:border-safari-500 dark:focus:border-safari-500 focus:ring-2 focus:ring-safari-500/20 placeholder:text-gray-400 dark:placeholder:text-gray-500 font-medium transition"
+                      className="w-full px-3.5 py-2.5 text-sm bg-[#f7f5ed]/80 dark:bg-emerald-950/40 border border-emerald-900/15 dark:border-emerald-800/40 text-gray-900 dark:text-white rounded-xl focus:outline-none focus:border-safari-500 dark:focus:border-safari-500 focus:ring-2 focus:ring-safari-500/20 placeholder:text-gray-400 dark:placeholder:text-gray-500 font-medium transition"
                     />
                   </div>
                 </div>
               </div>
 
               {/* Safari Zone */}
-              <div>
+              <div className="relative z-10">
                 <label className="block text-xs sm:text-sm font-semibold text-gray-800 dark:text-gray-200 mb-1.5">
                   Select Zone
                 </label>
@@ -174,8 +177,8 @@ export default function BookingModal({ isOpen, onClose }) {
                       onClick={() => setZone(item)}
                       className={`px-3 py-2 text-xs sm:text-sm rounded-xl border text-left transition font-medium ${
                         zone === item
-                          ? 'border-safari-500 bg-safari-50/70 dark:bg-safari-950/60 text-safari-900 dark:text-safari-300 ring-1 ring-safari-500'
-                          : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600 text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800'
+                          ? 'border-safari-500 bg-safari-50/80 dark:bg-safari-950/60 text-safari-900 dark:text-safari-300 ring-1 ring-safari-500'
+                          : 'border-emerald-900/15 dark:border-emerald-800/40 hover:border-emerald-500/40 text-gray-700 dark:text-gray-200 bg-[#f7f5ed]/60 dark:bg-emerald-950/30'
                       }`}
                     >
                       {item}
@@ -185,7 +188,7 @@ export default function BookingModal({ isOpen, onClose }) {
               </div>
 
               {/* Date & Slot */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="relative z-10 grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label className="block text-xs sm:text-sm font-semibold text-gray-800 dark:text-gray-200 mb-1.5 flex items-center gap-1.5">
                     <Calendar className="w-3.5 h-3.5 text-safari-600 dark:text-safari-400" /> Date
@@ -195,7 +198,7 @@ export default function BookingModal({ isOpen, onClose }) {
                     required
                     value={date}
                     onChange={(e) => setDate(e.target.value)}
-                    className="w-full px-3.5 py-2.5 text-sm bg-gray-50 dark:bg-gray-800/90 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:outline-none focus:border-safari-500 dark:focus:border-safari-500 focus:ring-2 focus:ring-safari-500/20 font-medium transition"
+                    className="w-full px-3.5 py-2.5 text-sm bg-[#f7f5ed]/80 dark:bg-emerald-950/40 border border-emerald-900/15 dark:border-emerald-800/40 text-gray-900 dark:text-white rounded-xl focus:outline-none focus:border-safari-500 dark:focus:border-safari-500 focus:ring-2 focus:ring-safari-500/20 font-medium transition"
                   />
                 </div>
                 <div>
@@ -205,27 +208,27 @@ export default function BookingModal({ isOpen, onClose }) {
                   <select
                     value={slot}
                     onChange={(e) => setSlot(e.target.value)}
-                    className="w-full px-3.5 py-2.5 text-sm bg-gray-50 dark:bg-gray-800/90 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:outline-none focus:border-safari-500 dark:focus:border-safari-500 focus:ring-2 focus:ring-safari-500/20 font-medium transition"
+                    className="w-full px-3.5 py-2.5 text-sm bg-[#f7f5ed]/80 dark:bg-emerald-950/40 border border-emerald-900/15 dark:border-emerald-800/40 text-gray-900 dark:text-white rounded-xl focus:outline-none focus:border-safari-500 dark:focus:border-safari-500 focus:ring-2 focus:ring-safari-500/20 font-medium transition"
                   >
-                    <option className="bg-white dark:bg-gray-800 text-gray-900 dark:text-white">06:00 AM - Morning Shift (Summer)</option>
-                    <option className="bg-white dark:bg-gray-800 text-gray-900 dark:text-white">07:00 AM - Morning Shift (Winter)</option>
-                    <option className="bg-white dark:bg-gray-800 text-gray-900 dark:text-white">02:30 PM - Afternoon Shift (Winter)</option>
-                    <option className="bg-white dark:bg-gray-800 text-gray-900 dark:text-white">03:00 PM - Afternoon Shift (Summer)</option>
+                    <option className="bg-[#fdfcf8] dark:bg-gray-800 text-gray-900 dark:text-white">06:00 AM - Morning Shift (Summer)</option>
+                    <option className="bg-[#fdfcf8] dark:bg-gray-800 text-gray-900 dark:text-white">07:00 AM - Morning Shift (Winter)</option>
+                    <option className="bg-[#fdfcf8] dark:bg-gray-800 text-gray-900 dark:text-white">02:30 PM - Afternoon Shift (Winter)</option>
+                    <option className="bg-[#fdfcf8] dark:bg-gray-800 text-gray-900 dark:text-white">03:00 PM - Afternoon Shift (Summer)</option>
                   </select>
                 </div>
               </div>
 
               {/* Guests & Vehicle */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="relative z-10 grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1.5 flex items-center gap-1">
                     <Users className="w-3.5 h-3.5 text-gray-400" /> Number of Guests
                   </label>
-                  <div className="flex items-center border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden bg-gray-50 dark:bg-gray-800">
+                  <div className="flex items-center border border-emerald-900/15 dark:border-emerald-800/40 rounded-xl overflow-hidden bg-[#f7f5ed]/80 dark:bg-emerald-950/40">
                     <button
                       type="button"
                       onClick={() => setGuests(Math.max(1, guests - 1))}
-                      className="px-3 py-2 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 font-bold"
+                      className="px-3 py-2 text-gray-600 dark:text-gray-300 hover:bg-emerald-100/50 dark:hover:bg-emerald-900/50 font-bold"
                     >
                       -
                     </button>
@@ -235,7 +238,7 @@ export default function BookingModal({ isOpen, onClose }) {
                     <button
                       type="button"
                       onClick={() => setGuests(Math.min(8, guests + 1))}
-                      className="px-3 py-2 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 font-bold"
+                      className="px-3 py-2 text-gray-600 dark:text-gray-300 hover:bg-emerald-100/50 dark:hover:bg-emerald-900/50 font-bold"
                     >
                       +
                     </button>
@@ -249,7 +252,7 @@ export default function BookingModal({ isOpen, onClose }) {
                   <select
                     value={vehicle}
                     onChange={(e) => setVehicle(e.target.value)}
-                    className="w-full px-3 py-2 text-xs bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl focus:outline-none focus:border-safari-500"
+                    className="w-full px-3 py-2 text-xs bg-[#f7f5ed]/80 dark:bg-emerald-950/40 border border-emerald-900/15 dark:border-emerald-800/40 text-gray-900 dark:text-white rounded-xl focus:outline-none focus:border-safari-500"
                   >
                     <option>Open 4x4 Safari Gypsy (Max 6 Guests)</option>
                   </select>

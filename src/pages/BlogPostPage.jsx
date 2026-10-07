@@ -251,7 +251,10 @@ export default function BlogPostPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-950 transition-colors pt-6 pb-24">
+    <div className="relative min-h-screen bg-[#faf8f5] dark:bg-[#07120a] transition-colors pt-6 pb-24">
+      {/* Delicate tactile ambient leaf texture */}
+      <div className="pattern-leaf-delicate pointer-events-none z-0" aria-hidden="true" />
+
       <SEO
         title={`${article.title} | Wilderness Journal - Rajaji National Park`}
         description={article.excerpt}
@@ -260,26 +263,26 @@ export default function BlogPostPage() {
         ogType="article"
         schemaJson={articleSchema}
       />
-      <div className="max-w-2xl mx-auto px-4 sm:px-6">
+      <div className="relative z-10 max-w-2xl mx-auto px-4 sm:px-6">
         {/* Breadcrumb & Top Navigation */}
-        <div className="flex items-center justify-between py-3 mb-5 border-b border-gray-100 dark:border-gray-800 text-xs">
-          <div className="flex items-center gap-1.5 text-gray-500 dark:text-gray-400">
-            <Link to="/" className="hover:text-safari-600 dark:hover:text-safari-400 transition">
+        <div className="flex items-center justify-between py-3 mb-5 border-b border-emerald-900/10 dark:border-emerald-800/30 text-xs">
+          <div className="flex items-center gap-1.5 text-gray-500 dark:text-emerald-300/70">
+            <Link to="/" className="hover:text-emerald-600 dark:hover:text-emerald-400 transition">
               Home
             </Link>
             <ChevronRight className="w-3.5 h-3.5 text-gray-400" />
-            <Link to="/blog" className="hover:text-safari-600 dark:hover:text-safari-400 transition">
+            <Link to="/blog" className="hover:text-emerald-600 dark:hover:text-emerald-400 transition">
               Wilderness Journal
             </Link>
             <ChevronRight className="w-3.5 h-3.5 text-gray-400" />
-            <span className="text-gray-900 dark:text-white font-semibold truncate max-w-[160px] sm:max-w-xs">
+            <span className="text-gray-900 dark:text-emerald-100 font-semibold truncate max-w-[160px] sm:max-w-xs">
               {article.title}
             </span>
           </div>
 
           <Link
             to="/blog"
-            className="inline-flex items-center gap-1 font-bold text-safari-600 dark:text-safari-400 hover:text-safari-700 transition"
+            className="inline-flex items-center gap-1 font-bold text-emerald-700 dark:text-emerald-400 hover:text-emerald-800 transition"
           >
             <ArrowLeft className="w-3.5 h-3.5" /> All Stories
           </Link>
@@ -287,36 +290,36 @@ export default function BlogPostPage() {
 
         {/* Category, Date & Read Time */}
         <div className="flex flex-wrap items-center gap-3 mb-3">
-          <span className="px-2.5 py-0.5 rounded-full bg-safari-50 dark:bg-safari-900/30 text-safari-700 dark:text-safari-300 text-[11px] font-bold uppercase tracking-wider border border-safari-200 dark:border-safari-800/50">
+          <span className="px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 text-[11px] font-bold uppercase tracking-wider border border-emerald-200 dark:border-emerald-800/50">
             {article.category}
           </span>
           {article.date && (
-            <div className="flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400">
+            <div className="flex items-center gap-1 text-xs text-gray-500 dark:text-emerald-300/70">
               <Calendar className="w-3.5 h-3.5" />
               <span>{article.date}</span>
             </div>
           )}
           <span className="text-gray-300 dark:text-gray-700">•</span>
-          <div className="flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400">
+          <div className="flex items-center gap-1 text-xs text-gray-500 dark:text-emerald-300/70">
             <Clock className="w-3.5 h-3.5" />
             <span>{article.readTime}</span>
           </div>
         </div>
 
         {/* Title */}
-        <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-950 dark:text-white tracking-tight leading-snug mb-3">
+        <h1 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-extrabold text-gray-950 dark:text-emerald-50 tracking-tight leading-tight mb-4">
           {article.title}
         </h1>
 
         {/* Lead Excerpt */}
         {article.excerpt && (
-          <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 font-normal leading-relaxed mb-6">
+          <p className="text-base sm:text-lg text-gray-600 dark:text-emerald-100/80 font-light leading-relaxed mb-6">
             {article.excerpt}
           </p>
         )}
 
         {/* Featured Image */}
-        <div className="rounded-2xl overflow-hidden shadow-md aspect-[16/9] max-h-[340px] bg-gray-100 dark:bg-gray-800 mb-8 border border-gray-100 dark:border-gray-800">
+        <div className="rounded-3xl overflow-hidden shadow-xl aspect-[16/9] max-h-[380px] bg-gray-100 dark:bg-gray-800 mb-8 border border-emerald-900/15 dark:border-emerald-800/40">
           <img
             src={article.image}
             alt={article.title}
@@ -395,7 +398,7 @@ export default function BlogPostPage() {
                   <Link
                     key={rel.id}
                     to={`/blog/${relSlug}`}
-                    className="group bg-white dark:bg-gray-900 rounded-3xl overflow-hidden border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-lg transition flex flex-col block"
+                    className="group bg-[#fdfcf8]/90 dark:bg-[#0c1f13]/90 backdrop-blur-md rounded-3xl overflow-hidden border border-emerald-950/10 dark:border-emerald-500/20 shadow-sm hover:shadow-lg transition flex flex-col block"
                   >
                     <div className="aspect-[16/10] overflow-hidden bg-gray-100 dark:bg-gray-800">
                       <img

@@ -74,7 +74,10 @@ export default function TicketsPage({ onOpenBooking }) {
   const whatsappUrl = `https://wa.me/${phone.replace(/\D/g, '')}?text=${encodeURIComponent("Hello! I would like to book a Rajaji National Park Jeep Safari and check permit availability.")}`;
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-950 transition-colors">
+    <div className="relative min-h-screen bg-[#fbfcfa] dark:bg-gray-950 transition-colors">
+      {/* Delicate ambient botanical pattern */}
+      <div className="pattern-leaf-delicate fixed inset-0 opacity-[0.03] dark:opacity-[0.025] pointer-events-none z-0" />
+
       <SEO
         title="Rajaji National Park Jeep Safari – Tickets, Entry Fees & Charges"
         description="Book Rajaji National Park Jeep Safari online. Check official entry fees, safari charges, Gypsy permit fees, shift timings and booking information for Rajaji Tiger Reserve."
@@ -82,29 +85,43 @@ export default function TicketsPage({ onOpenBooking }) {
         ogImage={safariImages.safariJeepTrail}
       />
 
-      {/* Hero Header */}
-      <section className="relative py-20 bg-zinc-950 text-white overflow-hidden">
+      {/* Hero Header - Deep Forest with Tiger Watermark & Leaf Veins */}
+      <section className="relative py-24 lg:py-28 bg-[#07150c] text-white overflow-hidden">
         <div className="absolute inset-0 z-0">
-          <img src={safariImages.safariJeepTrail} alt="Safari vehicle entering Rajaji" className="w-full h-full object-cover opacity-35" />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/85 via-black/70 to-black/90" />
+          <img src={safariImages.safariJeepTrail} alt="Safari vehicle entering Rajaji" className="w-full h-full object-cover opacity-30 mix-blend-luminosity" />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#040b06]/95 via-[#07150c]/85 to-[#07150c]" />
         </div>
+
+        {/* Botanical leaf vein texture */}
+        <div className="pattern-leaf-veins absolute inset-0 opacity-10 pointer-events-none" />
+
+        {/* Tiger watermark stencil */}
+        <div 
+          className="absolute right-0 bottom-0 top-0 w-2/3 max-w-2xl bg-contain bg-right-bottom bg-no-repeat pointer-events-none opacity-[0.14]"
+          style={{
+            backgroundImage: `url("/images/tiger for bg overlay.jpg")`,
+            filter: 'invert(1)',
+            mixBlendMode: 'screen',
+          }}
+        />
+
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl space-y-4">
-            <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-white text-xs font-bold uppercase tracking-wider mb-2 border border-white/15 backdrop-blur-sm">
-              <Ticket className="w-3.5 h-3.5" />
+          <div className="max-w-3xl space-y-5">
+            <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-400/20 backdrop-blur-md text-[11px] font-bold uppercase tracking-widest text-emerald-300">
+              <Ticket className="w-3.5 h-3.5 text-emerald-400" />
               Official Tariff Schedule
             </span>
-            <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white leading-tight">
+            <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-[1.15]">
               Rajaji National Park Jeep Safari – Tickets, Entry Fees & Charges
             </h1>
-            <p className="text-base sm:text-lg text-gray-300 leading-relaxed">
+            <p className="text-base sm:text-lg text-emerald-100/80 leading-relaxed font-normal">
               Transparent, government-standard park entry fees, 4x4 Gypsy tariffs, naturalist guide charges, and seasonal timings for Indian citizens and foreign visitors.
             </p>
 
             <div className="flex flex-wrap items-center gap-3 pt-3">
               <button
                 onClick={onOpenBooking}
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-safari-500 hover:bg-safari-600 text-white font-bold text-sm shadow-xl transition hover:scale-105 active:scale-95"
+                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider shadow-lg shadow-emerald-950/40 transition duration-200 hover:scale-105 active:scale-95"
               >
                 <Ticket className="w-4 h-4" /> Book Safari Online
               </button>
@@ -112,15 +129,15 @@ export default function TicketsPage({ onOpenBooking }) {
                 href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-[#25D366] hover:bg-[#20ba59] text-white font-bold text-sm shadow-md transition hover:scale-105 active:scale-95"
+                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-[#25D366] hover:bg-[#20ba59] text-white font-bold text-xs uppercase tracking-wider shadow-md transition duration-200 hover:scale-105 active:scale-95"
               >
                 <MessageSquare className="w-4 h-4" /> WhatsApp Assistance
               </a>
               <a
                 href={`tel:${phone.replace(/\s+/g, '')}`}
-                className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-sm border border-white/15 transition"
+                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-white/10 hover:bg-white/15 text-white font-bold text-xs border border-white/15 transition backdrop-blur-sm"
               >
-                <Phone className="w-4 h-4 text-safari-400" /> {phone}
+                <Phone className="w-4 h-4 text-emerald-400" /> {phone}
               </a>
             </div>
           </div>
@@ -128,34 +145,34 @@ export default function TicketsPage({ onOpenBooking }) {
       </section>
 
       {/* Timings banner */}
-      <section className="bg-gray-50 dark:bg-gray-900/90 border-y border-gray-200 dark:border-gray-800 py-6">
+      <section className="relative z-10 bg-[#fdfcf8]/90 dark:bg-gray-900/80 backdrop-blur-md border-y border-emerald-950/10 dark:border-emerald-500/20 py-6">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm">
-            <div className="flex items-start gap-3">
-              <div className="w-9 h-9 rounded-lg bg-safari-500/20 text-safari-600 dark:text-safari-400 flex items-center justify-center shrink-0">
+            <div className="flex items-start gap-3.5">
+              <div className="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0 border border-emerald-200/50 dark:border-emerald-800/40">
                 <Ticket className="w-5 h-5" />
               </div>
               <div>
                 <span className="font-bold text-gray-900 dark:text-white block">Season Calendar</span>
-                <span className="text-gray-600 dark:text-gray-300 text-xs">{timings.openDates}</span>
+                <span className="text-gray-600 dark:text-gray-400 text-xs">{timings.openDates}</span>
               </div>
             </div>
-            <div className="flex items-start gap-3">
-              <div className="w-9 h-9 rounded-lg bg-safari-500/20 text-safari-600 dark:text-safari-400 flex items-center justify-center shrink-0">
+            <div className="flex items-start gap-3.5">
+              <div className="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0 border border-emerald-200/50 dark:border-emerald-800/40">
                 <Car className="w-5 h-5" />
               </div>
               <div>
                 <span className="font-bold text-gray-900 dark:text-white block">Summer Shift Timings</span>
-                <span className="text-gray-600 dark:text-gray-300 text-xs">{timings.summer}</span>
+                <span className="text-gray-600 dark:text-gray-400 text-xs">{timings.summer}</span>
               </div>
             </div>
-            <div className="flex items-start gap-3">
-              <div className="w-9 h-9 rounded-lg bg-safari-500/20 text-safari-600 dark:text-safari-400 flex items-center justify-center shrink-0">
+            <div className="flex items-start gap-3.5">
+              <div className="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0 border border-emerald-200/50 dark:border-emerald-800/40">
                 <ShieldCheck className="w-5 h-5" />
               </div>
               <div>
                 <span className="font-bold text-gray-900 dark:text-white block">Winter Shift Timings</span>
-                <span className="text-gray-600 dark:text-gray-300 text-xs">{timings.winter}</span>
+                <span className="text-gray-600 dark:text-gray-400 text-xs">{timings.winter}</span>
               </div>
             </div>
           </div>
@@ -163,35 +180,38 @@ export default function TicketsPage({ onOpenBooking }) {
       </section>
 
       {/* Main Tariff Tables */}
-      <section className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
+      <section className="relative z-10 py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
         
         {/* Entrance Fee Table */}
         <div>
           <div className="mb-6">
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+            <span className="text-xs font-bold uppercase tracking-widest text-emerald-600 dark:text-emerald-400 mb-1 block">
+              GOVERNMENT TARIFF SCHEDULE
+            </span>
+            <h2 className="font-serif text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">
               Rajaji National Park Entry Fees & Jeep Permit Charges
             </h2>
-            <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+            <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
               Applicable across Chilla, Motichur, Ranipur, Mohand–Chillawali, and Jhilmil zones.
             </p>
           </div>
-          <div className="bg-white dark:bg-gray-900 rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-800 shadow-sm">
+          <div className="bg-[#fdfcf8]/90 dark:bg-[#0c1f13]/90 backdrop-blur-md rounded-3xl overflow-hidden border border-emerald-950/10 dark:border-emerald-500/20 shadow-sm">
             <div className="overflow-x-auto">
               <table className="w-full text-left text-sm">
-                <thead className="bg-gray-100/75 dark:bg-gray-800/80 text-gray-700 dark:text-gray-300 font-semibold text-xs uppercase tracking-wider">
+                <thead className="bg-[#07150c]/5 dark:bg-emerald-950/30 text-gray-800 dark:text-gray-200 font-semibold text-xs uppercase tracking-wider border-b border-emerald-950/5 dark:border-emerald-500/10">
                   <tr>
-                    <th className="px-6 py-4">Fee Head / Permit Category</th>
-                    <th className="px-6 py-4">Indian Visitors</th>
-                    <th className="px-6 py-4">Foreign Visitors</th>
-                    <th className="px-6 py-4">Details & Notes</th>
+                    <th className="px-6 py-4 font-bold">Fee Head / Permit Category</th>
+                    <th className="px-6 py-4 font-bold">Indian Visitors</th>
+                    <th className="px-6 py-4 font-bold">Foreign Visitors</th>
+                    <th className="px-6 py-4 font-bold">Details & Notes</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-100 dark:divide-gray-800">
                   {entranceFees.map((row, idx) => (
-                    <tr key={idx} className="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition">
+                    <tr key={idx} className="hover:bg-emerald-50/40 dark:hover:bg-gray-800/50 transition">
                       <td className="px-6 py-4 font-bold text-gray-900 dark:text-white">{row.category}</td>
-                      <td className="px-6 py-4 font-bold text-emerald-600 dark:text-emerald-400">{row.indian}</td>
-                      <td className="px-6 py-4 font-bold text-blue-600 dark:text-sky-300">{row.foreigner}</td>
+                      <td className="px-6 py-4 font-bold text-emerald-700 dark:text-emerald-400">{row.indian}</td>
+                      <td className="px-6 py-4 font-bold text-amber-700 dark:text-amber-400">{row.foreigner}</td>
                       <td className="px-6 py-4 text-xs text-gray-500 dark:text-gray-400">{row.note}</td>
                     </tr>
                   ))}
@@ -203,58 +223,58 @@ export default function TicketsPage({ onOpenBooking }) {
 
         {/* Gypsy & Guide Charges Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <div className="bg-white dark:bg-gray-900 rounded-2xl p-6 border border-gray-200 dark:border-gray-800 shadow-sm">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 rounded-xl bg-safari-500/10 text-safari-600 dark:text-safari-400 flex items-center justify-center">
+          <div className="bg-[#fdfcf8]/90 dark:bg-[#0c1f13]/90 backdrop-blur-md rounded-3xl p-7 border border-emerald-950/10 dark:border-emerald-500/20 shadow-sm">
+            <div className="flex items-center gap-3.5 mb-6">
+              <div className="w-11 h-11 rounded-2xl bg-emerald-50 dark:bg-emerald-950/50 text-emerald-700 dark:text-emerald-400 flex items-center justify-center border border-emerald-200/50 dark:border-emerald-800/40">
                 <Car className="w-5 h-5" />
               </div>
               <div>
-                <h3 className="text-xl font-bold text-gray-900 dark:text-white">Rajaji Jeep Safari Charges by Zone</h3>
+                <h3 className="font-serif text-xl font-bold text-gray-900 dark:text-white">Rajaji Jeep Safari Charges by Zone</h3>
                 <span className="text-xs text-gray-500 dark:text-gray-400">Fixed Gypsy rate per vehicle per shift (Up to 6 persons)</span>
               </div>
             </div>
             <div className="space-y-3">
               {gypsyRates.map((gypsy, gIdx) => (
-                <div key={gIdx} className="p-4 rounded-xl bg-gray-50 dark:bg-gray-800/50 border border-gray-100 dark:border-gray-700/80 flex items-center justify-between">
+                <div key={gIdx} className="p-4 rounded-2xl bg-gray-50/80 dark:bg-gray-800/50 border border-gray-100 dark:border-gray-700/60 flex items-center justify-between">
                   <div>
                     <span className="font-bold text-gray-900 dark:text-white text-sm block">{gypsy.zone}</span>
                     <span className="text-xs text-gray-500 dark:text-gray-400">{gypsy.capacity}</span>
                   </div>
                   <div className="text-right">
-                    <span className="text-lg font-extrabold text-safari-600 dark:text-safari-400">{gypsy.rate}</span>
+                    <span className="font-serif text-lg font-bold text-emerald-700 dark:text-emerald-400">{gypsy.rate}</span>
                   </div>
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="bg-white dark:bg-gray-900 rounded-2xl p-6 border border-gray-200 dark:border-gray-800 shadow-sm flex flex-col justify-between">
+          <div className="bg-[#fdfcf8]/90 dark:bg-[#0c1f13]/90 backdrop-blur-md rounded-3xl p-7 border border-emerald-950/10 dark:border-emerald-500/20 shadow-sm flex flex-col justify-between">
             <div>
-              <div className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
+              <div className="flex items-center gap-3.5 mb-6">
+                <div className="w-11 h-11 rounded-2xl bg-emerald-50 dark:bg-emerald-950/50 text-emerald-700 dark:text-emerald-400 flex items-center justify-center border border-emerald-200/50 dark:border-emerald-800/40">
                   <ShieldCheck className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-gray-900 dark:text-white">Nature Guide Charges</h3>
+                  <h3 className="font-serif text-xl font-bold text-gray-900 dark:text-white">Nature Guide Charges</h3>
                   <span className="text-xs text-gray-500 dark:text-gray-400">Mandatory certified park guide per vehicle</span>
                 </div>
               </div>
               <div className="space-y-4">
                 {guideFees.map((guide, gdIdx) => (
-                  <div key={gdIdx} className="p-4 rounded-xl bg-gray-50 dark:bg-gray-800/50 border border-gray-100 dark:border-gray-700/80">
+                  <div key={gdIdx} className="p-4 rounded-2xl bg-gray-50/80 dark:bg-gray-800/50 border border-gray-100 dark:border-gray-700/60">
                     <div className="flex justify-between items-start mb-1">
                       <span className="font-bold text-gray-900 dark:text-white text-sm">{guide.type}</span>
-                      <span className="font-bold text-emerald-600 dark:text-emerald-400">{guide.fee}</span>
+                      <span className="font-serif font-bold text-emerald-700 dark:text-emerald-400">{guide.fee}</span>
                     </div>
                     <span className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed block">{guide.note}</span>
                   </div>
                 ))}
 
                 {/* Elephant Ride Info */}
-                <div className="p-4 rounded-xl bg-safari-50 dark:bg-safari-950/30 border border-safari-200 dark:border-safari-800 text-xs space-y-1">
-                  <div className="flex justify-between items-center font-bold text-safari-900 dark:text-safari-200">
+                <div className="p-4 rounded-2xl bg-emerald-50/60 dark:bg-emerald-950/20 border border-emerald-200/60 dark:border-emerald-800/40 text-xs space-y-1">
+                  <div className="flex justify-between items-center font-bold text-emerald-950 dark:text-emerald-200">
                     <span>Elephant Ride (Subject to availability)</span>
-                    <span>₹1,200 – ₹1,500</span>
+                    <span className="font-serif font-bold text-emerald-800 dark:text-emerald-300">₹1,200 – ₹1,500</span>
                   </div>
                   <p className="text-gray-600 dark:text-gray-400">
                     Early morning rides conducted at designated ranges subject to Forest Department availability. Confirm at gate.
@@ -268,32 +288,35 @@ export default function TicketsPage({ onOpenBooking }) {
         {/* Photography & Commercial Filming Fees */}
         <div>
           <div className="mb-6">
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
-              <Video className="w-6 h-6 text-safari-600" />
+            <span className="text-xs font-bold uppercase tracking-widest text-emerald-600 dark:text-emerald-400 mb-1 block">
+              MEDIA & COMMERCIAL PROTOCOL
+            </span>
+            <h2 className="font-serif text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
+              <Video className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
               Photography & Filming Fees
             </h2>
-            <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+            <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
               Personal non-commercial photography is free. Commercial films require prior permissions and security deposits.
             </p>
           </div>
-          <div className="bg-white dark:bg-gray-900 rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-800 shadow-sm">
+          <div className="bg-[#fdfcf8]/90 dark:bg-[#0c1f13]/90 backdrop-blur-md rounded-3xl overflow-hidden border border-emerald-950/10 dark:border-emerald-500/20 shadow-sm">
             <div className="overflow-x-auto">
               <table className="w-full text-left text-sm">
-                <thead className="bg-gray-100/75 dark:bg-gray-800/80 text-gray-700 dark:text-gray-300 font-semibold text-xs uppercase tracking-wider">
+                <thead className="bg-[#07150c]/5 dark:bg-emerald-950/30 text-gray-800 dark:text-gray-200 font-semibold text-xs uppercase tracking-wider border-b border-emerald-950/5 dark:border-emerald-500/10">
                   <tr>
-                    <th className="px-6 py-4">Filming Category</th>
-                    <th className="px-6 py-4">Indian Nationals</th>
-                    <th className="px-6 py-4">Foreign Nationals</th>
-                    <th className="px-6 py-4">Security Deposit (Refundable)</th>
-                    <th className="px-6 py-4">Notes</th>
+                    <th className="px-6 py-4 font-bold">Filming Category</th>
+                    <th className="px-6 py-4 font-bold">Indian Nationals</th>
+                    <th className="px-6 py-4 font-bold">Foreign Nationals</th>
+                    <th className="px-6 py-4 font-bold">Security Deposit (Refundable)</th>
+                    <th className="px-6 py-4 font-bold">Notes</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-100 dark:divide-gray-800">
                   {filmingFees.map((row, idx) => (
-                    <tr key={idx} className="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition">
+                    <tr key={idx} className="hover:bg-emerald-50/40 dark:hover:bg-gray-800/50 transition">
                       <td className="px-6 py-4 font-bold text-gray-900 dark:text-white">{row.type}</td>
-                      <td className="px-6 py-4 font-bold text-emerald-600 dark:text-emerald-400">{row.indian}</td>
-                      <td className="px-6 py-4 font-bold text-blue-600 dark:text-sky-300">{row.foreigner}</td>
+                      <td className="px-6 py-4 font-bold text-emerald-700 dark:text-emerald-400">{row.indian}</td>
+                      <td className="px-6 py-4 font-bold text-amber-700 dark:text-amber-400">{row.foreigner}</td>
                       <td className="px-6 py-4 font-mono text-xs">{row.security}</td>
                       <td className="px-6 py-4 text-xs text-gray-500 dark:text-gray-400">{row.note}</td>
                     </tr>
@@ -305,15 +328,15 @@ export default function TicketsPage({ onOpenBooking }) {
         </div>
 
         {/* Important Rules Checklist & Terms Link */}
-        <div className="bg-gray-50 dark:bg-gray-900 p-8 rounded-3xl border border-gray-200 dark:border-gray-800 space-y-6">
+        <div className="bg-[#fdfcf8]/90 dark:bg-[#0c1f13]/90 backdrop-blur-md p-8 sm:p-10 rounded-3xl border border-emerald-950/10 dark:border-emerald-500/20 shadow-sm space-y-6">
           <div className="flex flex-wrap items-center justify-between gap-4">
-            <h3 className="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
-              <AlertCircle className="w-5 h-5 text-safari-600" />
+            <h3 className="font-serif text-xl sm:text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
+              <AlertCircle className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
               Important Safari Booking Information
             </h3>
             <Link
               to="/terms"
-              className="text-xs font-bold text-safari-600 dark:text-safari-400 hover:underline inline-flex items-center gap-1"
+              className="text-xs font-bold text-emerald-700 dark:text-emerald-400 hover:underline inline-flex items-center gap-1"
             >
               Read Full Cancellation & Refund Policy <ArrowRight className="w-3.5 h-3.5" />
             </Link>
@@ -321,14 +344,14 @@ export default function TicketsPage({ onOpenBooking }) {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm">
             {importantNotes.map((note, nIdx) => (
-              <div key={nIdx} className="flex items-start gap-3 bg-white dark:bg-gray-800 p-4 rounded-xl border border-gray-100 dark:border-gray-700">
-                <CheckCircle2 className="w-4 h-4 text-safari-500 shrink-0 mt-0.5" />
+              <div key={nIdx} className="flex items-start gap-3 bg-gray-50/80 dark:bg-gray-800/60 p-4 rounded-2xl border border-gray-100 dark:border-gray-700/60">
+                <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
                 <span className="text-gray-700 dark:text-gray-300 leading-relaxed">{note}</span>
               </div>
             ))}
           </div>
 
-          <div className="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-gray-200 dark:border-gray-800">
+          <div className="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-gray-100 dark:border-gray-800">
             <span className="text-xs text-gray-500 dark:text-gray-400 text-center sm:text-left">
               Assistance with safari availability, zone selection, and payment?
             </span>
@@ -337,13 +360,13 @@ export default function TicketsPage({ onOpenBooking }) {
                 href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-5 py-2.5 rounded-xl bg-[#25D366] hover:bg-[#20ba59] text-white font-bold text-xs uppercase tracking-wider transition"
+                className="px-6 py-3 rounded-full bg-[#25D366] hover:bg-[#20ba59] text-white font-bold text-xs uppercase tracking-wider transition shadow-sm"
               >
                 WhatsApp Us
               </a>
               <button
                 onClick={onOpenBooking}
-                className="px-6 py-2.5 rounded-xl bg-safari-600 hover:bg-safari-700 text-white font-bold text-xs uppercase tracking-wider transition shadow-sm"
+                className="px-7 py-3 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider transition shadow-sm"
               >
                 Book Safari Now
               </button>

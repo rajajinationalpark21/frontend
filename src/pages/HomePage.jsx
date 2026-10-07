@@ -123,13 +123,18 @@ export default function HomePage({ onOpenBooking }) {
   };
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-950 transition-colors">
+    <div className="min-h-screen bg-[#fafaf7] dark:bg-[#070c09] transition-colors relative overflow-hidden">
       <SEO
         title="Rajaji National Park | Official Wildlife Reserve & Tiger Expeditions"
         description="Experience the heart of Rajaji National Park. Book guided open 4x4 jeep safaris, witness Royal Bengal Tigers and wild Asian Elephants in protected Himalayan foothills."
         keywords="rajaji national park, tiger safari booking, chilla safari, motichur zone, haridwar rishikesh safari, jeep safari permits, uttarakhand wildlife"
         ogImage={safariImages.walkingTiger}
         schemaJson={homeSchema}
+      />
+
+      {/* Subtle Ambient Botanical Leaf Texture Background */}
+      <div 
+        className="absolute inset-0 opacity-[0.03] dark:opacity-[0.04] pointer-events-none pattern-leaf-delicate"
       />
 
       {/* 1. HERO SECTION */}
@@ -140,31 +145,31 @@ export default function HomePage({ onOpenBooking }) {
             className="w-full h-full bg-cover bg-center bg-no-repeat transition-transform duration-1000 scale-105"
             style={{ backgroundImage: `url("${content.heroBanner || safariImages.homeHero}")` }}
           >
-            {/* Dark gradient overlay */}
-            <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/45 to-black/80" />
+            {/* Deep rich forest vignette overlay */}
+            <div className="absolute inset-0 bg-gradient-to-b from-black/75 via-black/45 to-black/85" />
           </div>
         </div>
 
         {/* Hero Content */}
-        <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 pt-16 pb-20 sm:pt-20 sm:pb-24">
-          <h1 className="text-3xl sm:text-5xl md:text-6xl font-extrabold text-white tracking-tight leading-[1.15] mb-4 drop-shadow-sm">
-            {content.heroTitle || "Experience the Heart of the Jungle"}
+        <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 pt-16 pb-24 sm:pt-20 sm:pb-28">
+          <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold text-white tracking-tight leading-[1.12] mb-4 drop-shadow-md font-serif">
+            {content.heroTitle || "Unleash Your Wild Side"}
           </h1>
-          <p className="text-sm sm:text-base text-gray-200 max-w-xl mx-auto font-normal mb-7">
-            {content.heroSubtitle || "Track royal Bengal tigers across open meadows, listen to the forest wake at dawn, and discover a national park where every trail tells a story."}
+          <p className="text-sm sm:text-base text-gray-200/95 max-w-xl mx-auto font-normal mb-8 leading-relaxed">
+            {content.heroSubtitle || "Experience the heart of the jungle. Witness nature in its purest form."}
           </p>
 
           {/* Call to Actions */}
           <div className="flex flex-wrap items-center justify-center gap-3.5">
             <button
               onClick={onOpenBooking}
-              className="px-6 py-3 rounded-full bg-safari-500 hover:bg-safari-600 text-white font-semibold text-sm shadow-lg hover:shadow-xl active:scale-95 transition duration-200"
+              className="px-7 py-3.5 rounded-full bg-safari-500 hover:bg-safari-400 text-white font-bold text-sm shadow-xl shadow-safari-500/30 hover:shadow-safari-400/40 active:scale-95 transition-all duration-200 cursor-pointer"
             >
               Explore Safari
             </button>
             <Link
               to="/zones"
-              className="px-6 py-3 rounded-full border-2 border-white/80 hover:border-white text-white font-semibold text-sm hover:bg-white/10 active:scale-95 transition duration-200"
+              className="px-7 py-3.5 rounded-full border-2 border-white/80 hover:border-white text-white font-bold text-sm hover:bg-white/10 active:scale-95 transition-all duration-200 backdrop-blur-sm"
             >
               Explore Safari Zones
             </Link>
@@ -172,40 +177,40 @@ export default function HomePage({ onOpenBooking }) {
         </div>
       </section>
 
-      {/* 3 Floating Info Cards */}
-      <div className="relative z-20 -mt-10 max-w-5xl mx-auto px-4 sm:px-6">
+      {/* 3 Floating Info Pill Capsules (Matching Reference Design) */}
+      <div className="relative z-20 -mt-8 sm:-mt-10 max-w-5xl mx-auto px-4 sm:px-6">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {/* Card 1: Timings */}
-          <div className="bg-white dark:bg-gray-900 rounded-3xl p-5 shadow-2xl border border-gray-100 dark:border-gray-800 flex items-center gap-4 text-left transition hover:-translate-y-1 duration-200">
-            <div className="w-12 h-12 rounded-full bg-safari-100 dark:bg-safari-900/40 flex items-center justify-center shrink-0 text-safari-600 dark:text-safari-400">
-              <Sun className="w-6 h-6" />
+          <div className="bg-[#fdfcf8]/90 dark:bg-[#0c1610]/90 backdrop-blur-md rounded-2xl sm:rounded-full px-6 py-4 shadow-xl border border-emerald-900/15 dark:border-emerald-500/25 flex items-center gap-4 text-left transition hover:-translate-y-1 duration-200">
+            <div className="w-11 h-11 rounded-full bg-emerald-50 dark:bg-emerald-950/60 flex items-center justify-center shrink-0 text-emerald-600 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-900/30">
+              <Sun className="w-5 h-5" />
             </div>
             <div>
-              <h4 className="font-bold text-gray-900 dark:text-white text-base">Timings</h4>
+              <h4 className="font-bold text-gray-900 dark:text-white text-sm">Timings</h4>
               <p className="text-xs font-semibold text-gray-700 dark:text-gray-300 mt-0.5">{content.timings || "06:00 AM - 06:00 PM"}</p>
               <p className="text-[11px] text-gray-400 dark:text-gray-500">Open all days except Tuesday</p>
             </div>
           </div>
 
           {/* Card 2: Zones */}
-          <div className="bg-white dark:bg-gray-900 rounded-3xl p-5 shadow-2xl border border-gray-100 dark:border-gray-800 flex items-center gap-4 text-left transition hover:-translate-y-1 duration-200">
-            <div className="w-12 h-12 rounded-full bg-safari-100 dark:bg-safari-900/40 flex items-center justify-center shrink-0 text-safari-600 dark:text-safari-400">
-              <Compass className="w-6 h-6" />
+          <div className="bg-[#fdfcf8]/90 dark:bg-[#0c1610]/90 backdrop-blur-md rounded-2xl sm:rounded-full px-6 py-4 shadow-xl border border-emerald-900/15 dark:border-emerald-500/25 flex items-center gap-4 text-left transition hover:-translate-y-1 duration-200">
+            <div className="w-11 h-11 rounded-full bg-emerald-50 dark:bg-emerald-950/60 flex items-center justify-center shrink-0 text-emerald-600 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-900/30">
+              <Compass className="w-5 h-5" />
             </div>
             <div>
-              <h4 className="font-bold text-gray-900 dark:text-white text-base">Zones</h4>
-              <p className="text-xs font-semibold text-gray-700 dark:text-gray-300 mt-0.5">{content.zones || "Chilla, Motichur & Ranipur"}</p>
+              <h4 className="font-bold text-gray-900 dark:text-white text-sm">Zones</h4>
+              <p className="text-xs font-semibold text-gray-700 dark:text-gray-300 mt-0.5">{content.zones || "Buffer, Core & River Safari"}</p>
               <p className="text-[11px] text-gray-400 dark:text-gray-500">Explore 5 distinct wildlife ranges</p>
             </div>
           </div>
 
           {/* Card 3: Rules */}
-          <div className="bg-white dark:bg-gray-900 rounded-3xl p-5 shadow-2xl border border-gray-100 dark:border-gray-800 flex items-center gap-4 text-left transition hover:-translate-y-1 duration-200">
-            <div className="w-12 h-12 rounded-full bg-safari-100 dark:bg-safari-900/40 flex items-center justify-center shrink-0 text-safari-600 dark:text-safari-400">
-              <Shield className="w-6 h-6" />
+          <div className="bg-[#fdfcf8]/90 dark:bg-[#0c1610]/90 backdrop-blur-md rounded-2xl sm:rounded-full px-6 py-4 shadow-xl border border-emerald-900/15 dark:border-emerald-500/25 flex items-center gap-4 text-left transition hover:-translate-y-1 duration-200">
+            <div className="w-11 h-11 rounded-full bg-emerald-50 dark:bg-emerald-950/60 flex items-center justify-center shrink-0 text-emerald-600 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-900/30">
+              <Shield className="w-5 h-5" />
             </div>
             <div>
-              <h4 className="font-bold text-gray-900 dark:text-white text-base">Rules</h4>
+              <h4 className="font-bold text-gray-900 dark:text-white text-sm">Rules</h4>
               <p className="text-xs font-semibold text-gray-700 dark:text-gray-300 mt-0.5">{content.rules || "Do's & Don'ts Guide"}</p>
               <p className="text-[11px] text-gray-400 dark:text-gray-500">Strict conservation policies</p>
             </div>
@@ -214,18 +219,18 @@ export default function HomePage({ onOpenBooking }) {
       </div>
 
       {/* 2. THE SANCTUARY LEGACY (ABOUT RAJAJI) SECTION */}
-      <section id="about-rajaji" className="pt-20 pb-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section id="about-rajaji" className="pt-24 pb-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           {/* Left: Walking Tiger Image with EST badge */}
           <div className="lg:col-span-6 relative">
-            <div className="relative rounded-3xl overflow-hidden shadow-2xl group aspect-[4/3] bg-gray-100">
+            <div className="relative rounded-3xl overflow-hidden shadow-xl group aspect-[4/3] bg-gray-100 border border-gray-200/60 dark:border-gray-800">
               <img
                 src={safariImages.walkingTiger}
                 alt="Bengal Tiger walking in grassland"
                 className="w-full h-full object-cover object-center group-hover:scale-105 transition duration-700"
               />
               {/* EST. 1983 Badge */}
-              <div className="absolute bottom-5 left-5 bg-white/90 backdrop-blur-md px-3.5 py-1.5 rounded-full shadow-md text-xs font-bold text-gray-900 tracking-wider">
+              <div className="absolute bottom-5 left-5 bg-[#fdfcf8]/95 dark:bg-[#0c1610]/95 backdrop-blur-md px-4 py-1.5 rounded-full shadow-md text-xs font-bold text-gray-900 dark:text-white tracking-wider border border-emerald-900/15 dark:border-emerald-800/40">
                 EST. 1983
               </div>
             </div>
@@ -233,20 +238,22 @@ export default function HomePage({ onOpenBooking }) {
 
           {/* Right: Sanctuary Legacy Narrative */}
           <div className="lg:col-span-6 space-y-6">
-            <span className="text-xs font-bold tracking-widest text-safari-600 dark:text-safari-400 uppercase">
-              ABOUT RAJAJI TIGER RESERVE
-            </span>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-gray-900 dark:text-white tracking-tight">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-200 dark:border-emerald-900/40">
+              <span className="text-[11px] font-bold tracking-widest text-emerald-700 dark:text-emerald-400 uppercase">
+                CONSERVATION FIRST
+              </span>
+            </div>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-950 dark:text-white tracking-tight font-serif">
               {content.aboutTitle || "The Sanctuary Legacy"}
             </h2>
-            <p className="text-gray-600 dark:text-gray-300 leading-relaxed text-sm">
+            <p className="text-gray-600 dark:text-gray-300 leading-relaxed text-sm sm:text-base">
               {content.aboutDescription || "Dedicated to conservation and protecting our wildlife for generations to come. Discover the story behind the sanctuary, our efforts in anti-poaching, and how we maintain the delicate balance of the ecosystem."}
             </p>
 
-            {/* Statistics */}
-            <div className="flex items-center gap-10 pt-2 border-l-2 border-safari-500 pl-5">
+            {/* Statistics Counters */}
+            <div className="flex items-center gap-10 pt-3 border-l-2 border-safari-500 pl-6">
               <div>
-                <div className="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white">
+                <div className="text-3xl sm:text-4xl font-extrabold text-gray-950 dark:text-white font-serif">
                   {content.stats?.tigers || "50+"}
                 </div>
                 <div className="text-xs text-gray-500 dark:text-gray-400 font-medium mt-0.5">
@@ -255,8 +262,8 @@ export default function HomePage({ onOpenBooking }) {
               </div>
               <div className="w-px h-10 bg-gray-200 dark:bg-gray-800" />
               <div>
-                <div className="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white">
-                  {content.stats?.sqKm || "820+"}
+                <div className="text-3xl sm:text-4xl font-extrabold text-gray-950 dark:text-white font-serif">
+                  {content.stats?.sqKm || content.stats?.acres || "820+"}
                 </div>
                 <div className="text-xs text-gray-500 dark:text-gray-400 font-medium mt-0.5">
                   Sq Km of Forest
@@ -268,10 +275,10 @@ export default function HomePage({ onOpenBooking }) {
             <div className="pt-2">
               <Link
                 to="/wildlife"
-                className="inline-flex items-center gap-2 font-bold text-gray-900 dark:text-white hover:text-safari-600 dark:hover:text-safari-400 transition group text-sm sm:text-base"
+                className="inline-flex items-center gap-2 font-bold text-gray-950 dark:text-white hover:text-safari-600 dark:hover:text-safari-400 transition group text-sm sm:text-base"
               >
-                Explore Wildlife & Biodiversity
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition" />
+                <span>Read Our Story</span>
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform" />
               </Link>
             </div>
           </div>
@@ -279,15 +286,15 @@ export default function HomePage({ onOpenBooking }) {
       </section>
 
       {/* 3. CAPTURED MOMENTS GALLERY MOSAIC */}
-      <section className="py-16 bg-gray-50/60 dark:bg-gray-900/40 border-y border-gray-100 dark:border-gray-800">
+      <section className="py-20 border-y border-emerald-950/10 dark:border-emerald-900/30 relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-10 gap-4">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-12 gap-4">
             <div>
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight">
+              <h2 className="text-3xl sm:text-4xl font-bold text-gray-950 dark:text-white tracking-tight font-serif">
                 Captured Moments
               </h2>
-              <p className="text-gray-500 dark:text-gray-400 text-xs sm:text-sm mt-1">
+              <p className="text-gray-500 dark:text-gray-400 text-xs sm:text-sm mt-1.5">
                 Glimpses of the wild, caught in the perfect light.
               </p>
             </div>
@@ -295,23 +302,23 @@ export default function HomePage({ onOpenBooking }) {
               to="/wildlife"
               className="inline-flex items-center gap-1.5 text-xs font-bold text-gray-900 dark:text-white hover:text-safari-600 dark:hover:text-safari-400 transition group"
             >
-              Explore Wildlife Species
-              <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition" />
+              <span>View Full Gallery</span>
+              <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
             </Link>
           </div>
 
-          {/* Mosaic Grid */}
+          {/* Mosaic Grid Matching Reference */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5 items-stretch">
             {/* Left Column: Two landscape stacked cards */}
             <div className="space-y-5 flex flex-col justify-between">
-              <div className="rounded-3xl overflow-hidden shadow-sm hover:shadow-lg transition aspect-[16/10] group bg-gray-200 dark:bg-gray-800">
+              <div className="rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition aspect-[16/10] group bg-gray-200 dark:bg-gray-800 border border-gray-100 dark:border-gray-800">
                 <img
                   src={displayGallery[0] || fallbackGallery[0]}
                   alt="Gallery image 1"
                   className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
                 />
               </div>
-              <div className="rounded-3xl overflow-hidden shadow-sm hover:shadow-lg transition aspect-[16/9] group bg-gray-200 dark:bg-gray-800">
+              <div className="rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition aspect-[16/9] group bg-gray-200 dark:bg-gray-800 border border-gray-100 dark:border-gray-800">
                 <img
                   src={displayGallery[1] || fallbackGallery[1]}
                   alt="Gallery image 2"
@@ -321,7 +328,7 @@ export default function HomePage({ onOpenBooking }) {
             </div>
 
             {/* Middle Column: Tall portrait */}
-            <div className="rounded-3xl overflow-hidden shadow-sm hover:shadow-lg transition group bg-gray-200 dark:bg-gray-800 min-h-[380px] h-full">
+            <div className="rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition group bg-gray-200 dark:bg-gray-800 min-h-[380px] h-full border border-gray-100 dark:border-gray-800">
               <img
                 src={displayGallery[2] || fallbackGallery[2]}
                 alt="Gallery image 3"
@@ -331,14 +338,14 @@ export default function HomePage({ onOpenBooking }) {
 
             {/* Right Column: Two stacked cards */}
             <div className="space-y-5 flex flex-col justify-between">
-              <div className="rounded-3xl overflow-hidden shadow-sm hover:shadow-lg transition aspect-[16/10] group bg-gray-200 dark:bg-gray-800">
+              <div className="rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition aspect-[16/10] group bg-gray-200 dark:bg-gray-800 border border-gray-100 dark:border-gray-800">
                 <img
                   src={displayGallery[3] || fallbackGallery[3]}
                   alt="Gallery image 4"
                   className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
                 />
               </div>
-              <div className="rounded-3xl overflow-hidden shadow-sm hover:shadow-lg transition aspect-[16/10] group bg-gray-200 dark:bg-gray-800">
+              <div className="rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition aspect-[16/10] group bg-gray-200 dark:bg-gray-800 border border-gray-100 dark:border-gray-800">
                 <img
                   src={displayGallery[4] || fallbackGallery[4]}
                   alt="Gallery image 5"
@@ -351,17 +358,19 @@ export default function HomePage({ onOpenBooking }) {
       </section>
 
       {/* 4. TALES FROM THE JUNGLE SECTION */}
-      <section className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         <div className="text-center max-w-2xl mx-auto mb-14">
-          <span className="text-xs font-bold tracking-widest text-safari-600 dark:text-safari-400 uppercase">
-            WILD JOURNAL
-          </span>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white tracking-tight mt-1">
-            Tales from Rajaji Reserve
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-200 dark:border-emerald-900/40 mb-3">
+            <span className="text-[11px] font-bold tracking-widest text-emerald-700 dark:text-emerald-400 uppercase">
+              WILD JOURNAL
+            </span>
+          </div>
+          <h2 className="text-3xl sm:text-4xl font-bold text-gray-950 dark:text-white tracking-tight font-serif">
+            Tales from the Jungle
           </h2>
         </div>
 
-        {/* 3 Blog Cards */}
+        {/* 3 Editorial Blog Cards Matching Reference */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {displayBlogs.length > 0 ? displayBlogs.map((blog) => {
             const blogId = blog._id || blog.id;
@@ -372,83 +381,94 @@ export default function HomePage({ onOpenBooking }) {
               : '';
             const image = blog.image || safariImages.tigerEye;
             const excerpt = blog.summary || blog.excerpt || '';
-            const category = blog.category || 'Uncategorized';
+            const category = blog.category || 'Sightings';
             return (
               <Link
                 key={blogId}
                 to={`/blog/${slug}`}
-                className="group bg-white dark:bg-gray-900 rounded-3xl overflow-hidden border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-2xl hover:shadow-safari-950/20 dark:hover:shadow-safari-950/40 hover:border-safari-500/40 dark:hover:border-safari-500/40 transition-all duration-500 ease-out hover:-translate-y-2 flex flex-col cursor-pointer block transform-gpu will-change-transform"
+                className="group bg-[#fdfcf8]/90 dark:bg-[#0c1610]/90 backdrop-blur-sm rounded-2xl overflow-hidden border border-emerald-950/10 dark:border-emerald-500/20 shadow-sm hover:shadow-xl hover:border-safari-500/40 transition-all duration-300 flex flex-col cursor-pointer"
               >
                 <div className="relative aspect-[16/10] overflow-hidden bg-gray-100 dark:bg-gray-800">
                   <img
                     src={image}
                     alt={title}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out will-change-transform"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-                  <span className="absolute top-4 left-4 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-bold tracking-wider text-gray-900 dark:text-white uppercase shadow-sm group-hover:bg-safari-500 group-hover:text-white transition-all duration-300">
+                  <span className="absolute top-3.5 left-3.5 bg-[#fdfcf8]/95 dark:bg-gray-900/95 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-bold tracking-wider text-gray-900 dark:text-white uppercase shadow-sm border border-emerald-900/10 dark:border-gray-800">
                     {category}
                   </span>
                 </div>
                 <div className="p-6 flex-1 flex flex-col justify-between space-y-3">
                   <div>
                     {date && (
-                      <div className="flex items-center gap-1.5 text-xs text-gray-400 dark:text-gray-400 group-hover:text-safari-600 dark:group-hover:text-safari-400 mb-2 transition-colors duration-200">
+                      <div className="flex items-center gap-1.5 text-xs text-gray-400 dark:text-gray-400 mb-2">
                         <Calendar className="w-3.5 h-3.5" /> {date}
                       </div>
                     )}
-                    <h3 className="text-lg font-bold text-gray-900 dark:text-white group-hover:text-safari-600 dark:group-hover:text-safari-400 transition-colors duration-200 leading-snug">
+                    <h3 className="text-lg font-bold text-gray-950 dark:text-white group-hover:text-safari-600 dark:group-hover:text-safari-400 transition-colors duration-200 leading-snug font-serif">
                       {title}
                     </h3>
                     {excerpt && (
-                      <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-300 mt-2 line-clamp-2 leading-relaxed">
+                      <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 mt-2 line-clamp-2 leading-relaxed">
                         {excerpt}
                       </p>
                     )}
                   </div>
                   <div className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-gray-900 dark:text-white group-hover:text-safari-600 dark:group-hover:text-safari-400 transition-colors pt-2">
-                    <span>Read More</span>
-                    <ArrowRight className="w-3.5 h-3.5 text-safari-500 group-hover:translate-x-1.5 transition-transform duration-300 ease-out" />
+                    <span>Read Story</span>
+                    <ArrowRight className="w-3.5 h-3.5 text-safari-500 group-hover:translate-x-1.5 transition-transform duration-300" />
                   </div>
                 </div>
               </Link>
             );
           }) : (
-            /* Fallback when no blogs exist */
+            /* Fallback matching reference design articles */
             <>
-              <div className="group bg-white dark:bg-gray-900 rounded-3xl overflow-hidden border border-gray-100 dark:border-gray-800 shadow-sm flex flex-col">
+              <div className="group bg-[#fdfcf8]/90 dark:bg-[#0c1610]/90 backdrop-blur-sm rounded-2xl overflow-hidden border border-emerald-950/10 dark:border-emerald-500/20 shadow-sm flex flex-col">
                 <div className="relative aspect-[16/10] overflow-hidden bg-gray-100 dark:bg-gray-800">
                   <img src={safariImages.tigerEye} alt="Wildlife" className="w-full h-full object-cover" />
-                  <span className="absolute top-4 left-4 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-bold tracking-wider text-gray-900 dark:text-white uppercase shadow-sm">SIGHTING REPORT</span>
+                  <span className="absolute top-3.5 left-3.5 bg-[#fdfcf8]/95 dark:bg-gray-900/95 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-bold tracking-wider text-gray-900 dark:text-white uppercase shadow-sm border border-emerald-900/10 dark:border-gray-800">SIGHTING REPORT</span>
                 </div>
                 <div className="p-6 flex-1 flex flex-col justify-between space-y-3">
                   <div>
-                    <h3 className="text-lg font-bold text-gray-900 dark:text-white leading-snug">Latest Park Updates</h3>
-                    <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-300 mt-2 line-clamp-2 leading-relaxed">Stay tuned for the latest wildlife sightings and park news from Rajaji.</p>
+                    <h3 className="text-lg font-bold text-gray-950 dark:text-white leading-snug font-serif">Rare Black Panther Spotted in Zone 4</h3>
+                    <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 mt-2 line-clamp-2 leading-relaxed">A once in a lifetime sighting happened yesterday evening during the routine patrol...</p>
+                  </div>
+                  <div className="inline-flex items-center gap-1.5 text-xs font-bold text-gray-900 dark:text-white pt-2">
+                    <span>Read Story</span>
+                    <ArrowRight className="w-3.5 h-3.5 text-safari-500" />
                   </div>
                 </div>
               </div>
-              <div className="group bg-white dark:bg-gray-900 rounded-3xl overflow-hidden border border-gray-100 dark:border-gray-800 shadow-sm flex flex-col">
+              <div className="group bg-[#fdfcf8]/90 dark:bg-[#0c1610]/90 backdrop-blur-sm rounded-2xl overflow-hidden border border-emerald-950/10 dark:border-emerald-500/20 shadow-sm flex flex-col">
                 <div className="relative aspect-[16/10] overflow-hidden bg-gray-100 dark:bg-gray-800">
                   <img src={safariImages.mistyHills} alt="Forest" className="w-full h-full object-cover" />
-                  <span className="absolute top-4 left-4 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-bold tracking-wider text-gray-900 dark:text-white uppercase shadow-sm">TRAVEL GUIDE</span>
+                  <span className="absolute top-3.5 left-3.5 bg-[#fdfcf8]/95 dark:bg-gray-900/95 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-bold tracking-wider text-gray-900 dark:text-white uppercase shadow-sm border border-emerald-900/10 dark:border-gray-800">TRAVEL GUIDE</span>
                 </div>
                 <div className="p-6 flex-1 flex flex-col justify-between space-y-3">
                   <div>
-                    <h3 className="text-lg font-bold text-gray-900 dark:text-white leading-snug">Explore Rajaji Trails</h3>
-                    <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-300 mt-2 line-clamp-2 leading-relaxed">Discover the best trails and wildlife corridors in the park.</p>
+                    <h3 className="text-lg font-bold text-gray-950 dark:text-white leading-snug font-serif">Best Season to Visit for Bird Watching</h3>
+                    <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 mt-2 line-clamp-2 leading-relaxed">Winter brings migratory birds from across the continent. Here is your guide to the best spots...</p>
+                  </div>
+                  <div className="inline-flex items-center gap-1.5 text-xs font-bold text-gray-900 dark:text-white pt-2">
+                    <span>Read Story</span>
+                    <ArrowRight className="w-3.5 h-3.5 text-safari-500" />
                   </div>
                 </div>
               </div>
-              <div className="group bg-white dark:bg-gray-900 rounded-3xl overflow-hidden border border-gray-100 dark:border-gray-800 shadow-sm flex flex-col">
+              <div className="group bg-[#fdfcf8]/90 dark:bg-[#0c1610]/90 backdrop-blur-sm rounded-2xl overflow-hidden border border-emerald-950/10 dark:border-emerald-500/20 shadow-sm flex flex-col">
                 <div className="relative aspect-[16/10] overflow-hidden bg-gray-100 dark:bg-gray-800">
                   <img src={safariImages.rangerSolo} alt="Conservation" className="w-full h-full object-cover" />
-                  <span className="absolute top-4 left-4 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-bold tracking-wider text-gray-900 dark:text-white uppercase shadow-sm">CONSERVATION</span>
+                  <span className="absolute top-3.5 left-3.5 bg-[#fdfcf8]/95 dark:bg-gray-900/95 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-bold tracking-wider text-gray-900 dark:text-white uppercase shadow-sm border border-emerald-900/10 dark:border-gray-800">CONSERVATION</span>
                 </div>
                 <div className="p-6 flex-1 flex flex-col justify-between space-y-3">
                   <div>
-                    <h3 className="text-lg font-bold text-gray-900 dark:text-white leading-snug">Protecting Wildlife</h3>
-                    <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-300 mt-2 line-clamp-2 leading-relaxed">Learn about our conservation efforts and how you can help.</p>
+                    <h3 className="text-lg font-bold text-gray-950 dark:text-white leading-snug font-serif">Our New Anti-Poaching Initiative</h3>
+                    <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 mt-2 line-clamp-2 leading-relaxed">Technology meets nature as we deploy smart sensors across the core zone borders...</p>
+                  </div>
+                  <div className="inline-flex items-center gap-1.5 text-xs font-bold text-gray-900 dark:text-white pt-2">
+                    <span>Read Story</span>
+                    <ArrowRight className="w-3.5 h-3.5 text-safari-500" />
                   </div>
                 </div>
               </div>

@@ -33,11 +33,26 @@ export default function Footer() {
     : safariZonesList;
 
   return (
-    <footer className="bg-white dark:bg-gray-950 border-t border-gray-100 dark:border-gray-800 pt-12 pb-24 sm:pb-12 transition-colors">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <footer className="bg-[#07120a] text-gray-200 border-t border-safari-900/30 pt-16 pb-24 sm:pb-16 transition-colors relative overflow-hidden">
+      {/* Ambient Botanical Pattern Texture */}
+      <div 
+        className="absolute inset-0 opacity-[0.03] pointer-events-none pattern-leaf-delicate invert"
+      />
+
+      {/* Subtle Royal Bengal Tiger Watermark in Footer Corner */}
+      <div 
+        className="absolute -bottom-10 right-4 w-72 sm:w-96 h-80 sm:h-96 opacity-[0.07] pointer-events-none bg-contain bg-right-bottom bg-no-repeat"
+        style={{ 
+          backgroundImage: `url("/images/tiger%20for%20bg%20overlay.jpg")`, 
+          filter: 'invert(1) brightness(1.2)', 
+          mixBlendMode: 'screen' 
+        }}
+      />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Main Grid strictly based on Client Structure */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-10 pb-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-10 pb-12">
           
           {/* Column 1: Brand & Official Contact Desk */}
           <div className="lg:col-span-4 space-y-4">
@@ -50,41 +65,41 @@ export default function Footer() {
                 />
               </div>
               <div>
-                <span className="text-base font-extrabold text-gray-900 dark:text-white tracking-tight block leading-tight">
+                <span className="text-base font-extrabold text-white tracking-tight block leading-tight font-serif">
                   {brandTitle}
                 </span>
-                <span className="text-[10px] font-bold uppercase tracking-widest text-safari-600 dark:text-safari-400 block mt-0.5">
+                <span className="text-[10px] font-bold uppercase tracking-widest text-emerald-400 block mt-0.5">
                   Official Safari Booking Portal
                 </span>
               </div>
             </Link>
 
-            <p className="text-gray-600 dark:text-gray-300 text-xs sm:text-sm leading-relaxed">
+            <p className="text-gray-300 text-xs sm:text-sm leading-relaxed">
               {brandDesc}
             </p>
 
-            <div className="space-y-2 text-xs text-gray-600 dark:text-gray-300 pt-1">
+            <div className="space-y-2 text-xs text-gray-300 pt-1">
               <div className="flex items-start gap-2">
-                <MapPin className="w-4 h-4 text-safari-600 dark:text-safari-400 shrink-0 mt-0.5" />
+                <MapPin className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
                 <span>{address}</span>
               </div>
               <div className="flex items-center gap-2">
-                <Phone className="w-4 h-4 text-safari-600 dark:text-safari-400 shrink-0" />
-                <a href={`tel:${phone.replace(/\s+/g, '')}`} className="font-semibold text-safari-600 dark:text-safari-400 hover:underline">
+                <Phone className="w-4 h-4 text-emerald-400 shrink-0" />
+                <a href={`tel:${phone.replace(/\s+/g, '')}`} className="font-semibold text-emerald-400 hover:underline">
                   {phone}
                 </a>
                 {secondaryPhone && (
                   <>
-                    <span className="text-gray-400">|</span>
-                    <a href={`tel:${secondaryPhone.replace(/\s+/g, '')}`} className="hover:underline">
+                    <span className="text-gray-500">|</span>
+                    <a href={`tel:${secondaryPhone.replace(/\s+/g, '')}`} className="hover:underline text-gray-300">
                       {secondaryPhone}
                     </a>
                   </>
                 )}
               </div>
               <div className="flex items-center gap-2">
-                <Mail className="w-4 h-4 text-safari-600 dark:text-safari-400 shrink-0" />
-                <a href={`mailto:${email}`} className="hover:underline text-gray-700 dark:text-gray-200">
+                <Mail className="w-4 h-4 text-emerald-400 shrink-0" />
+                <a href={`mailto:${email}`} className="hover:underline text-gray-300">
                   {email}
                 </a>
               </div>
@@ -98,7 +113,7 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Rajaji Safari on YouTube"
-                  className="w-8 h-8 rounded-lg bg-red-50 dark:bg-red-950/40 text-red-600 dark:text-red-400 flex items-center justify-center hover:scale-110 transition shadow-sm"
+                  className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 text-red-400 flex items-center justify-center hover:scale-110 transition shadow-sm hover:bg-white/10"
                 >
                   <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
                     <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
@@ -111,7 +126,7 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Rajaji Safari on Instagram"
-                  className="w-8 h-8 rounded-lg bg-pink-50 dark:bg-pink-950/40 text-pink-600 dark:text-pink-400 flex items-center justify-center hover:scale-110 transition shadow-sm"
+                  className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 text-pink-400 flex items-center justify-center hover:scale-110 transition shadow-sm hover:bg-white/10"
                 >
                   <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
                     <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
@@ -120,7 +135,7 @@ export default function Footer() {
               )}
               <Link
                 to="/booking"
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-safari-600 hover:bg-safari-700 text-white text-xs font-bold transition ml-1"
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-safari-500 hover:bg-safari-400 text-white text-xs font-bold transition ml-1 shadow-md"
               >
                 <Ticket className="w-3.5 h-3.5" /> Book Online
               </Link>
@@ -129,7 +144,7 @@ export default function Footer() {
 
           {/* Column 2: 7 Safari Zones */}
           <div className="lg:col-span-3 space-y-3">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-gray-900 dark:text-white flex items-center gap-1.5">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-white flex items-center gap-1.5">
               Jungle Safari Zones
             </h4>
             <ul className="space-y-1.5 text-xs sm:text-sm">
@@ -137,14 +152,14 @@ export default function Footer() {
                 <li key={idx}>
                   <Link
                     to={z.slug ? `/${z.slug}` : `/zones`}
-                    className="text-gray-500 dark:text-gray-400 hover:text-safari-600 dark:hover:text-safari-400 transition block truncate"
+                    className="text-gray-400 hover:text-emerald-400 transition block truncate"
                   >
                     {z.name}
                   </Link>
                 </li>
               ))}
               <li>
-                <Link to="/zones" className="text-safari-600 dark:text-safari-400 font-semibold hover:underline block pt-1">
+                <Link to="/zones" className="text-emerald-400 font-semibold hover:underline block pt-1">
                   View All Zones Overview →
                 </Link>
               </li>
@@ -153,37 +168,37 @@ export default function Footer() {
 
           {/* Column 3: Wildlife & Biodiversity (5 Sub-pages) */}
           <div className="lg:col-span-3 space-y-3">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-gray-900 dark:text-white">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-white">
               Wildlife & Biodiversity
             </h4>
             <ul className="space-y-1.5 text-xs sm:text-sm">
               <li>
-                <Link to="/wildlife" className="text-gray-500 dark:text-gray-400 hover:text-safari-600 dark:hover:text-safari-400 transition">
+                <Link to="/wildlife" className="text-gray-400 hover:text-emerald-400 transition">
                   Wildlife Overview Hub
                 </Link>
               </li>
               <li>
-                <Link to="/mammals-of-rajaji-tiger-reserve" className="text-gray-500 dark:text-gray-400 hover:text-safari-600 dark:hover:text-safari-400 transition">
+                <Link to="/mammals-of-rajaji-tiger-reserve" className="text-gray-400 hover:text-emerald-400 transition">
                   Mammals of Rajaji (Tigers & Elephants)
                 </Link>
               </li>
               <li>
-                <Link to="/birds-of-rajaji-national-park" className="text-gray-500 dark:text-gray-400 hover:text-safari-600 dark:hover:text-safari-400 transition">
+                <Link to="/birds-of-rajaji-national-park" className="text-gray-400 hover:text-emerald-400 transition">
                   Birds of Rajaji (400+ Species)
                 </Link>
               </li>
               <li>
-                <Link to="/butterflies-of-rajaji-national-park" className="text-gray-500 dark:text-gray-400 hover:text-safari-600 dark:hover:text-safari-400 transition">
+                <Link to="/butterflies-of-rajaji-national-park" className="text-gray-400 hover:text-emerald-400 transition">
                   Butterflies of Rajaji
                 </Link>
               </li>
               <li>
-                <Link to="/reptiles-of-rajaji-tiger-reserve" className="text-gray-500 dark:text-gray-400 hover:text-safari-600 dark:hover:text-safari-400 transition">
+                <Link to="/reptiles-of-rajaji-tiger-reserve" className="text-gray-400 hover:text-emerald-400 transition">
                   Reptiles of Rajaji (King Cobra & Pythons)
                 </Link>
               </li>
               <li>
-                <Link to="/flora-of-rajaji-national-park" className="text-gray-500 dark:text-gray-400 hover:text-safari-600 dark:hover:text-safari-400 transition">
+                <Link to="/flora-of-rajaji-national-park" className="text-gray-400 hover:text-emerald-400 transition">
                   Flora of Rajaji (Sal & Medicinal Plants)
                 </Link>
               </li>
@@ -192,42 +207,42 @@ export default function Footer() {
 
           {/* Column 4: Activities, Tariffs & Policies */}
           <div className="lg:col-span-2 space-y-3">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-gray-900 dark:text-white">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-white">
               Activities & Rules
             </h4>
             <ul className="space-y-2 text-xs sm:text-sm">
               <li>
-                <Link to="/activities" className="text-gray-500 dark:text-gray-400 hover:text-safari-600 dark:hover:text-safari-400 transition">
+                <Link to="/activities" className="text-gray-400 hover:text-emerald-400 transition">
                   Activities at Rajaji
                 </Link>
               </li>
               <li>
-                <Link to="/rafting" className="text-gray-500 dark:text-gray-400 hover:text-safari-600 dark:hover:text-safari-400 transition">
+                <Link to="/rafting" className="text-gray-400 hover:text-emerald-400 transition">
                   Ganges River Rafting
                 </Link>
               </li>
               <li>
-                <Link to="/stay" className="text-gray-500 dark:text-gray-400 hover:text-safari-600 dark:hover:text-safari-400 transition">
+                <Link to="/stay" className="text-gray-400 hover:text-emerald-400 transition">
                   Stay in Rajaji (FRH & Resorts)
                 </Link>
               </li>
               <li>
-                <Link to="/tickets" className="text-gray-500 dark:text-gray-400 hover:text-safari-600 dark:hover:text-safari-400 transition">
+                <Link to="/tickets" className="text-gray-400 hover:text-emerald-400 transition">
                   Tickets, Fees & Charges
                 </Link>
               </li>
               <li>
-                <Link to="/terms" className="text-gray-500 dark:text-gray-400 hover:text-safari-600 dark:hover:text-safari-400 transition">
+                <Link to="/terms" className="text-gray-400 hover:text-emerald-400 transition">
                   Terms & Cancellation Rules
                 </Link>
               </li>
               <li>
-                <Link to="/faq" className="text-gray-500 dark:text-gray-400 hover:text-safari-600 dark:hover:text-safari-400 transition">
+                <Link to="/faq" className="text-gray-400 hover:text-emerald-400 transition">
                   Frequently Asked Questions
                 </Link>
               </li>
               <li>
-                <Link to="/contact" className="text-gray-500 dark:text-gray-400 hover:text-safari-600 dark:hover:text-safari-400 transition">
+                <Link to="/contact" className="text-gray-400 hover:text-emerald-400 transition">
                   Contact Safari Desk
                 </Link>
               </li>

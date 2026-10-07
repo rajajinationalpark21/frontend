@@ -81,11 +81,16 @@
   }
 
   body {
-    @apply text-gray-800 bg-white antialiased font-sans transition-colors duration-200;
+    @apply text-gray-800 antialiased font-sans transition-colors duration-200;
     font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    background-color: #f7f5ed;
+    background-image: url('/images/normal%20leaf%20bg.jpg');
+    background-repeat: repeat;
+    background-size: 580px auto;
+    background-attachment: fixed;
   }
 
   html.dark, .dark {
@@ -96,7 +101,12 @@
   }
 
   html.dark body, .dark body {
-    @apply text-gray-100 bg-[#090e0b];
+    @apply text-gray-100;
+    background-color: #07120a;
+    background-image: url('/images/normal%20leaf%20bg%20dark.jpg?v=2');
+    background-repeat: repeat;
+    background-size: 580px auto;
+    background-attachment: fixed;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
@@ -159,4 +169,80 @@
 .animate-marquee-ltr:hover {
   animation-play-state: paused;
 }
+
+/* Dropdown & Modal Fade In Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* =========================================================================
+   Luxury Wildlife Sanctuary Texture & Background Patterns
+   ========================================================================= */
+
+/* Delicate botanical line-art pattern (for light sections & watermarked cards) */
+.pattern-leaf-delicate {
+  background-color: #f7f5ed;
+  background-image: url('/images/normal%20leaf%20bg.jpg');
+  background-repeat: repeat;
+  background-size: 560px auto;
+}
+
+.dark .pattern-leaf-delicate {
+  background-color: #07120a;
+  background-image: url('/images/normal%20leaf%20bg%20dark.jpg?v=2');
+  background-repeat: repeat;
+  background-size: 560px auto;
+}
+
+/* Botanical leaf line-art texture */
+.pattern-leaf-veins {
+  background-color: transparent;
+  background-image: url('/images/normal%20leaf%20bg.jpg');
+  background-repeat: repeat;
+  background-size: 560px auto;
+}
+
+.dark .pattern-leaf-veins {
+  background-color: transparent;
+  background-image: url('/images/normal%20leaf%20bg%20dark.jpg?v=2');
+  background-repeat: repeat;
+  background-size: 560px auto;
+}
+
+/* Stencil tiger watermark overlay for dark & sanctuary sections */
+.bg-tiger-watermark {
+  background-image: url('/images/tiger%20for%20bg%20overlay.jpg');
+  background-repeat: no-repeat;
+  background-position: right bottom;
+  background-size: contain;
+}
+
+/* Luxury Editorial Display Typography */
+.font-editorial {
+  font-family: 'Playfair Display', Georgia, serif;
+}
+
+/* Card with frosted sanctuary leaf tint */
+.card-leaf-sanctuary {
+  background-color: rgba(253, 252, 248, 0.90);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(16, 185, 129, 0.15);
+}
+.dark .card-leaf-sanctuary {
+  background-color: rgba(12, 22, 16, 0.90);
+  border-color: rgba(16, 185, 129, 0.2);
+}
+
 

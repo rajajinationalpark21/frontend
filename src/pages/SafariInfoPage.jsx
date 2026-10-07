@@ -27,7 +27,7 @@ export default function SafariInfoPage({ onOpenBooking }) {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-white dark:bg-gray-950 flex items-center justify-center">
+      <div className="min-h-screen bg-transparent flex items-center justify-center">
         <Loader2 className="w-8 h-8 text-safari-500 animate-spin" />
       </div>
     );
@@ -57,7 +57,10 @@ export default function SafariInfoPage({ onOpenBooking }) {
   ];
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-950 transition-colors">
+    <div className="relative min-h-screen bg-[#faf8f5] dark:bg-[#07120a] transition-colors">
+      {/* Delicate tactile ambient leaf texture */}
+      <div className="pattern-leaf-delicate pointer-events-none z-0" aria-hidden="true" />
+
       <SEO
         title="Safari Zones, Timings & Entry Permits | Rajaji National Park"
         description="Explore 5 safari ranges: Chila Core, Motichur Elephant Corridor, Gohari birding, and Jhilmil wetlands. View open timings, 4x4 gypsy vehicles, and conservation rules."
@@ -66,21 +69,53 @@ export default function SafariInfoPage({ onOpenBooking }) {
         schemaJson={safariSchema}
       />
 
-      {/* HERO SECTION */}
-      <section className="relative h-[55vh] min-h-[440px] max-h-[580px] flex items-center justify-center text-center overflow-hidden">
-        <div className="absolute inset-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: `url("${safariImages.aboutHero}")` }}>
-          <div className="absolute inset-0 bg-gradient-to-b from-black/75 via-black/55 to-black/80" />
+      {/* HERO SECTION with Inverted Tiger & Leaf Watermark Overlay */}
+      <section className="relative min-h-[440px] lg:min-h-[500px] flex items-center justify-center text-center overflow-hidden bg-[#07150c] text-white border-b border-emerald-950/60">
+        <div className="absolute inset-0 z-0">
+          <img src={safariImages.aboutHero} alt="Safari in Rajaji" className="w-full h-full object-cover opacity-25 scale-105" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#07150c] via-[#07150c]/90 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#07150c] via-transparent to-[#07150c]/70" />
         </div>
-        <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6">
-          <span className="inline-block text-xs font-bold tracking-widest text-safari-400 uppercase mb-3">EXPLORATION GUIDE</span>
-          <h1 className="text-4xl sm:text-6xl font-extrabold text-white tracking-tight mb-4">{data.title || 'Safari Zones & Guidelines'}</h1>
-          <p className="text-base sm:text-lg text-gray-200 font-normal leading-relaxed max-w-2xl mx-auto">{data.subtitle || 'Discover the five distinct ecological ranges, open timings, custom expedition vehicles, and conservation rules.'}</p>
+
+        {/* Tiger Watermark in forest shadow */}
+        <div
+          className="absolute right-0 bottom-0 top-0 w-full sm:w-2/3 pointer-events-none z-[1] bg-no-repeat bg-right-bottom bg-contain opacity-[0.14]"
+          style={{
+            backgroundImage: `url('${safariImages.tigerBgOverlay}')`,
+            filter: 'invert(1)',
+            mixBlendMode: 'screen',
+          }}
+          aria-hidden="true"
+        />
+
+        {/* Corner Leaf Foliage Overlay */}
+        <div
+          className="absolute -top-16 -left-16 w-80 h-80 pointer-events-none z-[1] bg-no-repeat bg-contain opacity-20"
+          style={{
+            backgroundImage: `url('${safariImages.leafCta}')`,
+            filter: 'invert(1)',
+            mixBlendMode: 'screen',
+          }}
+          aria-hidden="true"
+        />
+
+        <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 space-y-4">
+          <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-950/80 border border-emerald-500/30 text-emerald-300 text-xs font-semibold uppercase tracking-widest backdrop-blur-md">
+            <Compass className="w-3.5 h-3.5 text-emerald-400" />
+            <span>Exploration Guide</span>
+          </span>
+          <h1 className="text-4xl sm:text-6xl font-serif font-extrabold text-white tracking-tight leading-tight">
+            {data.title || 'Safari Zones & Guidelines'}
+          </h1>
+          <p className="text-base sm:text-lg text-emerald-100/80 font-light leading-relaxed max-w-2xl mx-auto">
+            {data.subtitle || 'Discover the five distinct ecological ranges, open timings, custom expedition vehicles, and conservation rules.'}
+          </p>
         </div>
       </section>
 
       {/* OVERVIEW INFO BAR */}
       <section className="max-w-6xl mx-auto px-4 sm:px-6 -mt-10 relative z-20">
-        <div className="bg-white dark:bg-gray-900 rounded-3xl p-6 sm:p-8 shadow-xl border border-gray-100 dark:border-gray-800 grid grid-cols-2 md:grid-cols-4 gap-6 text-center transition-colors">
+        <div className="bg-[#fdfcf8]/90 dark:bg-[#0c1f13]/90 backdrop-blur-md rounded-3xl p-6 sm:p-8 shadow-xl border border-emerald-950/10 dark:border-emerald-500/20 grid grid-cols-2 md:grid-cols-4 gap-6 text-center transition-colors">
           <div><span className="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase">Season</span><p className="text-sm sm:text-base font-bold text-gray-900 dark:text-white mt-1">Oct 15 – Jun 30</p><span className="text-[11px] text-gray-500 dark:text-gray-400">Monsoon closure Jul–Sep</span></div>
           <div><span className="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase">Daily Safaris</span><p className="text-sm sm:text-base font-bold text-gray-900 dark:text-white mt-1">2 Shifts Daily</p><span className="text-[11px] text-gray-500 dark:text-gray-400">Morning & Afternoon</span></div>
           <div><span className="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase">Permit Limit</span><p className="text-sm sm:text-base font-bold text-gray-900 dark:text-white mt-1">Capped Daily</p><span className="text-[11px] text-gray-500 dark:text-gray-400">30 vehicles / zone shift</span></div>
@@ -97,7 +132,7 @@ export default function SafariInfoPage({ onOpenBooking }) {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {zones.map((zone, idx) => (
-            <div key={idx} className="bg-white dark:bg-gray-900 rounded-3xl overflow-hidden border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-xl transition duration-300 flex flex-col group">
+            <div key={idx} className="bg-[#fdfcf8]/90 dark:bg-[#0c1f13]/90 backdrop-blur-md rounded-3xl overflow-hidden border border-emerald-950/10 dark:border-emerald-500/20 shadow-sm hover:shadow-xl transition duration-300 flex flex-col group">
               <div className="p-6 sm:p-8 flex-1 flex flex-col justify-between space-y-5">
                 <div>
                   <h3 className="text-2xl font-bold text-gray-900 dark:text-white group-hover:text-safari-600 dark:group-hover:text-safari-400 transition">{zone.name}</h3>
@@ -119,7 +154,7 @@ export default function SafariInfoPage({ onOpenBooking }) {
 
       {/* EXPEDITION VEHICLES */}
       {vehicles.length > 0 && (
-        <section className="py-20 bg-gray-50/60 dark:bg-gray-900/40 border-t border-gray-100 dark:border-gray-800 transition-colors">
+        <section className="py-20 bg-[#f7f5ed]/80 dark:bg-[#071109]/80 pattern-leaf-delicate backdrop-blur-sm border-t border-emerald-900/15 transition-colors">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center max-w-2xl mx-auto mb-14">
               <span className="text-xs font-bold tracking-widest text-safari-600 dark:text-safari-400 uppercase">FLEET & EQUIPMENT</span>
@@ -128,7 +163,7 @@ export default function SafariInfoPage({ onOpenBooking }) {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {vehicles.map((v, i) => (
-                <div key={i} className="bg-white dark:bg-gray-900 rounded-3xl overflow-hidden border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-md transition duration-300 flex flex-col">
+                <div key={i} className="bg-[#fdfcf8]/90 dark:bg-[#0c1f13]/90 backdrop-blur-md rounded-3xl overflow-hidden border border-emerald-950/10 dark:border-emerald-500/20 shadow-sm hover:shadow-md transition duration-300 flex flex-col">
                   <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
                     <div>
                       <h3 className="text-xl font-bold text-gray-900 dark:text-white">{v.name}</h3>
@@ -178,11 +213,6 @@ export default function SafariInfoPage({ onOpenBooking }) {
         secondaryText={`Call Helpdesk (${contactInfo.phone})`}
         secondaryLink={`tel:${contactInfo.phone.replace(/[^0-9+]/g, '')}`}
         secondaryIcon={Phone}
-        badges={[
-          { icon: ShieldCheck, text: "Govt Authorized Tariffs" },
-          { icon: Compass, text: "Chilla, Motichur & Ranipur" },
-          { icon: Check, text: "Instant Confirmation" }
-        ]}
       />
     </div>
   );

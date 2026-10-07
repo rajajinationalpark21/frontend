@@ -30,25 +30,49 @@ export default function CallToAction({
   };
 
   return (
-    <section className={`py-14 sm:py-20 px-4 sm:px-6 lg:px-8 bg-gray-50/50 dark:bg-black/40 transition-colors ${className}`}>
-      <div className={`max-w-6xl mx-auto rounded-3xl relative overflow-hidden bg-gradient-to-br from-[#05160d] via-[#072012] to-[#020b06] text-white p-8 sm:p-14 lg:p-16 shadow-2xl border border-safari-500/20 text-center ${containerClassName}`}>
+    <section className={`py-14 sm:py-20 px-4 sm:px-6 lg:px-8 bg-safari-50/40 dark:bg-black/40 transition-colors relative overflow-hidden ${className}`}>
+      <div className={`max-w-6xl mx-auto rounded-3xl relative overflow-hidden bg-gradient-to-br from-[#07150c] via-[#091b10] to-[#040b06] text-white p-8 sm:p-14 lg:p-16 shadow-2xl border border-safari-500/30 text-center ${containerClassName}`}>
         
         {/* Crisp Background Forest Imagery */}
         <div 
-          className="absolute inset-0 bg-cover bg-center opacity-30 pointer-events-none"
+          className="absolute inset-0 bg-cover bg-center opacity-25 pointer-events-none"
           style={{ backgroundImage: `url("${bgImage || safariImages.homeHero || safariImages.mistyDarkPines}")` }}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/55 to-black/75 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#040b06]/90 via-[#07150c]/70 to-[#040b06]/85 pointer-events-none" />
+
+
+        {/* Corner Botanical Foliage Watermark from user's leaf for cta */}
+        <div 
+          className="absolute -top-10 -left-10 w-64 h-64 sm:w-80 sm:h-80 opacity-[0.14] pointer-events-none bg-contain bg-no-repeat rotate-180"
+          style={{ 
+            backgroundImage: `url("/images/leaf%20for%20cta.jpg")`, 
+            filter: 'invert(1) hue-rotate(90deg) brightness(1.2)', 
+            mixBlendMode: 'screen' 
+          }}
+        />
+
+        {/* Royal Bengal Tiger Stencil Silhouette Overlay on the Right */}
+        <div 
+          className="absolute -bottom-8 -right-8 sm:right-2 sm:bottom-0 w-64 sm:w-96 h-72 sm:h-[110%] opacity-[0.18] sm:opacity-[0.22] pointer-events-none bg-contain bg-right-bottom bg-no-repeat"
+          style={{ 
+            backgroundImage: `url("/images/tiger%20for%20bg%20overlay.jpg")`, 
+            filter: 'invert(1) brightness(1.3) contrast(1.1)', 
+            mixBlendMode: 'screen' 
+          }}
+        />
+
+        {/* Radial Forest Emerald Glow */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-safari-500/15 via-transparent to-transparent pointer-events-none" />
 
         {/* Inner Content */}
         <div className="max-w-3xl mx-auto text-center space-y-4 relative z-10">
 
-          <h2 className="text-2xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-white leading-tight">
+          <h2 className="text-2xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-white leading-tight font-serif drop-shadow-sm">
             {title}
           </h2>
 
           {subtitle && (
-            <p className="text-gray-300 text-xs sm:text-sm md:text-base max-w-xl mx-auto leading-relaxed">
+            <p className="text-gray-200/90 text-xs sm:text-sm md:text-base max-w-xl mx-auto leading-relaxed">
               {subtitle}
             </p>
           )}
@@ -84,7 +108,7 @@ export default function CallToAction({
                   isExternalOrTel(secondaryLink) ? (
                     <a
                       href={secondaryLink}
-                      className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-white font-semibold text-sm active:scale-95 transition duration-200 cursor-pointer"
+                      className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-white font-semibold text-sm active:scale-95 transition duration-200 cursor-pointer backdrop-blur-sm"
                     >
                       {SecondaryIcon && <SecondaryIcon className="w-4 h-4 text-safari-400 shrink-0" />}
                       <span>{secondaryText}</span>
@@ -92,7 +116,7 @@ export default function CallToAction({
                   ) : (
                     <Link
                       to={secondaryLink}
-                      className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-white font-semibold text-sm active:scale-95 transition duration-200 cursor-pointer"
+                      className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-white font-semibold text-sm active:scale-95 transition duration-200 cursor-pointer backdrop-blur-sm"
                     >
                       {SecondaryIcon && <SecondaryIcon className="w-4 h-4 text-safari-400 shrink-0" />}
                       <span>{secondaryText}</span>
@@ -102,7 +126,7 @@ export default function CallToAction({
                   <button
                     type="button"
                     onClick={onSecondaryClick}
-                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-white font-semibold text-sm active:scale-95 transition duration-200 cursor-pointer"
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-white font-semibold text-sm active:scale-95 transition duration-200 cursor-pointer backdrop-blur-sm"
                   >
                     {SecondaryIcon && <SecondaryIcon className="w-4 h-4 text-safari-400 shrink-0" />}
                     <span>{secondaryText}</span>
@@ -111,28 +135,6 @@ export default function CallToAction({
               </>
             )}
           </div>
-
-          {/* Trust Badges */}
-          {badges && badges.length > 0 && (
-            <div className={`grid grid-cols-1 ${badges.length === 2 ? 'sm:grid-cols-2' : badges.length === 1 ? 'sm:grid-cols-1' : 'sm:grid-cols-3'} gap-3.5 pt-8 mt-6 border-t border-white/10 max-w-2xl mx-auto`}>
-              {badges.map((badge, idx) => {
-                const BadgeIcon = badge.icon || CheckCircle2;
-                const justifyClass = badges.length > 1
-                  ? idx === 0 
-                    ? 'sm:justify-start' 
-                    : idx === badges.length - 1 
-                      ? 'sm:justify-end' 
-                      : ''
-                  : '';
-                return (
-                  <div key={idx} className={`flex items-center justify-center ${justifyClass} gap-2 text-xs text-gray-300 font-medium`}>
-                    <BadgeIcon className="w-4 h-4 text-safari-400 shrink-0" />
-                    <span>{badge.text}</span>
-                  </div>
-                );
-              })}
-            </div>
-          )}
 
         </div>
       </div>
