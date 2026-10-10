@@ -58,14 +58,14 @@ export default function SafariZoneDetailPage({ onOpenBooking, defaultSlug }) {
         title={currentZone.seoTitle || `${currentZone.name} | Rajaji National Park Jeep Safari`}
         description={currentZone.metaDescription || currentZone.description?.substring(0, 160)}
         keywords={`${currentZone.name}, rajaji jeep safari, ${currentZone.entryGate}, jungle safari uttarakhand`}
-        ogImage={safariImages.safariJeepSavannah}
+        ogImage={currentZone.heroImage || safariImages.safariJeepSavannah}
       />
 
       {/* Hero Header with Inverted Tiger & Leaf Watermark Overlay */}
       <section className="relative py-20 lg:py-28 bg-[#07150c] text-white overflow-hidden border-b border-emerald-950/60">
         <div className="absolute inset-0 z-0">
           <img 
-            src={safariImages.safariJeepSavannah} 
+            src={currentZone.heroImage || safariImages.safariJeepSavannah} 
             alt={currentZone.name} 
             className="w-full h-full object-cover opacity-30 scale-105" 
           />
