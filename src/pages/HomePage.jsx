@@ -205,13 +205,13 @@ export default function HomePage({ onOpenBooking }) {
           <div className="lg:col-span-6 relative">
             <div className="relative rounded-3xl overflow-hidden shadow-xl group aspect-[4/3] bg-gray-100 border border-gray-200/60 dark:border-gray-800">
               <img
-                src={safariImages.walkingTiger}
+                src={content.aboutImage || safariImages.walkingTiger}
                 alt="Bengal Tiger walking in grassland"
                 className="w-full h-full object-cover object-center group-hover:scale-105 transition duration-700"
               />
               {/* EST. 1983 Badge */}
               <div className="absolute bottom-5 left-5 bg-[#fdfcf8]/95 dark:bg-[#0c1610]/95 backdrop-blur-md px-4 py-1.5 rounded-full shadow-md text-xs font-bold text-gray-900 dark:text-white tracking-wider border border-emerald-900/15 dark:border-emerald-800/40">
-                EST. 1983
+                {content.aboutBadge || "EST. 1983"}
               </div>
             </div>
           </div>
@@ -243,7 +243,7 @@ export default function HomePage({ onOpenBooking }) {
               <div className="w-px h-10 bg-gray-200 dark:bg-gray-800" />
               <div>
                 <div className="text-3xl sm:text-4xl font-extrabold text-gray-950 dark:text-white font-serif">
-                  {content.stats?.sqKm || content.stats?.acres || "820+"}
+                  {content.stats?.sqKm || content.stats?.forestArea || content.stats?.acres || "820+"}
                 </div>
                 <div className="text-xs text-gray-500 dark:text-gray-400 font-medium mt-0.5">
                   Sq Km of Forest
