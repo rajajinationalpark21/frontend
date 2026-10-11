@@ -4,9 +4,10 @@ import { MapPin, Compass, Clock, Calendar, Check, ArrowRight, ShieldCheck, Spark
 import { safariImages, safariZonesList } from '../data/safariData';
 import { fetchContent } from '../api/client';
 import SEO from '../components/SEO';
+import PageLoader from '../components/PageLoader';
 
 export default function SafariZonesPage({ onOpenBooking }) {
-  const [safariZonesData, setSafariZonesData] = useState(safariZonesList);
+  const [safariZonesData, setSafariZonesData] = useState([]);
   const [selectedZone, setSelectedZone] = useState('all');
   const [loading, setLoading] = useState(true);
 
@@ -44,11 +45,7 @@ export default function SafariZonesPage({ onOpenBooking }) {
     : safariZonesData.filter(z => (z.id === selectedZone || z.slug === selectedZone));
 
   if (loading) {
-    return (
-      <div className="min-h-screen bg-transparent flex items-center justify-center">
-        <Loader2 className="w-8 h-8 text-safari-500 animate-spin" />
-      </div>
-    );
+    return <PageLoader />;
   }
 
   return (

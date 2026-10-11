@@ -5,6 +5,7 @@ import { fetchGallery } from '../api/client';
 import LightboxModal from '../components/LightboxModal';
 import SEO from '../components/SEO';
 import CallToAction from '../components/CallToAction';
+import PageLoader from '../components/PageLoader';
 
 /**
  * Smart image optimizer (Option A + Option C hybrid)
@@ -25,7 +26,8 @@ function getOptimizedImageUrl(url) {
 export default function GalleryPage({ onOpenBooking }) {
   const [selectedFilter, setSelectedFilter] = useState('All Photos');
   const [activePhotoIndex, setActivePhotoIndex] = useState(null);
-  const [photos, setPhotos] = useState(galleryPhotos);
+  const [photos, setPhotos] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     let isMounted = true;
@@ -43,17 +45,26 @@ export default function GalleryPage({ onOpenBooking }) {
               src: img.url || img.src,
               desc: img.description?.trim() || img.desc?.trim() || 'Captured inside Rajaji Tiger Reserve habitat.',
             }));
-          // As soon as the backend sends live data, dynamic items fully take over and static fallbacks vanish
           setPhotos(apiPhotos);
+        } else {
+          setPhotos(galleryPhotos);
         }
       })
       .catch((err) => {
         console.warn('Gallery live API unavailable, using offline gallery cache:', err);
+        if (isMounted) setPhotos(galleryPhotos);
+      })
+      .finally(() => {
+        if (isMounted) setLoading(false);
       });
     return () => {
       isMounted = false;
     };
   }, []);
+
+  if (loading) {
+    return <PageLoader />;
+  }
 
   const gallerySchema = {
     "@context": "https://schema.org",

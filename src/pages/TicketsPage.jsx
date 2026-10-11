@@ -4,6 +4,7 @@ import { Ticket, DollarSign, Camera, Car, ShieldCheck, AlertCircle, HelpCircle, 
 import { safariImages, contactInfo } from '../data/safariData';
 import { fetchContent } from '../api/client';
 import SEO from '../components/SEO';
+import PageLoader from '../components/PageLoader';
 
 export default function TicketsPage({ onOpenBooking }) {
   const [tickets, setTickets] = useState(null);
@@ -15,6 +16,10 @@ export default function TicketsPage({ onOpenBooking }) {
       .catch(() => {})
       .finally(() => setLoading(false));
   }, []);
+
+  if (loading) {
+    return <PageLoader />;
+  }
 
   const data = tickets || {};
   const timings = data.timings || {

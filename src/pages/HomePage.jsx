@@ -19,71 +19,47 @@ import { slugify } from '../utils/slugify';
 import SEO from '../components/SEO';
 import FeedbackSection from '../components/FeedbackSection';
 import CallToAction from '../components/CallToAction';
-
-const fallbackContent = {
-  tagline: "Unleash Your Wild Side",
-  heroTitle: "Unleash Your Wild Side",
-  heroSubtitle: "Experience the heart of the jungle. Witness nature in its purest form.",
-  heroBanner: safariImages.homeHero,
-  timings: "06:00 AM - 06:00 PM",
-  zones: "Buffer, Core & River Safari",
-  rules: "Do's & Don'ts Guide",
-  aboutTitle: "The Sanctuary Legacy",
-  aboutDescription: "Dedicated to conservation and protecting our wildlife for generations to come. Discover the story behind the sanctuary, our efforts in anti-poaching, and how we maintain the delicate balance of the ecosystem.",
-  stats: { tigers: "50+", acres: "120k" },
-  featuredBlogs: [],
-  featuredGallery: [],
-};
-
-const fallbackGallery = [
-  safariImages.elephantsRiver,
-  safariImages.safariJeepSavannah,
-  safariImages.leopardLounge,
-  safariImages.kingfisher,
-  safariImages.deerGrazing,
-];
+import PageLoader from '../components/PageLoader';
 
 export default function HomePage({ onOpenBooking }) {
-  const [content, setContent] = useState(fallbackContent);
+  const [content, setContent] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [recentBlogs, setRecentBlogs] = useState([]);
-  const [galleryImages, setGalleryImages] = useState(fallbackGallery);
+  const [galleryImages, setGalleryImages] = useState([]);
 
   useEffect(() => {
-    fetchContent()
-      .then((data) => {
-        const home = data?.data?.home || data?.home;
-        if (home && home.heroTitle) {
-          setContent((prev) => ({
-            ...prev,
-            ...home,
-            heroBanner: home.heroBanner || prev.heroBanner,
-            stats: { ...prev.stats, ...(home.stats || {}) },
-          }));
+    Promise.allSettled([fetchContent(), fetchBlogs(), fetchGallery()])
+      .then(([contentRes, blogsRes, galleryRes]) => {
+        if (contentRes.status === 'fulfilled') {
+          const home = contentRes.value?.data?.home || contentRes.value?.home;
+          if (home) {
+            setContent(home);
+          }
+        }
+        if (blogsRes.status === 'fulfilled') {
+          const blogs = blogsRes.value?.data?.blogs || blogsRes.value?.blogs;
+          if (Array.isArray(blogs) && blogs.length > 0) {
+            setRecentBlogs(blogs);
+          }
+        }
+        if (galleryRes.status === 'fulfilled') {
+          const images = galleryRes.value?.data?.images || galleryRes.value?.images;
+          if (Array.isArray(images) && images.length > 0) {
+            setGalleryImages(images);
+          }
         }
       })
-      .catch(() => {});
-
-    fetchBlogs()
-      .then((data) => {
-        const blogs = data?.data?.blogs || data?.blogs;
-        if (Array.isArray(blogs) && blogs.length > 0) {
-          setRecentBlogs(blogs);
-        }
+      .catch((err) => {
+        console.error('Error fetching homepage data:', err);
       })
-      .catch(() => {});
-
-    fetchGallery()
-      .then((data) => {
-        const images = data?.data?.images || data?.images;
-        if (Array.isArray(images) && images.length > 0) {
-          setGalleryImages(images);
-        }
-      })
-      .catch(() => {});
+      .finally(() => {
+        setLoading(false);
+      });
   }, []);
 
   // Resolve featured blogs from IDs
   const displayBlogs = React.useMemo(() => {
+    if (!content) return [];
     const featuredIds = content.featuredBlogs || [];
     if (featuredIds.length > 0 && recentBlogs.length > 0) {
       const featured = featuredIds
@@ -93,10 +69,11 @@ export default function HomePage({ onOpenBooking }) {
       if (featured.length > 0) return featured;
     }
     return recentBlogs.slice(0, 3);
-  }, [content.featuredBlogs, recentBlogs]);
+  }, [content, recentBlogs]);
 
-  // Resolve featured gallery from IDs
+  // Resolve featured gallery from IDs or latest uploads
   const displayGallery = React.useMemo(() => {
+    if (!content) return [];
     const featuredIds = content.featuredGallery || [];
     if (featuredIds.length > 0 && galleryImages.length > 0) {
       const featured = featuredIds
@@ -105,12 +82,15 @@ export default function HomePage({ onOpenBooking }) {
         .slice(0, 5);
       if (featured.length > 0) return featured.map((img) => img.url || img.src);
     }
-    // If galleryImages are objects with .url/.src, map them; otherwise use as-is (fallback URLs)
-    if (galleryImages.length > 0 && typeof galleryImages[0] === 'object') {
-      return galleryImages.slice(0, 5).map((img) => img.url || img.src).filter(Boolean);
+    if (galleryImages.length > 0) {
+      return galleryImages.slice(0, 5).map((img) => (typeof img === 'string' ? img : (img.url || img.src))).filter(Boolean);
     }
-    return fallbackGallery;
-  }, [content.featuredGallery, galleryImages]);
+    return [];
+  }, [content, galleryImages]);
+
+  if (loading || !content) {
+    return <PageLoader />;
+  }
   const homeSchema = {
     "@context": "https://schema.org",
     "@type": "TouristAttraction",

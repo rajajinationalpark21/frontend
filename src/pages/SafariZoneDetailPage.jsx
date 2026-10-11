@@ -8,34 +8,42 @@ import {
 import { safariZonesList, contactInfo, safariImages } from '../data/safariData';
 import { fetchContent } from '../api/client';
 import SEO from '../components/SEO';
+import PageLoader from '../components/PageLoader';
 
 export default function SafariZoneDetailPage({ onOpenBooking, defaultSlug }) {
   const params = useParams();
   const navigate = useNavigate();
   const slug = defaultSlug || params.slug;
 
-  const [zones, setZones] = useState(safariZonesList);
+  const [zones, setZones] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchContent()
       .then(res => {
         if (res.data?.safari?.zones && res.data.safari.zones.length > 0) {
-          // Merge API zones with fallback if API doesn't have slug yet
-          const apiZones = res.data.safari.zones;
-          setZones(apiZones);
+          setZones(res.data.safari.zones);
+        } else {
+          setZones(safariZonesList);
         }
       })
-      .catch(() => {})
+      .catch(() => {
+        setZones(safariZonesList);
+      })
       .finally(() => setLoading(false));
   }, []);
 
-  // Find current zone by slug or fallback
+  if (loading) {
+    return <PageLoader />;
+  }
+
+  // Find current zone by slug
   const cleanSlug = (slug || '').replace(/^\/+|\/+$/g, '');
-  const currentZone = zones.find(z => 
+  const activeZoneList = zones.length > 0 ? zones : safariZonesList;
+  const currentZone = activeZoneList.find(z => 
     z.slug === cleanSlug || 
     z.name?.toLowerCase().includes(cleanSlug.replace(/-jeep-safari|-safari/g, ''))
-  ) || safariZonesList.find(z => z.slug === cleanSlug) || safariZonesList[0];
+  ) || activeZoneList[0];
 
   const handleBooking = () => {
     if (onOpenBooking) {

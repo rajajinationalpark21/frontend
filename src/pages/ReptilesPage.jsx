@@ -4,6 +4,7 @@ import { ShieldCheck, Sparkles, AlertCircle, ArrowRight, Compass, Phone } from '
 import { fetchContent } from '../api/client';
 import { safariImages, contactInfo } from '../data/safariData';
 import SEO from '../components/SEO';
+import PageLoader from '../components/PageLoader';
 
 const defaultReptiles = [
   {
@@ -65,21 +66,31 @@ const defaultReptiles = [
 ];
 
 export default function ReptilesPage({ onOpenBooking }) {
-  const [reptilesData, setReptilesData] = useState(defaultReptiles);
+  const [reptilesData, setReptilesData] = useState([]);
   const [overview, setOverview] = useState("");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchContent()
       .then(res => {
         if (res.data?.reptiles?.species && res.data.reptiles.species.length > 0) {
           setReptilesData(res.data.reptiles.species);
+        } else {
+          setReptilesData(defaultReptiles);
         }
         if (res.data?.reptiles?.overview) {
           setOverview(res.data.reptiles.overview);
         }
       })
-      .catch(() => {});
+      .catch(() => {
+        setReptilesData(defaultReptiles);
+      })
+      .finally(() => setLoading(false));
   }, []);
+
+  if (loading) {
+    return <PageLoader />;
+  }
 
   const phone = contactInfo.phone || "+91 98298 50501";
 

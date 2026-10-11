@@ -4,6 +4,7 @@ import { Waves, ShieldCheck, Clock, MapPin, Check, Phone, MessageSquare, Ticket,
 import { contactInfo, safariImages } from '../data/safariData';
 import { fetchContent } from '../api/client';
 import SEO from '../components/SEO';
+import PageLoader from '../components/PageLoader';
 
 const fallbackRaftingStretches = [
   {
@@ -38,12 +39,18 @@ const fallbackRaftingStretches = [
 export default function RaftingPage({ onOpenBooking }) {
   const navigate = useNavigate();
   const [content, setContent] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchContent()
       .then(res => setContent(res.data))
-      .catch(() => {});
+      .catch(() => {})
+      .finally(() => setLoading(false));
   }, []);
+
+  if (loading) {
+    return <PageLoader />;
+  }
 
   const phone = content?.settings?.contact?.phone || contactInfo.phone || "+91 98298 50501";
   const whatsappUrl = `https://wa.me/${phone.replace(/\D/g, '')}?text=${encodeURIComponent("Hello! I would like to book River Rafting near Rajaji National Park and Rishikesh.")}`;

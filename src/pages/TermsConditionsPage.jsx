@@ -4,6 +4,7 @@ import { ShieldCheck, Check, X, AlertCircle, Phone, MessageSquare, Clock, FileTe
 import { contactInfo, safariImages } from '../data/safariData';
 import { fetchContent } from '../api/client';
 import SEO from '../components/SEO';
+import PageLoader from '../components/PageLoader';
 
 const defaultPolicies = [
   {
@@ -76,6 +77,7 @@ export default function TermsConditionsPage() {
   const [policies, setPolicies] = useState(defaultPolicies);
   const [dos, setDos] = useState(defaultDos);
   const [donts, setDonts] = useState(defaultDonts);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchContent()
@@ -98,8 +100,13 @@ export default function TermsConditionsPage() {
           setDonts(res.data.parkRules.donts.map(d => `${d.title}: ${d.desc}`));
         }
       })
-      .catch(() => {});
+      .catch(() => {})
+      .finally(() => setLoading(false));
   }, []);
+
+  if (loading) {
+    return <PageLoader />;
+  }
 
   const phone = contactInfo.phone || "+91 98298 50501";
   const whatsappUrl = `https://wa.me/${phone.replace(/\D/g, '')}?text=${encodeURIComponent("Hello! I have a question regarding Rajaji safari booking terms and cancellation policy.")}`;

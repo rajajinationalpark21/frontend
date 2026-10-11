@@ -4,6 +4,7 @@ import { Compass, Feather, Home, Waves, ArrowRight, Phone, MessageSquare, Ticket
 import { safariImages, contactInfo } from '../data/safariData';
 import { fetchContent } from '../api/client';
 import SEO from '../components/SEO';
+import PageLoader from '../components/PageLoader';
 
 const fallbackActivities = [
   {
@@ -50,12 +51,18 @@ const activityIcons = {
 export default function ActivitiesPage({ onOpenBooking }) {
   const navigate = useNavigate();
   const [content, setContent] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchContent()
       .then(res => setContent(res.data))
-      .catch(() => {});
+      .catch(() => {})
+      .finally(() => setLoading(false));
   }, []);
+
+  if (loading) {
+    return <PageLoader />;
+  }
 
   const phone = content?.settings?.contact?.phone || contactInfo.phone || "+91 98298 50501";
   const whatsappUrl = `https://wa.me/${phone.replace(/\D/g, '')}?text=${encodeURIComponent("Hello! I would like to enquire about activities at Rajaji National Park (Safari, Birdwatching, Stay, Rafting).")}`;

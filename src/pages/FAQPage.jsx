@@ -4,6 +4,7 @@ import { HelpCircle, ChevronDown, ChevronUp, Phone, MessageSquare, Ticket, Spark
 import { contactInfo, safariImages } from '../data/safariData';
 import { fetchContent } from '../api/client';
 import SEO from '../components/SEO';
+import PageLoader from '../components/PageLoader';
 
 const fallbackFaqs = [
   {
@@ -50,13 +51,19 @@ const fallbackFaqs = [
 
 export default function FAQPage({ onOpenBooking }) {
   const [content, setContent] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [openIdx, setOpenIdx] = useState(0);
 
   useEffect(() => {
     fetchContent()
       .then(res => setContent(res.data))
-      .catch(() => {});
+      .catch(() => {})
+      .finally(() => setLoading(false));
   }, []);
+
+  if (loading) {
+    return <PageLoader />;
+  }
 
   const phone = content?.settings?.contact?.phone || contactInfo.phone || "+91 98298 50501";
   const whatsappUrl = `https://wa.me/${phone.replace(/\D/g, '')}?text=${encodeURIComponent("Hello! I have an inquiry about Rajaji National Park safari booking.")}`;
