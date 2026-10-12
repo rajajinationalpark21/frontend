@@ -34,19 +34,11 @@ export function fetchBlog(id) {
   return request(`blogs/detail/${id}`);
 }
 
-export function fetchGallery() {
-  return request("gallery/get");
-}
-
 export function submitContact(data) {
   return request("contact/submit", {
     method: "POST",
     body: JSON.stringify(data),
   });
-}
-
-export function fetchSafari() {
-  return request("safari/get");
 }
 
 export function fetchFeedback() {

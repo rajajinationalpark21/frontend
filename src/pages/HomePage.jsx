@@ -14,22 +14,48 @@ import {
   Phone
 } from 'lucide-react';
 import { safariImages } from '../data/safariData';
-import { fetchContent, fetchBlogs, fetchGallery } from '../api/client';
+import { fetchContent, fetchBlogs } from '../api/client';
 import { slugify } from '../utils/slugify';
 import SEO from '../components/SEO';
 import FeedbackSection from '../components/FeedbackSection';
 import CallToAction from '../components/CallToAction';
 import PageLoader from '../components/PageLoader';
 
+const fallbackGallery = [
+  safariImages.walkingTiger,
+  safariImages.elephantsRiver,
+  safariImages.leopardBranch,
+  safariImages.deerGrazing,
+  safariImages.kingfisher
+];
+
+const defaultHomeContent = {
+  heroTitle: "Unleash Your Wild Side",
+  heroSubtitle: "Experience the heart of the jungle. Witness nature in its purest form.",
+  heroBanner: safariImages.homeHero,
+  timings: "Morning & Evening Safaris",
+  zones: "Chilla, Motichur, Ranipur & more",
+  rules: "Do's & Don'ts Guide",
+  aboutTitle: "About the National Park",
+  aboutDescription: "Spread across sal forest, grassland and winding rivers, the park protects one of the region's richest concentrations of wildlife.",
+  aboutBadge: "EST. 1983",
+  aboutImage: safariImages.walkingTiger,
+  stats: {
+    tigers: "50+",
+    acres: "450k",
+    sqKm: "820",
+    forestArea: "Core & Buffer"
+  }
+};
+
 export default function HomePage({ onOpenBooking }) {
-  const [content, setContent] = useState(null);
+  const [content, setContent] = useState(defaultHomeContent);
   const [loading, setLoading] = useState(true);
   const [recentBlogs, setRecentBlogs] = useState([]);
-  const [galleryImages, setGalleryImages] = useState([]);
 
   useEffect(() => {
-    Promise.allSettled([fetchContent(), fetchBlogs(), fetchGallery()])
-      .then(([contentRes, blogsRes, galleryRes]) => {
+    Promise.allSettled([fetchContent(), fetchBlogs()])
+      .then(([contentRes, blogsRes]) => {
         if (contentRes.status === 'fulfilled') {
           const home = contentRes.value?.data?.home || contentRes.value?.home;
           if (home) {
@@ -40,12 +66,6 @@ export default function HomePage({ onOpenBooking }) {
           const blogs = blogsRes.value?.data?.blogs || blogsRes.value?.blogs;
           if (Array.isArray(blogs) && blogs.length > 0) {
             setRecentBlogs(blogs);
-          }
-        }
-        if (galleryRes.status === 'fulfilled') {
-          const images = galleryRes.value?.data?.images || galleryRes.value?.images;
-          if (Array.isArray(images) && images.length > 0) {
-            setGalleryImages(images);
           }
         }
       })
@@ -71,45 +91,25 @@ export default function HomePage({ onOpenBooking }) {
     return recentBlogs.slice(0, 3);
   }, [content, recentBlogs]);
 
-  // Resolve featured gallery from IDs or latest uploads
-  const displayGallery = React.useMemo(() => {
-    if (!content) return [];
-    const featuredIds = content.featuredGallery || [];
-    if (featuredIds.length > 0 && galleryImages.length > 0) {
-      const featured = featuredIds
-        .map((id) => galleryImages.find((img) => (img._id || img.id) === id))
-        .filter((img) => img && (img.url || img.src))
-        .slice(0, 5);
-      if (featured.length > 0) return featured.map((img) => img.url || img.src);
-    }
-    if (galleryImages.length > 0) {
-      return galleryImages.slice(0, 5).map((img) => (typeof img === 'string' ? img : (img.url || img.src))).filter(Boolean);
-    }
-    return [];
-  }, [content, galleryImages]);
+  // Photos uploaded in the admin Home editor, any number of them. Stock photos only when none exist.
+  const uploadedGallery = (content?.galleryImages || []).filter(Boolean);
+  const displayGallery = uploadedGallery.length > 0 ? uploadedGallery : fallbackGallery;
+  const galleryColumns =
+    displayGallery.length === 1
+      ? 'max-w-3xl mx-auto'
+      : displayGallery.length === 2
+        ? 'columns-1 sm:columns-2'
+        : displayGallery.length <= 6
+          ? 'columns-1 sm:columns-2 lg:columns-3'
+          : 'columns-2 md:columns-3 lg:columns-4';
 
-  if (loading || !content) {
+  if (loading) {
     return <PageLoader />;
   }
-  const homeSchema = {
-    "@context": "https://schema.org",
-    "@type": "TouristAttraction",
-    "name": "Rajaji National Park Tiger Reserve",
-    "description": "Experience raw nature at Rajaji National Park. Witness Royal Bengal Tigers, Asian Elephants, and leopards in their natural habitat through guided 4x4 expeditions.",
-    "url": "https://rajajinationalpark.org/",
-    "image": safariImages.homeHero,
-    "touristType": ["Eco-tourists", "Wildlife Photographers", "Families"],
-    "availableLanguage": ["English", "Hindi"]
-  };
-
   return (
     <div className="min-h-screen bg-[#fafaf7] dark:bg-[#070c09] transition-colors relative overflow-hidden">
       <SEO
-        title="Rajaji National Park | Official Wildlife Reserve & Tiger Expeditions"
-        description="Experience the heart of Rajaji National Park. Book guided open 4x4 jeep safaris, witness Royal Bengal Tigers and wild Asian Elephants in protected Himalayan foothills."
-        keywords="rajaji national park, tiger safari booking, chilla safari, motichur zone, haridwar rishikesh safari, jeep safari permits, uttarakhand wildlife"
         ogImage={safariImages.walkingTiger}
-        schemaJson={homeSchema}
       />
 
       {/* Subtle Ambient Botanical Leaf Texture Background */}
@@ -145,7 +145,7 @@ export default function HomePage({ onOpenBooking }) {
               onClick={onOpenBooking}
               className="px-7 py-3.5 rounded-full bg-safari-500 hover:bg-safari-400 text-white font-bold text-sm shadow-xl shadow-safari-500/30 hover:shadow-safari-400/40 active:scale-95 transition-all duration-200 cursor-pointer"
             >
-              Explore Safari
+              Book Safari Permit
             </button>
             <Link
               to="/zones"
@@ -167,8 +167,8 @@ export default function HomePage({ onOpenBooking }) {
             </div>
             <div>
               <h4 className="font-bold text-gray-900 dark:text-white text-sm">Timings</h4>
-              <p className="text-xs font-semibold text-gray-700 dark:text-gray-300 mt-0.5">{content.timings || "06:00 AM - 06:00 PM"}</p>
-              <p className="text-[11px] text-gray-400 dark:text-gray-500">Open all days except Tuesday</p>
+              <p className="text-xs font-semibold text-gray-700 dark:text-gray-300 mt-0.5">{content.timings || "Morning & Evening Safaris"}</p>
+              <p className="text-[11px] text-gray-400 dark:text-gray-500">Timings change with the season</p>
             </div>
           </div>
 
@@ -179,8 +179,8 @@ export default function HomePage({ onOpenBooking }) {
             </div>
             <div>
               <h4 className="font-bold text-gray-900 dark:text-white text-sm">Zones</h4>
-              <p className="text-xs font-semibold text-gray-700 dark:text-gray-300 mt-0.5">{content.zones || "Buffer, Core & River Safari"}</p>
-              <p className="text-[11px] text-gray-400 dark:text-gray-500">Explore 5 distinct wildlife ranges</p>
+              <p className="text-xs font-semibold text-gray-700 dark:text-gray-300 mt-0.5">{content.zones || "Chilla, Motichur, Ranipur & more"}</p>
+              <p className="text-[11px] text-gray-400 dark:text-gray-500">6 safari zones plus Beatles Ashram</p>
             </div>
           </div>
 
@@ -206,7 +206,7 @@ export default function HomePage({ onOpenBooking }) {
             <div className="relative rounded-3xl overflow-hidden shadow-xl group aspect-[4/3] bg-gray-100 border border-gray-200/60 dark:border-gray-800">
               <img
                 src={content.aboutImage || safariImages.walkingTiger}
-                alt="Bengal Tiger walking in grassland"
+                alt="Wildlife of Rajaji National Park"
                 className="w-full h-full object-cover object-center group-hover:scale-105 transition duration-700"
               />
               {/* EST. 1983 Badge */}
@@ -218,11 +218,6 @@ export default function HomePage({ onOpenBooking }) {
 
           {/* Right: Sanctuary Legacy Narrative */}
           <div className="lg:col-span-6 space-y-6">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-200 dark:border-emerald-900/40">
-              <span className="text-[11px] font-bold tracking-widest text-emerald-700 dark:text-emerald-400 uppercase">
-                CONSERVATION FIRST
-              </span>
-            </div>
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-950 dark:text-white tracking-tight font-serif">
               {content.aboutTitle || "The Sanctuary Legacy"}
             </h2>
@@ -272,10 +267,10 @@ export default function HomePage({ onOpenBooking }) {
           <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-12 gap-4">
             <div>
               <h2 className="text-3xl sm:text-4xl font-bold text-gray-950 dark:text-white tracking-tight font-serif">
-                Captured Moments
+                {content.galleryTitle || "Captured Moments"}
               </h2>
               <p className="text-gray-500 dark:text-gray-400 text-xs sm:text-sm mt-1.5">
-                Glimpses of the wild, caught in the perfect light.
+                {content.gallerySubtitle || "Glimpses of the wild, caught in the perfect light."}
               </p>
             </div>
             <Link
@@ -287,52 +282,21 @@ export default function HomePage({ onOpenBooking }) {
             </Link>
           </div>
 
-          {/* Mosaic Grid Matching Reference */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 items-stretch">
-            {/* Left Column: Two landscape stacked cards */}
-            <div className="space-y-5 flex flex-col justify-between">
-              <div className="rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition aspect-[16/10] group bg-gray-200 dark:bg-gray-800 border border-gray-100 dark:border-gray-800">
+          {/* Masonry frame: columns and photo sizes follow the number of photos */}
+          <div className={`${galleryColumns} gap-5`}>
+            {displayGallery.map((src, index) => (
+              <div
+                key={`${src}-${index}`}
+                className="mb-5 break-inside-avoid rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition group bg-gray-200 dark:bg-gray-800 border border-gray-100 dark:border-gray-800"
+              >
                 <img
-                  src={displayGallery[0] || fallbackGallery[0]}
-                  alt="Gallery image 1"
-                  className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+                  src={src}
+                  alt={`${content.galleryTitle || "Captured Moments"} photo ${index + 1}`}
+                  loading="lazy"
+                  className="w-full h-auto block group-hover:scale-105 transition duration-500"
                 />
               </div>
-              <div className="rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition aspect-[16/9] group bg-gray-200 dark:bg-gray-800 border border-gray-100 dark:border-gray-800">
-                <img
-                  src={displayGallery[1] || fallbackGallery[1]}
-                  alt="Gallery image 2"
-                  className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
-                />
-              </div>
-            </div>
-
-            {/* Middle Column: Tall portrait */}
-            <div className="rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition group bg-gray-200 dark:bg-gray-800 min-h-[380px] h-full border border-gray-100 dark:border-gray-800">
-              <img
-                src={displayGallery[2] || fallbackGallery[2]}
-                alt="Gallery image 3"
-                className="w-full h-full object-cover group-hover:scale-105 transition duration-700"
-              />
-            </div>
-
-            {/* Right Column: Two stacked cards */}
-            <div className="space-y-5 flex flex-col justify-between">
-              <div className="rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition aspect-[16/10] group bg-gray-200 dark:bg-gray-800 border border-gray-100 dark:border-gray-800">
-                <img
-                  src={displayGallery[3] || fallbackGallery[3]}
-                  alt="Gallery image 4"
-                  className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
-                />
-              </div>
-              <div className="rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition aspect-[16/10] group bg-gray-200 dark:bg-gray-800 border border-gray-100 dark:border-gray-800">
-                <img
-                  src={displayGallery[4] || fallbackGallery[4]}
-                  alt="Gallery image 5"
-                  className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
-                />
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </section>
@@ -340,11 +304,6 @@ export default function HomePage({ onOpenBooking }) {
       {/* 4. TALES FROM THE JUNGLE SECTION */}
       <section className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         <div className="text-center max-w-2xl mx-auto mb-14">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-200 dark:border-emerald-900/40 mb-3">
-            <span className="text-[11px] font-bold tracking-widest text-emerald-700 dark:text-emerald-400 uppercase">
-              WILD JOURNAL
-            </span>
-          </div>
           <h2 className="text-3xl sm:text-4xl font-bold text-gray-950 dark:text-white tracking-tight font-serif">
             Tales from the Jungle
           </h2>
