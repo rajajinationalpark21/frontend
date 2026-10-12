@@ -47,11 +47,6 @@ export default function FeedbackSection() {
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-200 dark:border-emerald-900/40 mb-3">
-              <span className="text-[11px] font-bold tracking-widest text-emerald-700 dark:text-emerald-400 uppercase">
-                VISITOR VOICES
-              </span>
-            </div>
             <h2 className="text-3xl sm:text-4xl font-bold text-gray-950 dark:text-white tracking-tight font-serif">
               Stories & Ratings from the Trail
             </h2>

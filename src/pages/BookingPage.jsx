@@ -23,11 +23,16 @@ import { submitBooking } from '../api/client';
 import SEO from '../components/SEO';
 
 const DEFAULT_ZONES = [
-  { id: 'chila', name: 'Chila Core Range', tag: 'Highest Wildlife Density', distance: '36 km Safari Track', highlights: 'Royal Bengal Tigers, wild elephant herds, leopards, spotted deer', gates: 'Chilla Gate, Haridwar-Rishikesh Road', image: safariImages.chillaRiverbed },
-  { id: 'motichur', name: 'Motichur Range', tag: 'Dense Sal Forest & Birding', distance: '32 km Forest Track', highlights: 'Dense virgin Sal canopies, sambar, hornbills, raptors', gates: 'Motichur Gate, NH-72 Haridwar-Dehradun', image: safariImages.motichurGate },
-  { id: 'jhilmil', name: 'Jhilmil Jheel Sanctuary', tag: 'Rare Swamp Deer Habitat', distance: '28 km Wetland Circuit', highlights: 'Only habitat in Uttarakhand for Barasingha (Swamp Deer)', gates: 'Ransi Gate near Laksar, Haridwar', image: safariImages.jhilmilWetlands },
-  { id: 'gohari', name: 'Gohari Range', tag: 'Scenic Ravines & Twilight', distance: '30 km River Track', highlights: 'Song River bed, evening elephant crossings, tranquil wilderness', gates: 'Gohari Gate, Rishikesh periphery', image: safariImages.gohariCorridor },
+  { id: 'chilla-jeep-safari', name: 'Chilla Range', tag: 'Sal Forests, Grasslands & Riverine Habitats', distance: 'Approx. 36 km Circular Route', highlights: 'Mundal and Ghasiram watchtowers, elephants, deer and birdlife', gates: 'Chilla Gate (Haridwar–Rishikesh bypass road)', image: safariImages.safariJeepSavannah },
+  { id: 'ranipur-gate-jeep-safari', name: 'Haridwar Zone / Ranipur Gate', tag: 'Jeep Safari & Leopard Safari near Haridwar', distance: 'Approx. 25 km Safari Route', highlights: 'Mixed forest and grassland, elephants, deer and leopard habitat', gates: 'Ranipur Gate (near the Ranipur and BHEL area, Haridwar)', image: safariImages.safariJeepSavannah },
+  { id: 'chillawali-jeep-safari', name: 'Chillawali Zone / Mohand Gate', tag: 'Peaceful Leopard Safari in the Shivalik Foothills', distance: 'Approx. 30–36 km Track', highlights: 'Quiet Shivalik foothill forests, leopards and forest birds', gates: 'Mohand Gate (near Ganeshpur, Dehradun–Haridwar highway)', image: safariImages.safariJeepSavannah },
+  { id: 'motichur-jeep-safari', name: 'Motichur Safari Zone', tag: 'Sal Forests, Elephants & Forest Birdlife', distance: 'Approx. 25 km Circular Route', highlights: 'Sal forests, Asian Elephant, Chital, Sambar and forest birds', gates: 'Motichur Gate (Haridwar–Rishikesh route)', image: safariImages.safariJeepSavannah },
+  { id: 'jhilmil-jheel-safari', name: 'Jhilmil Jheel Safari & Conservation Reserve', tag: 'Wetland Reserve – Swamp Deer (Barasingha) Habitat', distance: '', highlights: 'Swamp Deer habitat, wetlands, grasslands and 238 recorded bird species', gates: 'Haridwar–Najibabad road, approx. 20 km from Haridwar', image: safariImages.safariJeepSavannah },
+  { id: 'gohri-range-safari', name: 'Gohri Range Safari', tag: 'Peaceful Buffer-Zone Safari near Rishikesh & Haridwar', distance: '', highlights: 'Quiet forest routes, elephant and deer habitats, birdwatching', gates: 'Gohri Range (near Rishikesh and Haridwar)', image: safariImages.safariJeepSavannah },
 ];
+
+// Chaurasi Kutiya is a walk-in heritage site, not a safari that can be booked.
+const NON_SAFARI_SLUGS = ['chaurasi-kutiya-beatles-ashram'];
 
 export default function BookingPage() {
   const [zones, setZones] = useState(DEFAULT_ZONES);
@@ -37,7 +42,7 @@ export default function BookingPage() {
     d.setDate(d.getDate() + 3);
     return d.toISOString().split('T')[0];
   });
-  const [slot, setSlot] = useState('06:00 AM - Morning Shift');
+  const [slot, setSlot] = useState('Morning Safari');
   const [guests, setGuests] = useState(2);
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
@@ -45,20 +50,21 @@ export default function BookingPage() {
   const [specialRequests, setSpecialRequests] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [bookingConfirmed, setBookingConfirmed] = useState(null);
+  const [submitError, setSubmitError] = useState('');
 
   useEffect(() => {
     fetchContent()
       .then((data) => {
         const safari = data?.data?.safari || data?.safari;
         if (safari?.zones && safari.zones.length > 0) {
-          const mapped = safari.zones.map((z, i) => ({
+          const mapped = safari.zones.filter((z) => !NON_SAFARI_SLUGS.includes(z.slug)).map((z, i) => ({
             id: z.slug || `zone-${i}`,
             name: z.name,
             tag: z.tag || 'Safari Zone',
             distance: z.routeKm || '',
             highlights: Array.isArray(z.highlights) ? z.highlights.join(', ') : (z.description || ''),
             gates: z.entryGate || '',
-            image: DEFAULT_ZONES[i % DEFAULT_ZONES.length]?.image || safariImages.chillaRiverbed,
+            image: z.heroImage || safariImages.safariJeepSavannah,
           }));
           setZones(mapped);
           if (mapped.length > 0 && !selectedZone) {
@@ -71,17 +77,29 @@ export default function BookingPage() {
 
   const currentZone = zones.find((z) => z.id === selectedZone) || zones[0];
 
+  const handlePhoneChange = (e) => {
+    const digitsOnly = e.target.value.replace(/\D/g, '').slice(0, 10);
+    setPhone(digitsOnly);
+    if (submitError) setSubmitError('');
+  };
+
   const handleBookingSubmit = async (e) => {
     e.preventDefault();
-    setIsSubmitting(true);
+    setSubmitError('');
 
-    const bookingRef = `RTR-${Date.now().toString().slice(-6)}`;
+    const cleanPhone = phone.replace(/\D/g, '');
+    if (cleanPhone.length !== 10) {
+      setSubmitError('Please enter a valid 10-digit mobile number (without country code).');
+      return;
+    }
+
+    setIsSubmitting(true);
 
     try {
       const res = await submitBooking({
         name: fullName,
         email,
-        phone,
+        phone: cleanPhone,
         zone: currentZone.name,
         date,
         shift: slot,
@@ -89,32 +107,21 @@ export default function BookingPage() {
         specialRequests,
       });
 
-      const savedRef = res?.booking?.refNumber || bookingRef;
-
       setBookingConfirmed({
-        refNumber: savedRef,
+        refNumber: res?.booking?.refNumber || '',
         name: fullName,
-        phone,
+        phone: cleanPhone,
         email,
         zone: currentZone.name,
         date,
         slot,
         guests,
       });
-    } catch {
-      setBookingConfirmed({
-        refNumber: bookingRef,
-        name: fullName,
-        phone,
-        email,
-        zone: currentZone.name,
-        date,
-        slot,
-        guests,
-      });
+      window.scrollTo({ top: 120, behavior: 'smooth' });
+    } catch (err) {
+      setSubmitError(err?.message || 'We could not save your inquiry.');
     } finally {
       setIsSubmitting(false);
-      window.scrollTo({ top: 120, behavior: 'smooth' });
     }
   };
 
@@ -139,9 +146,6 @@ export default function BookingPage() {
       <div className="pattern-leaf-delicate fixed inset-0 opacity-[0.03] dark:opacity-[0.025] pointer-events-none z-0" />
 
       <SEO
-        title="Book Safari Permit Online | Rajaji National Park 4x4 Gypsy Reservation"
-        description="Official safari permit reservation portal for Rajaji National Park. Reserve your open-top 4x4 gypsy and certified naturalist guide for Chila, Motichur, Gohari & Jhilmil ranges."
-        keywords="book rajaji safari, safari permit booking, chila gypsy reservation, motichur safari booking, online safari permit uttarakhand"
         ogImage={safariImages.chillaRiverbed}
       />
 
@@ -150,22 +154,18 @@ export default function BookingPage() {
         <div className="flex items-center gap-2 py-3 mb-6 border-b border-gray-100 dark:border-gray-800 text-xs text-gray-500 dark:text-gray-400">
           <Link to="/" className="hover:text-emerald-600 dark:hover:text-emerald-400 transition">Home</Link>
           <ChevronRight className="w-3.5 h-3.5 text-gray-400" />
-          <Link to="/safari" className="hover:text-emerald-600 dark:hover:text-emerald-400 transition">Safaris</Link>
+          <Link to="/zones" className="hover:text-emerald-600 dark:hover:text-emerald-400 transition">Safaris</Link>
           <ChevronRight className="w-3.5 h-3.5 text-gray-400" />
-          <span className="text-gray-900 dark:text-white font-semibold">Permit Reservation</span>
+          <span className="text-gray-900 dark:text-white font-semibold">Safari Permit Inquiry</span>
         </div>
 
         {/* Page Hero Header */}
         <div className="mb-10 max-w-3xl">
-          <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-200/60 dark:border-emerald-800/40 text-[11px] font-bold uppercase tracking-widest text-emerald-700 dark:text-emerald-300 mb-3">
-            <Ticket className="w-3.5 h-3.5 text-emerald-600" />
-            Official Reserve Quota Allocation
-          </span>
           <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-bold text-gray-950 dark:text-white tracking-tight leading-[1.15] mb-3">
-            Reserve Your Safari Permit
+            Inquire for Safari Permit
           </h1>
           <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 leading-relaxed">
-            Daily visitor permits are strictly capped to protect sanctuary wildlife corridors. Plan in advance to secure your registered 4x4 gypsy, licensed driver, and authorized forest naturalist.
+            Daily visitor permits are strictly capped by forest department rules. Submit your inquiry to check quota availability for a registered 4x4 gypsy, licensed driver, and authorized forest naturalist.
           </p>
         </div>
 
@@ -177,27 +177,27 @@ export default function BookingPage() {
             </div>
 
             <span className="text-xs font-bold uppercase tracking-widest text-emerald-600 dark:text-emerald-400">
-              Reservation Inquiry Initiated
+              Safari Inquiry Received
             </span>
             <h2 className="font-serif text-2xl sm:text-3xl font-bold text-gray-950 dark:text-white mt-1 mb-2">
-              Permit Slot Reserved!
+              Inquiry Submitted Successfully!
             </h2>
             <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-6">
-              Reference ID: <span className="font-mono font-bold text-gray-900 dark:text-white text-base">{bookingConfirmed.refNumber}</span>
+              Inquiry Ref ID: <span className="font-mono font-bold text-gray-900 dark:text-white text-base">{bookingConfirmed.refNumber}</span>
             </p>
 
-            <div className="bg-gray-50/80 dark:bg-gray-800/70 rounded-2xl p-6 text-left border border-gray-200/80 dark:border-gray-700/80 space-y-3 mb-8">
+            <div className="bg-gray-50/80 dark:bg-gray-800/70 rounded-2xl p-6 text-left border border-gray-200/80 dark:border-gray-700/80 space-y-3 mb-6">
               <div className="grid grid-cols-2 gap-4 text-xs sm:text-sm">
                 <div>
                   <span className="text-gray-400 block text-xs">Primary Guest</span>
                   <span className="font-bold text-gray-900 dark:text-white">{bookingConfirmed.name}</span>
                 </div>
                 <div>
-                  <span className="text-gray-400 block text-xs">Selected Range</span>
+                  <span className="text-gray-400 block text-xs">Requested Zone</span>
                   <span className="font-bold text-gray-900 dark:text-white">{bookingConfirmed.zone}</span>
                 </div>
                 <div>
-                  <span className="text-gray-400 block text-xs">Safari Date</span>
+                  <span className="text-gray-400 block text-xs">Preferred Date</span>
                   <span className="font-bold text-gray-900 dark:text-white">{bookingConfirmed.date}</span>
                 </div>
                 <div>
@@ -211,9 +211,9 @@ export default function BookingPage() {
               </div>
             </div>
 
-            <p className="text-xs text-gray-500 dark:text-gray-400 mb-6">
-              Our team will contact you shortly with the tariff and permit details.
-            </p>
+            <div className="p-4 rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800/60 text-amber-800 dark:text-amber-300 text-xs text-left mb-6">
+              <strong>Please Note:</strong> This is an initial inquiry request. Your gypsy and permit slot are <strong>not confirmed yet</strong>. Our safari booking desk will review zone quota availability and contact you with the official tariff, permit confirmation, and payment details.
+            </div>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
               <a
@@ -222,14 +222,14 @@ export default function BookingPage() {
                 rel="noopener noreferrer"
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full bg-[#25D366] hover:bg-[#20ba59] text-white font-bold text-xs uppercase tracking-wider shadow-lg transition duration-200"
               >
-                Confirm on WhatsApp Desk <ArrowRight className="w-4 h-4" />
+                Connect on WhatsApp Desk <ArrowRight className="w-4 h-4" />
               </a>
 
               <button
                 onClick={() => setBookingConfirmed(null)}
                 className="w-full sm:w-auto px-7 py-3.5 rounded-full border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 text-xs font-bold uppercase tracking-wider transition"
               >
-                Book Another Permit
+                Submit Another Inquiry
               </button>
             </div>
           </div>
@@ -310,10 +310,8 @@ export default function BookingPage() {
                         onChange={(e) => setSlot(e.target.value)}
                         className="w-full px-4 py-3 text-sm bg-gray-50/80 dark:bg-gray-800/90 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-2xl focus:outline-none focus:border-emerald-600 dark:focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 font-medium transition"
                       >
-                        <option className="bg-white dark:bg-gray-900">06:00 AM - Morning Shift (Summer)</option>
-                        <option className="bg-white dark:bg-gray-900">07:00 AM - Morning Shift (Winter)</option>
-                        <option className="bg-white dark:bg-gray-900">02:30 PM - Afternoon Shift (Winter)</option>
-                        <option className="bg-white dark:bg-gray-900">03:00 PM - Afternoon Shift (Summer)</option>
+                        <option className="bg-white dark:bg-gray-900">Morning Safari</option>
+                        <option className="bg-white dark:bg-gray-900">Afternoon / Evening Safari</option>
                       </select>
                     </div>
                   </div>
@@ -388,15 +386,20 @@ export default function BookingPage() {
                     </div>
 
                     <div>
-                      <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1.5">WhatsApp Mobile Number</label>
+                      <div className="flex items-center justify-between mb-1.5">
+                        <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300">WhatsApp Mobile Number</label>
+                        <span className="text-[11px] font-medium text-emerald-700 dark:text-emerald-400">10 digits only</span>
+                      </div>
                       <input
                         type="tel"
+                        inputMode="numeric"
+                        pattern="[0-9]{10}"
                         required
-                        maxLength={30}
-                        placeholder="+91 98765 43210"
+                        maxLength={10}
+                        placeholder="9876543210"
                         value={phone}
-                        onChange={(e) => setPhone(e.target.value)}
-                        className="w-full px-4 py-3 text-sm bg-gray-50/80 dark:bg-gray-800/90 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-2xl focus:outline-none focus:border-emerald-600 dark:focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 font-medium transition"
+                        onChange={handlePhoneChange}
+                        className="w-full px-4 py-3 text-sm bg-gray-50/80 dark:bg-gray-800/90 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-2xl focus:outline-none focus:border-emerald-600 dark:focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 font-medium transition tracking-wider"
                       />
                     </div>
 
@@ -416,13 +419,25 @@ export default function BookingPage() {
 
                 {/* SUBMIT BUTTON */}
                 <div className="pt-4 border-t border-gray-100 dark:border-gray-800">
+                  {submitError && (
+                    <div role="alert" className="mb-4 flex items-start gap-2.5 rounded-2xl border border-red-200 dark:border-red-900/60 bg-red-50 dark:bg-red-950/40 px-4 py-3 text-xs sm:text-sm text-red-700 dark:text-red-300">
+                      <AlertCircle className="w-4 h-4 mt-0.5 shrink-0" />
+                      <span>
+                        Your inquiry was not sent. {submitError} Please try again, or call us on{' '}
+                        <a href={`tel:${contactInfo.safari.phone.replace(/\s/g, '')}`} className="font-bold underline">
+                          {contactInfo.safari.phone}
+                        </a>
+                        .
+                      </span>
+                    </div>
+                  )}
                   <button
                     type="submit"
                     disabled={isSubmitting}
                     className="w-full py-4 rounded-full bg-emerald-600 hover:bg-emerald-500 active:scale-[0.99] text-white font-bold text-xs uppercase tracking-wider shadow-lg shadow-emerald-950/30 transition-all flex items-center justify-center gap-2 cursor-pointer"
                   >
                     {isSubmitting ? (
-                      'Securing Permit Quota...'
+                      'Submitting Inquiry...'
                     ) : (
                       <>
                         <Ticket className="w-4 h-4" />

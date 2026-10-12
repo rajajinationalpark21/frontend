@@ -13,6 +13,8 @@ import { blogArticles, safariImages } from '../data/safariData';
 import { fetchBlog, fetchBlogs } from '../api/client';
 import { slugify } from '../utils/slugify';
 import SEO from '../components/SEO';
+import { SITE_URL } from '../seo/site';
+import { blogPostingSchema } from '../seo/schema';
 
 function renderContent(rawContent) {
   if (!rawContent) return null;
@@ -28,7 +30,7 @@ function renderContent(rawContent) {
       const text = currentParagraph.join(' ').trim();
       if (text) {
         elements.push(
-          <p key={`p-${key}`} className="text-sm leading-relaxed text-gray-700 dark:text-gray-300 mb-4">
+          <p key={`p-${key}`} className="text-base sm:text-lg leading-[1.8] text-gray-700 dark:text-gray-300 mb-6 font-normal">
             {text}
           </p>
         );
@@ -40,17 +42,14 @@ function renderContent(rawContent) {
   const flushList = (key) => {
     if (currentList.length > 0) {
       elements.push(
-        <ul key={`ul-${key}`} className="space-y-2 my-3 pl-1 list-none">
+        <ul key={`ul-${key}`} className="space-y-3 my-5 pl-2 list-none border-l-2 border-emerald-600/30 dark:border-emerald-500/30">
           {currentList.map((it, i) => (
-            <li key={i} className="flex items-start gap-2.5 text-sm leading-relaxed text-gray-700 dark:text-gray-300">
-              <span className="w-1.5 h-1.5 rounded-full bg-safari-500 mt-2 shrink-0" />
-              <span>
-                {it.includes('**') ? (
-                  it.split('**').map((seg, sIdx) => 
-                    sIdx % 2 === 1 ? <strong key={sIdx} className="font-bold text-gray-950 dark:text-white">{seg}</strong> : seg
-                  )
-                ) : it}
-              </span>
+            <li key={i} className="pl-3 text-base sm:text-lg leading-[1.75] text-gray-700 dark:text-gray-300">
+              {it.includes('**') ? (
+                it.split('**').map((seg, sIdx) => 
+                  sIdx % 2 === 1 ? <strong key={sIdx} className="font-bold text-gray-950 dark:text-white">{seg}</strong> : seg
+                )
+              ) : it}
             </li>
           ))}
         </ul>
@@ -72,7 +71,7 @@ function renderContent(rawContent) {
       flushParagraph(idx);
       flushList(idx);
       elements.push(
-        <h3 key={`h3-${idx}`} className="text-base sm:text-lg font-bold text-gray-950 dark:text-white mt-6 mb-2 tracking-tight">
+        <h3 key={`h3-${idx}`} className="text-xl sm:text-2xl font-bold font-serif text-gray-950 dark:text-white mt-9 mb-3.5 tracking-tight">
           {trimmed.replace(/^###\s+/, '')}
         </h3>
       );
@@ -83,7 +82,7 @@ function renderContent(rawContent) {
       flushParagraph(idx);
       flushList(idx);
       elements.push(
-        <h2 key={`h2-${idx}`} className="text-lg sm:text-xl font-bold text-gray-950 dark:text-white mt-7 mb-2.5 tracking-tight">
+        <h2 key={`h2-${idx}`} className="text-2xl sm:text-3xl font-bold font-serif text-gray-950 dark:text-white mt-12 mb-4 tracking-tight border-b border-gray-100 dark:border-gray-800 pb-2">
           {trimmed.replace(/^##\s+/, '')}
         </h2>
       );
@@ -215,26 +214,15 @@ export default function BlogPostPage() {
 
   if (!article) return null;
 
-  const articleSchema = {
-    "@context": "https://schema.org",
-    "@type": "BlogPosting",
-    "headline": article.title,
-    "description": article.excerpt,
-    "image": article.image,
-    "datePublished": article.date || "2023-11-12",
-    "author": {
-      "@type": "Person",
-      "name": "Senior Field Naturalist"
+  const articleSchema = blogPostingSchema(
+    {
+      title: article.title,
+      summary: article.excerpt,
+      image: article.image,
+      slug: article.slug || slugify(article.title),
     },
-    "publisher": {
-      "@type": "Organization",
-      "name": "Rajaji National Park Tiger Reserve"
-    },
-    "mainEntityOfPage": {
-      "@type": "WebPage",
-      "@id": `https://rajajinationalpark.org/blog/${article.slug || slugify(article.title)}`
-    }
-  };
+    SITE_URL
+  );
 
   const handleShare = () => {
     if (navigator.share) {
@@ -256,16 +244,16 @@ export default function BlogPostPage() {
       <div className="pattern-leaf-delicate pointer-events-none z-0" aria-hidden="true" />
 
       <SEO
-        title={`${article.title} | Wilderness Journal - Rajaji National Park`}
+        title={`${article.title} | Rajaji Safari Blog`}
         description={article.excerpt}
-        keywords={`${article.category.toLowerCase()}, wildlife story, tracking guide, rajaji national park, tiger reserve`}
+        keywords={`${article.category.toLowerCase()}, rajaji national park, rajaji tiger reserve, rajaji jeep safari`}
         ogImage={article.image}
         ogType="article"
         schemaJson={articleSchema}
       />
-      <div className="relative z-10 max-w-2xl mx-auto px-4 sm:px-6">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Breadcrumb & Top Navigation */}
-        <div className="flex items-center justify-between py-3 mb-5 border-b border-emerald-900/10 dark:border-emerald-800/30 text-xs">
+        <div className="flex items-center justify-between py-4 mb-6 border-b border-emerald-900/10 dark:border-emerald-800/30 text-xs">
           <div className="flex items-center gap-1.5 text-gray-500 dark:text-emerald-300/70">
             <Link to="/" className="hover:text-emerald-600 dark:hover:text-emerald-400 transition">
               Home
@@ -275,51 +263,54 @@ export default function BlogPostPage() {
               Wilderness Journal
             </Link>
             <ChevronRight className="w-3.5 h-3.5 text-gray-400" />
-            <span className="text-gray-900 dark:text-emerald-100 font-semibold truncate max-w-[160px] sm:max-w-xs">
+            <span className="text-gray-900 dark:text-emerald-100 font-semibold truncate max-w-[200px] sm:max-w-md">
               {article.title}
             </span>
           </div>
 
           <Link
             to="/blog"
-            className="inline-flex items-center gap-1 font-bold text-emerald-700 dark:text-emerald-400 hover:text-emerald-800 transition"
+            className="inline-flex items-center gap-1.5 font-bold text-xs uppercase tracking-wider text-emerald-700 dark:text-emerald-400 hover:text-emerald-800 dark:hover:text-emerald-300 transition"
           >
-            <ArrowLeft className="w-3.5 h-3.5" /> All Stories
+            <ArrowLeft className="w-3.5 h-3.5" /> All Wilderness Stories
           </Link>
         </div>
 
-        {/* Category, Date & Read Time */}
-        <div className="flex flex-wrap items-center gap-3 mb-3">
-          <span className="px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 text-[11px] font-bold uppercase tracking-wider border border-emerald-200 dark:border-emerald-800/50">
-            {article.category}
-          </span>
-          {article.date && (
-            <div className="flex items-center gap-1 text-xs text-gray-500 dark:text-emerald-300/70">
-              <Calendar className="w-3.5 h-3.5" />
-              <span>{article.date}</span>
+        {/* Grand Article Header - Full Width */}
+        <div className="max-w-4xl mx-auto text-center mb-8 sm:mb-12">
+          {/* Category, Date & Read Time */}
+          <div className="flex flex-wrap items-center justify-center gap-3 mb-4">
+            <span className="px-3.5 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 text-xs font-bold uppercase tracking-wider border border-emerald-200 dark:border-emerald-800/50">
+              {article.category}
+            </span>
+            {article.date && (
+              <div className="flex items-center gap-1.5 text-xs text-gray-500 dark:text-emerald-300/70">
+                <Calendar className="w-3.5 h-3.5 text-emerald-600" />
+                <span>{article.date}</span>
+              </div>
+            )}
+            <span className="text-gray-300 dark:text-gray-700">•</span>
+            <div className="flex items-center gap-1.5 text-xs text-gray-500 dark:text-emerald-300/70">
+              <Clock className="w-3.5 h-3.5 text-emerald-600" />
+              <span>{article.readTime}</span>
             </div>
-          )}
-          <span className="text-gray-300 dark:text-gray-700">•</span>
-          <div className="flex items-center gap-1 text-xs text-gray-500 dark:text-emerald-300/70">
-            <Clock className="w-3.5 h-3.5" />
-            <span>{article.readTime}</span>
           </div>
+
+          {/* Title */}
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-serif font-extrabold text-gray-950 dark:text-emerald-50 tracking-tight leading-[1.12] mb-6">
+            {article.title}
+          </h1>
+
+          {/* Lead Excerpt */}
+          {article.excerpt && (
+            <p className="text-lg sm:text-xl text-gray-600 dark:text-emerald-100/80 font-light leading-relaxed max-w-3xl mx-auto">
+              {article.excerpt}
+            </p>
+          )}
         </div>
 
-        {/* Title */}
-        <h1 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-extrabold text-gray-950 dark:text-emerald-50 tracking-tight leading-tight mb-4">
-          {article.title}
-        </h1>
-
-        {/* Lead Excerpt */}
-        {article.excerpt && (
-          <p className="text-base sm:text-lg text-gray-600 dark:text-emerald-100/80 font-light leading-relaxed mb-6">
-            {article.excerpt}
-          </p>
-        )}
-
-        {/* Featured Image */}
-        <div className="rounded-3xl overflow-hidden shadow-xl aspect-[16/9] max-h-[380px] bg-gray-100 dark:bg-gray-800 mb-8 border border-emerald-900/15 dark:border-emerald-800/40">
+        {/* Featured Banner Image - Wide Cinematic */}
+        <div className="rounded-3xl overflow-hidden shadow-2xl aspect-[16/9] sm:aspect-[21/9] max-h-[520px] bg-gray-100 dark:bg-gray-800 mb-12 border border-emerald-950/10 dark:border-emerald-500/20">
           <img
             src={article.image}
             alt={article.title}
@@ -327,78 +318,139 @@ export default function BlogPostPage() {
           />
         </div>
 
-        {/* Article Body */}
-        <article className="space-y-3.5">
-          {article.content ? (
-            renderContent(article.content)
-          ) : (
-            <div className="space-y-3.5 text-gray-700 dark:text-gray-300 leading-relaxed text-sm">
-              <p>
-                Tracking wildlife across dense Sal forests and open grasslands requires keen observation, patience, and deep reverence for the natural rhythm of the sanctuary. In this environment, every broken twig, fresh pugmark in the sandy riverbed, or sharp alarm call from a spotted deer tells an immediate story.
-              </p>
-              <p>
-                The reserve is home to hundreds of species that have adapted to the unique topography formed by the Siwalik foothills and the wandering Ganges floodplains. As the morning mist lifts over the canopy, the forest awakens in layers: first the rhythmic calls of the Great Pied Hornbill echoing through towering trees, followed by the quiet emergence of herbivores toward ancient watering holes.
-              </p>
-            </div>
-          )}
-
-          {/* Dynamic Optional Pull Quote */}
-          {article.quote && article.quote.trim() && (
-            <div className="my-6 p-4 sm:p-5 bg-gray-50 dark:bg-gray-900 border-l-4 border-safari-500 rounded-r-2xl">
-              <p className="text-sm sm:text-base italic text-gray-900 dark:text-white leading-snug">
-                "{article.quote.trim().replace(/^["']|["']$/g, '')}"
-              </p>
-              {article.quoteAuthor && article.quoteAuthor.trim() && (
-                <span className="block text-[11px] font-bold text-safari-600 dark:text-safari-400 mt-1.5 uppercase tracking-wider">
-                  - {article.quoteAuthor.trim()}
-                </span>
-              )}
-            </div>
-          )}
-        </article>
-
-        {/* Share & Actions Bar */}
-        <div className="mt-12 pt-8 border-t border-gray-100 dark:border-gray-800 flex flex-wrap items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
-            <button
-              onClick={handleShare}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs font-bold transition"
-            >
-              {copied ? (
-                <>
-                  <Check className="w-3.5 h-3.5 text-green-500" /> Link Copied!
-                </>
+        {/* 2-Column Editorial Layout on PC (Wide Main Article + Sticky Info Sidebar) */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-start">
+          
+          {/* Main Reading Column (8 cols on desktop) */}
+          <div className="lg:col-span-8">
+            <article className="prose prose-emerald dark:prose-invert max-w-none">
+              {article.content ? (
+                renderContent(article.content)
               ) : (
-                <>
-                  <Share2 className="w-3.5 h-3.5" /> Share Article
-                </>
+                <div className="space-y-5 text-gray-700 dark:text-gray-300 leading-[1.8] text-base sm:text-lg">
+                  <p>
+                    Tracking wildlife across dense Sal forests and open grasslands requires keen observation, patience, and deep reverence for the natural rhythm of the sanctuary. In this environment, every broken twig, fresh pugmark in the sandy riverbed, or sharp alarm call from a spotted deer tells an immediate story.
+                  </p>
+                  <p>
+                    The reserve is home to hundreds of species that have adapted to the unique topography formed by the Siwalik foothills and the wandering Ganges floodplains. As the morning mist lifts over the canopy, the forest awakens in layers: first the rhythmic calls of the Great Pied Hornbill echoing through towering trees, followed by the quiet emergence of herbivores toward ancient watering holes.
+                  </p>
+                </div>
               )}
-            </button>
+
+              {/* Dynamic Optional Pull Quote */}
+              {article.quote && article.quote.trim() && (
+                <div className="my-8 p-6 sm:p-8 bg-[#f5f2e9]/80 dark:bg-[#0c1f13] border-l-4 border-emerald-600 rounded-r-3xl shadow-sm">
+                  <p className="font-serif text-lg sm:text-xl italic text-gray-950 dark:text-white leading-relaxed">
+                    "{article.quote.trim().replace(/^["']|["']$/g, '')}"
+                  </p>
+                  {article.quoteAuthor && article.quoteAuthor.trim() && (
+                    <span className="block text-xs font-bold text-emerald-700 dark:text-emerald-400 mt-3 uppercase tracking-widest">
+                      — {article.quoteAuthor.trim()}
+                    </span>
+                  )}
+                </div>
+              )}
+            </article>
+
+            {/* Share & Actions Bar */}
+            <div className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-800 flex flex-wrap items-center justify-between gap-4">
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={handleShare}
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-200 text-xs font-bold border border-gray-200 dark:border-gray-700 shadow-sm transition cursor-pointer"
+                >
+                  {copied ? (
+                    <>
+                      <Check className="w-3.5 h-3.5 text-emerald-600" /> Link Copied to Clipboard!
+                    </>
+                  ) : (
+                    <>
+                      <Share2 className="w-3.5 h-3.5" /> Share Article
+                    </>
+                  )}
+                </button>
+              </div>
+
+              <Link
+                to="/blog"
+                className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold uppercase tracking-wider shadow-md transition"
+              >
+                Explore More Stories <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+            </div>
           </div>
 
-          <Link
-            to="/blog"
-            className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-safari-500 hover:bg-safari-600 text-white text-xs font-bold shadow transition"
-          >
-            Explore More Stories <ArrowRight className="w-3.5 h-3.5" />
-          </Link>
+          {/* Sticky Editorial Sidebar (4 cols on desktop) */}
+          <aside className="lg:col-span-4 space-y-6 lg:sticky lg:top-24">
+            
+            {/* Quick Safari Booking Inquiry CTA Card */}
+            <div className="bg-[#fdfcf8] dark:bg-[#0c1f13] rounded-3xl p-6 border border-emerald-950/10 dark:border-emerald-500/20 shadow-md relative overflow-hidden">
+              <div className="pattern-leaf-delicate absolute inset-0 opacity-[0.04] pointer-events-none" />
+              <div className="relative z-10">
+                <span className="text-[10px] font-bold uppercase tracking-widest text-emerald-700 dark:text-emerald-400">
+                  Plan Your Wildlife Trip
+                </span>
+                <h3 className="font-serif text-xl font-bold text-gray-950 dark:text-white mt-1 mb-2">
+                  Experience Rajaji Firsthand
+                </h3>
+                <p className="text-xs text-gray-600 dark:text-gray-300 leading-relaxed mb-5">
+                  Book registered 4x4 Gypsy safari permits with certified forest guides across Chilla, Motichur, Gohri & Jhilmil ranges.
+                </p>
+                <Link
+                  to="/booking"
+                  className="w-full inline-flex items-center justify-center gap-2 py-3 px-5 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider shadow transition"
+                >
+                  Inquire Safari Permit <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
+              </div>
+            </div>
+
+            {/* Author / Field Journal Details */}
+            <div className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm rounded-3xl p-6 border border-gray-200/80 dark:border-gray-800 space-y-4">
+              <h4 className="text-xs font-bold uppercase tracking-wider text-gray-900 dark:text-white">
+                Field Journal Notes
+              </h4>
+              <p className="text-xs text-gray-600 dark:text-gray-300 leading-relaxed">
+                Authored by Rajaji National Park naturalists and wildlife researchers tracking biodiversity across Uttarakhand's tiger habitat.
+              </p>
+              <div className="pt-3 border-t border-gray-100 dark:border-gray-800 text-[11px] text-gray-500 dark:text-gray-400 space-y-1.5">
+                <div><strong>Category:</strong> {article.category}</div>
+                <div><strong>Estimated Reading:</strong> {article.readTime}</div>
+                <div><strong>Published:</strong> {article.date || 'Recent Field Log'}</div>
+              </div>
+            </div>
+
+          </aside>
         </div>
 
-        {/* Related Stories */}
+        {/* Related Stories - Full Width Grid */}
         {relatedArticles.length > 0 && (
-          <div className="mt-20 pt-12 border-t border-gray-100 dark:border-gray-800">
-            <h3 className="text-2xl font-bold text-gray-950 dark:text-white mb-8">
-              Related Field Stories
-            </h3>
+          <div className="mt-20 pt-12 border-t border-gray-200 dark:border-gray-800">
+            <div className="flex items-center justify-between mb-8">
+              <div>
+                <span className="text-xs font-bold uppercase tracking-widest text-emerald-700 dark:text-emerald-400">
+                  More From Wilderness Journal
+                </span>
+                <h3 className="text-2xl sm:text-3xl font-serif font-bold text-gray-950 dark:text-white mt-1">
+                  Related Field Stories
+                </h3>
+              </div>
+              <Link
+                to="/blog"
+                className="hidden sm:inline-flex items-center gap-1.5 text-xs font-bold text-emerald-700 dark:text-emerald-400 hover:underline"
+              >
+                View all articles <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+            </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
               {relatedArticles.map((rel) => {
                 const relSlug = rel.slug || slugify(rel.title) || rel.id;
                 return (
                   <Link
                     key={rel.id}
                     to={`/blog/${relSlug}`}
-                    className="group bg-[#fdfcf8]/90 dark:bg-[#0c1f13]/90 backdrop-blur-md rounded-3xl overflow-hidden border border-emerald-950/10 dark:border-emerald-500/20 shadow-sm hover:shadow-lg transition flex flex-col block"
+                    className="group bg-[#fdfcf8] dark:bg-[#0c1f13] rounded-3xl overflow-hidden border border-emerald-950/10 dark:border-emerald-500/20 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col"
                   >
                     <div className="aspect-[16/10] overflow-hidden bg-gray-100 dark:bg-gray-800">
                       <img
@@ -407,17 +459,17 @@ export default function BlogPostPage() {
                         className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
                       />
                     </div>
-                    <div className="p-5 flex-1 flex flex-col justify-between space-y-2">
+                    <div className="p-6 flex-1 flex flex-col justify-between space-y-3">
                       <div>
-                        <span className="text-[10px] font-bold uppercase tracking-wider text-safari-600 dark:text-safari-400">
+                        <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-400">
                           {rel.category}
                         </span>
-                        <h4 className="text-sm font-bold text-gray-900 dark:text-white group-hover:text-safari-600 dark:group-hover:text-safari-400 transition leading-snug mt-1">
+                        <h4 className="text-base font-serif font-bold text-gray-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition leading-snug mt-1.5">
                           {rel.title}
                         </h4>
                       </div>
-                      <span className="text-xs font-bold text-gray-500 dark:text-gray-400 group-hover:text-safari-600 dark:group-hover:text-safari-400 transition flex items-center gap-1 pt-2">
-                        Read Story <ArrowRight className="w-3 h-3 text-safari-500" />
+                      <span className="text-xs font-bold text-gray-500 dark:text-gray-400 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition flex items-center gap-1 pt-2">
+                        Read Story <ArrowRight className="w-3 h-3 text-emerald-500" />
                       </span>
                     </div>
                   </Link>

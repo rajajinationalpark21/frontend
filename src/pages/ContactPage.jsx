@@ -86,53 +86,33 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="relative min-h-screen bg-[#fbfcfa] dark:bg-gray-950 transition-colors">
-      {/* Subtle organic botanical texture across page */}
-      <div className="pattern-leaf-delicate fixed inset-0 opacity-[0.03] dark:opacity-[0.025] pointer-events-none z-0" />
-
+    <div className="relative min-h-screen bg-[#fafaf7] dark:bg-[#070c09] transition-colors">
       <SEO
-        title="Get in Touch & Forest Gate Location | Rajaji National Park"
-        description="Contact the Rajaji National Park expedition desk. Inquire about safari permits, custom expeditions, school trips, and national park visitor guidelines."
-        keywords="contact rajaji national park, safari permit help, rajaji safari phone number, national park gate location chilla haridwar"
         ogImage={safariImages.contactHero}
         schemaJson={contactFaqSchema}
       />
 
-      {/* 1. HERO SECTION - Deep Jungle Forest with Tiger Watermark & Leaf Texture */}
-      <section className="relative min-h-[420px] lg:min-h-[460px] flex items-center justify-center text-center overflow-hidden bg-[#07150c] text-white">
-        <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-35 mix-blend-luminosity"
-          style={{ backgroundImage: `url("${safariImages.contactHero}")` }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#040b06]/95 via-[#07150c]/85 to-[#07150c]" />
-
-        {/* Botanical leaf vein texture */}
-        <div className="pattern-leaf-veins absolute inset-0 opacity-10 pointer-events-none" />
-
-        {/* Tiger watermark stencil */}
-        <div 
-          className="absolute right-0 bottom-0 top-0 w-2/3 max-w-2xl bg-contain bg-right-bottom bg-no-repeat pointer-events-none opacity-[0.14]"
-          style={{
-            backgroundImage: `url("/images/tiger for bg overlay.jpg")`,
-            filter: 'invert(1)',
-            mixBlendMode: 'screen',
-          }}
-        />
-
-        {/* Corner foliage flourish */}
-        <div 
-          className="absolute -top-10 -left-10 w-60 h-60 bg-contain bg-no-repeat pointer-events-none opacity-20 filter invert"
-          style={{
-            backgroundImage: `url("/images/leaf for cta.jpg")`,
-            mixBlendMode: 'screen',
-          }}
-        />
+      {/* 1. HERO SECTION */}
+      <section className="relative min-h-[420px] lg:min-h-[460px] flex items-center justify-center text-center overflow-hidden bg-black text-white">
+        <div className="absolute inset-0 z-0">
+          <img
+            src={safariImages.contactHero}
+            alt="Chilla forest gate, Rajaji National Park"
+            className="w-full h-full object-cover opacity-65"
+            onError={(e) => {
+              const img = e.currentTarget;
+              if (!img.dataset.fallbackUsed && safariImages.tigerStalking) {
+                img.dataset.fallbackUsed = "1";
+                img.src = safariImages.tigerStalking;
+              } else {
+                img.style.display = "none";
+              }
+            }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-black/75" />
+        </div>
 
         <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 py-16">
-          <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-400/20 backdrop-blur-md text-[11px] font-bold uppercase tracking-widest text-emerald-300 mb-5">
-            <Mail className="w-3.5 h-3.5 text-emerald-400" />
-            Expedition Assistance Desk
-          </span>
           <h1 className="font-serif text-4xl sm:text-6xl lg:text-7xl font-bold text-white tracking-tight leading-[1.1] mb-4">
             Get in Touch
           </h1>

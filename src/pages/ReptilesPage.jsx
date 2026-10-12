@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ShieldCheck, Sparkles, AlertCircle, ArrowRight, Compass, Phone } from 'lucide-react';
+import { ShieldCheck, Sparkles, AlertCircle, ArrowRight, Compass, Phone, PawPrint } from 'lucide-react';
 import { fetchContent } from '../api/client';
 import { safariImages, contactInfo } from '../data/safariData';
 import SEO from '../components/SEO';
 import PageLoader from '../components/PageLoader';
+import CoverImage from '../components/CoverImage';
 
 const defaultReptiles = [
   {
@@ -68,11 +69,13 @@ const defaultReptiles = [
 export default function ReptilesPage({ onOpenBooking }) {
   const [reptilesData, setReptilesData] = useState([]);
   const [overview, setOverview] = useState("");
+  const [content, setContent] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchContent()
       .then(res => {
+        setContent(res.data);
         if (res.data?.reptiles?.species && res.data.reptiles.species.length > 0) {
           setReptilesData(res.data.reptiles.species);
         } else {
@@ -93,6 +96,10 @@ export default function ReptilesPage({ onOpenBooking }) {
   }
 
   const phone = contactInfo.phone || "+91 98298 50501";
+  const repData = content?.reptiles || {};
+  const heroTitle = repData.title || "Reptiles of Rajaji Tiger Reserve";
+  const heroSubtitle = repData.subtitle || overview || "Rajaji Tiger Reserve in Uttarakhand supports a rich diversity of reptiles across its Shivalik hill forests, perennial riverbeds, grasslands, and wetlands. While secretive and well-camouflaged, these cold-blooded apex species are critical indicators of healthy forest ecology.";
+  const heroBanner = repData.heroBanner || safariImages.safariJeepTrail;
 
   return (
     <div className="relative min-h-screen bg-[#f7f5ed] dark:bg-[#07120a] transition-colors">
@@ -100,52 +107,37 @@ export default function ReptilesPage({ onOpenBooking }) {
       <div className="pattern-leaf-delicate fixed inset-0 opacity-[0.03] dark:opacity-[0.025] pointer-events-none z-0" />
 
       <SEO
-        title="Reptiles of Rajaji Tiger Reserve | Snakes, Lizards & Pythons"
-        description="Explore the rich reptile diversity of Rajaji Tiger Reserve in Uttarakhand. Learn about King Cobras, Indian Rock Pythons, Monitor Lizards, and safe forest guidelines."
-        keywords="king cobra rajaji national park, indian python rajaji, monitor lizard uttarakhand, reptiles rajaji tiger reserve"
-        ogImage={safariImages.safariJeepTrail}
+        ogImage={heroBanner}
       />
 
-      {/* Hero Header - Deep Forest with Tiger Watermark & Leaf Texture */}
-      <section className="relative py-24 lg:py-28 bg-[#07150c] text-white overflow-hidden">
+      {/* Hero Header */}
+      <section className="relative flex min-h-[460px] items-center py-24 sm:min-h-[540px] lg:min-h-[620px] lg:py-28 bg-[#07150c] text-white overflow-hidden">
         <div className="absolute inset-0 z-0">
-          <img src={safariImages.safariJeepTrail} alt="Rajaji wildlife trail" className="w-full h-full object-cover opacity-35 mix-blend-luminosity" />
-          <div className="absolute inset-0 bg-gradient-to-b from-[#040b06]/95 via-[#07150c]/85 to-[#07150c]" />
+          <img
+            src={heroBanner}
+            alt="Rajaji wildlife trail"
+            className="w-full h-full object-cover"
+            style={{ objectPosition: "center 35%" }}
+            onError={(e) => {
+              const img = e.currentTarget;
+              if (!img.dataset.fallbackUsed && safariImages.safariJeepTrail) {
+                img.dataset.fallbackUsed = "1";
+                img.src = safariImages.safariJeepTrail;
+              } else {
+                img.style.display = "none";
+              }
+            }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/65 via-black/30 to-[#07150c]/90" />
         </div>
 
-        {/* Botanical leaf vein texture */}
-        <div className="pattern-leaf-veins absolute inset-0 opacity-10 pointer-events-none" />
-
-        {/* Tiger watermark stencil */}
-        <div 
-          className="absolute right-0 bottom-0 top-0 w-2/3 max-w-2xl bg-contain bg-right-bottom bg-no-repeat pointer-events-none opacity-[0.14]"
-          style={{
-            backgroundImage: `url("/images/tiger for bg overlay.jpg")`,
-            filter: 'invert(1)',
-            mixBlendMode: 'screen',
-          }}
-        />
-
-        {/* Corner foliage flourish */}
-        <div 
-          className="absolute -top-10 -left-10 w-60 h-60 bg-contain bg-no-repeat pointer-events-none opacity-20 filter invert"
-          style={{
-            backgroundImage: `url("/images/leaf for cta.jpg")`,
-            mixBlendMode: 'screen',
-          }}
-        />
-
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl space-y-4">
-            <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-400/20 backdrop-blur-md text-[11px] font-bold uppercase tracking-widest text-emerald-300">
-              <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
-              Biodiversity of Rajaji
-            </span>
             <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-[1.15]">
-              Reptiles of Rajaji Tiger Reserve
+              {heroTitle}
             </h1>
             <p className="text-base sm:text-lg text-emerald-100/80 leading-relaxed font-normal">
-              {overview || "Rajaji Tiger Reserve in Uttarakhand supports a rich diversity of reptiles across its Shivalik hill forests, perennial riverbeds, grasslands, and wetlands. While secretive and well-camouflaged, these cold-blooded apex species are critical indicators of healthy forest ecology."}
+              {heroSubtitle}
             </p>
           </div>
         </div>
@@ -169,8 +161,9 @@ export default function ReptilesPage({ onOpenBooking }) {
           {reptilesData.map((rep, idx) => (
             <div 
               key={idx}
-              className="bg-[#fdfcf8]/90 dark:bg-[#0c1f13]/90 backdrop-blur-md rounded-3xl p-7 sm:p-8 border border-emerald-950/10 dark:border-emerald-500/20 shadow-sm hover:border-emerald-500/40 hover:shadow-2xl transition duration-500 space-y-4 flex flex-col justify-between"
+              className="group bg-[#fdfcf8]/90 dark:bg-[#0c1f13]/90 backdrop-blur-md rounded-3xl p-7 sm:p-8 border border-emerald-950/10 dark:border-emerald-500/20 shadow-sm hover:border-emerald-500/40 hover:shadow-2xl transition duration-500 space-y-4 flex flex-col justify-between"
             >
+              <CoverImage src={rep.image} alt={rep.name} icon={PawPrint} aspect="aspect-[16/9]" className="-mx-7 sm:-mx-8 -mt-7 sm:-mt-8 mb-1" />
               <div className="space-y-3">
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <h3 className="font-serif text-2xl font-bold text-gray-900 dark:text-white">
@@ -219,13 +212,13 @@ export default function ReptilesPage({ onOpenBooking }) {
           </Link>
           <div className="flex items-center gap-3">
             <Link
-              to="/wildlife/birds"
+              to="/birds-of-rajaji-national-park"
               className="text-xs font-bold uppercase tracking-wider px-5 py-2.5 rounded-full bg-[#fdfcf8]/90 dark:bg-[#0c1f13]/90 text-gray-700 dark:text-gray-200 border border-emerald-900/15 dark:border-emerald-700/40 hover:border-emerald-500 transition"
             >
               Birds of Rajaji →
             </Link>
             <Link
-              to="/wildlife/fauna"
+              to="/mammals-of-rajaji-tiger-reserve"
               className="text-xs font-bold uppercase tracking-wider px-5 py-2.5 rounded-full bg-[#fdfcf8]/90 dark:bg-[#0c1f13]/90 text-gray-700 dark:text-gray-200 border border-emerald-900/15 dark:border-emerald-700/40 hover:border-emerald-500 transition"
             >
               Mammals & Tigers →

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { MapPin, Phone, Mail, Ticket, ShieldCheck, Compass, HelpCircle } from 'lucide-react';
+import { MapPin, Phone, Mail, Ticket } from 'lucide-react';
 import { contactInfo, safariZonesList } from '../data/safariData';
 import { fetchContent } from '../api/client';
 
@@ -19,7 +19,7 @@ export default function Footer() {
   const footerData = settings.footer || {};
 
   const brandTitle = footerData.brandTitle || contactInfo.footerBrand.title;
-  const brandDesc = footerData.brandDesc || contactInfo.footerBrand.desc;
+  const footerDisplayTitle = footerData.brandShortTitle || "Rajaji Safari";
   const address = contact.address || contactInfo.address;
   const phone = contact.phone || contactInfo.phone;
   const secondaryPhone = contact.secondaryPhone || contactInfo.secondaryPhone;
@@ -33,7 +33,7 @@ export default function Footer() {
     : safariZonesList;
 
   return (
-    <footer className="bg-[#07120a] text-gray-200 border-t border-safari-900/30 pt-16 pb-24 sm:pb-16 transition-colors relative overflow-hidden">
+    <footer className="bg-[#07120a] text-gray-200 border-t border-safari-900/30 pt-10 pb-20 sm:pb-10 transition-colors relative overflow-hidden">
       {/* Ambient Botanical Pattern Texture */}
       <div 
         className="absolute inset-0 opacity-[0.03] pointer-events-none pattern-leaf-delicate invert"
@@ -52,10 +52,10 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Main Grid strictly based on Client Structure */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-10 pb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-7 lg:gap-8 pb-8">
           
           {/* Column 1: Brand & Official Contact Desk */}
-          <div className="lg:col-span-4 space-y-4">
+          <div className="lg:col-span-4 space-y-3">
             <Link to="/" className="flex items-center gap-2.5 group w-fit">
               <div className="w-10 h-10 rounded-xl bg-white dark:bg-gray-900 p-1 flex items-center justify-center border border-gray-100 dark:border-gray-800 shadow-sm shrink-0 group-hover:scale-105 transition">
                 <img 
@@ -65,20 +65,13 @@ export default function Footer() {
                 />
               </div>
               <div>
-                <span className="text-base font-extrabold text-white tracking-tight block leading-tight font-serif">
-                  {brandTitle}
-                </span>
-                <span className="text-[10px] font-bold uppercase tracking-widest text-emerald-400 block mt-0.5">
-                  Official Safari Booking Portal
+                <span className="text-sm sm:text-base font-bold text-white tracking-tight block leading-tight">
+                  {footerDisplayTitle}
                 </span>
               </div>
             </Link>
 
-            <p className="text-gray-300 text-xs sm:text-sm leading-relaxed">
-              {brandDesc}
-            </p>
-
-            <div className="space-y-2 text-xs text-gray-300 pt-1">
+            <div className="space-y-1.5 text-xs text-gray-300 pt-1">
               <div className="flex items-start gap-2">
                 <MapPin className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
                 <span>{address}</span>
@@ -143,9 +136,9 @@ export default function Footer() {
           </div>
 
           {/* Column 2: 7 Safari Zones */}
-          <div className="lg:col-span-3 space-y-3">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-white flex items-center gap-1.5">
-              Jungle Safari Zones
+          <div className="lg:col-span-3 space-y-2.5">
+            <h4 className="text-[11px] font-bold uppercase tracking-[0.08em] text-white flex items-center gap-1.5">
+              Safari zones
             </h4>
             <ul className="space-y-1.5 text-xs sm:text-sm">
               {zones.map((z, idx) => (
@@ -167,9 +160,9 @@ export default function Footer() {
           </div>
 
           {/* Column 3: Wildlife & Biodiversity (5 Sub-pages) */}
-          <div className="lg:col-span-3 space-y-3">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-white">
-              Wildlife & Biodiversity
+          <div className="lg:col-span-3 space-y-2.5">
+            <h4 className="text-[11px] font-bold uppercase tracking-[0.08em] text-white">
+              Wildlife
             </h4>
             <ul className="space-y-1.5 text-xs sm:text-sm">
               <li>
@@ -206,9 +199,9 @@ export default function Footer() {
           </div>
 
           {/* Column 4: Activities, Tariffs & Policies */}
-          <div className="lg:col-span-2 space-y-3">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-white">
-              Activities & Rules
+          <div className="lg:col-span-2 space-y-2.5">
+            <h4 className="text-[11px] font-bold uppercase tracking-[0.08em] text-white">
+              Plan your visit
             </h4>
             <ul className="space-y-2 text-xs sm:text-sm">
               <li>
@@ -227,12 +220,12 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link to="/tickets" className="text-gray-400 hover:text-emerald-400 transition">
+                <Link to="/rajaji-national-park-jeep-safari-tickets-entry-fees-charges" className="text-gray-400 hover:text-emerald-400 transition">
                   Tickets, Fees & Charges
                 </Link>
               </li>
               <li>
-                <Link to="/terms" className="text-gray-400 hover:text-emerald-400 transition">
+                <Link to="/rajaji-jeep-safari-terms-conditions-cancellation-refund" className="text-gray-400 hover:text-emerald-400 transition">
                   Terms & Cancellation Rules
                 </Link>
               </li>
@@ -251,11 +244,11 @@ export default function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-6 border-t border-gray-100 dark:border-gray-800/80 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-gray-400 dark:text-gray-500">
+        <div className="pt-5 border-t border-gray-100 dark:border-gray-800/80 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-gray-400 dark:text-gray-500">
           <p>© {new Date().getFullYear()} {brandTitle}. All rights reserved.</p>
           <div className="flex items-center space-x-5">
-            <Link to="/tickets" className="hover:text-gray-700 dark:hover:text-gray-300 transition">Tickets & Charges</Link>
-            <Link to="/terms" className="hover:text-gray-700 dark:hover:text-gray-300 transition">Terms & Refunds</Link>
+            <Link to="/rajaji-national-park-jeep-safari-tickets-entry-fees-charges" className="hover:text-gray-700 dark:hover:text-gray-300 transition">Tickets & Charges</Link>
+            <Link to="/rajaji-jeep-safari-terms-conditions-cancellation-refund" className="hover:text-gray-700 dark:hover:text-gray-300 transition">Terms & Refunds</Link>
             <Link to="/faq" className="hover:text-gray-700 dark:hover:text-gray-300 transition">FAQ</Link>
             <Link to="/contact" className="hover:text-gray-700 dark:hover:text-gray-300 transition">Contact</Link>
           </div>

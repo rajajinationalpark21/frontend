@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Ticket, DollarSign, Camera, Car, ShieldCheck, AlertCircle, HelpCircle, CheckCircle2, Loader2, Phone, MessageSquare, Video, ArrowRight } from 'lucide-react';
+import { Ticket, DollarSign, Camera, Car, ShieldCheck, AlertCircle, HelpCircle, CheckCircle2, Loader2, Phone, MessageSquare, Video, ArrowRight, FileText } from 'lucide-react';
 import { safariImages, contactInfo } from '../data/safariData';
 import { fetchContent } from '../api/client';
 import SEO from '../components/SEO';
 import PageLoader from '../components/PageLoader';
+import CallToAction from '../components/CallToAction';
 
 export default function TicketsPage({ onOpenBooking }) {
   const [tickets, setTickets] = useState(null);
@@ -22,17 +23,20 @@ export default function TicketsPage({ onOpenBooking }) {
   }
 
   const data = tickets || {};
+  const heroTitle = data.title || "Rajaji National Park Jeep Safari – Tickets, Entry Fees & Charges";
+  const heroSubtitle = data.subtitle || "Transparent, government-standard park entry fees, 4x4 Gypsy tariffs, naturalist guide charges, and seasonal timings for Indian citizens and foreign visitors.";
+  const heroBanner = data.heroBanner || safariImages.safariJeepSavannah;
   const timings = data.timings || {
     summer: "16 Apr – 15 Jun: Morning 5:30 AM – 7:00 AM | Evening 3:00 PM – 4:30 PM",
     winter: "15 Nov – 15 Feb: Morning 6:30 AM – 8:00 AM | Evening 1:30 PM – 3:00 PM",
-    openDates: "15 November to 15 June (Gohari Range open year-round except August & September)",
+    openDates: "15 November to 15 June (Gohri Range open year-round except August & September)",
   };
 
   const defaultEntranceFees = [
-    { category: "Park Entry (Chila, Ranipur, Motichur, Chillawali)", indian: "₹150 per person", foreigner: "₹600 per person", note: "Government entry fee per person per shift" },
+    { category: "Park Entry (Chilla, Ranipur, Motichur, Chillawali)", indian: "₹150 per person", foreigner: "₹600 per person", note: "Government entry fee per person per shift" },
     { category: "Vehicle / Jeep Permit", indian: "₹250 per vehicle", foreigner: "₹500 per vehicle", note: "Forest Department vehicle permit fee" },
     { category: "Gypsy / Safari Cost", indian: "₹3,500 per vehicle", foreigner: "₹3,500 – ₹4,000 per vehicle", note: "Authorised 4x4 Gypsy (Up to 6 persons capacity)" },
-    { category: "Jhilmil Zone Entry & Permit", indian: "₹200 ticket + ₹300 permit", foreigner: "₹600 ticket + ₹500 permit", note: "Swamp deer wetland conservation reserve rate" },
+    { category: "Jhilmil Zone Entry & Permit", indian: "₹200 ticket + ₹300 permit", foreigner: "₹800 ticket + ₹400 permit", note: "Swamp deer wetland conservation reserve rate" },
     { category: "General Nature Guide", indian: "₹1,000 per vehicle", foreigner: "₹1,000 per vehicle", note: "Certified Forest Department nature guide (Mandatory)" },
     { category: "Experienced Bird & Wildlife Guide", indian: "₹1,200 – ₹1,800", foreigner: "₹1,200 – ₹1,800", note: "Specialized expert guide for birdwatching & photography" },
     { category: "Fixed / Movie Camera (Non-commercial)", indian: "FREE", foreigner: "FREE", note: "Personal photography & videography permitted without charge" },
@@ -45,7 +49,7 @@ export default function TicketsPage({ onOpenBooking }) {
     { zone: "Chillawali / Mohand Gate", rate: "₹3,500", capacity: "Up to 6 visitors + driver & guide" },
     { zone: "Motichur Safari Zone", rate: "₹3,500", capacity: "Up to 6 visitors + driver & guide" },
     { zone: "Jhilmil Jheel Safari Zone", rate: "₹3,500", capacity: "Up to 6 visitors + driver & guide" },
-    { zone: "Gohari Range (Buffer Zone)", rate: "₹3,500", capacity: "Up to 6 visitors + driver & guide" },
+    { zone: "Gohri Range (Buffer Zone)", rate: "₹3,500", capacity: "Up to 6 visitors + driver & guide" },
   ];
 
   const defaultGuideFees = [
@@ -84,66 +88,81 @@ export default function TicketsPage({ onOpenBooking }) {
       <div className="pattern-leaf-delicate fixed inset-0 opacity-[0.03] dark:opacity-[0.025] pointer-events-none z-0" />
 
       <SEO
-        title="Rajaji National Park Jeep Safari – Tickets, Entry Fees & Charges"
-        description="Book Rajaji National Park Jeep Safari online. Check official entry fees, safari charges, Gypsy permit fees, shift timings and booking information for Rajaji Tiger Reserve."
-        keywords="rajaji national park jeep safari tickets, safari charges rajaji, entry fees rajaji tiger reserve, gypsy cost chilla motichur"
-        ogImage={safariImages.safariJeepTrail}
+        ogImage={heroBanner}
       />
 
-      {/* Hero Header - Deep Forest with Tiger Watermark & Leaf Veins */}
-      <section className="relative py-24 lg:py-28 bg-[#07150c] text-white overflow-hidden">
-        <div className="absolute inset-0 z-0">
-          <img src={safariImages.safariJeepTrail} alt="Safari vehicle entering Rajaji" className="w-full h-full object-cover opacity-30 mix-blend-luminosity" />
-          <div className="absolute inset-0 bg-gradient-to-b from-[#040b06]/95 via-[#07150c]/85 to-[#07150c]" />
+      {/* Hero Header */}
+      <section className="relative min-h-[560px] sm:min-h-[640px] lg:min-h-[700px] flex items-center justify-center text-left overflow-hidden">
+        <div className="absolute inset-0 overflow-hidden">
+          <img
+            src={heroBanner}
+            alt="Safari vehicle entering Rajaji"
+            className="w-full h-full object-cover object-[center_35%] transition-transform duration-700"
+            onError={(e) => {
+              const img = e.currentTarget;
+              if (!img.dataset.fallbackUsed && safariImages.safariJeepSavannah) {
+                img.dataset.fallbackUsed = "1";
+                img.src = safariImages.safariJeepSavannah;
+              } else {
+                img.style.display = "none";
+              }
+            }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/45 to-black/65" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-black/40" />
         </div>
 
-        {/* Botanical leaf vein texture */}
-        <div className="pattern-leaf-veins absolute inset-0 opacity-10 pointer-events-none" />
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 w-full">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+            {/* Left Column: Heading, description, and Terms & Rules Button */}
+            <div className="lg:col-span-7 space-y-5">
+              <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-[1.15]">
+                {heroTitle}
+              </h1>
+              <p className="text-base sm:text-lg text-emerald-100/90 leading-relaxed font-normal max-w-2xl">
+                {heroSubtitle}
+              </p>
 
-        {/* Tiger watermark stencil */}
-        <div 
-          className="absolute right-0 bottom-0 top-0 w-2/3 max-w-2xl bg-contain bg-right-bottom bg-no-repeat pointer-events-none opacity-[0.14]"
-          style={{
-            backgroundImage: `url("/images/tiger for bg overlay.jpg")`,
-            filter: 'invert(1)',
-            mixBlendMode: 'screen',
-          }}
-        />
+              {/* Terms and Rules button added here */}
+              <div className="pt-2">
+                <Link
+                  to="/rajaji-jeep-safari-terms-conditions-cancellation-refund"
+                  className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider shadow-lg shadow-emerald-950/40 transition duration-200 hover:scale-105 active:scale-95"
+                >
+                  <FileText className="w-4 h-4" /> Terms & Rules
+                </Link>
+              </div>
+            </div>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl space-y-5">
-            <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-400/20 backdrop-blur-md text-[11px] font-bold uppercase tracking-widest text-emerald-300">
-              <Ticket className="w-3.5 h-3.5 text-emerald-400" />
-              Official Tariff Schedule
-            </span>
-            <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-[1.15]">
-              Rajaji National Park Jeep Safari – Tickets, Entry Fees & Charges
-            </h1>
-            <p className="text-base sm:text-lg text-emerald-100/80 leading-relaxed font-normal">
-              Transparent, government-standard park entry fees, 4x4 Gypsy tariffs, naturalist guide charges, and seasonal timings for Indian citizens and foreign visitors.
-            </p>
-
-            <div className="flex flex-wrap items-center gap-3 pt-3">
-              <button
-                onClick={onOpenBooking}
-                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider shadow-lg shadow-emerald-950/40 transition duration-200 hover:scale-105 active:scale-95"
-              >
-                <Ticket className="w-4 h-4" /> Book Safari Online
-              </button>
-              <a
-                href={whatsappUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-[#25D366] hover:bg-[#20ba59] text-white font-bold text-xs uppercase tracking-wider shadow-md transition duration-200 hover:scale-105 active:scale-95"
-              >
-                <MessageSquare className="w-4 h-4" /> WhatsApp Assistance
-              </a>
-              <a
-                href={`tel:${phone.replace(/\s+/g, '')}`}
-                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-white/10 hover:bg-white/15 text-white font-bold text-xs border border-white/15 transition backdrop-blur-sm"
-              >
-                <Phone className="w-4 h-4 text-emerald-400" /> {phone}
-              </a>
+            {/* Other Side (Right Column): The three buttons moved here */}
+            <div className="lg:col-span-5 flex flex-col items-start lg:items-end justify-center pt-2 lg:pt-0">
+              <div className="bg-black/45 backdrop-blur-md p-5 sm:p-6 rounded-3xl border border-white/15 space-y-3.5 w-full sm:w-auto shadow-2xl">
+                <span className="text-[11px] font-bold uppercase tracking-widest text-emerald-300 block">
+                  Booking & Assistance
+                </span>
+                <div className="flex flex-col gap-2.5">
+                  <button
+                    onClick={onOpenBooking}
+                    className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider shadow-md transition duration-200 hover:scale-105 active:scale-95 whitespace-nowrap"
+                  >
+                    <Ticket className="w-4 h-4" /> Book Safari Online
+                  </button>
+                  <a
+                    href={whatsappUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-[#25D366] hover:bg-[#20ba59] text-white font-bold text-xs uppercase tracking-wider shadow-md transition duration-200 hover:scale-105 active:scale-95 whitespace-nowrap"
+                  >
+                    <MessageSquare className="w-4 h-4" /> WhatsApp Assistance
+                  </a>
+                  <a
+                    href={`tel:${phone.replace(/\s+/g, '')}`}
+                    className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-white/10 hover:bg-white/15 text-white font-bold text-xs border border-white/15 transition backdrop-blur-sm whitespace-nowrap"
+                  >
+                    <Phone className="w-4 h-4 text-emerald-400" /> {phone}
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -215,8 +234,8 @@ export default function TicketsPage({ onOpenBooking }) {
                   {entranceFees.map((row, idx) => (
                     <tr key={idx} className="hover:bg-emerald-50/40 dark:hover:bg-gray-800/50 transition">
                       <td className="px-6 py-4 font-bold text-gray-900 dark:text-white">{row.category}</td>
-                      <td className="px-6 py-4 font-bold text-emerald-700 dark:text-emerald-400">{row.indian}</td>
-                      <td className="px-6 py-4 font-bold text-amber-700 dark:text-amber-400">{row.foreigner}</td>
+                      <td className="px-6 py-4 font-sans font-bold text-emerald-700 dark:text-emerald-400 tabular-nums">{row.indian}</td>
+                      <td className="px-6 py-4 font-sans font-bold text-amber-700 dark:text-amber-400 tabular-nums">{row.foreigner}</td>
                       <td className="px-6 py-4 text-xs text-gray-500 dark:text-gray-400">{row.note}</td>
                     </tr>
                   ))}
@@ -246,7 +265,7 @@ export default function TicketsPage({ onOpenBooking }) {
                     <span className="text-xs text-gray-500 dark:text-gray-400">{gypsy.capacity}</span>
                   </div>
                   <div className="text-right">
-                    <span className="font-serif text-lg font-bold text-emerald-700 dark:text-emerald-400">{gypsy.rate}</span>
+                    <span className="font-sans text-xl font-extrabold text-emerald-700 dark:text-emerald-400 tabular-nums tracking-normal">{gypsy.rate}</span>
                   </div>
                 </div>
               ))}
@@ -269,7 +288,7 @@ export default function TicketsPage({ onOpenBooking }) {
                   <div key={gdIdx} className="p-4 rounded-2xl bg-gray-50/80 dark:bg-gray-800/50 border border-gray-100 dark:border-gray-700/60">
                     <div className="flex justify-between items-start mb-1">
                       <span className="font-bold text-gray-900 dark:text-white text-sm">{guide.type}</span>
-                      <span className="font-serif font-bold text-emerald-700 dark:text-emerald-400">{guide.fee}</span>
+                      <span className="font-sans font-bold text-emerald-700 dark:text-emerald-400 tabular-nums tracking-normal text-base">{guide.fee}</span>
                     </div>
                     <span className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed block">{guide.note}</span>
                   </div>
@@ -279,7 +298,7 @@ export default function TicketsPage({ onOpenBooking }) {
                 <div className="p-4 rounded-2xl bg-emerald-50/60 dark:bg-emerald-950/20 border border-emerald-200/60 dark:border-emerald-800/40 text-xs space-y-1">
                   <div className="flex justify-between items-center font-bold text-emerald-950 dark:text-emerald-200">
                     <span>Elephant Ride (Subject to availability)</span>
-                    <span className="font-serif font-bold text-emerald-800 dark:text-emerald-300">₹1,200 – ₹1,500</span>
+                    <span className="font-sans font-bold text-emerald-800 dark:text-emerald-300 tabular-nums tracking-normal text-sm sm:text-base">₹1,200 – ₹1,500</span>
                   </div>
                   <p className="text-gray-600 dark:text-gray-400">
                     Early morning rides conducted at designated ranges subject to Forest Department availability. Confirm at gate.
@@ -320,9 +339,9 @@ export default function TicketsPage({ onOpenBooking }) {
                   {filmingFees.map((row, idx) => (
                     <tr key={idx} className="hover:bg-emerald-50/40 dark:hover:bg-gray-800/50 transition">
                       <td className="px-6 py-4 font-bold text-gray-900 dark:text-white">{row.type}</td>
-                      <td className="px-6 py-4 font-bold text-emerald-700 dark:text-emerald-400">{row.indian}</td>
-                      <td className="px-6 py-4 font-bold text-amber-700 dark:text-amber-400">{row.foreigner}</td>
-                      <td className="px-6 py-4 font-mono text-xs">{row.security}</td>
+                      <td className="px-6 py-4 font-sans font-bold text-emerald-700 dark:text-emerald-400 tabular-nums">{row.indian}</td>
+                      <td className="px-6 py-4 font-sans font-bold text-amber-700 dark:text-amber-400 tabular-nums">{row.foreigner}</td>
+                      <td className="px-6 py-4 font-sans font-semibold text-xs text-gray-700 dark:text-gray-300 tabular-nums">{row.security}</td>
                       <td className="px-6 py-4 text-xs text-gray-500 dark:text-gray-400">{row.note}</td>
                     </tr>
                   ))}
@@ -340,7 +359,7 @@ export default function TicketsPage({ onOpenBooking }) {
               Important Safari Booking Information
             </h3>
             <Link
-              to="/terms"
+              to="/rajaji-jeep-safari-terms-conditions-cancellation-refund"
               className="text-xs font-bold text-emerald-700 dark:text-emerald-400 hover:underline inline-flex items-center gap-1"
             >
               Read Full Cancellation & Refund Policy <ArrowRight className="w-3.5 h-3.5" />
@@ -355,31 +374,23 @@ export default function TicketsPage({ onOpenBooking }) {
               </div>
             ))}
           </div>
-
-          <div className="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-gray-100 dark:border-gray-800">
-            <span className="text-xs text-gray-500 dark:text-gray-400 text-center sm:text-left">
-              Assistance with safari availability, zone selection, and payment?
-            </span>
-            <div className="flex items-center gap-3">
-              <a
-                href={whatsappUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-6 py-3 rounded-full bg-[#25D366] hover:bg-[#20ba59] text-white font-bold text-xs uppercase tracking-wider transition shadow-sm"
-              >
-                WhatsApp Us
-              </a>
-              <button
-                onClick={onOpenBooking}
-                className="px-7 py-3 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider transition shadow-sm"
-              >
-                Book Safari Now
-              </button>
-            </div>
-          </div>
         </div>
 
       </section>
+
+      {/* Unified Call To Action matching HomePage */}
+      <CallToAction
+        title="Ready to Reserve Your Forest Permits?"
+        subtitle="Daily entry quotas for Indian and Foreign visitors are limited across morning and afternoon shifts. Confirm your Gypsy allocation and certified naturalist guide today."
+        primaryText="Book Safari Now"
+        onPrimaryClick={onOpenBooking}
+        secondaryText={`Call ${phone}`}
+        secondaryLink={`tel:${phone.replace(/\s+/g, '')}`}
+        secondaryIcon={Phone}
+        whatsappText="WhatsApp Assistance"
+        whatsappLink={whatsappUrl}
+        bgImage={safariImages.chilaZone || safariImages.homeHero}
+      />
     </div>
   );
 }

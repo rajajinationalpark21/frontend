@@ -4,7 +4,9 @@ import { HelpCircle, ChevronDown, ChevronUp, Phone, MessageSquare, Ticket, Spark
 import { contactInfo, safariImages } from '../data/safariData';
 import { fetchContent } from '../api/client';
 import SEO from '../components/SEO';
+import { faqSchema } from '../seo/schema';
 import PageLoader from '../components/PageLoader';
+import CallToAction from '../components/CallToAction';
 
 const fallbackFaqs = [
   {
@@ -37,7 +39,7 @@ const fallbackFaqs = [
   },
   {
     q: "Can I book a Rajaji Jeep Safari from Rishikesh?",
-    a: "Yes! Chilla Range Gate and Gohari Range Gate are directly across the river from Rishikesh (10–15 km), while the historic Chaurasi Kutiya (Beatles Ashram) is located directly at Swargashram in Rishikesh.",
+    a: "Yes! Chilla Range Gate and Gohri Range Gate are directly across the river from Rishikesh (10–15 km), while the historic Chaurasi Kutiya (Beatles Ashram) is located directly at Swargashram in Rishikesh.",
   },
   {
     q: "Is advance booking available for Rajaji National Park safari?",
@@ -53,6 +55,7 @@ export default function FAQPage({ onOpenBooking }) {
   const [content, setContent] = useState(null);
   const [loading, setLoading] = useState(true);
   const [openIdx, setOpenIdx] = useState(0);
+  const [heroRatio, setHeroRatio] = useState(null);
 
   useEffect(() => {
     fetchContent()
@@ -74,61 +77,50 @@ export default function FAQPage({ onOpenBooking }) {
     : fallbackFaqs;
 
   const headerOverview = content?.faqs?.overview || "Find quick answers to common questions regarding Rajaji National Park Jeep Safaris, entry fees, vehicle permits, timings, and booking guidelines.";
+  const heroTitle = content?.faqs?.title;
+  const heroSubtitle = content?.faqs?.subtitle || headerOverview;
+  const heroBanner = content?.faqs?.heroBanner || safariImages.safariJeepSavannah;
 
   return (
-    <div className="relative min-h-screen bg-[#f7f5ed] dark:bg-[#07120a] transition-colors">
-      {/* Delicate tactile ambient leaf texture */}
-      <div className="pattern-leaf-delicate pointer-events-none z-0" aria-hidden="true" />
-
+    <div className="relative min-h-screen bg-[#fafaf7] dark:bg-[#070c09] transition-colors">
       <SEO
-        title="Frequently Asked Questions (FAQ) | Rajaji National Park Safari"
-        description="Get answers to common questions about Rajaji National Park Jeep Safari: costs, entry fees, booking procedures, timings, gate locations, and permit guidelines."
-        keywords="rajaji safari faq, rajaji jeep safari cost, safari timings haridwar rishikesh, how to book rajaji safari online"
-        ogImage={safariImages.safariJeepSavannah}
+        ogImage={heroBanner}
+        schemaJson={faqSchema(faqsList)}
       />
 
-      {/* Hero Header with Inverted Tiger & Leaf Watermark Overlay */}
-      <section className="relative py-24 bg-[#07150c] text-white overflow-hidden border-b border-emerald-950/60">
+      {/* Hero Header — Seamless full-width background */}
+      <section className="relative min-h-[500px] sm:min-h-[560px] lg:min-h-[640px] flex items-center overflow-hidden bg-stone-900 text-white">
+        {/* Full bleed image background */}
         <div className="absolute inset-0 z-0">
-          <img src={safariImages.safariJeepSavannah} alt="FAQ header" className="w-full h-full object-cover opacity-25 scale-105" />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#07150c] via-[#07150c]/90 to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#07150c] via-transparent to-[#07150c]/70" />
+          <img
+            src={heroBanner}
+            alt="Rajaji National Park wildlife"
+            className="w-full h-full object-cover object-center scale-105 transition-transform duration-1000"
+            onError={(e) => {
+              const img = e.currentTarget;
+              if (!img.dataset.fallbackUsed && safariImages.walkingTiger) {
+                img.dataset.fallbackUsed = "1";
+                img.src = safariImages.walkingTiger;
+              }
+            }}
+          />
+          {/* Subtle text readability scrim */}
+          <div className="absolute inset-0 bg-black/45" />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/25 to-transparent" />
         </div>
 
-        {/* Tiger Watermark in forest shadow */}
-        <div
-          className="absolute right-0 bottom-0 top-0 w-full sm:w-2/3 pointer-events-none z-[1] bg-no-repeat bg-right-bottom bg-contain opacity-[0.14]"
-          style={{
-            backgroundImage: `url('${safariImages.tigerBgOverlay}')`,
-            filter: 'invert(1)',
-            mixBlendMode: 'screen',
-          }}
-          aria-hidden="true"
-        />
-
-        {/* Corner Leaf Foliage Overlay */}
-        <div
-          className="absolute -top-16 -left-16 w-80 h-80 pointer-events-none z-[1] bg-no-repeat bg-contain opacity-20"
-          style={{
-            backgroundImage: `url('${safariImages.leafCta}')`,
-            filter: 'invert(1)',
-            mixBlendMode: 'screen',
-          }}
-          aria-hidden="true"
-        />
-
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="relative z-10 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-20">
           <div className="max-w-3xl space-y-4">
-            <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-950/80 border border-emerald-500/30 text-emerald-300 text-xs font-semibold uppercase tracking-widest backdrop-blur-md">
-              <HelpCircle className="w-3.5 h-3.5 text-emerald-400" />
-              <span>Visitor Helpdesk</span>
-            </span>
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif font-extrabold tracking-tight text-white leading-tight">
-              Frequently Asked <br className="hidden sm:block" />
-              <span className="italic font-normal text-emerald-400">Questions (FAQ)</span>
+              {heroTitle || (
+                <>
+                  Frequently Asked <br className="hidden sm:block" />
+                  <span className="italic font-normal text-emerald-300">Questions (FAQ)</span>
+                </>
+              )}
             </h1>
-            <p className="text-base sm:text-lg text-emerald-100/80 font-light leading-relaxed pt-2">
-              {headerOverview}
+            <p className="text-base sm:text-lg text-white/90 font-normal leading-relaxed pt-2 drop-shadow">
+              {heroSubtitle}
             </p>
           </div>
         </div>
@@ -169,54 +161,21 @@ export default function FAQPage({ onOpenBooking }) {
             );
           })}
         </div>
-
-        {/* Quick Assistance Help Card with Deep Forest & Tiger Stencil */}
-        <div className="mt-12 bg-[#07150c] rounded-3xl p-8 sm:p-10 text-white relative overflow-hidden shadow-2xl border border-emerald-800/40">
-          <div
-            className="absolute right-0 bottom-0 top-0 w-1/2 pointer-events-none bg-no-repeat bg-right-bottom bg-contain opacity-20"
-            style={{
-              backgroundImage: `url('${safariImages.tigerBgOverlay}')`,
-              filter: 'invert(1)',
-              mixBlendMode: 'screen',
-            }}
-            aria-hidden="true"
-          />
-          <div className="relative z-10 max-w-2xl space-y-4">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-950 border border-emerald-500/40 text-emerald-300 text-xs font-bold uppercase tracking-wider">
-              <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-              Still have questions?
-            </span>
-            <h3 className="text-2xl sm:text-3xl font-serif font-extrabold text-white">
-              Speak Directly with our Safari Desk
-            </h3>
-            <p className="text-sm text-emerald-100/80 leading-relaxed font-light">
-              Our reservation officers are available daily to assist with zone recommendations, permit confirmations, Gypsy allocation, and seasonal gate updates.
-            </p>
-            <div className="flex flex-wrap items-center gap-3 pt-2">
-              <a
-                href={whatsappUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-[#25D366] hover:bg-[#20ba59] text-white font-bold text-sm shadow-md transition hover:scale-105 active:scale-95"
-              >
-                <MessageSquare className="w-4 h-4" /> WhatsApp Chat
-              </a>
-              <a
-                href={`tel:${phone.replace(/\s+/g, '')}`}
-                className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-sm border border-white/15 backdrop-blur-sm transition"
-              >
-                <Phone className="w-4 h-4 text-emerald-400" /> Call {phone}
-              </a>
-              <button
-                onClick={onOpenBooking}
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-safari-600 hover:from-emerald-600 hover:to-safari-700 text-white font-bold text-sm shadow-lg shadow-emerald-950/50 hover:shadow-emerald-500/25 transition hover:scale-105 active:scale-95"
-              >
-                <Ticket className="w-4 h-4" /> Book Safari Online
-              </button>
-            </div>
-          </div>
-        </div>
       </section>
+
+      {/* Unified Call To Action matching HomePage */}
+      <CallToAction
+        title="Speak Directly with our Safari Desk"
+        subtitle="Our reservation officers are available daily to assist with zone recommendations, permit confirmations, Gypsy allocation, and seasonal gate updates."
+        primaryText="Book Safari Online"
+        onPrimaryClick={onOpenBooking}
+        secondaryText={`Call ${phone}`}
+        secondaryLink={`tel:${phone.replace(/\s+/g, '')}`}
+        secondaryIcon={Phone}
+        whatsappText="WhatsApp Chat"
+        whatsappLink={whatsappUrl}
+        bgImage={safariImages.chilaZone || safariImages.homeHero}
+      />
     </div>
   );
 }

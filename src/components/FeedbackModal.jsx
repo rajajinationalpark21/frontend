@@ -14,9 +14,11 @@ import { submitFeedback } from '../api/client';
 
 const ZONES = [
   'Chilla Range',
-  'Motichur Range',
-  'Gohari Range',
+  'Ranipur Gate (Haridwar Zone)',
+  'Chillawali / Mohand Gate',
+  'Motichur Zone',
   'Jhilmil Jheel',
+  'Gohri Range',
   'General Sanctuary Experience'
 ];
 

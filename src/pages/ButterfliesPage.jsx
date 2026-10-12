@@ -3,6 +3,7 @@ import { Sparkles, Compass, CheckCircle2, Loader2 } from 'lucide-react';
 import { safariImages } from '../data/safariData';
 import { fetchContent } from '../api/client';
 import SEO from '../components/SEO';
+import CoverImage from '../components/CoverImage';
 
 export default function ButterfliesPage({ onOpenBooking }) {
   const [butterflies, setButterflies] = useState(null);
@@ -25,6 +26,9 @@ export default function ButterfliesPage({ onOpenBooking }) {
 
   const data = butterflies || {};
   const species = data.species || [];
+  const heroTitle = data.title;
+  const heroSubtitle = data.subtitle || data.overview;
+  const heroBanner = data.heroBanner || safariImages.pinkFlower;
 
   return (
     <div className="relative min-h-screen bg-[#f7f5ed] dark:bg-[#07120a] transition-colors">
@@ -32,54 +36,42 @@ export default function ButterfliesPage({ onOpenBooking }) {
       <div className="pattern-leaf-delicate pointer-events-none z-0" aria-hidden="true" />
 
       <SEO
-        title="Butterflies & Insects of Rajaji National Park | Lepidoptera Diversity"
-        description="Discover the vibrant butterflies, moths, and insects of Rajaji National Park. Common Mormon, Peacock Pansy, Lime Butterfly, and riverbank mud-puddling ecology."
-        keywords="butterflies of rajaji national park, insect biodiversity uttarakhand, lepidoptera shivalik foothills, mud puddling butterflies ganges"
-        ogImage={safariImages.pinkFlower}
+        ogImage={heroBanner}
       />
 
-      {/* Hero Header with Inverted Tiger & Leaf Watermark Overlay */}
-      <section className="relative py-24 bg-[#07150c] text-white overflow-hidden border-b border-emerald-950/60">
+      {/* Hero Header */}
+      <section className="relative flex min-h-[460px] items-center py-24 sm:min-h-[540px] border-b border-emerald-950/60 bg-[#07150c] text-white overflow-hidden">
         <div className="absolute inset-0 z-0">
-          <img src={safariImages.pinkFlower} alt="Butterfly on forest flower" className="w-full h-full object-cover opacity-25 scale-105" />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#07150c] via-[#07150c]/90 to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#07150c] via-transparent to-[#07150c]/70" />
+          <img
+            src={heroBanner}
+            alt="Butterfly on forest flower"
+            className="w-full h-full object-cover"
+            style={{ objectPosition: "center 35%" }}
+            onError={(e) => {
+              const img = e.currentTarget;
+              if (!img.dataset.fallbackUsed && safariImages.pinkFlower) {
+                img.dataset.fallbackUsed = "1";
+                img.src = safariImages.pinkFlower;
+              } else {
+                img.style.display = "none";
+              }
+            }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/65 via-black/30 to-[#07150c]/90" />
         </div>
 
-        {/* Tiger Watermark in forest shadow */}
-        <div
-          className="absolute right-0 bottom-0 top-0 w-full sm:w-2/3 pointer-events-none z-[1] bg-no-repeat bg-right-bottom bg-contain opacity-[0.14]"
-          style={{
-            backgroundImage: `url('${safariImages.tigerBgOverlay}')`,
-            filter: 'invert(1)',
-            mixBlendMode: 'screen',
-          }}
-          aria-hidden="true"
-        />
-
-        {/* Corner Leaf Foliage Overlay */}
-        <div
-          className="absolute -top-16 -left-16 w-80 h-80 pointer-events-none z-[1] bg-no-repeat bg-contain opacity-20"
-          style={{
-            backgroundImage: `url('${safariImages.leafCta}')`,
-            filter: 'invert(1)',
-            mixBlendMode: 'screen',
-          }}
-          aria-hidden="true"
-        />
-
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl space-y-4">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-950/80 border border-emerald-500/30 text-emerald-300 text-xs font-semibold uppercase tracking-widest backdrop-blur-md">
-              <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-              <span>Lepidoptera & Pollinators</span>
-            </div>
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif font-extrabold tracking-tight text-white leading-tight">
-              Butterflies & Insects <br className="hidden sm:block" />
-              <span className="italic font-normal text-emerald-400">of Rajaji</span>
+              {heroTitle || (
+                <>
+                  Butterflies & Insects <br className="hidden sm:block" />
+                  <span className="italic font-normal text-emerald-400">of Rajaji</span>
+                </>
+              )}
             </h1>
             <p className="text-base sm:text-lg text-emerald-100/80 font-light leading-relaxed pt-2">
-              {data.overview}
+              {heroSubtitle}
             </p>
           </div>
         </div>
@@ -91,10 +83,10 @@ export default function ButterfliesPage({ onOpenBooking }) {
           <div className="max-w-3xl">
             <div className="flex items-center gap-2 mb-2">
               <span className="h-px w-8 bg-emerald-500"></span>
-              <span className="text-xs font-bold tracking-widest text-emerald-700 dark:text-emerald-400 uppercase">Ecosystem Behaviour</span>
+              <span className="text-xs font-bold tracking-widest text-emerald-700 dark:text-emerald-400 uppercase">Butterfly Watching</span>
             </div>
             <h2 className="text-2xl sm:text-3xl font-serif font-bold text-gray-900 dark:text-emerald-50 mb-4">
-              Mud-Puddling Phenomenon
+              Best Time for Butterfly Watching in Rajaji
             </h2>
             <p className="text-sm sm:text-base text-gray-600 dark:text-emerald-100/80 font-light leading-relaxed">
               {data.mudPuddling}
@@ -118,6 +110,7 @@ export default function ButterfliesPage({ onOpenBooking }) {
                 className="group relative bg-[#fdfcf8]/90 dark:bg-[#0c1e13]/90 backdrop-blur-md p-7 rounded-2xl border border-emerald-900/15 dark:border-emerald-800/40 shadow-sm hover:shadow-xl hover:border-emerald-500/40 transition-all duration-300 flex flex-col justify-between overflow-hidden"
               >
                 <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-500/5 rounded-full blur-2xl group-hover:bg-emerald-500/10 transition" />
+                <CoverImage src={item.image} alt={item.name} icon={Sparkles} rounded="rounded-t-2xl" className="-mx-7 -mt-7 mb-5" />
                 <div>
                   <span className="text-xs font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-400 block mb-2">
                     Family: {item.family}
@@ -125,9 +118,11 @@ export default function ButterfliesPage({ onOpenBooking }) {
                   <h4 className="text-xl font-serif font-bold text-gray-900 dark:text-emerald-50 mb-3">
                     {item.name}
                   </h4>
-                  <p className="text-xs sm:text-sm text-gray-600 dark:text-emerald-100/70 leading-relaxed">
-                    <strong className="text-emerald-800 dark:text-emerald-300 font-semibold">Habitat:</strong> {item.habitat}
-                  </p>
+                  {item.habitat && (
+                    <p className="text-xs sm:text-sm text-gray-600 dark:text-emerald-100/70 leading-relaxed">
+                      <strong className="text-emerald-800 dark:text-emerald-300 font-semibold">Habitat:</strong> {item.habitat}
+                    </p>
+                  )}
                 </div>
               </div>
             ))}

@@ -56,7 +56,7 @@ export default function Navbar({ onOpenBooking }) {
       name: 'Safari Zones',
       basePath: '/zones',
       items: [
-        { name: 'All Safari Zones', path: '/zones', icon: Compass, desc: 'Overview of all 7 park safari ranges' },
+        { name: 'All Safari Zones', path: '/zones', icon: Compass, desc: 'Overview of all 6 safari zones' },
         { name: 'Chilla Range', path: '/chilla-jeep-safari', icon: Navigation, desc: 'Core tiger & elephant reserve' },
         { name: 'Haridwar / Ranipur', path: '/ranipur-gate-jeep-safari', icon: Navigation, desc: 'Leopard safari near Haridwar' },
         { name: 'Chillawali / Mohand', path: '/chillawali-jeep-safari', icon: Navigation, desc: 'Scenic Shivalik gorge safari' },
@@ -90,6 +90,13 @@ export default function Navbar({ onOpenBooking }) {
       ]
     }
   ];
+
+  const isNavGroupActive = (group) => {
+    if (location.pathname.startsWith(group.basePath)) return true;
+    return group.items.some(
+      (item) => item.path !== group.basePath && location.pathname === item.path && !navDropdowns.some((other) => other !== group && other.basePath === item.path)
+    );
+  };
 
   return (
     <header className="sticky top-0 z-50 bg-[#fdfcf8]/95 dark:bg-[#07120a]/95 backdrop-blur-md border-b border-emerald-950/10 dark:border-emerald-900/40 transition-all">
@@ -131,8 +138,7 @@ export default function Navbar({ onOpenBooking }) {
 
             {/* 2. Safari Zones Dropdown */}
             {navDropdowns.slice(0, 1).map((group) => {
-              const isGroupActive = location.pathname.startsWith(group.basePath) || 
-                group.items.some(item => location.pathname === item.path);
+              const isGroupActive = isNavGroupActive(group);
               const isOpen = activeDropdown === group.name;
 
               return (
@@ -196,7 +202,7 @@ export default function Navbar({ onOpenBooking }) {
 
             {/* 3. Tickets & Charges */}
             <Link
-              to="/tickets"
+              to="/rajaji-national-park-jeep-safari-tickets-entry-fees-charges"
               className={`transition-colors py-1 ${
                 location.pathname === '/tickets' || location.pathname === '/safari/tickets'
                   ? 'text-safari-600 dark:text-safari-400 font-semibold'
@@ -206,22 +212,11 @@ export default function Navbar({ onOpenBooking }) {
               Tickets & Charges
             </Link>
 
-            {/* 4. Terms & Rules */}
-            <Link
-              to="/terms"
-              className={`transition-colors py-1 ${
-                location.pathname === '/terms' || location.pathname === '/safari/rules'
-                  ? 'text-safari-600 dark:text-safari-400 font-semibold'
-                  : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'
-              }`}
-            >
-              Terms & Rules
-            </Link>
+
 
             {/* 5. Activities Dropdown */}
             {navDropdowns.slice(1, 2).map((group) => {
-              const isGroupActive = location.pathname.startsWith(group.basePath) || 
-                group.items.some(item => location.pathname === item.path);
+              const isGroupActive = isNavGroupActive(group);
               const isOpen = activeDropdown === group.name;
 
               return (
@@ -285,8 +280,7 @@ export default function Navbar({ onOpenBooking }) {
 
             {/* 6. Wildlife Dropdown */}
             {navDropdowns.slice(2, 3).map((group) => {
-              const isGroupActive = location.pathname.startsWith(group.basePath) || 
-                group.items.some(item => location.pathname === item.path);
+              const isGroupActive = isNavGroupActive(group);
               const isOpen = activeDropdown === group.name;
 
               return (
@@ -462,21 +456,13 @@ export default function Navbar({ onOpenBooking }) {
 
           {/* 3. Tickets & Charges */}
           <Link
-            to="/tickets"
+            to="/rajaji-national-park-jeep-safari-tickets-entry-fees-charges"
             onClick={() => setMobileMenuOpen(false)}
             className="block px-4 py-2.5 rounded-xl text-sm font-bold text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-900"
           >
             Tickets & Charges
           </Link>
 
-          {/* 4. Terms & Rules */}
-          <Link
-            to="/terms"
-            onClick={() => setMobileMenuOpen(false)}
-            className="block px-4 py-2.5 rounded-xl text-sm font-bold text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-900"
-          >
-            Terms & Rules
-          </Link>
 
           {/* 5. Activities Accordion */}
           {navDropdowns.slice(1, 2).map((group) => {

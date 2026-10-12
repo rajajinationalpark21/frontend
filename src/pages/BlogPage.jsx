@@ -5,6 +5,7 @@ import { blogArticles, safariImages } from '../data/safariData';
 import { fetchBlogs } from '../api/client';
 import { slugify } from '../utils/slugify';
 import SEO from '../components/SEO';
+import { SITE_URL } from '../seo/site';
 import CallToAction from '../components/CallToAction';
 
 export default function BlogPage({ onOpenBooking }) {
@@ -54,16 +55,15 @@ export default function BlogPage({ onOpenBooking }) {
   const blogSchema = {
     "@context": "https://schema.org",
     "@type": "Blog",
-    "name": "Wilderness Journal - Rajaji National Park",
+    "name": "Rajaji Safari Blog",
     "description": "Field guides, leopard tracking, birdwatching canopy notes, and conservation stories from Rajaji Tiger Reserve.",
-    "url": "https://rajajinationalpark.org/blog",
+    "url": `${SITE_URL}/blog`,
     "blogPost": articles.map((b) => ({
       "@type": "BlogPosting",
       "headline": b.title,
       "description": b.excerpt,
       "image": b.image,
-      "url": `https://rajajinationalpark.org/blog/${b.slug || slugify(b.title)}`,
-      "datePublished": "2023-11-12"
+      "url": `${SITE_URL}/blog/${b.slug || slugify(b.title)}`
     }))
   };
 
@@ -92,9 +92,6 @@ export default function BlogPage({ onOpenBooking }) {
   return (
     <div className="min-h-screen bg-[#fafaf7] dark:bg-[#070c09] transition-colors pt-10 pb-20 relative overflow-hidden">
       <SEO
-        title="Wilderness Journal - Field Guides & Wildlife Stories | Rajaji National Park"
-        description="Read real-time wildlife sighting reports, big cat tracking guides, photography tips, and forest conservation stories from Rajaji National Park field naturalists."
-        keywords="rajaji wildlife blog, tiger sightings chilla, leopard tracking guide, elephant corridor stories, safari travel tips"
         ogImage={featuredArticle?.image}
         schemaJson={blogSchema}
       />
@@ -248,7 +245,7 @@ export default function BlogPage({ onOpenBooking }) {
         <CallToAction
           className="!px-0 !py-4 sm:!py-8 !bg-transparent"
           title="Book Your Ride Today"
-          subtitle="Daily visitor quotas and gypsy permits are strictly capped to preserve natural habitats. Reserve your open-top 4x4 safari jeep, registered guide, and official entry permits for Chila, Motichur, Gohari & Jhilmil."
+          subtitle="Daily visitor quotas and gypsy permits are strictly capped to preserve natural habitats. Reserve your open-top 4x4 safari jeep, registered guide, and official entry permits for Chilla, Motichur, Gohri & Jhilmil."
           primaryText="Book Your Ride Now"
           onPrimaryClick={onOpenBooking}
           secondaryText="View Tariffs"

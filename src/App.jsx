@@ -46,7 +46,7 @@ function MainLayout() {
     <div className="flex flex-col min-h-screen">
       <Navbar onOpenBooking={handleOpenBooking} />
       
-      <main className="flex-grow">
+      <main className="site-page-canvas flex-grow">
         <Routes>
           {/* 1. Page – Home (About Rajaji) */}
           <Route path="/" element={<HomePage onOpenBooking={handleOpenBooking} />} />

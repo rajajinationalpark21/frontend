@@ -1,9 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Ticket, ArrowRight, ShieldCheck, Compass, CheckCircle2 } from 'lucide-react';
+import { Ticket, ArrowRight, ShieldCheck, Compass, CheckCircle2, MessageSquare, Sparkles } from 'lucide-react';
 import { safariImages } from '../data/safariData';
 
 export default function CallToAction({
+  badgeText,
   title = "Ready to Answer the Call of the Wild?",
   subtitle = "Daily gypsy permits and visitor quotas are strictly capped to ensure minimal disturbance to wildlife. Plan your adventure early to secure your spot in the heart of nature.",
   primaryText = "Book Permit Now",
@@ -14,6 +15,9 @@ export default function CallToAction({
   secondaryIcon: SecondaryIcon,
   secondaryLink,
   onSecondaryClick,
+  whatsappText,
+  whatsappLink,
+  onWhatsappClick,
   badges = [
     { icon: ShieldCheck, text: "Official Forest E-Permits" },
     { icon: Compass, text: "4x4 Gypsy & Registered Guides" },
@@ -39,7 +43,6 @@ export default function CallToAction({
           style={{ backgroundImage: `url("${bgImage || safariImages.homeHero || safariImages.mistyDarkPines}")` }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-[#040b06]/90 via-[#07150c]/70 to-[#040b06]/85 pointer-events-none" />
-
 
         {/* Corner Botanical Foliage Watermark from user's leaf for cta */}
         <div 
@@ -67,6 +70,13 @@ export default function CallToAction({
         {/* Inner Content */}
         <div className="max-w-3xl mx-auto text-center space-y-4 relative z-10">
 
+          {badgeText && (
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-950/90 border border-emerald-500/40 text-emerald-300 text-xs font-bold uppercase tracking-wider backdrop-blur-md mb-1 shadow-sm">
+              <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+              <span>{badgeText}</span>
+            </div>
+          )}
+
           <h2 className="text-2xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-white leading-tight font-serif drop-shadow-sm">
             {title}
           </h2>
@@ -78,7 +88,33 @@ export default function CallToAction({
           )}
 
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3.5 pt-4">
+          <div className="flex flex-wrap items-center justify-center gap-3.5 pt-4">
+            {/* WhatsApp Chat Button (Optional) */}
+            {whatsappText && (
+              <>
+                {whatsappLink ? (
+                  <a
+                    href={whatsappLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-[#25D366] hover:bg-[#20ba59] text-white font-bold text-sm shadow-xl shadow-[#25D366]/20 active:scale-95 transition-all duration-200 cursor-pointer"
+                  >
+                    <MessageSquare className="w-4 h-4 shrink-0" />
+                    <span>{whatsappText}</span>
+                  </a>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={onWhatsappClick}
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-[#25D366] hover:bg-[#20ba59] text-white font-bold text-sm shadow-xl shadow-[#25D366]/20 active:scale-95 transition-all duration-200 cursor-pointer"
+                  >
+                    <MessageSquare className="w-4 h-4 shrink-0" />
+                    <span>{whatsappText}</span>
+                  </button>
+                )}
+              </>
+            )}
+
             {/* Primary Button */}
             {primaryLink ? (
               <Link

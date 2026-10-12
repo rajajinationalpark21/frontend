@@ -5,13 +5,14 @@ import { safariImages, contactInfo } from '../data/safariData';
 import { fetchContent } from '../api/client';
 import SEO from '../components/SEO';
 import PageLoader from '../components/PageLoader';
+import CallToAction from '../components/CallToAction';
 
 const fallbackActivities = [
   {
     title: "Jungle Safari / Jeep Safari",
     tagline: "4x4 Gypsy Wildlife Expeditions",
     slug: "/zones",
-    desc: "Experience thrilling guided open 4x4 Gypsy safaris through 7 distinct ranges including Chilla, Motichur, Ranipur, Jhilmil Jheel, and Mohand to observe tigers, wild elephants, and leopards in their natural habitat.",
+    desc: "Explore Rajaji Tiger Reserve on a guided Jeep Safari across six safari zones: Chilla, Motichur, Ranipur, Mohand–Chillawali, Jhilmil Jheel and Gohri. Depending on the season and natural conditions, visitors may encounter Asian Elephants, deer, Wild Boar, birds and other wildlife.",
     image: safariImages.safariJeepSavannah,
     cta: "Explore Safari Zones",
   },
@@ -73,6 +74,7 @@ export default function ActivitiesPage({ onOpenBooking }) {
 
   const pageTitle = content?.activities?.title || "Activities at Rajaji National Park";
   const pageSubtitle = content?.activities?.subtitle || "From adrenaline-fueled 4x4 jeep safaris and white-water rafting to peaceful birdwatching trails and secluded forest stays in the foothills of Uttarakhand.";
+  const heroBanner = content?.activities?.heroBanner || safariImages.safariJeepSavannah;
 
   return (
     <div className="relative min-h-screen bg-[#faf8f5] dark:bg-[#07120a] transition-colors">
@@ -80,48 +82,26 @@ export default function ActivitiesPage({ onOpenBooking }) {
       <div className="pattern-leaf-delicate pointer-events-none z-0" aria-hidden="true" />
 
       <SEO
-        title="Activities at Rajaji National Park | Safari, Bird Watching, Stay & Rafting"
-        description="Discover top activities at Rajaji National Park: 4x4 Jeep Safari, Bird Watching expeditions, Forest Rest House stays, and River Rafting on the Ganges."
-        keywords="activities at rajaji, jungle safari rajaji, bird watching rishikesh, stay in rajaji, ganga river rafting"
-        ogImage={safariImages.safariJeepSavannah}
+        ogImage={heroBanner}
       />
 
-      {/* Hero Header with Inverted Tiger & Leaf Watermark Overlay */}
-      <section className="relative py-20 lg:py-28 bg-[#07150c] text-white overflow-hidden border-b border-emerald-950/60">
-        <div className="absolute inset-0 z-0">
-          <img src={safariImages.safariJeepSavannah} alt="Activities at Rajaji" className="w-full h-full object-cover opacity-25 scale-105" />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#07150c] via-[#07150c]/90 to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#07150c] via-transparent to-[#07150c]/70" />
+      {/* Hero Header */}
+      <section className="relative min-h-[560px] sm:min-h-[640px] lg:min-h-[700px] flex items-center justify-center text-center overflow-hidden">
+        <div className="absolute inset-0 overflow-hidden">
+          <div 
+            className="w-full h-full bg-cover bg-no-repeat transition-transform duration-700"
+            style={{ 
+              backgroundImage: `url("${heroBanner}")`,
+              backgroundPosition: 'center 35%'
+            }}
+          >
+            {/* Soft neutral vignette keeping photo bright & vibrant */}
+            <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/25 to-black/75" />
+          </div>
         </div>
-
-        {/* Tiger Watermark in forest shadow */}
-        <div
-          className="absolute right-0 bottom-0 top-0 w-full sm:w-2/3 pointer-events-none z-[1] bg-no-repeat bg-right-bottom bg-contain opacity-[0.14]"
-          style={{
-            backgroundImage: `url('${safariImages.tigerBgOverlay}')`,
-            filter: 'invert(1)',
-            mixBlendMode: 'screen',
-          }}
-          aria-hidden="true"
-        />
-
-        {/* Corner Leaf Foliage Overlay */}
-        <div
-          className="absolute -top-16 -left-16 w-80 h-80 pointer-events-none z-[1] bg-no-repeat bg-contain opacity-20"
-          style={{
-            backgroundImage: `url('${safariImages.leafCta}')`,
-            filter: 'invert(1)',
-            mixBlendMode: 'screen',
-          }}
-          aria-hidden="true"
-        />
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl space-y-5">
-            <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-950/80 border border-emerald-500/30 text-emerald-300 text-xs font-semibold uppercase tracking-widest backdrop-blur-md">
-              <Compass className="w-3.5 h-3.5 text-emerald-400" />
-              <span>Experiences & Adventures</span>
-            </span>
             <h1 className="text-3xl sm:text-5xl lg:text-6xl font-serif font-extrabold tracking-tight text-white leading-tight">
               {pageTitle}
             </h1>
@@ -211,6 +191,18 @@ export default function ActivitiesPage({ onOpenBooking }) {
           })}
         </div>
       </section>
+
+      {/* Unified Call To Action matching HomePage */}
+      <CallToAction
+        title="Ready to Plan Your Jungle Expedition?"
+        subtitle="From sunrise birding excursions to high-adrenaline river rafting and core zone jeep safaris, book your slots with registered government naturalists."
+        primaryText="Book Safari Activity"
+        onPrimaryClick={() => onOpenBooking ? onOpenBooking() : navigate('/booking')}
+        secondaryText="View Safari Zones"
+        secondaryLink="/zones"
+        secondaryIcon={ArrowRight}
+        bgImage={safariImages.chilaZone || safariImages.homeHero}
+      />
     </div>
   );
 }

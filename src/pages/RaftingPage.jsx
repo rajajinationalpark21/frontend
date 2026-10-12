@@ -5,6 +5,7 @@ import { contactInfo, safariImages } from '../data/safariData';
 import { fetchContent } from '../api/client';
 import SEO from '../components/SEO';
 import PageLoader from '../components/PageLoader';
+import CoverImage from '../components/CoverImage';
 
 const fallbackRaftingStretches = [
   {
@@ -62,6 +63,7 @@ export default function RaftingPage({ onOpenBooking }) {
 
   const pageTitle = raftingData.title || "River Rafting on the Ganges";
   const pageSubtitle = raftingData.subtitle || "Combine your Rajaji wildlife jeep safari with world-renowned white-water rafting along the sacred Ganges river as it carves through the forested Shivalik valleys of Uttarakhand.";
+  const heroBanner = raftingData.heroBanner || safariImages.riverCruise;
   const safetyRules = raftingData.safetyGuidelines || [];
 
   return (
@@ -70,16 +72,13 @@ export default function RaftingPage({ onOpenBooking }) {
       <div className="pattern-leaf-delicate fixed inset-0 opacity-[0.03] dark:opacity-[0.025] pointer-events-none z-0" />
 
       <SEO
-        title="River Rafting in Rishikesh & Rajaji | White Water Rafting"
-        description="Experience world-class white water river rafting on the Holy Ganges adjoining Rajaji National Park. 9km, 16km, and 26km rafting stretches with certified river guides."
-        keywords="river rafting rishikesh, ganga rafting rajaji, white water rafting shivpuri, adventure activities rajaji"
-        ogImage={safariImages.riverCruise}
+        ogImage={heroBanner}
       />
 
       {/* Hero Header - Deep Forest with Tiger Watermark & Leaf Texture */}
       <section className="relative py-24 lg:py-28 bg-[#07150c] text-white overflow-hidden">
         <div className="absolute inset-0 z-0">
-          <img src={safariImages.riverCruise} alt="River Rafting in Ganges" className="w-full h-full object-cover opacity-35 mix-blend-luminosity" />
+          <img src={heroBanner} alt="River Rafting in Ganges" className="w-full h-full object-cover opacity-35 mix-blend-luminosity" />
           <div className="absolute inset-0 bg-gradient-to-b from-[#040b06]/95 via-[#07150c]/85 to-[#07150c]" />
         </div>
 
@@ -107,10 +106,6 @@ export default function RaftingPage({ onOpenBooking }) {
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl space-y-5">
-            <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-400/20 backdrop-blur-md text-[11px] font-bold uppercase tracking-widest text-cyan-300">
-              <Waves className="w-3.5 h-3.5 text-cyan-400" />
-              Ganges Adventure Activities
-            </span>
             <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-[1.15]">
               {pageTitle}
             </h1>
@@ -162,9 +157,10 @@ export default function RaftingPage({ onOpenBooking }) {
           {stretchesList.map((run, idx) => (
             <div 
               key={idx}
-              className="bg-[#fdfcf8]/90 dark:bg-[#0c1f13]/90 backdrop-blur-md rounded-3xl p-8 border border-emerald-950/10 dark:border-emerald-500/20 shadow-sm hover:border-emerald-500/30 hover:shadow-2xl transition duration-500 flex flex-col justify-between space-y-6"
+              className="group bg-[#fdfcf8]/90 dark:bg-[#0c1f13]/90 backdrop-blur-md rounded-3xl p-8 border border-emerald-950/10 dark:border-emerald-500/20 shadow-sm hover:border-emerald-500/30 hover:shadow-2xl transition duration-500 flex flex-col justify-between space-y-6"
             >
               <div className="space-y-4">
+                <CoverImage src={run.image} alt={run.name} icon={Waves} aspect="aspect-[16/9]" className="-mx-8 -mt-8 mb-2" />
                 <div className="flex items-center justify-between">
                   <span className="text-[11px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-950/50 text-emerald-700 dark:text-emerald-300">
                     {run.level}
@@ -195,7 +191,7 @@ export default function RaftingPage({ onOpenBooking }) {
               </div>
 
               <div className="pt-4 border-t border-gray-100 dark:border-gray-800 space-y-3">
-                <div className="font-serif text-xl font-bold text-emerald-700 dark:text-emerald-400">
+                <div className="font-sans text-xl font-bold text-emerald-700 dark:text-emerald-400 tabular-nums tracking-normal">
                   {run.price}
                 </div>
                 <button

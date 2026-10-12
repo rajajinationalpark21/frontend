@@ -91,13 +91,16 @@ export default function FloatingActions({ onOpenBooking }) {
         </span>
       </a>
 
-      {/* 4. Floating "Book Permit" Action Button */}
+      {/* 4. Floating "Book Permit" Action Button (Icon only) */}
       <button
         onClick={onOpenBooking}
-        className="group flex items-center gap-2 sm:gap-2.5 px-4 py-2.5 sm:px-5 sm:py-3 rounded-full bg-safari-600 hover:bg-safari-700 text-white font-bold text-xs sm:text-sm shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 active:scale-95 border border-safari-400/50"
+        aria-label="Book Safari"
+        className="group relative flex items-center justify-center w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-safari-600 hover:bg-safari-700 text-white shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 active:scale-95 border border-safari-400/50"
       >
-        <Ticket className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-        <span>Book Safari</span>
+        <Ticket className="w-5 h-5 text-white" />
+        <span className="hidden sm:block absolute right-full mr-3 px-3 py-1.5 rounded-full bg-gray-900/90 backdrop-blur-sm text-white text-xs font-semibold whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none shadow-md">
+          Book Safari
+        </span>
       </button>
     </div>
   );

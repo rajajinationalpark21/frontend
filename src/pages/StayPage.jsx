@@ -3,6 +3,7 @@ import { Home, Phone, Mail, MapPin, CheckCircle2, ShieldCheck, Building2, Extern
 import { safariImages } from '../data/safariData';
 import { fetchContent } from '../api/client';
 import SEO from '../components/SEO';
+import CallToAction from '../components/CallToAction';
 
 export default function StayPage({ onOpenBooking }) {
   const [stay, setStay] = useState(null);
@@ -28,47 +29,37 @@ export default function StayPage({ onOpenBooking }) {
   const forestRestHouses = data.forestRestHouses || [];
   const frhBookingInfo = data.frhBookingInfo || {};
 
-  return (
-    <div className="relative min-h-screen bg-[#faf8f5] dark:bg-[#07120a] transition-colors">
-      {/* Delicate tactile ambient leaf texture */}
-      <div className="pattern-leaf-delicate pointer-events-none z-0" aria-hidden="true" />
+  const heroTitle = data.title;
+  const heroSubtitle = data.subtitle || data.overview;
+  const heroBanner = (data.heroBanner && data.heroBanner.trim()) || "/images/stay/gohari-safari.jpg";
 
+  return (
+    <div className="relative min-h-screen bg-[#fafaf7] dark:bg-[#070c09] transition-colors">
       <SEO
-        title="Stay in Rajaji National Park | Wild Brook Retreat & Forest Rest Houses"
-        description="Experience wilderness lodging in Rajaji National Park. Wild Brook Retreat eco-cottages in Gohari range, and British colonial Forest Rest Houses (FRHs) across Chila and Motichur."
-        keywords="stay in rajaji national park, forest rest house booking chilla motichur, wild brook retreat booking, eco resort rajaji haridwar"
-        ogImage={safariImages.nightCamp}
+        ogImage={heroBanner}
       />
 
-      {/* Hero Header with Inverted Tiger & Leaf Watermark Overlay */}
-      <section className="relative py-24 bg-[#07150c] text-white overflow-hidden border-b border-emerald-950/60">
-        <div className="absolute inset-0 z-0">
-          <img src={safariImages.nightCamp} alt="Campfire under night sky in Rajaji" className="w-full h-full object-cover opacity-25 scale-105" />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#07150c] via-[#07150c]/90 to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#07150c] via-transparent to-[#07150c]/70" />
+      {/* Hero Header */}
+      <section className="relative min-h-[560px] sm:min-h-[640px] lg:min-h-[700px] flex items-center justify-center text-left overflow-hidden">
+        <div className="absolute inset-0 overflow-hidden">
+          <img
+            src={heroBanner}
+            alt="Stay in Rajaji"
+            className="w-full h-full object-cover object-[center_35%] transition-transform duration-700"
+            onError={(e) => {
+              const img = e.currentTarget;
+              if (!img.dataset.fallbackUsed) {
+                img.dataset.fallbackUsed = "1";
+                img.src = "/images/stay/gohari-safari.jpg";
+              } else {
+                img.style.display = "none";
+              }
+            }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/40 to-black/60" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-black/40" />
         </div>
 
-        {/* Tiger Watermark in forest shadow */}
-        <div
-          className="absolute right-0 bottom-0 top-0 w-full sm:w-2/3 pointer-events-none z-[1] bg-no-repeat bg-right-bottom bg-contain opacity-[0.14]"
-          style={{
-            backgroundImage: `url('${safariImages.tigerBgOverlay}')`,
-            filter: 'invert(1)',
-            mixBlendMode: 'screen',
-          }}
-          aria-hidden="true"
-        />
-
-        {/* Corner Leaf Foliage Overlay */}
-        <div
-          className="absolute -top-16 -left-16 w-80 h-80 pointer-events-none z-[1] bg-no-repeat bg-contain opacity-20"
-          style={{
-            backgroundImage: `url('${safariImages.leafCta}')`,
-            filter: 'invert(1)',
-            mixBlendMode: 'screen',
-          }}
-          aria-hidden="true"
-        />
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl space-y-4">
@@ -77,11 +68,15 @@ export default function StayPage({ onOpenBooking }) {
               <span>Wilderness Accommodations</span>
             </span>
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif font-extrabold tracking-tight text-white leading-tight">
-              Stay in <br className="hidden sm:block" />
-              <span className="italic font-normal text-emerald-400">Rajaji National Park</span>
+              {heroTitle || (
+                <>
+                  Stay in <br className="hidden sm:block" />
+                  <span className="italic font-normal text-emerald-400">Rajaji National Park</span>
+                </>
+              )}
             </h1>
             <p className="text-base sm:text-lg text-emerald-100/80 font-light leading-relaxed pt-2">
-              {data.overview}
+              {heroSubtitle}
             </p>
           </div>
         </div>
@@ -92,9 +87,6 @@ export default function StayPage({ onOpenBooking }) {
         <div className="bg-[#fdfcf8]/90 dark:bg-[#0c1f13]/90 backdrop-blur-md rounded-3xl p-8 sm:p-12 border border-emerald-900/15 dark:border-emerald-800/40 shadow-sm overflow-hidden">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-6">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800/50 text-emerald-700 dark:text-emerald-400 text-xs font-bold uppercase tracking-wider">
-                Premier Eco-Lodge
-              </div>
               <div>
                 <h2 className="text-3xl sm:text-4xl font-serif font-bold text-gray-900 dark:text-emerald-50">{wildBrook.name}</h2>
                 <p className="text-emerald-700 dark:text-emerald-400 font-semibold text-base mt-1">{wildBrook.tagline}</p>
@@ -132,14 +124,26 @@ export default function StayPage({ onOpenBooking }) {
             </div>
             <div className="space-y-4">
               <div className="rounded-2xl overflow-hidden shadow-md aspect-[4/3] bg-gray-100 dark:bg-gray-800">
-                <img src={safariImages.nightCamp} alt="Wild Brook Retreat cottages" className="w-full h-full object-cover hover:scale-105 transition duration-700" />
+                <img 
+                  src={(wildBrook.mainImage && wildBrook.mainImage.trim()) || "/images/stay/wild-brook-stream.jpg"} 
+                  alt="Wild Brook Retreat valley stream" 
+                  className="w-full h-full object-cover hover:scale-105 transition duration-700" 
+                />
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div className="rounded-xl overflow-hidden shadow-sm aspect-[4/3] bg-gray-100 dark:bg-gray-800">
-                  <img src={safariImages.tropicalLeafDew} alt="Valley foliage" className="w-full h-full object-cover" />
+                  <img 
+                    src={(wildBrook.leafImage && wildBrook.leafImage.trim()) || "/images/stay/rajaji-foliage.jpg"} 
+                    alt="Native Rajaji forest foliage" 
+                    className="w-full h-full object-cover hover:scale-105 transition duration-500" 
+                  />
                 </div>
                 <div className="rounded-xl overflow-hidden shadow-sm aspect-[4/3] bg-gray-100 dark:bg-gray-800">
-                  <img src={safariImages.acaciaSunset} alt="Sunset near Gohari" className="w-full h-full object-cover" />
+                  <img 
+                    src={(wildBrook.sunsetImage && wildBrook.sunsetImage.trim()) || "/images/stay/gohari-wildlife.png"} 
+                    alt="Spotted deer in Gohri meadow" 
+                    className="w-full h-full object-cover hover:scale-105 transition duration-500" 
+                  />
                 </div>
               </div>
             </div>
@@ -148,7 +152,7 @@ export default function StayPage({ onOpenBooking }) {
       </section>
 
       {/* Forest Rest Houses (FRHs) Section */}
-      <section className="relative z-10 py-16 bg-[#f7f5ed]/80 dark:bg-[#071109]/80 pattern-leaf-delicate backdrop-blur-sm border-t border-emerald-900/15">
+      <section className="relative z-10 py-16 border-t border-emerald-900/15">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-10 max-w-3xl">
             <span className="text-xs font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-400 block mb-1">
@@ -191,10 +195,19 @@ export default function StayPage({ onOpenBooking }) {
             </div>
           </div>
 
-          {/* FRH Booking Procedure Box with Deep Forest Tone & Tiger Stencil */}
-          <div className="relative overflow-hidden bg-[#07150c] text-white p-8 sm:p-10 rounded-3xl border border-emerald-800/40 shadow-2xl flex flex-col md:flex-row items-start justify-between gap-8">
+          {/* FRH Booking Procedure Box with Deep Forest Tone, Leaf Watermark & Tiger Stencil */}
+          <div className="relative overflow-hidden bg-gradient-to-br from-[#07150c] via-[#091b10] to-[#040b06] text-white p-8 sm:p-10 rounded-3xl border border-safari-500/30 shadow-2xl flex flex-col md:flex-row items-start justify-between gap-8">
+            {/* Corner Botanical Foliage Watermark */}
+            <div 
+              className="absolute -top-10 -left-10 w-56 h-56 opacity-[0.16] pointer-events-none bg-contain bg-no-repeat rotate-180"
+              style={{ 
+                backgroundImage: `url("/images/leaf%20for%20cta.jpg")`, 
+                filter: 'invert(1) hue-rotate(90deg) brightness(1.2)', 
+                mixBlendMode: 'screen' 
+              }}
+            />
             <div
-              className="absolute right-0 bottom-0 top-0 w-1/2 pointer-events-none bg-no-repeat bg-right-bottom bg-contain opacity-15"
+              className="absolute right-0 bottom-0 top-0 w-1/2 pointer-events-none bg-no-repeat bg-right-bottom bg-contain opacity-20"
               style={{
                 backgroundImage: `url('${safariImages.tigerBgOverlay}')`,
                 filter: 'invert(1)',
@@ -227,6 +240,18 @@ export default function StayPage({ onOpenBooking }) {
           </div>
         </div>
       </section>
+
+      {/* Unified Call To Action matching HomePage */}
+      <CallToAction
+        title="Experience a Night Inside the Sanctuary?"
+        subtitle="Wake up to the sounds of the jungle. Book official Forest Rest Houses or nearby eco-resorts combined with morning gypsy safari permits."
+        primaryText="Plan Safari & Stay"
+        onPrimaryClick={onOpenBooking}
+        secondaryText="View Safari Zones"
+        secondaryLink="/zones"
+        secondaryIcon={Building2}
+        bgImage={safariImages.chilaZone || safariImages.homeHero}
+      />
     </div>
   );
 }

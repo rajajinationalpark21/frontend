@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { MapPin, Compass, Clock, Calendar, Check, ArrowRight, ShieldCheck, Sparkles, Filter, Loader2, Ticket } from 'lucide-react';
+import { MapPin, Compass, Check, ArrowRight } from 'lucide-react';
 import { safariImages, safariZonesList } from '../data/safariData';
 import { fetchContent } from '../api/client';
 import SEO from '../components/SEO';
 import PageLoader from '../components/PageLoader';
+import CallToAction from '../components/CallToAction';
 
 export default function SafariZonesPage({ onOpenBooking }) {
-  const [safariZonesData, setSafariZonesData] = useState([]);
+  const [safariZonesData, setSafariZonesData] = useState(safariZonesList);
+  const [safariContent, setSafariContent] = useState(null);
   const [selectedZone, setSelectedZone] = useState('all');
   const [loading, setLoading] = useState(true);
 
@@ -15,6 +17,7 @@ export default function SafariZonesPage({ onOpenBooking }) {
     fetchContent()
       .then(res => {
         const safari = res.data?.safari || {};
+        setSafariContent(safari);
         if (safari.zones && safari.zones.length > 0) {
           // If DB zones have full info, use them
           const merged = safari.zones.map((z, i) => {
@@ -30,7 +33,6 @@ export default function SafariZonesPage({ onOpenBooking }) {
               entryGate: z.entryGate || fallback.entryGate || 'Main Gate',
               gypsyCost: z.gypsyCost || fallback.gypsyCost || '₹3,500 per gypsy',
               highlights: (z.highlights && z.highlights.length > 0) ? z.highlights : (fallback.highlights || []),
-              wildlife: (z.wildlife && z.wildlife.length > 0) ? z.wildlife : (fallback.wildlife || []),
             };
           });
           setSafariZonesData(merged);
@@ -44,67 +46,96 @@ export default function SafariZonesPage({ onOpenBooking }) {
     ? safariZonesData
     : safariZonesData.filter(z => (z.id === selectedZone || z.slug === selectedZone));
 
+  const selectedZoneName = selectedZone === 'all'
+    ? `All ${safariZonesData.length} safari zones`
+    : safariZonesData.find(zone => (zone.id === selectedZone || zone.slug === selectedZone))?.name || 'Selected safari zone';
+
   if (loading) {
     return <PageLoader />;
   }
 
+  const heroTitle = safariContent?.title || "Safari Zones of Rajaji National Park";
+  const heroSubtitle = safariContent?.subtitle || "Explore the six jeep safari zones of Rajaji Tiger Reserve: Chilla, Ranipur, Chillawali–Mohand, Motichur, Jhilmil Jheel and Gohri.";
+  const heroBanner = safariContent?.heroBanner || safariImages.safariJeepSavannah;
+
   return (
     <div className="min-h-screen bg-transparent transition-colors relative overflow-hidden">
       <SEO
-        title="Rajaji Jungle Safari Zones | Chilla, Ranipur, Motichur, Jhilmil, Mohand"
-        description="Explore all official safari zones of Rajaji Tiger Reserve. Check entry gates, gypsy tariffs, elephant habitats, and wetland reserves near Haridwar and Rishikesh."
-        keywords="chilla safari zone, ranipur leopard safari, motichur gate permits, jhilmil jheel barasingha, gohri buffer zone, rajaji national park safari zones"
-        ogImage={safariImages.safariJeepSavannah}
+        ogImage={heroBanner}
       />
 
       {/* Hero Header */}
-      <section className="relative py-24 bg-[#07120a] text-white overflow-hidden">
-        <div className="absolute inset-0 z-0">
-          <img src={safariImages.safariJeepSavannah} alt="Safari zone in Rajaji" className="w-full h-full object-cover opacity-35" />
-          <div className="absolute inset-0 bg-gradient-to-b from-[#040b06]/85 via-[#07120a]/70 to-[#040b06]/90" />
+      <section className="relative min-h-[560px] sm:min-h-[640px] lg:min-h-[700px] flex items-center justify-center text-center overflow-hidden">
+        <div className="absolute inset-0 overflow-hidden">
+          <div 
+            className="w-full h-full bg-cover bg-no-repeat transition-transform duration-700"
+            style={{ 
+              backgroundImage: `url("${heroBanner}")`,
+              backgroundPosition: 'center 35%'
+            }}
+          >
+            {/* Soft neutral vignette keeping photo bright & vibrant */}
+            <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/25 to-black/75" />
+          </div>
         </div>
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl">
-            <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-950/60 text-emerald-400 text-xs font-bold uppercase tracking-wider mb-4 border border-emerald-500/30 backdrop-blur-sm">
-              <Compass className="w-3.5 h-3.5" />
-              Exploration Zones
-            </span>
-            <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-white mb-6 font-serif">
-              Safari Zones of Rajaji National Park
+        <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+          <div className="max-w-3xl mx-auto">
+
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-white mb-4 font-serif">
+              {heroTitle}
             </h1>
-            <p className="text-lg text-gray-200/90 leading-relaxed font-normal">
-              Explore 7 distinct safari ranges and historical reserves across the Shivalik foothills and Ganges riverbanks. Each zone features unique landscapes, specific entry gates, and prime wildlife sightings.
+            <p className="text-base sm:text-lg text-gray-200/95 leading-relaxed font-normal max-w-2xl mx-auto">
+              {heroSubtitle}
             </p>
           </div>
         </div>
       </section>
 
-      {/* Filter Tabs */}
-      <section className="py-6 bg-[#f7f5ed]/95 dark:bg-[#07120a]/95 backdrop-blur-md border-b border-emerald-950/10 dark:border-emerald-900/40 sticky top-16 sm:top-18 z-30">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between overflow-x-auto gap-3">
-          <div className="flex items-center gap-2">
+      {/* Zone selector */}
+      <section className="sticky top-16 sm:top-[72px] z-30 border-b border-emerald-950/10 bg-[#f7f5ed]/95 py-4 shadow-[0_8px_20px_rgba(7,18,10,0.05)] backdrop-blur-md transition-colors dark:border-emerald-900/40 dark:bg-[#07120a]/95">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="mb-3">
+            <h2 className="text-base font-bold text-gray-950 dark:text-white">Choose a safari zone</h2>
+          </div>
+
+          <div className="grid grid-cols-1 gap-2 min-[480px]:grid-cols-2 lg:grid-cols-4" role="group" aria-label="Safari zone filter">
             <button
               onClick={() => setSelectedZone('all')}
-              className={`px-4 py-2 rounded-full text-xs sm:text-sm font-bold transition whitespace-nowrap ${selectedZone === 'all' ? 'bg-safari-600 dark:bg-safari-500 text-white shadow-sm' : 'bg-[#fdfcf8]/90 dark:bg-[#0c1610]/90 text-gray-700 dark:text-gray-200 hover:bg-emerald-50 dark:hover:bg-emerald-950/50 border border-emerald-900/15 dark:border-emerald-800/40'}`}
+              aria-pressed={selectedZone === 'all'}
+              aria-controls="safari-zone-results"
+              className={`min-h-12 rounded-xl border px-4 py-3 text-left text-sm font-bold transition duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-[#07120a] ${selectedZone === 'all' ? 'border-safari-600 bg-safari-600 text-white shadow-[0_5px_14px_rgba(22,163,74,0.22)]' : 'border-emerald-900/15 bg-[#fdfcf8] text-gray-800 hover:border-emerald-500/50 hover:bg-emerald-50 dark:border-emerald-800/40 dark:bg-[#0c1610] dark:text-gray-100 dark:hover:bg-emerald-950/50'}`}
             >
-              All Zones ({safariZonesData.length})
+              <span className="flex items-center justify-between gap-3">
+                <span>All zones</span>
+                <span className={`text-xs font-semibold ${selectedZone === 'all' ? 'text-emerald-50' : 'text-gray-500 dark:text-gray-400'}`}>{safariZonesData.length}</span>
+              </span>
             </button>
-            {safariZonesData.map(zone => (
-              <button
-                key={zone.id || zone.slug}
-                onClick={() => setSelectedZone(zone.id || zone.slug)}
-                className={`px-4 py-2 rounded-full text-xs sm:text-sm font-bold transition whitespace-nowrap ${selectedZone === (zone.id || zone.slug) ? 'bg-safari-600 dark:bg-safari-500 text-white shadow-sm' : 'bg-[#fdfcf8]/90 dark:bg-[#0c1610]/90 text-gray-700 dark:text-gray-200 hover:bg-emerald-50 dark:hover:bg-emerald-950/50 border border-emerald-900/15 dark:border-emerald-800/40'}`}
-              >
-                {zone.name.split('(')[0]}
-              </button>
-            ))}
+            {safariZonesData.map(zone => {
+              const zoneId = zone.id || zone.slug;
+              const isSelected = selectedZone === zoneId;
+
+              return (
+                <button
+                  key={zoneId}
+                  onClick={() => setSelectedZone(zoneId)}
+                  aria-pressed={isSelected}
+                  aria-controls="safari-zone-results"
+                  className={`min-h-12 rounded-xl border px-4 py-3 text-left text-sm font-bold transition duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-[#07120a] ${isSelected ? 'border-safari-600 bg-safari-600 text-white shadow-[0_5px_14px_rgba(22,163,74,0.22)]' : 'border-emerald-900/15 bg-[#fdfcf8] text-gray-800 hover:border-emerald-500/50 hover:bg-emerald-50 dark:border-emerald-800/40 dark:bg-[#0c1610] dark:text-gray-100 dark:hover:bg-emerald-950/50'}`}
+                >
+                  <span className="flex items-center justify-between gap-3">
+                    <span>{zone.name.split('(')[0].trim()}</span>
+                    {isSelected && <Check className="h-4 w-4 shrink-0" aria-hidden="true" />}
+                  </span>
+                </button>
+              );
+            })}
           </div>
         </div>
       </section>
 
       {/* Zones List */}
-      <section className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10 relative z-10">
-        {filteredZones.map((zone, idx) => (
+      <section id="safari-zone-results" className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10 relative z-10">
+        {filteredZones.map(zone => (
           <div 
             key={zone.id || zone.slug} 
             id={zone.slug} 
@@ -173,7 +204,7 @@ export default function SafariZonesPage({ onOpenBooking }) {
             <div className="w-full lg:w-72 bg-gray-50 dark:bg-gray-800/60 p-6 rounded-2xl border border-gray-200 dark:border-gray-700 shrink-0 flex flex-col justify-between">
               <div>
                 <span className="text-xs text-gray-500 dark:text-gray-400 block">Gypsy Vehicle Tariff</span>
-                <div className="text-3xl font-black text-safari-600 dark:text-safari-400 my-1">
+                <div className="text-3xl font-black font-sans text-safari-600 dark:text-safari-400 my-1 tabular-nums tracking-tight">
                   {zone.gypsyCost?.split('(')[0] || '₹3,500'}
                 </div>
                 <span className="text-xs text-gray-500 dark:text-gray-400">Up to 6 guests per Gypsy</span>
@@ -196,6 +227,18 @@ export default function SafariZonesPage({ onOpenBooking }) {
           </div>
         ))}
       </section>
+
+      {/* Unified Call To Action matching HomePage */}
+      <CallToAction
+        title="Ready to Explore Rajaji's Wildlife Ranges?"
+        subtitle="Permits and open-top 4x4 Gypsy slots are allocated on a strictly regulated first-come quota basis across all core and buffer gates. Secure your official permit in advance."
+        primaryText="Book Safari Zone"
+        onPrimaryClick={onOpenBooking}
+        secondaryText="View Tickets & Tariffs"
+        secondaryLink="/safari/tickets"
+        secondaryIcon={ArrowRight}
+        bgImage={safariImages.chilaZone || safariImages.homeHero}
+      />
     </div>
   );
 }

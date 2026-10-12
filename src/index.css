@@ -87,10 +87,6 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     background-color: #f7f5ed;
-    background-image: url('/images/normal%20leaf%20bg.jpg');
-    background-repeat: repeat;
-    background-size: 580px auto;
-    background-attachment: fixed;
   }
 
   html.dark, .dark {
@@ -103,10 +99,6 @@
   html.dark body, .dark body {
     @apply text-gray-100;
     background-color: #07120a;
-    background-image: url('/images/normal%20leaf%20bg%20dark.jpg?v=2');
-    background-repeat: repeat;
-    background-size: 580px auto;
-    background-attachment: fixed;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
@@ -126,6 +118,48 @@
   button, input, optgroup, select, textarea {
     font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   }
+}
+
+/* Shared client-page canvas: a single, subtle botanical surface. */
+.site-page-canvas {
+  position: relative;
+  isolation: isolate;
+  background-color: #fafaf7;
+}
+
+.site-page-canvas::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: url('/images/normal%20leaf%20bg.jpg');
+  background-repeat: repeat;
+  background-size: 560px auto;
+  background-attachment: fixed;
+  opacity: 0.03;
+}
+
+.dark .site-page-canvas {
+  background-color: #070c09;
+}
+
+.dark .site-page-canvas::before {
+  background-image: url('/images/normal%20leaf%20bg%20dark.jpg?v=2');
+  opacity: 0.04;
+}
+
+/* Every routed page sits above the shared canvas, regardless of its legacy root palette. */
+.site-page-canvas > * {
+  position: relative;
+  z-index: 1;
+  background-color: transparent !important;
+}
+
+/* The shared canvas replaces page-level copies of the same leaf texture. */
+.site-page-canvas > [class*="min-h-screen"] > .pattern-leaf-delicate.absolute,
+.site-page-canvas > [class*="min-h-screen"] > .pattern-leaf-delicate.fixed {
+  display: none;
 }
 
 /* Custom scrollbar */
