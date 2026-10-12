@@ -1,10 +1,19 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import { ROUTE_SEO, breadcrumbTrail, canonicalPath } from '../seo/routes';
+import { breadcrumbSchema } from '../seo/schema';
+import { SITE_URL } from '../seo/site';
+
+const absoluteUrl = (value) =>
+  /^https?:\/\//.test(value) ? value : `${SITE_URL}${value.startsWith('/') ? '' : '/'}${value}`;
 
 /**
  * Lightweight native SEO manager component for React SPA.
  * Updates document.title, meta descriptions, canonical URLs,
  * OpenGraph, Twitter Cards, and injects Schema.org JSON-LD.
+ *
+ * Static pages take their title/description from `seo/routes.js`; the props are
+ * for pages whose metadata comes from the CMS (safari zones, blog posts).
  */
 export default function SEO({
   title,
@@ -13,16 +22,27 @@ export default function SEO({
   ogImage,
   ogType = 'website',
   schemaJson,
+  noindex = false,
 }) {
   const location = useLocation();
-  const siteUrl = 'https://rajajinationalpark.org';
-  const currentUrl = `${siteUrl}${location.pathname}`;
-  const defaultImage = '/logo.png';
-  const finalImage = ogImage || defaultImage;
+  const path = canonicalPath(location.pathname);
+  const page = ROUTE_SEO[path];
+  const currentUrl = `${SITE_URL}${path}`;
+  const finalImage = absoluteUrl(ogImage || '/logo.png');
 
-  const fullTitle = title.includes('Rajaji') 
-    ? title 
-    : `${title} | Rajaji National Park`;
+  const pageTitle = page?.title || title || 'Rajaji National Park';
+  const fullTitle = pageTitle.includes('Rajaji')
+    ? pageTitle
+    : `${pageTitle} | Rajaji National Park`;
+  const finalDescription = page?.description || description || '';
+  const finalKeywords = page?.keywords || keywords;
+
+  const trail = noindex ? [] : breadcrumbTrail(path, title?.split(' | ')[0]);
+  const schemas = [
+    ...(Array.isArray(schemaJson) ? schemaJson : schemaJson ? [schemaJson] : []),
+    ...(trail.length > 0 ? [breadcrumbSchema(trail, SITE_URL)] : []),
+  ];
+  const schemaText = schemas.length > 0 ? JSON.stringify(schemas) : '';
 
   useEffect(() => {
     // 1. Update Title
@@ -40,23 +60,30 @@ export default function SEO({
     };
 
     // 2. Primary Meta Tags
-    setMetaTag('meta[name="description"]', 'name', 'description', description);
-    if (keywords) {
-      setMetaTag('meta[name="keywords"]', 'name', 'keywords', keywords);
+    setMetaTag('meta[name="description"]', 'name', 'description', finalDescription);
+    if (finalKeywords) {
+      setMetaTag('meta[name="keywords"]', 'name', 'keywords', finalKeywords);
     }
+    setMetaTag(
+      'meta[name="robots"]',
+      'name',
+      'robots',
+      noindex
+        ? 'noindex, follow'
+        : 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1'
+    );
 
     // 3. Open Graph / Facebook / WhatsApp
     setMetaTag('meta[property="og:title"]', 'property', 'og:title', fullTitle);
-    setMetaTag('meta[property="og:description"]', 'property', 'og:description', description);
+    setMetaTag('meta[property="og:description"]', 'property', 'og:description', finalDescription);
     setMetaTag('meta[property="og:image"]', 'property', 'og:image', finalImage);
     setMetaTag('meta[property="og:url"]', 'property', 'og:url', currentUrl);
     setMetaTag('meta[property="og:type"]', 'property', 'og:type', ogType);
-    setMetaTag('meta[property="og:site_name"]', 'property', 'og:site_name', 'Rajaji National Park & Tiger Reserve');
 
     // 4. Twitter Cards
     setMetaTag('meta[name="twitter:card"]', 'name', 'twitter:card', 'summary_large_image');
     setMetaTag('meta[name="twitter:title"]', 'name', 'twitter:title', fullTitle);
-    setMetaTag('meta[name="twitter:description"]', 'name', 'twitter:description', description);
+    setMetaTag('meta[name="twitter:description"]', 'name', 'twitter:description', finalDescription);
     setMetaTag('meta[name="twitter:image"]', 'name', 'twitter:image', finalImage);
 
     // 5. Canonical Link
@@ -74,14 +101,14 @@ export default function SEO({
       existingScript.remove();
     }
 
-    if (schemaJson) {
+    if (schemaText) {
       const script = document.createElement('script');
       script.id = 'page-json-ld';
       script.type = 'application/ld+json';
-      script.textContent = JSON.stringify(schemaJson);
+      script.textContent = schemaText;
       document.head.appendChild(script);
     }
-  }, [fullTitle, description, keywords, finalImage, currentUrl, ogType, schemaJson]);
+  }, [fullTitle, finalDescription, finalKeywords, finalImage, currentUrl, ogType, schemaText, noindex]);
 
   return null;
 }

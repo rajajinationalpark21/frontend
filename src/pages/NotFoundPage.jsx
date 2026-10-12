@@ -10,6 +10,7 @@ export default function NotFoundPage() {
       <SEO
         title="Page Not Found (404) | Rajaji National Park"
         description="The requested safari trail could not be found. Return to Rajaji National Park base camp."
+        noindex
       />
 
       <div className="max-w-md w-full text-center space-y-6">
@@ -38,7 +39,7 @@ export default function NotFoundPage() {
             <Home className="w-4 h-4" /> Return to Base Camp
           </Link>
           <Link
-            to="/safari"
+            to="/zones"
             className="w-full sm:w-auto px-6 py-3 rounded-full border border-gray-300 hover:border-gray-900 text-gray-800 font-bold text-xs transition flex items-center justify-center gap-2"
           >
             Explore Safari Zones
@@ -48,7 +49,7 @@ export default function NotFoundPage() {
         {/* Quick links */}
         <div className="pt-6 border-t border-gray-200/80 text-xs text-gray-400">
           <span>Popular trails: </span>
-          <Link to="/gallery" className="text-safari-600 hover:underline mx-1">Gallery</Link>
+          <Link to="/wildlife" className="text-safari-600 hover:underline mx-1">Gallery</Link>
           <span>•</span>
           <Link to="/blog" className="text-safari-600 hover:underline mx-1">Journal</Link>
           <span>•</span>

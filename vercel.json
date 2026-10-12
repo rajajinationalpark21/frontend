@@ -1,8 +1,171 @@
 {
+  "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/tickets",
+      "destination": "/rajaji-national-park-jeep-safari-tickets-entry-fees-charges",
+      "permanent": true
+    },
+    {
+      "source": "/safari/tickets",
+      "destination": "/rajaji-national-park-jeep-safari-tickets-entry-fees-charges",
+      "permanent": true
+    },
+    {
+      "source": "/terms",
+      "destination": "/rajaji-jeep-safari-terms-conditions-cancellation-refund",
+      "permanent": true
+    },
+    {
+      "source": "/terms-and-conditions",
+      "destination": "/rajaji-jeep-safari-terms-conditions-cancellation-refund",
+      "permanent": true
+    },
+    {
+      "source": "/safari/rules",
+      "destination": "/rajaji-jeep-safari-terms-conditions-cancellation-refund",
+      "permanent": true
+    },
+    {
+      "source": "/park-rules",
+      "destination": "/rajaji-jeep-safari-terms-conditions-cancellation-refund",
+      "permanent": true
+    },
+    {
+      "source": "/cancellation-policy",
+      "destination": "/rajaji-jeep-safari-terms-conditions-cancellation-refund",
+      "permanent": true
+    },
+    {
+      "source": "/safari/zones",
+      "destination": "/zones",
+      "permanent": true
+    },
+    {
+      "source": "/safari",
+      "destination": "/zones",
+      "permanent": true
+    },
+    {
+      "source": "/tours",
+      "destination": "/zones",
+      "permanent": true
+    },
+    {
+      "source": "/activities/rafting",
+      "destination": "/rafting",
+      "permanent": true
+    },
+    {
+      "source": "/fauna",
+      "destination": "/mammals-of-rajaji-tiger-reserve",
+      "permanent": true
+    },
+    {
+      "source": "/wildlife/fauna",
+      "destination": "/mammals-of-rajaji-tiger-reserve",
+      "permanent": true
+    },
+    {
+      "source": "/birds",
+      "destination": "/birds-of-rajaji-national-park",
+      "permanent": true
+    },
+    {
+      "source": "/wildlife/birds",
+      "destination": "/birds-of-rajaji-national-park",
+      "permanent": true
+    },
+    {
+      "source": "/birding-areas",
+      "destination": "/birds-of-rajaji-national-park",
+      "permanent": true
+    },
+    {
+      "source": "/wildlife/birding-areas",
+      "destination": "/birds-of-rajaji-national-park",
+      "permanent": true
+    },
+    {
+      "source": "/butterflies",
+      "destination": "/butterflies-of-rajaji-national-park",
+      "permanent": true
+    },
+    {
+      "source": "/wildlife/butterflies",
+      "destination": "/butterflies-of-rajaji-national-park",
+      "permanent": true
+    },
+    {
+      "source": "/reptiles",
+      "destination": "/reptiles-of-rajaji-tiger-reserve",
+      "permanent": true
+    },
+    {
+      "source": "/wildlife/reptiles",
+      "destination": "/reptiles-of-rajaji-tiger-reserve",
+      "permanent": true
+    },
+    {
+      "source": "/flora",
+      "destination": "/flora-of-rajaji-national-park",
+      "permanent": true
+    },
+    {
+      "source": "/wildlife/flora",
+      "destination": "/flora-of-rajaji-national-park",
+      "permanent": true
+    },
+    {
+      "source": "/book",
+      "destination": "/booking",
+      "permanent": true
+    },
+    {
+      "source": "/safari/book",
+      "destination": "/booking",
+      "permanent": true
+    },
+    {
+      "source": "/journal",
+      "destination": "/blog",
+      "permanent": true
+    },
+    {
+      "source": "/about",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/gallery",
+      "destination": "/wildlife",
+      "permanent": true
+    },
+    {
+      "source": "/eco-tourism",
+      "destination": "/activities",
+      "permanent": true
+    },
+    {
+      "source": "/how-to-reach",
+      "destination": "/contact",
+      "permanent": true
+    },
+    {
+      "source": "/safari/zones/:slug",
+      "destination": "/:slug",
+      "permanent": true
+    },
+    {
+      "source": "/journal/:slug",
+      "destination": "/blog/:slug",
+      "permanent": true
+    }
+  ],
   "rewrites": [
     {
       "source": "/((?!assets/).*)",
-      "destination": "/index.html"
+      "destination": "/spa.html"
     }
   ],
   "headers": [
