@@ -186,6 +186,26 @@ export default function SafariZoneDetailPage({ onOpenBooking, defaultSlug }) {
               </div>
             )}
 
+            {/* Wildlife You May Encounter (zone documents) */}
+            {currentZone.wildlife?.length > 0 && (
+              <div className="bg-[#fdfcf8]/90 dark:bg-[#0c1f13]/90 backdrop-blur-md rounded-3xl p-8 sm:p-10 border border-emerald-900/15 dark:border-emerald-800/40 shadow-sm space-y-6">
+                <h2 className="text-xl sm:text-2xl font-serif font-bold text-gray-900 dark:text-emerald-50 flex items-center gap-2">
+                  <Sparkles className="w-5 h-5 text-emerald-500" />
+                  Wildlife You May Encounter
+                </h2>
+                <ul className="flex flex-wrap gap-2.5">
+                  {currentZone.wildlife.map((animal) => (
+                    <li key={animal} className="rounded-full bg-emerald-50/70 dark:bg-[#07150c]/60 border border-emerald-900/10 dark:border-emerald-800/30 px-4 py-2 text-sm font-semibold text-gray-800 dark:text-emerald-100/90">
+                      {animal}
+                    </li>
+                  ))}
+                </ul>
+                <p className="text-xs text-gray-500 dark:text-emerald-100/60">
+                  Wildlife sightings depend on animal movement, season, weather and other natural conditions and are not guaranteed.
+                </p>
+              </div>
+            )}
+
             {/* Shift Timings */}
             {timingRows.length > 0 && (
             <div className="bg-[#fdfcf8]/90 dark:bg-[#0c1f13]/90 backdrop-blur-md rounded-3xl p-8 sm:p-10 border border-emerald-900/15 dark:border-emerald-800/40 shadow-sm space-y-6">

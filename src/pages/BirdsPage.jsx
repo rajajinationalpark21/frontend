@@ -33,6 +33,15 @@ export default function BirdsPage({ onOpenBooking }) {
   const stats = data.stats || {};
   const families = data.families || [];
   const restrictedRange = data.restrictedRange || [];
+  const watchingParagraphs = (data.watchingParagraphs || []).filter(Boolean);
+  const notableSpecies = (data.notableSpecies || []).filter(Boolean);
+  const gallery = (data.galleryImages || []).filter(Boolean);
+  const packagePhones = (data.packagesPhones || []).filter(Boolean);
+  const telHref = (phone) => `tel:${phone.replace(/[^\d+]/g, '')}`;
+  const whatsappHref = (phone) => {
+    const digits = phone.replace(/\D/g, '');
+    return `https://wa.me/${digits.length === 10 ? `91${digits}` : digits}`;
+  };
 
   return (
     <div className="relative min-h-screen bg-[#f7f5ed] dark:bg-[#07120a] transition-colors">
@@ -74,6 +83,37 @@ export default function BirdsPage({ onOpenBooking }) {
           </div>
         </div>
       </section>
+
+      {/* Bird Watching in Rajaji (client document section) */}
+      {(watchingParagraphs.length > 0 || notableSpecies.length > 0) && (
+        <section className="relative z-10 pt-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
+            <div className="lg:col-span-7 space-y-4">
+              <h2 className="font-serif text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white">
+                {data.watchingTitle || 'Bird Watching in Rajaji National Park'}
+              </h2>
+              {watchingParagraphs.map((paragraph, idx) => (
+                <p key={idx} className="text-sm sm:text-base leading-7 text-gray-600 dark:text-gray-300">{paragraph}</p>
+              ))}
+            </div>
+            {notableSpecies.length > 0 && (
+              <div className="lg:col-span-5">
+                <div className="bg-[#fdfcf8]/90 dark:bg-[#0c1f13]/90 backdrop-blur-md rounded-3xl p-7 border border-emerald-950/10 dark:border-emerald-500/20 shadow-sm">
+                  <h3 className="text-xs font-bold uppercase tracking-widest text-emerald-700 dark:text-emerald-400 mb-4">Birds Recorded in Rajaji</h3>
+                  <ul className="flex flex-wrap gap-2">
+                    {notableSpecies.map((species) => (
+                      <li key={species} className="flex items-center gap-1.5 rounded-full bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-900/10 dark:border-emerald-800/40 px-3 py-1.5 text-xs font-medium text-gray-800 dark:text-emerald-100">
+                        <Check className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+                        {species}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            )}
+          </div>
+        </section>
+      )}
 
       {/* Bird Families Catalog */}
       <section className="relative z-10 py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
@@ -131,6 +171,20 @@ export default function BirdsPage({ onOpenBooking }) {
           </div>
         )}
 
+        {/* Birds of Rajaji photo gallery */}
+        {gallery.length > 0 && (
+          <div>
+            <h3 className="font-serif text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-8">Birds of Rajaji Gallery</h3>
+            <div className="columns-1 sm:columns-2 lg:columns-3 gap-5">
+              {gallery.map((src, idx) => (
+                <div key={`${src}-${idx}`} className="mb-5 break-inside-avoid rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition group bg-gray-200 dark:bg-gray-800 border border-gray-100 dark:border-gray-800">
+                  <img src={src} alt={`Bird photographed in Rajaji National Park ${idx + 1}`} loading="lazy" className="w-full h-auto block group-hover:scale-105 transition duration-500" />
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* Booking CTA - Deep Forest with Tiger Watermark */}
         <div className="relative p-8 sm:p-10 rounded-3xl bg-[#07150c] text-white border border-emerald-900/40 shadow-xl overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6">
           <div 
@@ -144,12 +198,33 @@ export default function BirdsPage({ onOpenBooking }) {
           <div className="pattern-leaf-veins absolute inset-0 opacity-10 pointer-events-none" />
 
           <div className="relative z-10">
-            <h3 className="font-serif text-2xl font-bold mb-1">Book a Specialist Birding Guide</h3>
-            <p className="text-xs sm:text-sm text-emerald-100/80 max-w-xl">Guided sessions in Gohri and Suswa river trails starting at ₹1,500/session with expert ornithologists.</p>
+            <h3 className="font-serif text-2xl font-bold mb-1">{data.packagesTitle || 'Birdwatching Packages and Enquiries'}</h3>
+            <p className="text-xs sm:text-sm text-emerald-100/80 max-w-xl">
+              {data.packagesText || 'Birdwatching and wildlife tour packages are available on request.'}
+            </p>
+            {data.packagesContactName && (
+              <p className="mt-3 text-sm font-semibold text-white">
+                For bookings and enquiries: {data.packagesContactName}
+                {packagePhones.length > 0 && <span className="font-normal text-emerald-100/80"> · {packagePhones.join(' | ')}</span>}
+              </p>
+            )}
           </div>
-          <button onClick={onOpenBooking} className="relative z-10 px-7 py-3.5 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider transition shadow-md shrink-0">
-            Reserve Birding Safari
-          </button>
+          <div className="relative z-10 flex flex-wrap gap-3 shrink-0">
+            {packagePhones.length > 0 ? (
+              <>
+                <a href={telHref(packagePhones[0])} className="px-7 py-3.5 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider transition shadow-md">
+                  Call Now
+                </a>
+                <a href={whatsappHref(packagePhones[0])} target="_blank" rel="noopener noreferrer" className="px-7 py-3.5 rounded-full border border-emerald-400/60 hover:bg-emerald-900/60 text-white font-bold text-xs uppercase tracking-wider transition">
+                  WhatsApp
+                </a>
+              </>
+            ) : (
+              <button onClick={onOpenBooking} className="px-7 py-3.5 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider transition shadow-md">
+                Reserve Birding Safari
+              </button>
+            )}
+          </div>
         </div>
       </section>
     </div>

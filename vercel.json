@@ -137,6 +137,16 @@
       "permanent": true
     },
     {
+      "source": "/chillawali-jeep-safari-mohand-gate",
+      "destination": "/chillawali-jeep-safari",
+      "permanent": true
+    },
+    {
+      "source": "/wildlife-biodiversity-rajaji-tiger-reserve",
+      "destination": "/wildlife",
+      "permanent": true
+    },
+    {
       "source": "/gallery",
       "destination": "/wildlife",
       "permanent": true

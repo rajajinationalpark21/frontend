@@ -449,8 +449,8 @@ export const safariZonesList = [
       "Birdwatching: kingfishers, barbets, hornbills, eagles and woodland birds",
       "Vindhyavasini Temple near the Ganges, surrounded by hills and forest"
     ],
-    "seoTitle": "Gohri Range Jungle Safari | Year-Round Safari Near Rishikesh",
-    "metaDescription": "Experience Gohri Range Jungle Safari in Rajaji Tiger Reserve. Open year-round near Rishikesh with magnificent wildlife, elephant trails, and tranquil birding.",
+    "seoTitle": "Gohri Range Jungle Safari | Rajaji Tiger Reserve Near Rishikesh",
+    "metaDescription": "Gohri Range jungle safari in Rajaji Tiger Reserve near Rishikesh. Generally open except August and September, subject to Forest Department permissions.",
     "heroImage": "https://res.cloudinary.com/b1b4jovc/image/upload/v1791647695/jungle-safari/gallery/website-seed/0106f8270893.webp",
     "wildlife": [
       "Asian Elephant",

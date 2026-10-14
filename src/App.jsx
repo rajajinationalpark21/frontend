@@ -132,6 +132,8 @@ function MainLayout() {
 
           {/* Legacy URL redirects to client-requested pages */}
           <Route path="/gallery" element={<Navigate to="/wildlife" replace />} />
+          <Route path="/chillawali-jeep-safari-mohand-gate" element={<Navigate to="/chillawali-jeep-safari" replace />} />
+          <Route path="/wildlife-biodiversity-rajaji-tiger-reserve" element={<Navigate to="/wildlife" replace />} />
           <Route path="/eco-tourism" element={<Navigate to="/activities" replace />} />
           <Route path="/how-to-reach" element={<Navigate to="/contact" replace />} />
           <Route path="/wildlife/birding-areas" element={<Navigate to="/birds-of-rajaji-national-park" replace />} />

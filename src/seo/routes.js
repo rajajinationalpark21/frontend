@@ -212,6 +212,8 @@ export const ALIASES = {
   '/journal': '/blog',
   '/about': '/',
   '/gallery': '/wildlife',
+  '/chillawali-jeep-safari-mohand-gate': '/chillawali-jeep-safari',
+  '/wildlife-biodiversity-rajaji-tiger-reserve': '/wildlife',
   '/eco-tourism': '/activities',
   '/how-to-reach': '/contact',
 };
