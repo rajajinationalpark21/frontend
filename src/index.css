@@ -267,6 +267,15 @@
   font-family: 'Playfair Display', Georgia, serif;
 }
 
+/* Long editorial copy keeps a readable measure and stable justification. */
+.prose-balanced {
+  max-width: 68ch;
+  text-align: justify;
+  text-align-last: left;
+  hyphens: auto;
+  overflow-wrap: break-word;
+}
+
 /* Card with frosted sanctuary leaf tint */
 .card-leaf-sanctuary {
   background-color: rgba(253, 252, 248, 0.90);

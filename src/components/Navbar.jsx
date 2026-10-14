@@ -135,6 +135,7 @@ export default function Navbar({ onOpenBooking }) {
             >
               Home
             </Link>
+            <Link to="/about" className={`transition-colors py-1 ${location.pathname === '/about' ? 'text-safari-600 dark:text-safari-400 font-semibold' : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'}`}>About Rajaji</Link>
 
             {/* 2. Safari Zones Dropdown */}
             {navDropdowns.slice(0, 1).map((group) => {
@@ -422,6 +423,7 @@ export default function Navbar({ onOpenBooking }) {
           >
             Home
           </Link>
+          <Link to="/about" onClick={() => setMobileMenuOpen(false)} className="block px-4 py-2.5 rounded-xl text-sm font-bold text-gray-900 dark:text-white hover:bg-[#f5f2e8]/80 dark:hover:bg-emerald-950/40">About Rajaji</Link>
 
           {/* 2. Safari Zones Accordion */}
           {navDropdowns.slice(0, 1).map((group) => {

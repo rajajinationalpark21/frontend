@@ -7,6 +7,7 @@ import { slugify } from '../utils/slugify';
 import SEO from '../components/SEO';
 import { SITE_URL } from '../seo/site';
 import CallToAction from '../components/CallToAction';
+import PageHero from '../components/PageHero';
 
 export default function BlogPage({ onOpenBooking }) {
   const [selectedCategory, setSelectedCategory] = useState('All Stories');
@@ -90,7 +91,7 @@ export default function BlogPage({ onOpenBooking }) {
   });
 
   return (
-    <div className="min-h-screen bg-[#fafaf7] dark:bg-[#070c09] transition-colors pt-10 pb-20 relative overflow-hidden">
+    <div className="min-h-screen bg-[#fafaf7] dark:bg-[#070c09] transition-colors pb-20 relative overflow-hidden">
       <SEO
         ogImage={featuredArticle?.image}
         schemaJson={blogSchema}
@@ -101,17 +102,16 @@ export default function BlogPage({ onOpenBooking }) {
         className="absolute inset-0 opacity-[0.03] dark:opacity-[0.04] pointer-events-none pattern-leaf-delicate"
       />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        {/* 1. HEADER */}
-        <div className="mb-10">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-950 dark:text-white tracking-tight mb-2.5 font-serif">
-            Wilderness Journal
-          </h1>
-          <p className="text-sm font-medium text-emerald-800/80 dark:text-emerald-400/90 max-w-xl">
-            Insights from the Heart of the Jungle. Explore our stories, field guides, and conservation reports.
-          </p>
-        </div>
+      {/* 1. HEADER */}
+      <PageHero
+        title="Wilderness Journal"
+        subtitle="Insights from the Heart of the Jungle. Explore our stories, field guides, and conservation reports."
+        image={safariImages.walkingTiger}
+        fallbackImage={safariImages.mistyDarkPines}
+        alt="Tiger walking through the forest"
+      />
 
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-14 relative z-10">
         {/* 2. FEATURED STORY HERO CARD */}
         {featuredArticle && (
           <Link

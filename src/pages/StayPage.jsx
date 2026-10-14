@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Home, Phone, Mail, MapPin, CheckCircle2, ShieldCheck, Building2, ExternalLink, Calendar, Loader2 } from 'lucide-react';
+import { Phone, Mail, MapPin, CheckCircle2, ShieldCheck, Building2, ExternalLink, Calendar, Loader2 } from 'lucide-react';
 import { safariImages } from '../data/safariData';
 import { fetchContent } from '../api/client';
 import SEO from '../components/SEO';
 import CallToAction from '../components/CallToAction';
+import PageHero from '../components/PageHero';
 
 export default function StayPage({ onOpenBooking }) {
   const [stay, setStay] = useState(null);
@@ -39,48 +40,13 @@ export default function StayPage({ onOpenBooking }) {
         ogImage={heroBanner}
       />
 
-      {/* Hero Header */}
-      <section className="relative min-h-[560px] sm:min-h-[640px] lg:min-h-[700px] flex items-center justify-center text-left overflow-hidden">
-        <div className="absolute inset-0 overflow-hidden">
-          <img
-            src={heroBanner}
-            alt="Stay in Rajaji"
-            className="w-full h-full object-cover object-[center_35%] transition-transform duration-700"
-            onError={(e) => {
-              const img = e.currentTarget;
-              if (!img.dataset.fallbackUsed) {
-                img.dataset.fallbackUsed = "1";
-                img.src = "/images/stay/gohari-safari.jpg";
-              } else {
-                img.style.display = "none";
-              }
-            }}
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/40 to-black/60" />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-black/40" />
-        </div>
-
-
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl space-y-4">
-            <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-950/80 border border-emerald-500/30 text-emerald-300 text-xs font-semibold uppercase tracking-widest backdrop-blur-md">
-              <Home className="w-3.5 h-3.5 text-emerald-400" />
-              <span>Wilderness Accommodations</span>
-            </span>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif font-extrabold tracking-tight text-white leading-tight">
-              {heroTitle || (
-                <>
-                  Stay in <br className="hidden sm:block" />
-                  <span className="italic font-normal text-emerald-400">Rajaji National Park</span>
-                </>
-              )}
-            </h1>
-            <p className="text-base sm:text-lg text-emerald-100/80 font-light leading-relaxed pt-2">
-              {heroSubtitle}
-            </p>
-          </div>
-        </div>
-      </section>
+      <PageHero
+        title={heroTitle || "Stay in Rajaji National Park"}
+        subtitle={heroSubtitle}
+        image={data.heroImages?.length ? data.heroImages : heroBanner}
+        fallbackImage="/images/stay/gohari-safari.jpg"
+        alt="Stay in Rajaji"
+      />
 
       {/* Wild Brook Retreat Showcase */}
       <section className="relative z-10 py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

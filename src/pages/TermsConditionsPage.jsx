@@ -26,6 +26,7 @@ import { fetchContent } from '../api/client';
 import SEO from '../components/SEO';
 import PageLoader from '../components/PageLoader';
 import CallToAction from '../components/CallToAction';
+import PageHero from '../components/PageHero';
 
 const defaultPolicies = [
   {
@@ -227,64 +228,30 @@ export default function TermsConditionsPage() {
         ogImage={heroBanner}
       />
 
-      {/* 1. CINEMATIC HERO SECTION WITH SPLIT ACCENTS & QUICK SUMMARY STATS */}
-      <section className="relative min-h-[520px] sm:min-h-[580px] flex items-center justify-center overflow-hidden bg-stone-900 text-white">
-        {/* Hero Background Imagery */}
-        <div className="absolute inset-0 z-0">
-          <img 
-            src={heroBanner} 
-            alt="Rajaji forest canopy trail" 
-            className="w-full h-full object-cover object-center scale-105 transition-transform duration-1000" 
-          />
-          {/* Light subtle scrim strictly for typography contrast */}
-          <div className="absolute inset-0 bg-black/35" />
-        </div>
-
-        {/* Content Container */}
-        <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16 text-center">
-
-          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-serif font-extrabold tracking-tight text-white leading-[1.15] max-w-4xl mx-auto drop-shadow-md">
-            Safari Regulations & <br className="hidden sm:inline" />
-            <span className="italic font-normal text-emerald-300">Visitor Code of Conduct</span>
-          </h1>
-
-          <p className="text-sm sm:text-base lg:text-lg text-white/90 max-w-2xl mx-auto font-normal leading-relaxed mt-4 drop-shadow">
-            {heroSubtitle}
-          </p>
-
-          {/* 3 Metric Capsules */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 max-w-3xl mx-auto mt-10">
-            <div className="bg-white/5 backdrop-blur-md rounded-2xl p-4 border border-white/10 text-left flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center shrink-0 text-emerald-400 font-bold">
-                <Clock className="w-5 h-5" />
+      <PageHero
+        title="Safari Regulations & Visitor Code of Conduct"
+        subtitle={heroSubtitle}
+        image={parkRules.heroImages?.length ? parkRules.heroImages : heroBanner}
+        alt="Rajaji forest canopy trail"
+      />
+      {/* Quick rule summary */}
+      <section className="relative z-10 border-b border-emerald-950/10 bg-[#f7f5ed] py-8 dark:border-emerald-900/40 dark:bg-[#07120a]">
+        <div className="mx-auto grid max-w-3xl grid-cols-1 gap-3.5 px-4 sm:grid-cols-3 sm:px-6 lg:px-8">
+          {[
+            { Icon: Clock, title: "Gate Arrival", text: "Report 20m before entry" },
+            { Icon: ShieldCheck, title: "Mandatory Guide", text: "1 per official Gypsy" },
+            { Icon: Ban, title: "Zero Tolerance", text: "No plastic, horn or feeding" },
+          ].map(({ Icon, title, text }) => (
+            <div key={title} className="flex items-center gap-3 rounded-2xl border border-emerald-950/10 bg-white/70 p-4 text-left dark:border-emerald-500/20 dark:bg-white/5">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-emerald-500/30 bg-emerald-500/15 text-emerald-700 dark:text-emerald-400">
+                <Icon className="h-5 w-5" />
               </div>
               <div>
-                <div className="text-xs font-bold text-white uppercase tracking-wider">Gate Arrival</div>
-                <div className="text-[11px] text-emerald-100/70 mt-0.5">Report 20m before entry</div>
+                <div className="text-xs font-bold uppercase tracking-wider text-gray-900 dark:text-white">{title}</div>
+                <div className="mt-0.5 text-[11px] text-gray-600 dark:text-emerald-100/70">{text}</div>
               </div>
             </div>
-
-            <div className="bg-white/5 backdrop-blur-md rounded-2xl p-4 border border-white/10 text-left flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center shrink-0 text-emerald-400 font-bold">
-                <ShieldCheck className="w-5 h-5" />
-              </div>
-              <div>
-                <div className="text-xs font-bold text-white uppercase tracking-wider">Mandatory Guide</div>
-                <div className="text-[11px] text-emerald-100/70 mt-0.5">1 per official Gypsy</div>
-              </div>
-            </div>
-
-            <div className="bg-white/5 backdrop-blur-md rounded-2xl p-4 border border-white/10 text-left flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center shrink-0 text-emerald-400 font-bold">
-                <Ban className="w-5 h-5" />
-              </div>
-              <div>
-                <div className="text-xs font-bold text-white uppercase tracking-wider">Zero Tolerance</div>
-                <div className="text-[11px] text-emerald-100/70 mt-0.5">No plastic, horn or feeding</div>
-              </div>
-            </div>
-          </div>
-
+          ))}
         </div>
       </section>
 

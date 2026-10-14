@@ -52,10 +52,10 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Main Grid strictly based on Client Structure */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-7 lg:gap-8 pb-8">
+        <div className="grid grid-cols-1 gap-8 pb-8 md:grid-cols-3 md:gap-10">
           
           {/* Column 1: Brand & Official Contact Desk */}
-          <div className="lg:col-span-4 space-y-3">
+          <div className="space-y-3">
             <Link to="/" className="flex items-center gap-2.5 group w-fit">
               <div className="w-10 h-10 rounded-xl bg-white dark:bg-gray-900 p-1 flex items-center justify-center border border-gray-100 dark:border-gray-800 shadow-sm shrink-0 group-hover:scale-105 transition">
                 <img 
@@ -136,12 +136,12 @@ export default function Footer() {
           </div>
 
           {/* Column 2: 7 Safari Zones */}
-          <div className="lg:col-span-3 space-y-2.5">
+          <div className="space-y-2.5">
             <h4 className="text-[11px] font-bold uppercase tracking-[0.08em] text-white flex items-center gap-1.5">
               Safari zones
             </h4>
             <ul className="space-y-1.5 text-xs sm:text-sm">
-              {zones.map((z, idx) => (
+              {zones.slice(0, 4).map((z, idx) => (
                 <li key={idx}>
                   <Link
                     to={z.slug ? `/${z.slug}` : `/zones`}
@@ -159,47 +159,7 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Column 3: Wildlife & Biodiversity (5 Sub-pages) */}
-          <div className="lg:col-span-3 space-y-2.5">
-            <h4 className="text-[11px] font-bold uppercase tracking-[0.08em] text-white">
-              Wildlife
-            </h4>
-            <ul className="space-y-1.5 text-xs sm:text-sm">
-              <li>
-                <Link to="/wildlife" className="text-gray-400 hover:text-emerald-400 transition">
-                  Wildlife Overview Hub
-                </Link>
-              </li>
-              <li>
-                <Link to="/mammals-of-rajaji-tiger-reserve" className="text-gray-400 hover:text-emerald-400 transition">
-                  Mammals of Rajaji (Tigers & Elephants)
-                </Link>
-              </li>
-              <li>
-                <Link to="/birds-of-rajaji-national-park" className="text-gray-400 hover:text-emerald-400 transition">
-                  Birds of Rajaji (400+ Species)
-                </Link>
-              </li>
-              <li>
-                <Link to="/butterflies-of-rajaji-national-park" className="text-gray-400 hover:text-emerald-400 transition">
-                  Butterflies of Rajaji
-                </Link>
-              </li>
-              <li>
-                <Link to="/reptiles-of-rajaji-tiger-reserve" className="text-gray-400 hover:text-emerald-400 transition">
-                  Reptiles of Rajaji (King Cobra & Pythons)
-                </Link>
-              </li>
-              <li>
-                <Link to="/flora-of-rajaji-national-park" className="text-gray-400 hover:text-emerald-400 transition">
-                  Flora of Rajaji (Sal & Medicinal Plants)
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Column 4: Activities, Tariffs & Policies */}
-          <div className="lg:col-span-2 space-y-2.5">
+          <div className="space-y-2.5">
             <h4 className="text-[11px] font-bold uppercase tracking-[0.08em] text-white">
               Plan your visit
             </h4>
@@ -210,23 +170,8 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link to="/rafting" className="text-gray-400 hover:text-emerald-400 transition">
-                  Ganges River Rafting
-                </Link>
-              </li>
-              <li>
-                <Link to="/stay" className="text-gray-400 hover:text-emerald-400 transition">
-                  Stay in Rajaji (FRH & Resorts)
-                </Link>
-              </li>
-              <li>
                 <Link to="/rajaji-national-park-jeep-safari-tickets-entry-fees-charges" className="text-gray-400 hover:text-emerald-400 transition">
                   Tickets, Fees & Charges
-                </Link>
-              </li>
-              <li>
-                <Link to="/rajaji-jeep-safari-terms-conditions-cancellation-refund" className="text-gray-400 hover:text-emerald-400 transition">
-                  Terms & Cancellation Rules
                 </Link>
               </li>
               <li>
@@ -247,6 +192,7 @@ export default function Footer() {
         <div className="pt-5 border-t border-gray-100 dark:border-gray-800/80 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-gray-400 dark:text-gray-500">
           <p>© {new Date().getFullYear()} {brandTitle}. All rights reserved.</p>
           <div className="flex items-center space-x-5">
+            <Link to="/about" className="hover:text-gray-700 dark:hover:text-gray-300 transition">About Rajaji</Link>
             <Link to="/rajaji-national-park-jeep-safari-tickets-entry-fees-charges" className="hover:text-gray-700 dark:hover:text-gray-300 transition">Tickets & Charges</Link>
             <Link to="/rajaji-jeep-safari-terms-conditions-cancellation-refund" className="hover:text-gray-700 dark:hover:text-gray-300 transition">Terms & Refunds</Link>
             <Link to="/faq" className="hover:text-gray-700 dark:hover:text-gray-300 transition">FAQ</Link>

@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { Feather, ShieldCheck, Trees, Sparkles, ArrowRight, Phone, MessageSquare, Ticket } from 'lucide-react';
-import { safariImages, contactInfo } from '../data/safariData';
+import { Link } from 'react-router-dom';
+import { Feather, ShieldCheck, Trees, Sparkles, ArrowRight } from 'lucide-react';
+import { safariImages } from '../data/safariData';
 import { fetchContent } from '../api/client';
 import SEO from '../components/SEO';
 import CallToAction from '../components/CallToAction';
+import PageHero from '../components/PageHero';
 
-export default function WildlifeHubPage({ onOpenBooking }) {
-  const navigate = useNavigate();
+export default function WildlifeHubPage() {
   const [content, setContent] = useState(null);
 
   useEffect(() => {
@@ -16,8 +16,6 @@ export default function WildlifeHubPage({ onOpenBooking }) {
       .catch(() => {});
   }, []);
 
-  const phone = contactInfo.phone || "+91 98298 50501";
-  const whatsappUrl = `https://wa.me/${phone.replace(/\D/g, '')}?text=${encodeURIComponent("Hello! I would like to inquire about wildlife safaris and biodiversity tours in Rajaji National Park.")}`;
 
   const fauna = content?.fauna || {};
   const birds = content?.birds || {};
@@ -83,62 +81,13 @@ export default function WildlifeHubPage({ onOpenBooking }) {
         ogImage={heroBanner}
       />
 
-      {/* Hero Header */}
-      <section className="relative min-h-[560px] sm:min-h-[640px] lg:min-h-[700px] flex items-center justify-center text-center overflow-hidden bg-black">
-        <div className="absolute inset-0 overflow-hidden">
-          <img
-            src={heroBanner}
-            alt="Tiger in the Sal forests of Rajaji"
-            className="w-full h-full object-cover opacity-65"
-            style={{ objectPosition: 'center 35%' }}
-            onError={(e) => {
-              const img = e.currentTarget;
-              if (!img.dataset.fallbackUsed && safariImages.walkingTiger) {
-                img.dataset.fallbackUsed = "1";
-                img.src = safariImages.walkingTiger;
-              } else {
-                img.style.display = "none";
-              }
-            }}
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-black/80" />
-        </div>
-
-
-        <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
-          <div className="max-w-3xl mx-auto space-y-5">
-            <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-[1.15]">
-              {heroTitle}
-            </h1>
-            <p className="text-base sm:text-lg text-emerald-100/90 leading-relaxed font-normal max-w-2xl mx-auto">
-              {heroSubtitle}
-            </p>
-
-            <div className="flex flex-wrap items-center justify-center gap-3 pt-3">
-              <button
-                onClick={() => onOpenBooking ? onOpenBooking() : navigate('/booking')}
-                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider shadow-lg shadow-emerald-950/40 transition duration-200 hover:scale-105 active:scale-95"
-              >
-                <Ticket className="w-4 h-4" /> Book Wildlife Safari
-              </button>
-              <a
-                href={whatsappUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-[#25D366] hover:bg-[#20ba59] text-white font-bold text-xs uppercase tracking-wider shadow-md transition duration-200 hover:scale-105 active:scale-95"
-              >
-                <MessageSquare className="w-4 h-4" /> WhatsApp Booking
-              </a>
-              <a
-                href={`tel:${phone.replace(/\s+/g, '')}`}
-                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-white/10 hover:bg-white/15 text-white font-bold text-xs border border-white/15 transition backdrop-blur-sm"
-              >
-                <Phone className="w-4 h-4 text-emerald-400" /> {phone}
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
+      <PageHero
+        title={heroTitle}
+        subtitle={heroSubtitle}
+        image={fauna.heroImages?.length ? fauna.heroImages : heroBanner}
+        fallbackImage={safariImages.walkingTiger}
+        alt="Tiger in the Sal forests of Rajaji"
+      />
 
       {/* Hub Navigation Grid */}
       <section className="relative z-10 py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">

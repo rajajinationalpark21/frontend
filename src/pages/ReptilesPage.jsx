@@ -6,6 +6,7 @@ import { safariImages, contactInfo } from '../data/safariData';
 import SEO from '../components/SEO';
 import PageLoader from '../components/PageLoader';
 import CoverImage from '../components/CoverImage';
+import PageHero from '../components/PageHero';
 
 const defaultReptiles = [
   {
@@ -110,38 +111,13 @@ export default function ReptilesPage({ onOpenBooking }) {
         ogImage={heroBanner}
       />
 
-      {/* Hero Header */}
-      <section className="relative flex min-h-[460px] items-center py-24 sm:min-h-[540px] lg:min-h-[620px] lg:py-28 bg-[#07150c] text-white overflow-hidden">
-        <div className="absolute inset-0 z-0">
-          <img
-            src={heroBanner}
-            alt="Rajaji wildlife trail"
-            className="w-full h-full object-cover"
-            style={{ objectPosition: "center 35%" }}
-            onError={(e) => {
-              const img = e.currentTarget;
-              if (!img.dataset.fallbackUsed && safariImages.safariJeepTrail) {
-                img.dataset.fallbackUsed = "1";
-                img.src = safariImages.safariJeepTrail;
-              } else {
-                img.style.display = "none";
-              }
-            }}
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/65 via-black/30 to-[#07150c]/90" />
-        </div>
-
-        <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl space-y-4">
-            <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-[1.15]">
-              {heroTitle}
-            </h1>
-            <p className="text-base sm:text-lg text-emerald-100/80 leading-relaxed font-normal">
-              {heroSubtitle}
-            </p>
-          </div>
-        </div>
-      </section>
+      <PageHero
+        title={heroTitle}
+        subtitle={heroSubtitle}
+        image={repData.heroImages?.length ? repData.heroImages : heroBanner}
+        fallbackImage={safariImages.safariJeepTrail}
+        alt="Rajaji wildlife trail"
+      />
 
       {/* Species Grid */}
       <section className="relative z-10 py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">

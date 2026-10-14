@@ -11,6 +11,7 @@ import {
 import { safariImages, faqs, contactInfo, parkInfo } from '../data/safariData';
 import { submitContact } from '../api/client';
 import SEO from '../components/SEO';
+import PageHero from '../components/PageHero';
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -92,35 +93,13 @@ export default function ContactPage() {
         schemaJson={contactFaqSchema}
       />
 
-      {/* 1. HERO SECTION */}
-      <section className="relative min-h-[420px] lg:min-h-[460px] flex items-center justify-center text-center overflow-hidden bg-black text-white">
-        <div className="absolute inset-0 z-0">
-          <img
-            src={safariImages.contactHero}
-            alt="Chilla forest gate, Rajaji National Park"
-            className="w-full h-full object-cover opacity-65"
-            onError={(e) => {
-              const img = e.currentTarget;
-              if (!img.dataset.fallbackUsed && safariImages.tigerStalking) {
-                img.dataset.fallbackUsed = "1";
-                img.src = safariImages.tigerStalking;
-              } else {
-                img.style.display = "none";
-              }
-            }}
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-black/75" />
-        </div>
-
-        <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 py-16">
-          <h1 className="font-serif text-4xl sm:text-6xl lg:text-7xl font-bold text-white tracking-tight leading-[1.1] mb-4">
-            Get in Touch
-          </h1>
-          <p className="text-base sm:text-lg text-emerald-100/80 font-normal leading-relaxed max-w-xl mx-auto">
-            Have questions about your upcoming adventure? Our team is ready to help you plan the perfect safari experience.
-          </p>
-        </div>
-      </section>
+      <PageHero
+        title="Get in Touch"
+        subtitle="Have questions about your upcoming adventure? Our team is ready to help you plan the perfect safari experience."
+        image={safariImages.contactHero}
+        fallbackImage={safariImages.tigerStalking}
+        alt="Chilla forest gate, Rajaji National Park"
+      />
 
       {/* 2. CONTACT DETAILS & MESSAGE FORM */}
       <section className="relative z-10 py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-10">

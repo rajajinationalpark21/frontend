@@ -26,6 +26,7 @@ export const safariImages = {
 
   // Nature & Camps
   nightCamp: "/images/stay/wild-brook-stream.jpg",
+  tigerBgOverlay: "/images/tiger%20for%20bg%20overlay.jpg",
   pinkFlower: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=1000&q=85",
   mistyDarkPines: "https://images.unsplash.com/photo-1473448912268-2022ce9509d8?auto=format&fit=crop&w=1000&q=85",
   photographer: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=1000&q=85",

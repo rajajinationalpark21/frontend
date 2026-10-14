@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { 
-  Compass, MapPin, Clock, Calendar, ShieldCheck, 
+  Clock, Calendar, ShieldCheck, 
   Check, ArrowRight, Phone, MessageSquare, Ticket, 
   HelpCircle, AlertCircle, Share2, Sparkles 
 } from 'lucide-react';
@@ -12,6 +12,7 @@ import { SITE_URL } from '../seo/site';
 import { zoneSchema } from '../seo/schema';
 import PageLoader from '../components/PageLoader';
 import CallToAction from '../components/CallToAction';
+import PageHero from '../components/PageHero';
 
 export default function SafariZoneDetailPage({ onOpenBooking, defaultSlug }) {
   const params = useParams();
@@ -80,78 +81,13 @@ export default function SafariZoneDetailPage({ onOpenBooking, defaultSlug }) {
         schemaJson={zoneSchema(currentZone, SITE_URL)}
       />
 
-      {/* Hero Header with Inverted Tiger & Leaf Watermark Overlay */}
-      <section className="relative flex min-h-[520px] items-center py-20 sm:min-h-[600px] lg:min-h-[680px] lg:py-28 bg-[#07150c] text-white overflow-hidden border-b border-emerald-950/60">
-        <div className="absolute inset-0 z-0">
-          <img
-            src={currentZone.heroImage || safariImages.safariJeepSavannah}
-            alt={currentZone.name}
-            className="w-full h-full object-cover object-center scale-105"
-            onError={(e) => {
-              const img = e.currentTarget;
-              if (!img.dataset.fallbackUsed && safariImages.safariJeepSavannah) {
-                img.dataset.fallbackUsed = "1";
-                img.src = safariImages.safariJeepSavannah;
-              } else {
-                img.style.display = "none";
-              }
-            }}
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/55 to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/50" />
-        </div>
-
-
-
-        <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl space-y-5">
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-950/80 text-emerald-300 text-xs font-bold uppercase tracking-wider border border-emerald-500/30 backdrop-blur-md">
-                <Compass className="w-3.5 h-3.5 text-emerald-400" />
-                Rajaji Safari Zone
-              </span>
-              <span className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-white/10 text-emerald-100 text-xs font-semibold backdrop-blur-sm border border-white/10">
-                <MapPin className="w-3.5 h-3.5 text-amber-400" />
-                {currentZone.entryGate || "Official Park Gate"}
-              </span>
-            </div>
-
-            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-serif font-extrabold tracking-tight text-white leading-tight">
-              {currentZone.name}
-            </h1>
-
-            <p className="text-lg sm:text-xl text-emerald-100/80 font-light leading-relaxed">
-              {currentZone.tag}
-            </p>
-
-            {/* Quick Action Buttons */}
-            <div className="flex flex-wrap items-center gap-3 pt-4">
-              <button
-                onClick={handleBooking}
-                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-gradient-to-r from-emerald-500 to-safari-600 hover:from-emerald-600 hover:to-safari-700 text-white font-bold text-sm shadow-xl shadow-emerald-950/50 hover:shadow-emerald-500/25 transition hover:scale-105 active:scale-95"
-              >
-                <Ticket className="w-4 h-4" /> Book {currentZone.name}
-              </button>
-
-              <a
-                href={whatsappUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-5 py-3.5 rounded-xl bg-[#25D366] hover:bg-[#20ba59] text-white font-bold text-sm shadow-lg transition hover:scale-105 active:scale-95"
-              >
-                <MessageSquare className="w-4 h-4" /> WhatsApp Enquiry
-              </a>
-
-              <a
-                href={`tel:${phone.replace(/\s+/g, '')}`}
-                className="inline-flex items-center gap-2 px-5 py-3.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-sm border border-white/15 backdrop-blur-sm transition"
-              >
-                <Phone className="w-4 h-4 text-emerald-400" /> Call: {phone}
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
+      <PageHero
+        title={currentZone.name}
+        subtitle={currentZone.tag}
+        image={currentZone.heroImages?.length ? currentZone.heroImages : (currentZone.heroImage || safariImages.safariJeepSavannah)}
+        fallbackImage={safariImages.safariJeepSavannah}
+        alt={currentZone.name}
+      />
 
       {/* Meta Specs Bar */}
       <section className="relative z-10 bg-[#fdfcf8]/90 dark:bg-[#0a1a0f]/90 backdrop-blur-md border-y border-emerald-900/15 py-6">

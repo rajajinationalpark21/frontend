@@ -21,6 +21,23 @@ import { safariImages, contactInfo } from '../data/safariData';
 import { fetchContent } from '../api/client';
 import { submitBooking } from '../api/client';
 import SEO from '../components/SEO';
+import PageHero from '../components/PageHero';
+
+const DEFAULT_BOOKING_CONTENT = {
+  heroTitle: 'Book Your Rajaji Jeep Safari',
+  heroSubtitle: 'Share your preferred date, zone and visitor details. Our team will help you check availability, permit requirements and booking options.',
+  overviewTitle: 'Rajaji Safari Booking Overview',
+  overviewParagraphs: ['Use the form below to send your preferred safari date, zone and number of visitors. Our team will guide you through availability, charges and entry requirements.'],
+  enquiryTitle: 'Send Your Safari Enquiry',
+  enquirySubtitle: 'Our team will respond with availability and next steps.',
+  assistanceItems: ['Safari availability', 'Zone selection', 'Entry and permit requirements', 'Jeep/Gypsy booking'],
+  responseMessage: 'Our team will contact you with availability, tariff and permit details.',
+  guidelinesTitle: 'Booking guidelines',
+  guidelines: [],
+  contactPhones: [],
+  disclaimerTitle: 'Important information',
+  disclaimerParagraphs: [],
+};
 
 const DEFAULT_ZONES = [
   { id: 'chilla-jeep-safari', name: 'Chilla Range', tag: 'Sal Forests, Grasslands & Riverine Habitats', distance: 'Approx. 36 km Circular Route', highlights: 'Mundal and Ghasiram watchtowers, elephants, deer and birdlife', gates: 'Chilla Gate (Haridwar–Rishikesh bypass road)', image: safariImages.safariJeepSavannah },
@@ -36,6 +53,7 @@ const NON_SAFARI_SLUGS = ['chaurasi-kutiya-beatles-ashram'];
 
 export default function BookingPage() {
   const [zones, setZones] = useState(DEFAULT_ZONES);
+  const [bookingContent, setBookingContent] = useState(DEFAULT_BOOKING_CONTENT);
   const [selectedZone, setSelectedZone] = useState(DEFAULT_ZONES[0].id);
   const [date, setDate] = useState(() => {
     const d = new Date();
@@ -55,6 +73,8 @@ export default function BookingPage() {
   useEffect(() => {
     fetchContent()
       .then((data) => {
+        const booking = data?.data?.booking || data?.booking;
+        if (booking) setBookingContent((current) => ({ ...current, ...booking }));
         const safari = data?.data?.safari || data?.safari;
         if (safari?.zones && safari.zones.length > 0) {
           const mapped = safari.zones.filter((z) => !NON_SAFARI_SLUGS.includes(z.slug)).map((z, i) => ({
@@ -141,15 +161,23 @@ export default function BookingPage() {
   };
 
   return (
-    <div className="relative min-h-screen bg-[#fbfcfa] dark:bg-gray-950 transition-colors pt-6 pb-24">
+    <div className="relative min-h-screen bg-[#fbfcfa] dark:bg-gray-950 transition-colors pb-24">
       {/* Subtle organic botanical texture across page */}
       <div className="pattern-leaf-delicate fixed inset-0 opacity-[0.03] dark:opacity-[0.025] pointer-events-none z-0" />
 
       <SEO
-        ogImage={safariImages.chillaRiverbed}
+        ogImage={bookingContent.heroBanner || safariImages.chillaRiverbed}
       />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <PageHero
+        title={bookingContent.heroTitle}
+        subtitle={bookingContent.heroSubtitle}
+        image={bookingContent.heroImages?.length ? bookingContent.heroImages : (bookingContent.heroBanner || safariImages.chillaRiverbed)}
+        fallbackImage={safariImages.safariJeepSavannah}
+        alt="Rajaji safari landscape"
+      />
+
+      <div className="relative z-10 mx-auto max-w-7xl px-4 pt-6 sm:px-6 lg:px-8">
         {/* Breadcrumb Navigation */}
         <div className="flex items-center gap-2 py-3 mb-6 border-b border-gray-100 dark:border-gray-800 text-xs text-gray-500 dark:text-gray-400">
           <Link to="/" className="hover:text-emerald-600 dark:hover:text-emerald-400 transition">Home</Link>
@@ -159,15 +187,21 @@ export default function BookingPage() {
           <span className="text-gray-900 dark:text-white font-semibold">Safari Permit Inquiry</span>
         </div>
 
-        {/* Page Hero Header */}
-        <div className="mb-10 max-w-3xl">
-          <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-bold text-gray-950 dark:text-white tracking-tight leading-[1.15] mb-3">
-            Inquire for Safari Permit
-          </h1>
-          <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 leading-relaxed">
-            Daily visitor permits are strictly capped by forest department rules. Submit your inquiry to check quota availability for a registered 4x4 gypsy, licensed driver, and authorized forest naturalist.
-          </p>
-        </div>
+        <section className="mb-10 grid gap-6 rounded-3xl border border-emerald-950/10 bg-[#fdfcf8]/90 p-6 shadow-sm dark:border-emerald-500/20 dark:bg-[#0c1f13]/90 lg:grid-cols-[1.2fr_0.8fr] lg:p-8">
+          <div>
+            <h2 className="font-serif text-2xl font-bold text-gray-950 dark:text-white sm:text-3xl">{bookingContent.overviewTitle}</h2>
+            <div className="prose-balanced mt-4 space-y-3 text-sm leading-7 text-gray-600 dark:text-gray-300">
+              {(bookingContent.overviewParagraphs || []).map((paragraph, index) => <p key={index}>{paragraph}</p>)}
+            </div>
+          </div>
+          <div className="rounded-2xl bg-emerald-950 p-5 text-emerald-50">
+            <h3 className="font-serif text-xl font-bold">{bookingContent.enquiryTitle}</h3>
+            <p className="mt-2 text-sm leading-6 text-emerald-100/85">{bookingContent.enquirySubtitle}</p>
+            <ul className="mt-5 space-y-2 text-sm">
+              {(bookingContent.assistanceItems || []).map((item, index) => <li className="flex gap-2" key={index}><CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-emerald-300" />{item}</li>)}
+            </ul>
+          </div>
+        </section>
 
         {/* Confirmation State Screen */}
         {bookingConfirmed ? (
@@ -447,7 +481,7 @@ export default function BookingPage() {
                   </button>
                   <p className="text-center text-[11px] text-gray-400 dark:text-gray-500 mt-3 flex items-center justify-center gap-1.5">
                     <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
-                    Our team will contact you with official tariff and permit details.
+                    {bookingContent.responseMessage}
                   </p>
                 </div>
               </form>
@@ -457,21 +491,12 @@ export default function BookingPage() {
             <div className="mt-6 bg-[#fdfcf8]/90 dark:bg-[#0c1f13]/90 backdrop-blur-md rounded-3xl p-6 border border-emerald-950/10 dark:border-emerald-500/20 shadow-sm space-y-4">
               <h4 className="font-serif text-base font-bold text-gray-950 dark:text-white flex items-center gap-2">
                 <Info className="w-4 h-4 text-emerald-600" />
-                Official Booking Guidelines
+                {bookingContent.guidelinesTitle}
               </h4>
               <ul className="space-y-3 text-xs text-gray-600 dark:text-gray-300">
-                <li className="flex items-start gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-                  <span><strong>Original Photo ID:</strong> All passengers must carry the original ID provided during booking for gate verification.</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-                  <span><strong>Arrival Time:</strong> Please arrive at the designated zone entry gate 30 minutes before your scheduled shift.</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-                  <span><strong>Sanctuary Protocols:</strong> Zero plastic zone, muted clothing colors recommended, drones strictly forbidden.</span>
-                </li>
+                {(bookingContent.guidelines?.length ? bookingContent.guidelines : ['Carry the original photo ID used for the inquiry for gate verification.', 'Arrive at the designated zone entry gate before the scheduled reporting time.', 'Follow sanctuary protocols and instructions at the gate.']).map((item, index) => (
+                  <li className="flex items-start gap-2" key={index}><CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600" /><span>{item}</span></li>
+                ))}
               </ul>
             </div>
 
@@ -493,25 +518,19 @@ export default function BookingPage() {
                   <Phone className="w-3.5 h-3.5" />
                   Need Instant Assistance?
                 </div>
-                <h4 className="font-serif text-xl font-bold text-white mt-1">Direct Safari Booking Desk</h4>
+                <h4 className="font-serif text-xl font-bold text-white mt-1">{bookingContent.contactTitle || 'Safari booking assistance'}</h4>
                 <p className="text-xs text-emerald-100/80 leading-relaxed mt-1">
-                  Call or message our coordinators directly for custom group itineraries, corporate tours, or special photography permits.
+                  {bookingContent.contactAddress || 'Call or message our coordinators directly for booking assistance.'}
                 </p>
                 <div className="pt-4 flex flex-col sm:flex-row sm:items-center gap-4">
-                  <a href="tel:+919660871429" className="inline-flex items-center gap-2 text-xs font-bold text-white hover:text-emerald-300">
-                    <Phone className="w-3.5 h-3.5 text-emerald-400" /> +91-9660871429 (Kinshuk K.)
-                  </a>
-                  <a
-                    href={`https://wa.me/${whatsappNumber}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 text-xs font-bold text-[#25D366] hover:underline"
-                  >
-                    WhatsApp Permit Desk Available
-                  </a>
+                  {(bookingContent.contactPhones?.length ? bookingContent.contactPhones : [{ number: contactInfo.safari.phone }]).map((contact, index) => (
+                    <a key={`${contact.number}-${index}`} href={`tel:${contact.number.replace(/\D/g, '')}`} className="inline-flex items-center gap-2 text-xs font-bold text-white hover:text-emerald-300"><Phone className="h-3.5 w-3.5 text-emerald-400" /> {contact.number}</a>
+                  ))}
+                  <a href={`https://wa.me/${whatsappNumber}`} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-xs font-bold text-[#25D366] hover:underline">WhatsApp Permit Desk Available</a>
                 </div>
               </div>
             </div>
+            {bookingContent.disclaimerParagraphs?.length > 0 && <div className="mt-6 rounded-2xl border border-amber-200 bg-amber-50/80 p-5 text-xs leading-6 text-amber-900 dark:border-amber-900/50 dark:bg-amber-950/20 dark:text-amber-200"><h4 className="font-bold">{bookingContent.disclaimerTitle}</h4>{bookingContent.disclaimerParagraphs.map((paragraph, index) => <p className="mt-2" key={index}>{paragraph}</p>)}</div>}
           </div>
         )}
       </div>

@@ -4,6 +4,7 @@ import { safariImages } from '../data/safariData';
 import { fetchContent } from '../api/client';
 import SEO from '../components/SEO';
 import CoverImage from '../components/CoverImage';
+import PageHero from '../components/PageHero';
 
 export default function ButterfliesPage({ onOpenBooking }) {
   const [butterflies, setButterflies] = useState(null);
@@ -39,43 +40,13 @@ export default function ButterfliesPage({ onOpenBooking }) {
         ogImage={heroBanner}
       />
 
-      {/* Hero Header */}
-      <section className="relative flex min-h-[460px] items-center py-24 sm:min-h-[540px] border-b border-emerald-950/60 bg-[#07150c] text-white overflow-hidden">
-        <div className="absolute inset-0 z-0">
-          <img
-            src={heroBanner}
-            alt="Butterfly on forest flower"
-            className="w-full h-full object-cover"
-            style={{ objectPosition: "center 35%" }}
-            onError={(e) => {
-              const img = e.currentTarget;
-              if (!img.dataset.fallbackUsed && safariImages.pinkFlower) {
-                img.dataset.fallbackUsed = "1";
-                img.src = safariImages.pinkFlower;
-              } else {
-                img.style.display = "none";
-              }
-            }}
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/65 via-black/30 to-[#07150c]/90" />
-        </div>
-
-        <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl space-y-4">
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif font-extrabold tracking-tight text-white leading-tight">
-              {heroTitle || (
-                <>
-                  Butterflies & Insects <br className="hidden sm:block" />
-                  <span className="italic font-normal text-emerald-400">of Rajaji</span>
-                </>
-              )}
-            </h1>
-            <p className="text-base sm:text-lg text-emerald-100/80 font-light leading-relaxed pt-2">
-              {heroSubtitle}
-            </p>
-          </div>
-        </div>
-      </section>
+      <PageHero
+        title={heroTitle || "Butterflies & Insects of Rajaji"}
+        subtitle={heroSubtitle}
+        image={data.heroImages?.length ? data.heroImages : heroBanner}
+        fallbackImage={safariImages.pinkFlower}
+        alt="Butterfly on forest flower"
+      />
 
       {/* Overview & Mud Puddling */}
       <section className="relative z-10 py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">

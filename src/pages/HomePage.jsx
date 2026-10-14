@@ -20,6 +20,7 @@ import SEO from '../components/SEO';
 import FeedbackSection from '../components/FeedbackSection';
 import CallToAction from '../components/CallToAction';
 import PageLoader from '../components/PageLoader';
+import HeroImageRotator from '../components/HeroImageRotator';
 
 const fallbackGallery = [
   safariImages.walkingTiger,
@@ -38,6 +39,9 @@ const defaultHomeContent = {
   rules: "Do's & Don'ts Guide",
   aboutTitle: "About the National Park",
   aboutDescription: "Spread across sal forest, grassland and winding rivers, the park protects one of the region's richest concentrations of wildlife.",
+  aboutIntro: "Rajaji National Park is a significant wildlife conservation landscape in the Shiwalik foothills of Uttarakhand.",
+  aboutDetails: [],
+  aboutStats: [],
   aboutBadge: "EST. 1983",
   aboutImage: safariImages.walkingTiger,
   stats: {
@@ -102,6 +106,12 @@ export default function HomePage({ onOpenBooking }) {
         : displayGallery.length <= 6
           ? 'columns-1 sm:columns-2 lg:columns-3'
           : 'columns-2 md:columns-3 lg:columns-4';
+  const aboutIntro = content.aboutIntro || content.aboutDescription || defaultHomeContent.aboutIntro;
+  const legacyStats = [
+    { value: content.stats?.tigers || "50+", label: "Tigers Protected" },
+    { value: content.stats?.sqKm || content.stats?.forestArea || content.stats?.acres || "820+", label: "Sq Km of Forest" },
+  ];
+  const aboutStats = Array.isArray(content.aboutStats) && content.aboutStats.length ? content.aboutStats : legacyStats;
 
   if (loading) {
     return <PageLoader />;
@@ -121,13 +131,14 @@ export default function HomePage({ onOpenBooking }) {
       <section className="relative min-h-[640px] sm:min-h-[720px] flex items-center justify-center text-center">
         {/* Background Image with Dark Vignette Overlay */}
         <div className="absolute inset-0 overflow-hidden">
-          <div 
-            className="w-full h-full bg-cover bg-center bg-no-repeat transition-transform duration-1000 scale-105"
-            style={{ backgroundImage: `url("${content.heroBanner || safariImages.homeHero}")` }}
-          >
-            {/* Deep rich forest vignette overlay */}
-            <div className="absolute inset-0 bg-gradient-to-b from-black/75 via-black/45 to-black/85" />
-          </div>
+          <HeroImageRotator
+            image={content.heroImages?.length ? content.heroImages : content.heroBanner}
+            fallbackImage={safariImages.homeHero}
+            alt="Rajaji National Park"
+            imagePosition="center"
+          />
+          {/* Deep rich forest vignette overlay */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/75 via-black/45 to-black/85" />
         </div>
 
         {/* Hero Content */}
@@ -221,40 +232,20 @@ export default function HomePage({ onOpenBooking }) {
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-950 dark:text-white tracking-tight font-serif">
               {content.aboutTitle || "The Sanctuary Legacy"}
             </h2>
-            <p className="text-gray-600 dark:text-gray-300 leading-relaxed text-sm sm:text-base">
-              {content.aboutDescription || "Dedicated to conservation and protecting our wildlife for generations to come. Discover the story behind the sanctuary, our efforts in anti-poaching, and how we maintain the delicate balance of the ecosystem."}
-            </p>
-
-            {/* Statistics Counters */}
-            <div className="flex items-center gap-10 pt-3 border-l-2 border-safari-500 pl-6">
-              <div>
-                <div className="text-3xl sm:text-4xl font-extrabold text-gray-950 dark:text-white font-serif">
-                  {content.stats?.tigers || "50+"}
-                </div>
-                <div className="text-xs text-gray-500 dark:text-gray-400 font-medium mt-0.5">
-                  Tigers Protected
-                </div>
-              </div>
-              <div className="w-px h-10 bg-gray-200 dark:bg-gray-800" />
-              <div>
-                <div className="text-3xl sm:text-4xl font-extrabold text-gray-950 dark:text-white font-serif">
-                  {content.stats?.sqKm || content.stats?.forestArea || content.stats?.acres || "820+"}
-                </div>
-                <div className="text-xs text-gray-500 dark:text-gray-400 font-medium mt-0.5">
-                  Sq Km of Forest
-                </div>
-              </div>
+            <div className="prose-balanced text-sm leading-7 text-gray-600 dark:text-gray-300 sm:text-base sm:leading-8">
+              <p>{aboutIntro}</p>
             </div>
+            <Link to="/about" className="inline-flex items-center gap-2 text-sm font-bold text-emerald-700 transition hover:text-emerald-600 dark:text-emerald-400 dark:hover:text-emerald-300">
+              {content.aboutReadMoreLabel || "Read the full story"}<ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+            </Link>
 
-            {/* Link */}
-            <div className="pt-2">
-              <Link
-                to="/wildlife"
-                className="inline-flex items-center gap-2 font-bold text-gray-950 dark:text-white hover:text-safari-600 dark:hover:text-safari-400 transition group text-sm sm:text-base"
-              >
-                <span>Read Our Story</span>
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform" />
-              </Link>
+            <div className="grid grid-cols-2 gap-x-6 gap-y-5 border-l-2 border-safari-500 pl-6 sm:grid-cols-3">
+              {aboutStats.map((stat, index) => (
+                <div key={`${stat.value}-${index}`}>
+                  <div className="font-sans text-2xl font-extrabold tracking-tight tabular-nums text-emerald-800 dark:text-emerald-300 sm:text-3xl">{stat.value}</div>
+                  <div className="mt-1 text-xs font-semibold leading-4 text-gray-700 dark:text-gray-300">{stat.label}</div>
+                </div>
+              ))}
             </div>
           </div>
         </div>

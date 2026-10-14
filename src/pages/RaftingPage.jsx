@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Waves, ShieldCheck, Clock, MapPin, Check, Phone, MessageSquare, Ticket, Sparkles } from 'lucide-react';
-import { contactInfo, safariImages } from '../data/safariData';
+import { Waves, ShieldCheck, Clock, MapPin, Check, Sparkles } from 'lucide-react';
+import { safariImages } from '../data/safariData';
 import { fetchContent } from '../api/client';
 import SEO from '../components/SEO';
 import PageLoader from '../components/PageLoader';
 import CoverImage from '../components/CoverImage';
+import PageHero from '../components/PageHero';
 
 const fallbackRaftingStretches = [
   {
@@ -53,8 +54,6 @@ export default function RaftingPage({ onOpenBooking }) {
     return <PageLoader />;
   }
 
-  const phone = content?.settings?.contact?.phone || contactInfo.phone || "+91 98298 50501";
-  const whatsappUrl = `https://wa.me/${phone.replace(/\D/g, '')}?text=${encodeURIComponent("Hello! I would like to book River Rafting near Rajaji National Park and Rishikesh.")}`;
 
   const raftingData = content?.rafting || {};
   const stretchesList = (raftingData.stretches && raftingData.stretches.length > 0)
@@ -75,69 +74,7 @@ export default function RaftingPage({ onOpenBooking }) {
         ogImage={heroBanner}
       />
 
-      {/* Hero Header - Deep Forest with Tiger Watermark & Leaf Texture */}
-      <section className="relative py-24 lg:py-28 bg-[#07150c] text-white overflow-hidden">
-        <div className="absolute inset-0 z-0">
-          <img src={heroBanner} alt="River Rafting in Ganges" className="w-full h-full object-cover opacity-35 mix-blend-luminosity" />
-          <div className="absolute inset-0 bg-gradient-to-b from-[#040b06]/95 via-[#07150c]/85 to-[#07150c]" />
-        </div>
-
-        {/* Botanical leaf vein texture */}
-        <div className="pattern-leaf-veins absolute inset-0 opacity-10 pointer-events-none" />
-
-        {/* Tiger watermark stencil */}
-        <div 
-          className="absolute right-0 bottom-0 top-0 w-2/3 max-w-2xl bg-contain bg-right-bottom bg-no-repeat pointer-events-none opacity-[0.14]"
-          style={{
-            backgroundImage: `url("/images/tiger for bg overlay.jpg")`,
-            filter: 'invert(1)',
-            mixBlendMode: 'screen',
-          }}
-        />
-
-        {/* Corner foliage flourish */}
-        <div 
-          className="absolute -top-10 -left-10 w-60 h-60 bg-contain bg-no-repeat pointer-events-none opacity-20 filter invert"
-          style={{
-            backgroundImage: `url("/images/leaf for cta.jpg")`,
-            mixBlendMode: 'screen',
-          }}
-        />
-
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl space-y-5">
-            <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-[1.15]">
-              {pageTitle}
-            </h1>
-            <p className="text-base sm:text-lg text-emerald-100/80 leading-relaxed font-normal">
-              {pageSubtitle}
-            </p>
-
-            <div className="flex flex-wrap items-center gap-3 pt-3">
-              <button
-                onClick={() => onOpenBooking ? onOpenBooking() : navigate('/booking')}
-                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider shadow-lg shadow-emerald-950/40 transition duration-200 hover:scale-105 active:scale-95"
-              >
-                <Ticket className="w-4 h-4" /> Book Rafting Session
-              </button>
-              <a
-                href={whatsappUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-[#25D366] hover:bg-[#20ba59] text-white font-bold text-xs uppercase tracking-wider shadow-md transition duration-200 hover:scale-105 active:scale-95"
-              >
-                <MessageSquare className="w-4 h-4" /> WhatsApp Booking
-              </a>
-              <a
-                href={`tel:${phone.replace(/\s+/g, '')}`}
-                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-white/10 hover:bg-white/15 text-white font-bold text-xs border border-white/15 transition backdrop-blur-sm"
-              >
-                <Phone className="w-4 h-4 text-emerald-400" /> {phone}
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
+      <PageHero title={pageTitle} subtitle={pageSubtitle} image={raftingData.heroImages?.length ? raftingData.heroImages : heroBanner} fallbackImage={safariImages.riverCruise} alt="River rafting in Ganges" />
 
       {/* Stretches List */}
       <section className="relative z-10 py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">

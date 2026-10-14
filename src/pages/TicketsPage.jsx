@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Ticket, DollarSign, Camera, Car, ShieldCheck, AlertCircle, HelpCircle, CheckCircle2, Loader2, Phone, MessageSquare, Video, ArrowRight, FileText } from 'lucide-react';
+import { Ticket, DollarSign, Camera, Car, ShieldCheck, AlertCircle, HelpCircle, CheckCircle2, Loader2, Phone, Video, ArrowRight } from 'lucide-react';
 import { safariImages, contactInfo } from '../data/safariData';
 import { fetchContent } from '../api/client';
 import SEO from '../components/SEO';
 import PageLoader from '../components/PageLoader';
 import CallToAction from '../components/CallToAction';
+import PageHero from '../components/PageHero';
 
 export default function TicketsPage({ onOpenBooking }) {
   const [tickets, setTickets] = useState(null);
@@ -91,82 +92,13 @@ export default function TicketsPage({ onOpenBooking }) {
         ogImage={heroBanner}
       />
 
-      {/* Hero Header */}
-      <section className="relative min-h-[560px] sm:min-h-[640px] lg:min-h-[700px] flex items-center justify-center text-left overflow-hidden">
-        <div className="absolute inset-0 overflow-hidden">
-          <img
-            src={heroBanner}
-            alt="Safari vehicle entering Rajaji"
-            className="w-full h-full object-cover object-[center_35%] transition-transform duration-700"
-            onError={(e) => {
-              const img = e.currentTarget;
-              if (!img.dataset.fallbackUsed && safariImages.safariJeepSavannah) {
-                img.dataset.fallbackUsed = "1";
-                img.src = safariImages.safariJeepSavannah;
-              } else {
-                img.style.display = "none";
-              }
-            }}
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/45 to-black/65" />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-black/40" />
-        </div>
-
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 w-full">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-            {/* Left Column: Heading, description, and Terms & Rules Button */}
-            <div className="lg:col-span-7 space-y-5">
-              <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-[1.15]">
-                {heroTitle}
-              </h1>
-              <p className="text-base sm:text-lg text-emerald-100/90 leading-relaxed font-normal max-w-2xl">
-                {heroSubtitle}
-              </p>
-
-              {/* Terms and Rules button added here */}
-              <div className="pt-2">
-                <Link
-                  to="/rajaji-jeep-safari-terms-conditions-cancellation-refund"
-                  className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider shadow-lg shadow-emerald-950/40 transition duration-200 hover:scale-105 active:scale-95"
-                >
-                  <FileText className="w-4 h-4" /> Terms & Rules
-                </Link>
-              </div>
-            </div>
-
-            {/* Other Side (Right Column): The three buttons moved here */}
-            <div className="lg:col-span-5 flex flex-col items-start lg:items-end justify-center pt-2 lg:pt-0">
-              <div className="bg-black/45 backdrop-blur-md p-5 sm:p-6 rounded-3xl border border-white/15 space-y-3.5 w-full sm:w-auto shadow-2xl">
-                <span className="text-[11px] font-bold uppercase tracking-widest text-emerald-300 block">
-                  Booking & Assistance
-                </span>
-                <div className="flex flex-col gap-2.5">
-                  <button
-                    onClick={onOpenBooking}
-                    className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider shadow-md transition duration-200 hover:scale-105 active:scale-95 whitespace-nowrap"
-                  >
-                    <Ticket className="w-4 h-4" /> Book Safari Online
-                  </button>
-                  <a
-                    href={whatsappUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-[#25D366] hover:bg-[#20ba59] text-white font-bold text-xs uppercase tracking-wider shadow-md transition duration-200 hover:scale-105 active:scale-95 whitespace-nowrap"
-                  >
-                    <MessageSquare className="w-4 h-4" /> WhatsApp Assistance
-                  </a>
-                  <a
-                    href={`tel:${phone.replace(/\s+/g, '')}`}
-                    className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-white/10 hover:bg-white/15 text-white font-bold text-xs border border-white/15 transition backdrop-blur-sm whitespace-nowrap"
-                  >
-                    <Phone className="w-4 h-4 text-emerald-400" /> {phone}
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <PageHero
+        title={heroTitle}
+        subtitle={heroSubtitle}
+        image={data.heroImages?.length ? data.heroImages : heroBanner}
+        fallbackImage={safariImages.safariJeepSavannah}
+        alt="Safari vehicle entering Rajaji"
+      />
 
       {/* Timings banner */}
       <section className="relative z-10 bg-[#fdfcf8]/90 dark:bg-gray-900/80 backdrop-blur-md border-y border-emerald-950/10 dark:border-emerald-500/20 py-6">

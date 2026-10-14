@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Compass, Feather, Home, Waves, ArrowRight, Phone, MessageSquare, Ticket } from 'lucide-react';
-import { safariImages, contactInfo } from '../data/safariData';
+import { Compass, Feather, Home, Waves, ArrowRight } from 'lucide-react';
+import { safariImages } from '../data/safariData';
 import { fetchContent } from '../api/client';
 import SEO from '../components/SEO';
 import PageLoader from '../components/PageLoader';
 import CallToAction from '../components/CallToAction';
+import PageHero from '../components/PageHero';
 
 const fallbackActivities = [
   {
@@ -65,8 +66,6 @@ export default function ActivitiesPage({ onOpenBooking }) {
     return <PageLoader />;
   }
 
-  const phone = content?.settings?.contact?.phone || contactInfo.phone || "+91 98298 50501";
-  const whatsappUrl = `https://wa.me/${phone.replace(/\D/g, '')}?text=${encodeURIComponent("Hello! I would like to enquire about activities at Rajaji National Park (Safari, Birdwatching, Stay, Rafting).")}`;
 
   const activitiesList = (content?.activities?.items && content.activities.items.length > 0)
     ? content.activities.items
@@ -85,55 +84,12 @@ export default function ActivitiesPage({ onOpenBooking }) {
         ogImage={heroBanner}
       />
 
-      {/* Hero Header */}
-      <section className="relative min-h-[560px] sm:min-h-[640px] lg:min-h-[700px] flex items-center justify-center text-center overflow-hidden">
-        <div className="absolute inset-0 overflow-hidden">
-          <div 
-            className="w-full h-full bg-cover bg-no-repeat transition-transform duration-700"
-            style={{ 
-              backgroundImage: `url("${heroBanner}")`,
-              backgroundPosition: 'center 35%'
-            }}
-          >
-            {/* Soft neutral vignette keeping photo bright & vibrant */}
-            <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/25 to-black/75" />
-          </div>
-        </div>
-
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl space-y-5">
-            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-serif font-extrabold tracking-tight text-white leading-tight">
-              {pageTitle}
-            </h1>
-            <p className="text-base sm:text-lg text-emerald-100/80 font-light leading-relaxed">
-              {pageSubtitle}
-            </p>
-
-            <div className="flex flex-wrap items-center gap-3 pt-3">
-              <button
-                onClick={() => onOpenBooking ? onOpenBooking() : navigate('/booking')}
-                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-gradient-to-r from-emerald-500 to-safari-600 hover:from-emerald-600 hover:to-safari-700 text-white font-bold text-sm shadow-xl shadow-emerald-950/50 hover:shadow-emerald-500/25 transition hover:scale-105 active:scale-95"
-              >
-                <Ticket className="w-4 h-4" /> Book an Experience
-              </button>
-              <a
-                href={whatsappUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-5 py-3.5 rounded-xl bg-[#25D366] hover:bg-[#20ba59] text-white font-bold text-sm shadow-md transition hover:scale-105 active:scale-95"
-              >
-                <MessageSquare className="w-4 h-4" /> WhatsApp Enquiry
-              </a>
-              <a
-                href={`tel:${phone.replace(/\s+/g, '')}`}
-                className="inline-flex items-center gap-2 px-5 py-3.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-sm border border-white/15 backdrop-blur-sm transition"
-              >
-                <Phone className="w-4 h-4 text-emerald-400" /> {phone}
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
+      <PageHero
+        title={pageTitle}
+        subtitle={pageSubtitle}
+        image={content?.activities?.heroImages?.length ? content.activities.heroImages : heroBanner}
+        alt="Activities in Rajaji National Park"
+      />
 
       {/* Activities Grid */}
       <section className="relative z-10 py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

@@ -6,6 +6,7 @@ import FloatingActions from './components/FloatingActions';
 
 // Client Sitemap Pages
 import HomePage from './pages/HomePage';
+import AboutPage from './pages/AboutPage';
 import TicketsPage from './pages/TicketsPage';
 import TermsConditionsPage from './pages/TermsConditionsPage';
 import SafariZonesPage from './pages/SafariZonesPage';
@@ -50,6 +51,7 @@ function MainLayout() {
         <Routes>
           {/* 1. Page – Home (About Rajaji) */}
           <Route path="/" element={<HomePage onOpenBooking={handleOpenBooking} />} />
+          <Route path="/about" element={<AboutPage onOpenBooking={handleOpenBooking} />} />
 
           {/* 2. Page – Tickets, Entry Fees & Safari Charges */}
           <Route path="/tickets" element={<TicketsPage onOpenBooking={handleOpenBooking} />} />
@@ -129,7 +131,6 @@ function MainLayout() {
           <Route path="/faq" element={<FAQPage onOpenBooking={handleOpenBooking} />} />
 
           {/* Legacy URL redirects to client-requested pages */}
-          <Route path="/about" element={<Navigate to="/" replace />} />
           <Route path="/gallery" element={<Navigate to="/wildlife" replace />} />
           <Route path="/eco-tourism" element={<Navigate to="/activities" replace />} />
           <Route path="/how-to-reach" element={<Navigate to="/contact" replace />} />

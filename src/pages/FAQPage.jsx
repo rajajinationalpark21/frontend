@@ -7,6 +7,7 @@ import SEO from '../components/SEO';
 import { faqSchema } from '../seo/schema';
 import PageLoader from '../components/PageLoader';
 import CallToAction from '../components/CallToAction';
+import PageHero from '../components/PageHero';
 
 const fallbackFaqs = [
   {
@@ -88,43 +89,13 @@ export default function FAQPage({ onOpenBooking }) {
         schemaJson={faqSchema(faqsList)}
       />
 
-      {/* Hero Header — Seamless full-width background */}
-      <section className="relative min-h-[500px] sm:min-h-[560px] lg:min-h-[640px] flex items-center overflow-hidden bg-stone-900 text-white">
-        {/* Full bleed image background */}
-        <div className="absolute inset-0 z-0">
-          <img
-            src={heroBanner}
-            alt="Rajaji National Park wildlife"
-            className="w-full h-full object-cover object-center scale-105 transition-transform duration-1000"
-            onError={(e) => {
-              const img = e.currentTarget;
-              if (!img.dataset.fallbackUsed && safariImages.walkingTiger) {
-                img.dataset.fallbackUsed = "1";
-                img.src = safariImages.walkingTiger;
-              }
-            }}
-          />
-          {/* Subtle text readability scrim */}
-          <div className="absolute inset-0 bg-black/45" />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/25 to-transparent" />
-        </div>
-
-        <div className="relative z-10 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-20">
-          <div className="max-w-3xl space-y-4">
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif font-extrabold tracking-tight text-white leading-tight">
-              {heroTitle || (
-                <>
-                  Frequently Asked <br className="hidden sm:block" />
-                  <span className="italic font-normal text-emerald-300">Questions (FAQ)</span>
-                </>
-              )}
-            </h1>
-            <p className="text-base sm:text-lg text-white/90 font-normal leading-relaxed pt-2 drop-shadow">
-              {heroSubtitle}
-            </p>
-          </div>
-        </div>
-      </section>
+      <PageHero
+        title={heroTitle || "Frequently Asked Questions (FAQ)"}
+        subtitle={heroSubtitle}
+        image={content?.faqs?.heroImages?.length ? content.faqs.heroImages : heroBanner}
+        fallbackImage={safariImages.walkingTiger}
+        alt="Rajaji National Park wildlife"
+      />
 
       {/* FAQ Accordion Section */}
       <section className="relative z-10 py-20 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
