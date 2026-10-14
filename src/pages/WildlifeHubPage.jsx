@@ -25,7 +25,9 @@ export default function WildlifeHubPage() {
 
   const heroTitle = fauna.title || "Wildlife & Biodiversity of Rajaji Tiger Reserve";
   const heroSubtitle = fauna.subtitle || "Extending across 820 sq km of the Shivalik hills, alluvial floodplains, and Ganges riverbeds in Uttarakhand, Rajaji represents one of Northern India's most biodiverse wildlife landscapes.";
-  const heroBanner = (fauna.heroBanner && fauna.heroBanner.trim()) || "/images/wildlife/mammals/tiger.png";
+  // The hub has its own header photo; older content falls back to the Mammals one.
+  const hubHeroBanner = fauna.hubHeroBanner && fauna.hubHeroBanner.trim();
+  const heroBanner = hubHeroBanner || (fauna.heroBanner && fauna.heroBanner.trim()) || "/images/wildlife/mammals/tiger.png";
 
   const wildlifeCategories = [
     {
@@ -84,9 +86,9 @@ export default function WildlifeHubPage() {
       <PageHero
         title={heroTitle}
         subtitle={heroSubtitle}
-        image={fauna.heroImages?.length ? fauna.heroImages : heroBanner}
+        image={!hubHeroBanner && fauna.heroImages?.length ? fauna.heroImages : heroBanner}
         fallbackImage={safariImages.walkingTiger}
-        alt="Tiger in the Sal forests of Rajaji"
+        alt={hubHeroBanner ? "Safari Gypsy watching a wild Asian elephant herd crossing riverine forest in Rajaji Tiger Reserve" : "Tiger in the Sal forests of Rajaji"}
       />
 
       {/* Hub Navigation Grid */}
