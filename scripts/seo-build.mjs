@@ -6,7 +6,9 @@
  * answer engines and social link previews do not. For each indexable URL this
  * writes a static HTML file into dist/ carrying that page's own title, meta
  * tags, canonical, JSON-LD and readable text content, taken from the same CMS
- * content the React page renders. React replaces the text when it mounts.
+ * content the React page renders. The text is visually hidden (it would flash
+ * as unstyled text before React mounts) but stays readable to crawlers, and is
+ * shown when JavaScript is off. React replaces it when it mounts.
  *
  * Also writes sitemap.xml, robots.txt and llms.txt for the resolved site URL.
  */
@@ -331,7 +333,14 @@ function renderPage(template, page) {
   }
 
   const nav = `<nav>${NAV.map(([href, text]) => link(href, text)).join(' · ')}</nav>`;
-  const body = `<div style="max-width:880px;margin:0 auto;padding:24px 16px;font-family:system-ui,sans-serif;line-height:1.6">${nav}<main>${page.body}</main></div>`;
+  const hidden = 'position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0';
+  const body = `<div id="seo-snapshot" style="${hidden}">${nav}<main>${page.body}</main></div>`;
+  const noscript =
+    '<noscript><style>#seo-snapshot{position:static!important;width:auto!important;height:auto!important;margin:0 auto!important;' +
+    'padding:24px 16px!important;overflow:visible!important;clip:auto!important;white-space:normal!important;max-width:880px;' +
+    'font-family:system-ui,sans-serif;line-height:1.6}</style></noscript>';
+  html = html.replace('</head>', () => `  ${noscript}
+  </head>`);
   return html.replace('<div id="root"></div>', () => `<div id="root">${body}</div>`);
 }
 

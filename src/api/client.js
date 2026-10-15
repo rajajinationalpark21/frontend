@@ -22,12 +22,25 @@ async function request(endpoint, options = {}) {
   return data;
 }
 
+// Site content and the blog list are fetched once per page load and shared by
+// every component, so moving between pages needs no new request.
+const shared = {};
+function once(key, endpoint) {
+  if (!shared[key]) {
+    shared[key] = request(endpoint).catch((error) => {
+      delete shared[key]; // let the next caller retry
+      throw error;
+    });
+  }
+  return shared[key];
+}
+
 export function fetchContent() {
-  return request("content/get");
+  return once("content", "content/get");
 }
 
 export function fetchBlogs() {
-  return request("blogs/get");
+  return once("blogs", "blogs/get");
 }
 
 export function fetchBlog(id) {

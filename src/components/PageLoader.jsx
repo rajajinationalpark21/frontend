@@ -1,7 +1,19 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Loader2 } from 'lucide-react';
 
-export default function PageLoader({ text = "Loading..." }) {
+// The spinner appears only when loading takes longer than this; a fast load
+// goes straight to the page.
+const SHOW_AFTER_MS = 400;
+
+export default function PageLoader() {
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setVisible(true), SHOW_AFTER_MS);
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (!visible) return <div className="min-h-screen bg-[#faf8f5] dark:bg-[#07120a]" />;
   return (
     <div className="min-h-screen bg-[#faf8f5] dark:bg-[#07120a] flex flex-col items-center justify-center transition-colors">
       <div className="relative flex items-center justify-center mb-4">
