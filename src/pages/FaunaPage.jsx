@@ -7,6 +7,9 @@ import SEO from '../components/SEO';
 import CoverImage from '../components/CoverImage';
 import ThumbImage from '../components/ThumbImage';
 import PageHero from '../components/PageHero';
+import GroupDropdownCard from '../components/GroupDropdownCard';
+import { DocSection } from '../components/DocContent';
+import PhotoGallery from '../components/PhotoGallery';
 
 export default function FaunaPage({ onOpenBooking }) {
   const [fauna, setFauna] = useState(null);
@@ -50,6 +53,9 @@ export default function FaunaPage({ onOpenBooking }) {
         alt="Royal Bengal Tiger in Rajaji"
       />
 
+      {/* The client's page document: intro and sections not shown below */}
+      <DocSection blocks={data.docBlocks} onBooking={onOpenBooking} />
+
       {/* Prime Attractions */}
       <section className="relative z-10 py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
         <div>
@@ -80,36 +86,23 @@ export default function FaunaPage({ onOpenBooking }) {
           </div>
         </div>
 
-        {/* Herbivores & Carnivores Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          <div className="bg-[#fdfcf8]/90 dark:bg-[#0c1f13]/90 backdrop-blur-md p-8 rounded-3xl border border-emerald-950/10 dark:border-emerald-500/20 shadow-sm">
-            <h3 className="font-serif text-2xl font-bold text-gray-900 dark:text-white mb-6">Herbivores & Grazers</h3>
-            <div className="space-y-3.5">
-              {herbivores.map((h, hIdx) => (
-                <div key={hIdx} className="bg-gray-50/80 dark:bg-gray-800/50 p-4 rounded-2xl border border-gray-100 dark:border-gray-700/60 flex items-center gap-3">
-                  <ThumbImage src={h.image} alt={h.name} icon={PawPrint} />
-                  <div className="flex-1 flex flex-col sm:flex-row sm:items-center justify-between gap-1">
-                    <span className="font-bold text-gray-900 dark:text-white text-sm">{h.name}</span>
-                    <span className="text-xs text-gray-500 dark:text-gray-400">{h.info}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="bg-[#fdfcf8]/90 dark:bg-[#0c1f13]/90 backdrop-blur-md p-8 rounded-3xl border border-emerald-950/10 dark:border-emerald-500/20 shadow-sm">
-            <h3 className="font-serif text-2xl font-bold text-gray-900 dark:text-white mb-6">Carnivores & Forest Hunters</h3>
-            <div className="space-y-3.5">
-              {carnivores.map((c, cIdx) => (
-                <div key={cIdx} className="bg-gray-50/80 dark:bg-gray-800/50 p-4 rounded-2xl border border-gray-100 dark:border-gray-700/60 flex items-center gap-3">
-                  <ThumbImage src={c.image} alt={c.name} icon={PawPrint} />
-                  <div className="flex-1 flex flex-col sm:flex-row sm:items-center justify-between gap-1">
-                    <span className="font-bold text-gray-900 dark:text-white text-sm">{c.name}</span>
-                    <span className="text-xs text-gray-500 dark:text-gray-400">{c.info}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
+        {/* Herbivores & Carnivores: each group's animals open as a dropdown on hover or tap */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {[
+            { title: 'Herbivores & Grazers', items: herbivores },
+            { title: 'Carnivores & Forest Hunters', items: carnivores },
+          ]
+            .filter((group) => group.items.length > 0)
+            .map((group) => (
+              <GroupDropdownCard
+                key={group.title}
+                title={group.title}
+                image={group.items.find((item) => item.image)?.image}
+                icon={PawPrint}
+                items={group.items.map((item) => ({ name: item.name, info: item.info, image: item.image }))}
+                thumbs
+              />
+            ))}
         </div>
 
         {/* Reptilian Diversity */}
@@ -144,6 +137,8 @@ export default function FaunaPage({ onOpenBooking }) {
           </div>
         )}
       </section>
+
+      <PhotoGallery title={data.galleryTitle || 'Mammals of Rajaji – Photo Gallery'} images={data.galleryImages} />
     </div>
   );
 }

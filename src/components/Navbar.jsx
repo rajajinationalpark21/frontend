@@ -15,9 +15,12 @@ import {
   Waves,
   HelpCircle,
   PhoneCall,
-  BookOpen
+  BookOpen,
+  MapPin
 } from 'lucide-react';
 import ThemeSelector from './ThemeSelector';
+import MapNudge from './MapNudge';
+import { contactInfo } from '../data/safariData';
 
 export default function Navbar({ onOpenBooking }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -70,9 +73,8 @@ export default function Navbar({ onOpenBooking }) {
       name: 'Activities',
       basePath: '/activities',
       items: [
-        { name: 'Activities Overview', path: '/activities', icon: Compass, desc: 'Safari, Birding, Stay & Rafting' },
+        { name: 'Activities Overview', path: '/activities', icon: Compass, desc: 'Safari, Stay & Rafting' },
         { name: 'Jungle Safari / Jeep Safari', path: '/zones', icon: Navigation, desc: '4x4 open Gypsy forest safaris' },
-        { name: 'Bird Watching', path: '/birds-of-rajaji-national-park', icon: Feather, desc: '400+ avian species & expert guides' },
         { name: 'Stay in Rajaji', path: '/stay', icon: Home, desc: 'Forest Rest Houses & eco-cottages' },
         { name: 'River Rafting', path: '/rafting', icon: Waves, desc: 'White-water rapids on the Ganges' },
       ]
@@ -383,6 +385,19 @@ export default function Navbar({ onOpenBooking }) {
           {/* 10. Action Book Now CTA Button & Theme Selector */}
           <div className="hidden xl:flex items-center gap-3">
             <ThemeSelector />
+            <div className="relative">
+              <a
+                href={contactInfo.mapUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                title="Open Rajaji National Park in Google Maps"
+                className="inline-flex items-center gap-1.5 px-4 py-2.5 text-sm font-bold text-emerald-800 dark:text-emerald-300 border border-emerald-900/20 dark:border-emerald-500/30 hover:bg-emerald-50 dark:hover:bg-emerald-950/50 rounded-full transition duration-200"
+              >
+                <MapPin className="w-4 h-4" />
+                Map
+              </a>
+              <MapNudge arrowClass="right-[34px]" />
+            </div>
             <button
               onClick={onOpenBooking}
               className="inline-flex items-center justify-center px-6 py-2.5 text-sm font-bold text-white bg-safari-500 hover:bg-safari-600 active:scale-[0.98] rounded-full shadow-sm hover:shadow-md transition duration-200"
@@ -394,6 +409,19 @@ export default function Navbar({ onOpenBooking }) {
           {/* Mobile hamburger button */}
           <div className="flex xl:hidden items-center gap-2">
             <ThemeSelector />
+            <div className="relative">
+              <a
+                href={contactInfo.mapUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Open Rajaji National Park in Google Maps"
+                className="inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-bold text-emerald-800 dark:text-emerald-300 border border-emerald-900/20 dark:border-emerald-500/30 rounded-full"
+              >
+                <MapPin className="w-3.5 h-3.5" />
+                <span className="hidden sm:inline">Map</span>
+              </a>
+              <MapNudge boxClass="-right-[88px] sm:right-0" arrowClass="right-[100px] sm:right-6" />
+            </div>
             <button
               onClick={onOpenBooking}
               className="px-3.5 py-1.5 text-xs font-bold text-white bg-safari-500 rounded-full"

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Ticket, DollarSign, Camera, Car, ShieldCheck, AlertCircle, HelpCircle, CheckCircle2, Loader2, Phone, Video, ArrowRight } from 'lucide-react';
 import { safariImages, contactInfo } from '../data/safariData';
 import { fetchContent } from '../api/client';
@@ -7,10 +7,13 @@ import SEO from '../components/SEO';
 import PageLoader from '../components/PageLoader';
 import CallToAction from '../components/CallToAction';
 import PageHero from '../components/PageHero';
+import DocContent from '../components/DocContent';
+import PhotoGallery from '../components/PhotoGallery';
 
 export default function TicketsPage({ onOpenBooking }) {
   const [tickets, setTickets] = useState(null);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchContent()
@@ -24,7 +27,9 @@ export default function TicketsPage({ onOpenBooking }) {
   }
 
   const data = tickets || {};
-  const heroTitle = data.title || "Rajaji National Park Jeep Safari – Tickets, Entry Fees & Charges";
+  // The client's Tickets document, when loaded, replaces the tariff tables below.
+  const docBlocks = data.docBlocks?.length ? data.docBlocks : null;
+  const heroTitle = (docBlocks && data.docTitle) || data.title || "Rajaji National Park Jeep Safari – Tickets, Entry Fees & Charges";
   const heroSubtitle = data.subtitle || "Transparent, government-standard park entry fees, 4x4 Gypsy tariffs, naturalist guide charges, and seasonal timings for Indian citizens and foreign visitors.";
   const heroBanner = data.heroBanner || safariImages.safariJeepSavannah;
   const timings = data.timings || {
@@ -138,6 +143,16 @@ export default function TicketsPage({ onOpenBooking }) {
       {/* Main Tariff Tables */}
       <section className="relative z-10 py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
         
+        {docBlocks ? (
+          <DocContent
+            className="max-w-5xl mx-auto space-y-8"
+            blocks={docBlocks}
+            onBooking={onOpenBooking || (() => navigate('/booking'))}
+            phones={[phone]}
+            message="Hello! I would like to book a Rajaji National Park Jeep Safari and check permit availability."
+          />
+        ) : (
+        <>
         {/* Entrance Fee Table */}
         <div>
           <div className="mb-6">
@@ -283,6 +298,9 @@ export default function TicketsPage({ onOpenBooking }) {
           </div>
         </div>
 
+        </>
+        )}
+
         {/* Important Rules Checklist & Terms Link */}
         <div className="bg-[#fdfcf8]/90 dark:bg-[#0c1f13]/90 backdrop-blur-md p-8 sm:p-10 rounded-3xl border border-emerald-950/10 dark:border-emerald-500/20 shadow-sm space-y-6">
           <div className="flex flex-wrap items-center justify-between gap-4">
@@ -309,6 +327,8 @@ export default function TicketsPage({ onOpenBooking }) {
         </div>
 
       </section>
+
+      <PhotoGallery title="Rajaji Jeep Safari Photos" images={data.galleryImages} />
 
       {/* Unified Call To Action matching HomePage */}
       <CallToAction

@@ -51,9 +51,9 @@ export const ROUTE_SEO = {
   },
   '/activities': {
     name: 'Activities',
-    title: 'Activities at Rajaji National Park | Jeep Safari, Bird Watching, Stay & Rafting',
+    title: 'Activities at Rajaji National Park | Jeep Safari, Stay & Rafting',
     description:
-      'Things to do at Rajaji National Park: jeep safari, bird watching, forest stays and river rafting on the Ganga near Rishikesh and Haridwar.',
+      'Things to do at Rajaji National Park: jeep safari, forest stays and river rafting on the Ganga near Rishikesh and Haridwar.',
     priority: 0.7,
     changefreq: 'monthly',
   },

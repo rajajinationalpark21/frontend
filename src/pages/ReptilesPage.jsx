@@ -7,6 +7,8 @@ import SEO from '../components/SEO';
 import PageLoader from '../components/PageLoader';
 import CoverImage from '../components/CoverImage';
 import PageHero from '../components/PageHero';
+import { DocSection } from '../components/DocContent';
+import PhotoGallery from '../components/PhotoGallery';
 
 const defaultReptiles = [
   {
@@ -119,6 +121,9 @@ export default function ReptilesPage({ onOpenBooking }) {
         alt="Rajaji wildlife trail"
       />
 
+      {/* The client's page document: intro and sections not shown below */}
+      <DocSection blocks={repData.docBlocks} onBooking={onOpenBooking} />
+
       {/* Species Grid */}
       <section className="relative z-10 py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         <div>
@@ -167,6 +172,9 @@ export default function ReptilesPage({ onOpenBooking }) {
           ))}
         </div>
 
+        {/* Photo gallery: photos added in the admin panel */}
+        <PhotoGallery title={repData.galleryTitle || 'Reptiles of Rajaji – Photo Gallery'} images={repData.galleryImages} embedded />
+
         {/* Safety & Guidelines Alert */}
         <div className="bg-amber-50/70 dark:bg-amber-950/20 border border-amber-200/60 dark:border-amber-800/40 rounded-3xl p-8 space-y-3">
           <div className="flex items-center gap-2 text-amber-900 dark:text-amber-200 font-bold text-base">
@@ -202,6 +210,7 @@ export default function ReptilesPage({ onOpenBooking }) {
           </div>
         </div>
       </section>
+
     </div>
   );
 }

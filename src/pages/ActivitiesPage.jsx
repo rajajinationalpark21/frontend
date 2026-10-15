@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Compass, Feather, Home, Waves, ArrowRight } from 'lucide-react';
+import { Compass, Home, Waves, ArrowRight } from 'lucide-react';
 import { safariImages } from '../data/safariData';
 import { fetchContent } from '../api/client';
 import SEO from '../components/SEO';
@@ -16,14 +16,6 @@ const fallbackActivities = [
     desc: "Explore Rajaji Tiger Reserve on a guided Jeep Safari across six safari zones: Chilla, Motichur, Ranipur, Mohand–Chillawali, Jhilmil Jheel and Gohri. Depending on the season and natural conditions, visitors may encounter Asian Elephants, deer, Wild Boar, birds and other wildlife.",
     image: safariImages.safariJeepSavannah,
     cta: "Explore Safari Zones",
-  },
-  {
-    title: "Bird Watching",
-    tagline: "400+ Avian Species & Expert Guides",
-    slug: "/birds-of-rajaji-national-park",
-    desc: "Explore prime Important Bird Area (IBA) river corridors and Sal canopies with specialised nature guides. Spot Great Hornbills, Crested Kingfishers, Pallas's Fish Eagles, and seasonal migratory waterfowl.",
-    image: safariImages.kingfisher,
-    cta: "View Bird Watching Guide",
   },
   {
     title: "Stay in Rajaji",
@@ -45,7 +37,6 @@ const fallbackActivities = [
 
 const activityIcons = {
   "/zones": Compass,
-  "/birds-of-rajaji-national-park": Feather,
   "/stay": Home,
   "/rafting": Waves,
 };
@@ -72,7 +63,7 @@ export default function ActivitiesPage({ onOpenBooking }) {
     : fallbackActivities;
 
   const pageTitle = content?.activities?.title || "Activities at Rajaji National Park";
-  const pageSubtitle = content?.activities?.subtitle || "From adrenaline-fueled 4x4 jeep safaris and white-water rafting to peaceful birdwatching trails and secluded forest stays in the foothills of Uttarakhand.";
+  const pageSubtitle = content?.activities?.subtitle || "From adrenaline-fueled 4x4 jeep safaris and white-water rafting to secluded forest stays in the foothills of Uttarakhand.";
   const heroBanner = content?.activities?.heroBanner || safariImages.safariJeepSavannah;
 
   return (
@@ -93,7 +84,7 @@ export default function ActivitiesPage({ onOpenBooking }) {
 
       {/* Activities Grid */}
       <section className="relative z-10 py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10">
+        <div className={`grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10 ${activitiesList.length === 3 ? 'lg:grid-cols-3' : ''}`}>
           {activitiesList.map((act, idx) => {
             const IconComponent = activityIcons[act.slug] || Compass;
             return (

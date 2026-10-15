@@ -23,6 +23,7 @@ export default function Footer() {
   const address = contact.address || contactInfo.address;
   const phone = contact.phone || contactInfo.phone;
   const secondaryPhone = contact.secondaryPhone || contactInfo.secondaryPhone;
+  const tertiaryPhone = contact.tertiaryPhone || contactInfo.tertiaryPhone;
   const email = contact.email || contactInfo.email;
   const youtubeUrl = social.youtube || contactInfo.social.youtube;
   const instagramUrl = social.instagram || contactInfo.social.instagram;
@@ -76,19 +77,19 @@ export default function Footer() {
                 <MapPin className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
                 <span>{address}</span>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
                 <Phone className="w-4 h-4 text-emerald-400 shrink-0" />
                 <a href={`tel:${phone.replace(/\s+/g, '')}`} className="font-semibold text-emerald-400 hover:underline">
                   {phone}
                 </a>
-                {secondaryPhone && (
-                  <>
+                {[secondaryPhone, tertiaryPhone].filter(Boolean).map((number) => (
+                  <React.Fragment key={number}>
                     <span className="text-gray-500">|</span>
-                    <a href={`tel:${secondaryPhone.replace(/\s+/g, '')}`} className="hover:underline text-gray-300">
-                      {secondaryPhone}
+                    <a href={`tel:${number.replace(/\s+/g, '')}`} className="hover:underline text-gray-300">
+                      {number}
                     </a>
-                  </>
-                )}
+                  </React.Fragment>
+                ))}
               </div>
               <div className="flex items-center gap-2">
                 <Mail className="w-4 h-4 text-emerald-400 shrink-0" />

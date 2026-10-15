@@ -237,6 +237,7 @@ export const contactInfo = {
   tertiaryPhone: "+91 99829 07130",
   whatsapp: "+91 98298 50501",
   email: "jeepsafarirajajinationalpark@gmail.com",
+  mapUrl: "https://maps.google.com/?q=Chilla+Range+Rajaji+National+Park",
   safari: {
     name: "Dr. Chaturbhuj / Safari Desk",
     phone: "+91 98298 50501",

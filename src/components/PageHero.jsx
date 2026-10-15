@@ -25,7 +25,12 @@ export default function PageHero({
 
       <div className="relative z-10 mx-auto max-w-4xl px-4 py-20 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-3xl">
-          <h1 className="mb-4 font-serif text-4xl font-bold tracking-tight text-white sm:text-5xl md:text-6xl">
+          {/* Long document titles ("Chilla Range – Rajaji National Park | ...") get a smaller size. */}
+          <h1
+            className={`mb-4 font-serif font-bold tracking-tight text-white ${
+              String(title || "").length > 48 ? "text-3xl sm:text-4xl md:text-5xl" : "text-4xl sm:text-5xl md:text-6xl"
+            }`}
+          >
             {title}
           </h1>
           {subtitle && (

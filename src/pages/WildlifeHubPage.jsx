@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Feather, ShieldCheck, Trees, Sparkles, ArrowRight } from 'lucide-react';
 import { safariImages } from '../data/safariData';
 import { fetchContent } from '../api/client';
 import SEO from '../components/SEO';
 import CallToAction from '../components/CallToAction';
 import PageHero from '../components/PageHero';
+import DocContent from '../components/DocContent';
 
 export default function WildlifeHubPage() {
   const [content, setContent] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchContent()
@@ -23,7 +25,9 @@ export default function WildlifeHubPage() {
   const flora = content?.flora || {};
   const butterflies = content?.butterflies || {};
 
-  const heroTitle = fauna.title || "Wildlife & Biodiversity of Rajaji Tiger Reserve";
+  // The client's Wildlife & Biodiversity document, when loaded, replaces the category grid.
+  const docBlocks = fauna.hubDocBlocks?.length ? fauna.hubDocBlocks : null;
+  const heroTitle = (docBlocks && fauna.hubDocTitle) || fauna.title || "Wildlife & Biodiversity of Rajaji Tiger Reserve";
   const heroSubtitle = fauna.subtitle || "Extending across 820 sq km of the Shivalik hills, alluvial floodplains, and Ganges riverbeds in Uttarakhand, Rajaji represents one of Northern India's most biodiverse wildlife landscapes.";
   // The hub has its own header photo; older content falls back to the Mammals one.
   const hubHeroBanner = fauna.hubHeroBanner && fauna.hubHeroBanner.trim();
@@ -85,13 +89,22 @@ export default function WildlifeHubPage() {
 
       <PageHero
         title={heroTitle}
-        subtitle={heroSubtitle}
+        subtitle={docBlocks ? null : heroSubtitle}
         image={!hubHeroBanner && fauna.heroImages?.length ? fauna.heroImages : heroBanner}
         fallbackImage={safariImages.walkingTiger}
         alt={hubHeroBanner ? "Safari Gypsy watching a wild Asian elephant herd crossing riverine forest in Rajaji Tiger Reserve" : "Tiger in the Sal forests of Rajaji"}
       />
 
-      {/* Hub Navigation Grid */}
+      {docBlocks ? (
+        <section className="relative z-10 py-16 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <DocContent
+            blocks={docBlocks}
+            onBooking={() => navigate('/booking')}
+            message="Hello! I would like to book a Rajaji Jeep Safari."
+            linkImages={Object.fromEntries(wildlifeCategories.map((cat) => [cat.slug, cat.image]))}
+          />
+        </section>
+      ) : (
       <section className="relative z-10 py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         <div className="text-center max-w-2xl mx-auto space-y-2">
           <span className="text-xs font-bold uppercase tracking-widest text-emerald-600 dark:text-emerald-400 block">
@@ -150,6 +163,7 @@ export default function WildlifeHubPage() {
           })}
         </div>
       </section>
+      )}
 
       {/* Unified Call To Action matching HomePage */}
       <CallToAction

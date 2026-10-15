@@ -3,9 +3,10 @@ import { Feather, Compass, Check, AlertCircle, Sparkles, MapPin, Loader2 } from 
 import { safariImages } from '../data/safariData';
 import { fetchContent } from '../api/client';
 import SEO from '../components/SEO';
-import CoverImage from '../components/CoverImage';
+import GroupDropdownCard from '../components/GroupDropdownCard';
 import ThumbImage from '../components/ThumbImage';
 import PageHero from '../components/PageHero';
+import { DocSection } from '../components/DocContent';
 
 export default function BirdsPage({ onOpenBooking }) {
   const [birds, setBirds] = useState(null);
@@ -60,25 +61,28 @@ export default function BirdsPage({ onOpenBooking }) {
         alt="Crested Kingfisher at Rajaji"
       />
 
+      {/* The client's page document: intro and sections not shown below */}
+      <DocSection blocks={data.docBlocks} onBooking={onOpenBooking} />
+
       {/* Birding Stats Ribbon */}
       <section className="relative z-10 py-8 bg-[#fdfcf8]/85 dark:bg-[#0c1f13]/85 backdrop-blur-md border-b border-emerald-950/10 dark:border-emerald-500/15">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
             <div>
-              <div className="font-serif text-3xl font-bold text-gray-900 dark:text-white">{stats.totalSpecies || '400+'}</div>
-              <div className="text-xs text-gray-500 dark:text-gray-400 font-medium mt-1">Recorded Species</div>
+              <div className="font-sans text-3xl sm:text-4xl font-extrabold leading-none tracking-tight tabular-nums text-gray-900 dark:text-white">{stats.totalSpecies || '400+'}</div>
+              <div className="mt-2 text-sm font-semibold text-gray-700 dark:text-gray-200">Recorded Species</div>
             </div>
             <div>
-              <div className="font-serif text-3xl font-bold text-emerald-600 dark:text-emerald-400">{stats.residentSpecies || '151'}</div>
-              <div className="text-xs text-gray-500 dark:text-gray-400 font-medium mt-1">Resident Species</div>
+              <div className="font-sans text-3xl sm:text-4xl font-extrabold leading-none tracking-tight tabular-nums text-emerald-700 dark:text-emerald-300">{stats.residentSpecies || '151'}</div>
+              <div className="mt-2 text-sm font-semibold text-gray-700 dark:text-gray-200">Resident Species</div>
             </div>
             <div>
-              <div className="font-serif text-3xl font-bold text-blue-600 dark:text-cyan-400">{stats.winterMigrants || '87'}</div>
-              <div className="text-xs text-gray-500 dark:text-gray-400 font-medium mt-1">Winter Migrants</div>
+              <div className="font-sans text-3xl sm:text-4xl font-extrabold leading-none tracking-tight tabular-nums text-sky-700 dark:text-sky-300">{stats.winterMigrants || '87'}</div>
+              <div className="mt-2 text-sm font-semibold text-gray-700 dark:text-gray-200">Winter Migrants</div>
             </div>
             <div>
-              <div className="font-serif text-3xl font-bold text-amber-600 dark:text-amber-400">{stats.woodpeckers || '11'}</div>
-              <div className="text-xs text-gray-500 dark:text-gray-400 font-medium mt-1">Woodpecker Species</div>
+              <div className="font-sans text-3xl sm:text-4xl font-extrabold leading-none tracking-tight tabular-nums text-amber-700 dark:text-amber-300">{stats.woodpeckers || '11'}</div>
+              <div className="mt-2 text-sm font-semibold text-gray-700 dark:text-gray-200">Woodpecker Species</div>
             </div>
           </div>
         </div>
@@ -125,25 +129,17 @@ export default function BirdsPage({ onOpenBooking }) {
           <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">Explore the flagship bird groups inhabiting the canopy, waterways, and grasslands of Rajaji.</p>
         </div>
 
+        {/* Family cards: the species of each family open as a dropdown on hover or tap */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {families.map((fam, idx) => (
-            <div key={idx} className="group bg-[#fdfcf8]/90 dark:bg-[#0c1f13]/90 backdrop-blur-md rounded-3xl p-7 border border-emerald-950/10 dark:border-emerald-500/20 shadow-sm hover:border-emerald-500/40 hover:shadow-2xl transition duration-500 flex flex-col justify-between">
-              <div>
-                <CoverImage src={fam.image} alt={fam.group} icon={Feather} className="-mx-7 -mt-7 mb-5" />
-                <h3 className="font-serif text-xl font-bold text-gray-900 dark:text-white mb-2">{fam.group}</h3>
-                <p className="text-xs text-gray-500 dark:text-gray-400 mb-6 leading-relaxed">{fam.desc}</p>
-                <div className="space-y-2">
-                  {(fam.species || []).map((sp, sIdx) => (
-                    <div key={sIdx} className="text-xs sm:text-sm text-gray-700 dark:text-gray-300 font-medium">
-                      <span>{sp}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <div className="mt-6 pt-4 border-t border-emerald-900/10 dark:border-emerald-800/40 text-[11px] text-gray-400 dark:text-emerald-200/60">
-                Sighted across Sal canopy & riparian zones
-              </div>
-            </div>
+            <GroupDropdownCard
+              key={idx}
+              title={(fam.group || '').replace(/\s*\(\d+\s+species\)\s*$/i, '')}
+              image={fam.image}
+              icon={Feather}
+              desc={fam.desc}
+              items={(fam.species || []).filter(Boolean).map((name) => ({ name }))}
+            />
           ))}
         </div>
 

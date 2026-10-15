@@ -3,8 +3,10 @@ import { Sparkles, Compass, CheckCircle2, Loader2 } from 'lucide-react';
 import { safariImages } from '../data/safariData';
 import { fetchContent } from '../api/client';
 import SEO from '../components/SEO';
-import CoverImage from '../components/CoverImage';
+import GroupDropdownCard from '../components/GroupDropdownCard';
 import PageHero from '../components/PageHero';
+import { DocSection } from '../components/DocContent';
+import PhotoGallery from '../components/PhotoGallery';
 
 export default function ButterfliesPage({ onOpenBooking }) {
   const [butterflies, setButterflies] = useState(null);
@@ -27,6 +29,15 @@ export default function ButterfliesPage({ onOpenBooking }) {
 
   const data = butterflies || {};
   const species = data.species || [];
+  // Species grouped by family, largest family first.
+  const families = Object.values(
+    species.reduce((groups, item) => {
+      const name = item.family || 'Other';
+      groups[name] = groups[name] || { name, items: [] };
+      groups[name].items.push({ name: item.name, info: item.habitat, image: item.image });
+      return groups;
+    }, {})
+  ).sort((a, b) => b.items.length - a.items.length);
   const heroTitle = data.title;
   const heroSubtitle = data.subtitle || data.overview;
   const heroBanner = data.heroBanner || safariImages.pinkFlower;
@@ -47,6 +58,9 @@ export default function ButterfliesPage({ onOpenBooking }) {
         fallbackImage={safariImages.pinkFlower}
         alt="Butterfly on forest flower"
       />
+
+      {/* The client's page document: intro and sections not shown below */}
+      <DocSection blocks={data.docBlocks} onBooking={onOpenBooking} />
 
       {/* Overview & Mud Puddling */}
       <section className="relative z-10 py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
@@ -72,33 +86,25 @@ export default function ButterfliesPage({ onOpenBooking }) {
             <span className="text-xs font-bold tracking-widest text-emerald-700 dark:text-emerald-400 uppercase">Entomological Registry</span>
           </div>
           <h3 className="text-2xl sm:text-3xl font-serif font-bold text-gray-900 dark:text-emerald-50 mb-8">
-            Prominent Butterfly Species
+            Prominent Butterfly Families
           </h3>
+          {/* One card per family; its species open as a dropdown on hover or tap */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {species.map((item, idx) => (
-              <div 
-                key={idx} 
-                className="group relative bg-[#fdfcf8]/90 dark:bg-[#0c1e13]/90 backdrop-blur-md p-7 rounded-2xl border border-emerald-900/15 dark:border-emerald-800/40 shadow-sm hover:shadow-xl hover:border-emerald-500/40 transition-all duration-300 flex flex-col justify-between overflow-hidden"
-              >
-                <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-500/5 rounded-full blur-2xl group-hover:bg-emerald-500/10 transition" />
-                <CoverImage src={item.image} alt={item.name} icon={Sparkles} rounded="rounded-t-2xl" className="-mx-7 -mt-7 mb-5" />
-                <div>
-                  <span className="text-xs font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-400 block mb-2">
-                    Family: {item.family}
-                  </span>
-                  <h4 className="text-xl font-serif font-bold text-gray-900 dark:text-emerald-50 mb-3">
-                    {item.name}
-                  </h4>
-                  {item.habitat && (
-                    <p className="text-xs sm:text-sm text-gray-600 dark:text-emerald-100/70 leading-relaxed">
-                      <strong className="text-emerald-800 dark:text-emerald-300 font-semibold">Habitat:</strong> {item.habitat}
-                    </p>
-                  )}
-                </div>
-              </div>
+            {families.map((family) => (
+              <GroupDropdownCard
+                key={family.name}
+                title={family.name}
+                image={family.items.find((item) => item.image)?.image}
+                icon={Sparkles}
+                items={family.items}
+                thumbs
+              />
             ))}
           </div>
         </div>
+
+        {/* Photo gallery: photos added in the admin panel */}
+        <PhotoGallery title={data.galleryTitle || 'Butterflies of Rajaji – Photo Gallery'} images={data.galleryImages} embedded />
 
         {/* CTA with Deep Forest & Tiger Stencil */}
         <div className="relative overflow-hidden p-8 sm:p-10 rounded-3xl bg-[#07150c] text-white border border-emerald-800/40 shadow-2xl flex flex-col sm:flex-row items-center justify-between gap-6">
@@ -126,6 +132,7 @@ export default function ButterfliesPage({ onOpenBooking }) {
           </button>
         </div>
       </section>
+
     </div>
   );
 }

@@ -13,6 +13,8 @@ import { zoneSchema } from '../seo/schema';
 import PageLoader from '../components/PageLoader';
 import CallToAction from '../components/CallToAction';
 import PageHero from '../components/PageHero';
+import DocContent from '../components/DocContent';
+import PhotoGallery from '../components/PhotoGallery';
 
 export default function SafariZoneDetailPage({ onOpenBooking, defaultSlug }) {
   const params = useParams();
@@ -66,7 +68,10 @@ export default function SafariZoneDetailPage({ onOpenBooking, defaultSlug }) {
 
   const phone = contactInfo.phone || "+91 98298 50501";
   const whatsappNum = phone.replace(/\D/g, '');
-  const whatsappUrl = `https://wa.me/${whatsappNum}?text=${encodeURIComponent(`Hello! I would like to book a safari for ${currentZone.name} in Rajaji National Park.`)}`;
+  const whatsappMessage = `Hello! I would like to book a safari for ${currentZone.name} in Rajaji National Park.`;
+  const whatsappUrl = `https://wa.me/${whatsappNum}?text=${encodeURIComponent(whatsappMessage)}`;
+  // The client's page document, when loaded, replaces the generic sections below.
+  const docBlocks = currentZone.docBlocks?.length ? currentZone.docBlocks : null;
 
   return (
     <div className="relative min-h-screen bg-[#faf8f5] dark:bg-[#07120a] transition-colors">
@@ -82,8 +87,8 @@ export default function SafariZoneDetailPage({ onOpenBooking, defaultSlug }) {
       />
 
       <PageHero
-        title={currentZone.name}
-        subtitle={currentZone.tag}
+        title={(docBlocks && currentZone.docTitle) || currentZone.name}
+        subtitle={(docBlocks && currentZone.docKicker?.join(' · ')) || currentZone.tag}
         image={currentZone.heroImages?.length ? currentZone.heroImages : (currentZone.heroImage || safariImages.safariJeepSavannah)}
         fallbackImage={safariImages.safariJeepSavannah}
         alt={currentZone.heroImageAlt || currentZone.name}
@@ -137,6 +142,15 @@ export default function SafariZoneDetailPage({ onOpenBooking, defaultSlug }) {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
           
           {/* Main 2 Columns: Description & Features */}
+          {docBlocks ? (
+            <DocContent
+              className="lg:col-span-2 space-y-8 min-w-0"
+              blocks={docBlocks}
+              onBooking={handleBooking}
+              phones={[phone]}
+              message={whatsappMessage}
+            />
+          ) : (
           <div className="lg:col-span-2 space-y-10">
             
             {/* Overview */}
@@ -239,6 +253,7 @@ export default function SafariZoneDetailPage({ onOpenBooking, defaultSlug }) {
             </div>
             )}
           </div>
+          )}
 
           {/* Right Sidebar: Booking Form & Other Zones */}
           <div className="space-y-8">
@@ -346,29 +361,8 @@ export default function SafariZoneDetailPage({ onOpenBooking, defaultSlug }) {
         </div>
       </section>
 
-      {/* Zone gallery: the client's photos for this zone, managed in the backend */}
-      {currentZone.galleryImages?.length > 0 && (
-        <section className="relative z-10 pb-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl sm:text-3xl font-bold text-gray-950 dark:text-white tracking-tight font-serif mb-8">
-            {currentZone.name} Gallery
-          </h2>
-          <div className="columns-1 sm:columns-2 lg:columns-3 gap-5">
-            {currentZone.galleryImages.filter(Boolean).map((src, index) => (
-              <div
-                key={`${src}-${index}`}
-                className="mb-5 break-inside-avoid rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition group bg-gray-200 dark:bg-gray-800 border border-gray-100 dark:border-gray-800"
-              >
-                <img
-                  src={src}
-                  alt={`${currentZone.name} photo ${index + 1}`}
-                  loading="lazy"
-                  className="w-full h-auto block group-hover:scale-105 transition duration-500"
-                />
-              </div>
-            ))}
-          </div>
-        </section>
-      )}
+      {/* Zone gallery: every client photo for this zone, managed in the backend */}
+      <PhotoGallery title={`${currentZone.name} Gallery`} images={currentZone.galleryImages} />
 
       {/* Unified Call To Action matching HomePage */}
       <CallToAction
