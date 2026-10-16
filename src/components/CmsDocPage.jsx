@@ -6,6 +6,7 @@ import Breadcrumb from './Breadcrumb';
 import PageLoader from './PageLoader';
 import DocContent from './DocContent';
 import PhotoGallery from './PhotoGallery';
+import ZoomableImage from './ZoomableImage';
 import NotFoundPage from '../pages/NotFoundPage';
 
 /**
@@ -44,17 +45,9 @@ export default function CmsDocPage({ section, parent, onOpenBooking }) {
       {page.mapImage && (
         <section className="relative z-10 pt-8 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <figure className="bg-[#fdfcf8]/90 dark:bg-[#0c1f13]/90 rounded-3xl p-3 sm:p-5 border border-emerald-900/15 dark:border-emerald-800/40 shadow-sm">
-            <a href={page.mapImage} target="_blank" rel="noopener noreferrer" className="block overflow-hidden rounded-2xl bg-white">
-              <img
-                src={page.mapImage}
-                alt={page.mapImageAlt || `${title} – route map`}
-                loading="lazy"
-                decoding="async"
-                className="w-full h-auto"
-              />
-            </a>
+            <ZoomableImage src={page.mapImage} alt={page.mapImageAlt || `${title} – route map`} />
             <figcaption className="mt-3 text-center text-xs text-gray-500 dark:text-emerald-200/60">
-              Map not to scale · Tap the map to open it full size
+              Map not to scale · Double-tap to zoom, drag to move
             </figcaption>
           </figure>
         </section>
