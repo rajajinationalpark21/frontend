@@ -90,7 +90,7 @@ export default function Navbar({ onOpenBooking }) {
     {
       label: 'Activities', path: '/activities', children: [
         { label: 'Activities Overview', path: '/activities', desc: 'Safari, Stay & Rafting' },
-        { label: 'Jungle Safari / Jeep Safari', path: '/rajaji-jeep-safari', desc: '' },
+        { label: 'Jungle Safari / Jeep Safari', path: '/rajaji-jeep-safari', desc: '4x4 open Gypsy forest safaris' },
         { label: 'Stay in Rajaji', path: '/stay-near-rajaji-national-park', desc: 'Forest Rest Houses & eco-cottages' },
         { label: 'River Rafting', path: '/river-rafting-rishikesh', desc: 'White-water rapids on the Ganges' },
       ],
