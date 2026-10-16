@@ -113,7 +113,10 @@ function docHtml(blocks = []) {
 }
 
 /** A page that is only its CMS section: heading and client document. */
-const docPage = (key) => (c) => `<h1>${esc(c[key]?.title || c[key]?.docTitle)}</h1>${p(c[key]?.subtitle)}${docHtml(c[key]?.docBlocks)}`;
+const docPage = (key) => (c) =>
+  `<h1>${esc(c[key]?.title || c[key]?.docTitle)}</h1>${p(c[key]?.subtitle)}` +
+  (c[key]?.mapImage ? `<p><img src="${esc(c[key].mapImage)}" alt="${esc(c[key].mapImageAlt)}" loading="lazy"></p>` : '') +
+  docHtml(c[key]?.docBlocks);
 
 // ── Page bodies ─────────────────────────────────────────────────────────────
 function contactBlock(settings) {
