@@ -20,7 +20,6 @@ import {
 } from 'lucide-react';
 import ThemeSelector from './ThemeSelector';
 import MapNudge from './MapNudge';
-import { contactInfo } from '../data/safariData';
 import { fetchContent } from '../api/client';
 
 const MENU_ICONS = [
@@ -112,13 +111,11 @@ export default function Navbar({ onOpenBooking }) {
   ];
 
   const [cmsMenu, setCmsMenu] = useState(null);
-  const [mapUrl, setMapUrl] = useState(contactInfo.mapUrl);
   useEffect(() => {
     fetchContent()
       .then((res) => {
         const navigation = (res.data?.settings?.navigation || []).filter((entry) => entry.label && entry.path);
         if (navigation.length) setCmsMenu(navigation);
-        if (res.data?.settings?.contact?.mapUrl) setMapUrl(res.data.settings.contact.mapUrl);
       })
       .catch(() => {});
   }, []);
@@ -128,6 +125,8 @@ export default function Navbar({ onOpenBooking }) {
   const bookingEntry = fullMenu.find((entry) => entry.path === '/booking');
   const menu = fullMenu.filter((entry) => entry !== bookingEntry);
   const bookingLabel = bookingEntry?.label || 'Book Now';
+  // The Map button opens the same page as the menu's "How to Reach" entry.
+  const reachPath = fullMenu.find((entry) => /how to reach/i.test(entry.label))?.path || '/how-to-reach';
 
   const isEntryActive = (entry) => {
     const path = location.pathname;
@@ -246,16 +245,14 @@ export default function Navbar({ onOpenBooking }) {
           <div className="hidden xl:flex items-center gap-2.5 shrink-0">
             <ThemeSelector />
             <div className="relative">
-              <a
-                href={mapUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                title="Open Rajaji National Park in Google Maps"
+              <Link
+                to={reachPath}
+                title="How to reach Rajaji National Park"
                 className="inline-flex items-center gap-1.5 whitespace-nowrap px-3.5 py-2.5 text-sm font-bold text-emerald-800 dark:text-emerald-300 border border-emerald-900/20 dark:border-emerald-500/30 hover:bg-emerald-50 dark:hover:bg-emerald-950/50 rounded-full transition duration-200"
               >
                 <MapPin className="w-4 h-4" />
                 Map
-              </a>
+              </Link>
               <MapNudge arrowClass="right-[34px]" />
             </div>
             <button
@@ -270,16 +267,14 @@ export default function Navbar({ onOpenBooking }) {
           <div className="flex xl:hidden items-center gap-2">
             <ThemeSelector />
             <div className="relative">
-              <a
-                href={mapUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Open Rajaji National Park in Google Maps"
+              <Link
+                to={reachPath}
+                aria-label="How to reach Rajaji National Park"
                 className="inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-bold text-emerald-800 dark:text-emerald-300 border border-emerald-900/20 dark:border-emerald-500/30 rounded-full"
               >
                 <MapPin className="w-3.5 h-3.5" />
                 <span className="hidden sm:inline">Map</span>
-              </a>
+              </Link>
               <MapNudge boxClass="-right-[88px] sm:right-0" arrowClass="right-[100px] sm:right-6" />
             </div>
             <button
