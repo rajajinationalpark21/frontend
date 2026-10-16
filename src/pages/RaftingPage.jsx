@@ -7,6 +7,8 @@ import SEO from '../components/SEO';
 import PageLoader from '../components/PageLoader';
 import CoverImage from '../components/CoverImage';
 import PageHero from '../components/PageHero';
+import { DocSection } from '../components/DocContent';
+import PhotoGallery from '../components/PhotoGallery';
 
 const fallbackRaftingStretches = [
   {
@@ -74,7 +76,15 @@ export default function RaftingPage({ onOpenBooking }) {
         ogImage={heroBanner}
       />
 
-      <PageHero title={pageTitle} subtitle={pageSubtitle} image={raftingData.heroImages?.length ? raftingData.heroImages : heroBanner} fallbackImage={safariImages.riverCruise} alt="River rafting in Ganges" />
+      <PageHero title={pageTitle} subtitle={pageSubtitle} image={raftingData.heroImages?.length ? raftingData.heroImages : heroBanner} fallbackImage={safariImages.riverCruise} alt={raftingData.heroImageAlt || "River rafting in Ganges"} />
+
+      {/* The client's "Rafting" document */}
+      <DocSection blocks={raftingData.docBlocks} onBooking={onOpenBooking} />
+      {raftingData.docBlocks?.length > 0 && (
+        <div className="relative z-10 pt-12">
+          <PhotoGallery title={raftingData.galleryTitle} images={raftingData.galleryImages || []} altPrefix={raftingData.heroImageAlt || pageTitle} />
+        </div>
+      )}
 
       {/* Stretches List */}
       <section className="relative z-10 py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">

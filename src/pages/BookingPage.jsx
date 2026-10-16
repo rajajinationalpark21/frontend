@@ -42,7 +42,7 @@ const DEFAULT_BOOKING_CONTENT = {
 const DEFAULT_ZONES = [
   { id: 'chilla-jeep-safari', name: 'Chilla Range', tag: 'Sal Forests, Grasslands & Riverine Habitats', distance: 'Approx. 36 km Circular Route', highlights: 'Mundal and Ghasiram watchtowers, elephants, deer and birdlife', gates: 'Chilla Gate (Haridwar–Rishikesh bypass road)', image: safariImages.safariJeepSavannah },
   { id: 'ranipur-gate-jeep-safari', name: 'Haridwar Zone / Ranipur Gate', tag: 'Jeep Safari & Leopard Safari near Haridwar', distance: 'Approx. 25 km Safari Route', highlights: 'Mixed forest and grassland, elephants, deer and leopard habitat', gates: 'Ranipur Gate (near the Ranipur and BHEL area, Haridwar)', image: safariImages.safariJeepSavannah },
-  { id: 'chillawali-jeep-safari', name: 'Chillawali Zone / Mohand Gate', tag: 'Peaceful Leopard Safari in the Shivalik Foothills', distance: 'Approx. 30–36 km Track', highlights: 'Quiet Shivalik foothill forests, leopards and forest birds', gates: 'Mohand Gate (near Ganeshpur, Dehradun–Haridwar highway)', image: safariImages.safariJeepSavannah },
+  { id: 'chillawali-jeep-safari-mohand-gate', name: 'Chillawali Zone / Mohand Gate', tag: 'Peaceful Leopard Safari in the Shivalik Foothills', distance: 'Approx. 30–36 km Track', highlights: 'Quiet Shivalik foothill forests, leopards and forest birds', gates: 'Mohand Gate (near Ganeshpur, Dehradun–Haridwar highway)', image: safariImages.safariJeepSavannah },
   { id: 'motichur-jeep-safari', name: 'Motichur Safari Zone', tag: 'Sal Forests, Elephants & Forest Birdlife', distance: 'Approx. 25 km Circular Route', highlights: 'Sal forests, Asian Elephant, Chital, Sambar and forest birds', gates: 'Motichur Gate (Haridwar–Rishikesh route)', image: safariImages.safariJeepSavannah },
   { id: 'jhilmil-jheel-safari', name: 'Jhilmil Jheel Safari & Conservation Reserve', tag: 'Wetland Reserve – Swamp Deer (Barasingha) Habitat', distance: '', highlights: 'Swamp Deer habitat, wetlands, grasslands and 238 recorded bird species', gates: 'Haridwar–Najibabad road, approx. 20 km from Haridwar', image: safariImages.safariJeepSavannah },
   { id: 'gohri-range-safari', name: 'Gohri Range Safari', tag: 'Peaceful Buffer-Zone Safari near Rishikesh & Haridwar', distance: '', highlights: 'Quiet forest routes, elephant and deer habitats, birdwatching', gates: 'Gohri Range (near Rishikesh and Haridwar)', image: safariImages.safariJeepSavannah },
@@ -174,7 +174,7 @@ export default function BookingPage() {
         subtitle={bookingContent.heroSubtitle}
         image={bookingContent.heroImages?.length ? bookingContent.heroImages : (bookingContent.heroBanner || safariImages.chillaRiverbed)}
         fallbackImage={safariImages.safariJeepSavannah}
-        alt="Rajaji safari landscape"
+        alt={bookingContent.heroImageAlt || "Rajaji safari landscape"}
       />
 
       <div className="relative z-10 mx-auto max-w-7xl px-4 pt-6 sm:px-6 lg:px-8">
@@ -524,7 +524,7 @@ export default function BookingPage() {
                 </p>
                 <div className="pt-4 flex flex-col sm:flex-row sm:items-center gap-4">
                   {(bookingContent.contactPhones?.length ? bookingContent.contactPhones : [{ number: contactInfo.safari.phone }]).map((contact, index) => (
-                    <a key={`${contact.number}-${index}`} href={`tel:${contact.number.replace(/\D/g, '')}`} className="inline-flex items-center gap-2 text-xs font-bold text-white hover:text-emerald-300"><Phone className="h-3.5 w-3.5 text-emerald-400" /> {contact.number}</a>
+                    <a key={`${contact.number}-${index}`} href={`tel:${contact.number.replace(/[^\d+]/g, '')}`} className="inline-flex items-center gap-2 text-xs font-bold text-white hover:text-emerald-300"><Phone className="h-3.5 w-3.5 text-emerald-400" /> {contact.number}</a>
                   ))}
                   <a href={`https://wa.me/${whatsappNumber}`} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-xs font-bold text-[#25D366] hover:underline">WhatsApp Permit Desk Available</a>
                 </div>

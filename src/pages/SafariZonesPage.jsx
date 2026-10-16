@@ -70,7 +70,7 @@ export default function SafariZonesPage({ onOpenBooking }) {
         subtitle={heroSubtitle}
         image={safariContent?.heroImages?.length ? safariContent.heroImages : heroBanner}
         fallbackImage={safariImages.safariJeepSavannah}
-        alt="Safari zones of Rajaji National Park"
+        alt={safariContent?.heroImageAlt || "Safari zones of Rajaji National Park"}
       />
 
       {/* Zone selector */}

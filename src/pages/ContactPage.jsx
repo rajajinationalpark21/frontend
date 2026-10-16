@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { 
   MapPin, 
   Phone, 
@@ -8,8 +8,8 @@ import {
   CheckCircle2,
   ChevronDown 
 } from 'lucide-react';
-import { safariImages, faqs, contactInfo, parkInfo } from '../data/safariData';
-import { submitContact } from '../api/client';
+import { safariImages, faqs, contactInfo } from '../data/safariData';
+import { fetchContent, submitContact } from '../api/client';
 import SEO from '../components/SEO';
 import PageHero from '../components/PageHero';
 
@@ -26,6 +26,20 @@ export default function ContactPage() {
   const [cooldown, setCooldown] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [openFaqs, setOpenFaqs] = useState({ 0: true });
+
+  // Contact details are edited in the admin panel (Settings → Website Details).
+  const [siteContact, setSiteContact] = useState(null);
+  useEffect(() => {
+    fetchContent()
+      .then((res) => setSiteContact(res.data?.settings?.contact || null))
+      .catch(() => {});
+  }, []);
+  const address = siteContact?.address || contactInfo.address;
+  const phones = [siteContact?.phone, siteContact?.secondaryPhone, siteContact?.tertiaryPhone].filter(Boolean);
+  const callNumbers = phones.length ? phones : [contactInfo.safari.phone];
+  const contactName = siteContact?.name || contactInfo.safari.name;
+  const email = siteContact?.email || contactInfo.email;
+  const telHref = (number) => `tel:${number.replace(/[^\d+]/g, '')}`;
 
   const toggleFaq = (index) => {
     setOpenFaqs((prev) => ({
@@ -123,10 +137,10 @@ export default function ContactPage() {
                       VISIT US
                     </span>
                     <p className="text-sm font-semibold text-gray-900 dark:text-white mt-0.5 leading-snug">
-                      {contactInfo.address}
+                      {address}
                     </p>
                     <span className="text-xs text-safari-700 dark:text-safari-400 font-medium block mt-0.5">
-                      {parkInfo.name} Range Office
+                      Safari Enquiry &amp; Booking Assistance
                     </span>
                   </div>
                 </div>
@@ -140,12 +154,15 @@ export default function ContactPage() {
                     <span className="text-[11px] font-bold text-gray-400 dark:text-gray-400 uppercase tracking-wider block">
                       CALL US
                     </span>
-                    <a href={`tel:${contactInfo.safari.phone}`} className="text-sm font-semibold text-gray-900 dark:text-white hover:text-emerald-600 dark:hover:text-emerald-400 transition block mt-0.5">
-                      {contactInfo.safari.phone} <span className="text-xs text-gray-500 dark:text-gray-400 font-normal">({contactInfo.safari.name})</span>
-                    </a>
-                    <a href={`tel:${contactInfo.phone}`} className="text-xs text-gray-600 dark:text-gray-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition block mt-0.5">
-                      Landline: {contactInfo.phone}
-                    </a>
+                    {callNumbers.map((number, index) => (
+                      <a key={number} href={telHref(number)} className="text-sm font-semibold text-gray-900 dark:text-white hover:text-emerald-600 dark:hover:text-emerald-400 transition block mt-0.5">
+                        {number}
+                        {index === 0 && contactName && (
+                          <span className="text-xs text-gray-500 dark:text-gray-400 font-normal"> ({contactName})</span>
+                        )}
+                      </a>
+                    ))}
+                    <span className="text-xs text-gray-500 dark:text-gray-400 block mt-0.5">Call / WhatsApp</span>
                   </div>
                 </div>
 
@@ -159,17 +176,19 @@ export default function ContactPage() {
                       EMAIL US
                     </span>
                     <a
-                      href={`mailto:${contactInfo.email}`}
+                      href={`mailto:${email}`}
                       className="text-sm font-semibold text-gray-900 dark:text-white hover:text-emerald-600 dark:hover:text-emerald-400 transition block mt-0.5"
                     >
-                      {contactInfo.email}
+                      {email}
                     </a>
-                    <a
-                      href={`mailto:${contactInfo.safariEmail}`}
-                      className="text-xs text-gray-500 dark:text-gray-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition block mt-0.5"
-                    >
-                      {contactInfo.safariEmail}
-                    </a>
+                    {contactInfo.safariEmail && contactInfo.safariEmail !== email && (
+                      <a
+                        href={`mailto:${contactInfo.safariEmail}`}
+                        className="text-xs text-gray-500 dark:text-gray-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition block mt-0.5"
+                      >
+                        {contactInfo.safariEmail}
+                      </a>
+                    )}
                   </div>
                 </div>
               </div>

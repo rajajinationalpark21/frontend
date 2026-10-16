@@ -102,7 +102,7 @@ export default function TicketsPage({ onOpenBooking }) {
         subtitle={heroSubtitle}
         image={data.heroImages?.length ? data.heroImages : heroBanner}
         fallbackImage={safariImages.safariJeepSavannah}
-        alt="Safari vehicle entering Rajaji"
+        alt={data.heroImageAlt || "Safari vehicle entering Rajaji"}
       />
 
       {/* Timings banner */}

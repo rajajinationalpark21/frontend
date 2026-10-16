@@ -5,6 +5,7 @@ import { fetchContent } from '../api/client';
 import SEO from '../components/SEO';
 import GroupDropdownCard from '../components/GroupDropdownCard';
 import PageHero from '../components/PageHero';
+import Breadcrumb from '../components/Breadcrumb';
 import { DocSection } from '../components/DocContent';
 import PhotoGallery from '../components/PhotoGallery';
 
@@ -56,8 +57,11 @@ export default function ButterfliesPage({ onOpenBooking }) {
         subtitle={heroSubtitle}
         image={data.heroImages?.length ? data.heroImages : heroBanner}
         fallbackImage={safariImages.pinkFlower}
-        alt="Butterfly on forest flower"
+        alt={data.heroImageAlt || "Butterfly on forest flower"}
       />
+
+      {/* Link back to the Wildlife & Biodiversity main page (hub doc) */}
+      <Breadcrumb parent={{ label: 'Wildlife & Biodiversity', path: '/wildlife-biodiversity-rajaji-tiger-reserve' }} current="Butterflies of Rajaji" />
 
       {/* The client's page document: intro and sections not shown below */}
       <DocSection blocks={data.docBlocks} onBooking={onOpenBooking} />

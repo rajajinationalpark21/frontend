@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Compass, Home, Waves, ArrowRight } from 'lucide-react';
+import { Compass, Home, Waves, ArrowRight, Feather, Mountain } from 'lucide-react';
 import { safariImages } from '../data/safariData';
 import { fetchContent } from '../api/client';
 import SEO from '../components/SEO';
@@ -37,8 +37,13 @@ const fallbackActivities = [
 
 const activityIcons = {
   "/zones": Compass,
+  "/rajaji-jeep-safari": Compass,
   "/stay": Home,
+  "/stay-near-rajaji-national-park": Home,
   "/rafting": Waves,
+  "/river-rafting-rishikesh": Waves,
+  "/rajaji-national-park-bird-watching-jungle-safari": Feather,
+  "/trekking-in-rajaji": Mountain,
 };
 
 export default function ActivitiesPage({ onOpenBooking }) {
@@ -79,7 +84,7 @@ export default function ActivitiesPage({ onOpenBooking }) {
         title={pageTitle}
         subtitle={pageSubtitle}
         image={content?.activities?.heroImages?.length ? content.activities.heroImages : heroBanner}
-        alt="Activities in Rajaji National Park"
+        alt={content?.activities?.heroImageAlt || "Activities in Rajaji National Park"}
       />
 
       {/* Activities Grid */}

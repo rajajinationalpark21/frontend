@@ -5,6 +5,7 @@ import { fetchContent } from '../api/client';
 import SEO from '../components/SEO';
 import CoverImage from '../components/CoverImage';
 import PageHero from '../components/PageHero';
+import Breadcrumb from '../components/Breadcrumb';
 import { DocSection } from '../components/DocContent';
 import PhotoGallery from '../components/PhotoGallery';
 
@@ -48,8 +49,11 @@ export default function FloraPage({ onOpenBooking }) {
         subtitle={heroSubtitle}
         image={data.heroImages?.length ? data.heroImages : heroBanner}
         fallbackImage={safariImages.mistyDarkPines}
-        alt="Dense Sal forest canopy"
+        alt={data.heroImageAlt || "Dense Sal forest canopy"}
       />
+
+      {/* Link back to the Wildlife & Biodiversity main page (hub doc) */}
+      <Breadcrumb parent={{ label: 'Wildlife & Biodiversity', path: '/wildlife-biodiversity-rajaji-tiger-reserve' }} current="Flora of Rajaji" />
 
       {/* The client's page document: intro and sections not shown below */}
       <DocSection blocks={data.docBlocks} onBooking={onOpenBooking} />

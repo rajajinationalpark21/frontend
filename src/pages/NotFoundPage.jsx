@@ -49,7 +49,7 @@ export default function NotFoundPage() {
         {/* Quick links */}
         <div className="pt-6 border-t border-gray-200/80 text-xs text-gray-400">
           <span>Popular trails: </span>
-          <Link to="/wildlife" className="text-safari-600 hover:underline mx-1">Gallery</Link>
+          <Link to="/wildlife-biodiversity-rajaji-tiger-reserve" className="text-safari-600 hover:underline mx-1">Gallery</Link>
           <span>•</span>
           <Link to="/blog" className="text-safari-600 hover:underline mx-1">Journal</Link>
           <span>•</span>

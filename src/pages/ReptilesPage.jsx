@@ -118,7 +118,7 @@ export default function ReptilesPage({ onOpenBooking }) {
         subtitle={heroSubtitle}
         image={repData.heroImages?.length ? repData.heroImages : heroBanner}
         fallbackImage={safariImages.safariJeepTrail}
-        alt="Rajaji wildlife trail"
+        alt={repData.heroImageAlt || "Rajaji wildlife trail"}
       />
 
       {/* The client's page document: intro and sections not shown below */}
@@ -189,7 +189,7 @@ export default function ReptilesPage({ onOpenBooking }) {
         {/* Hub-and-Spoke Navigation Banner */}
         <div className="pt-8 border-t border-emerald-900/10 dark:border-emerald-800/40 flex flex-wrap items-center justify-between gap-4">
           <Link
-            to="/wildlife"
+            to="/wildlife-biodiversity-rajaji-tiger-reserve"
             className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-400 hover:underline"
           >
             ← Back to Wildlife & Biodiversity Hub

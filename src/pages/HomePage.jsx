@@ -19,6 +19,7 @@ import { slugify } from '../utils/slugify';
 import SEO from '../components/SEO';
 import FeedbackSection from '../components/FeedbackSection';
 import CallToAction from '../components/CallToAction';
+import { DocSection } from '../components/DocContent';
 import PageLoader from '../components/PageLoader';
 import HeroImageRotator from '../components/HeroImageRotator';
 
@@ -56,6 +57,10 @@ export default function HomePage({ onOpenBooking }) {
   const [content, setContent] = useState(defaultHomeContent);
   const [loading, setLoading] = useState(true);
   const [recentBlogs, setRecentBlogs] = useState([]);
+  // The rest of the "Page – Home About Rajaji" document and the shared booking wording.
+  const [homeDocBlocks, setHomeDocBlocks] = useState([]);
+  const [ctaCopy, setCtaCopy] = useState({});
+  const [aboutOpen, setAboutOpen] = useState(false);
 
   useEffect(() => {
     Promise.allSettled([fetchContent(), fetchBlogs()])
@@ -65,6 +70,8 @@ export default function HomePage({ onOpenBooking }) {
           if (home) {
             setContent(home);
           }
+          setHomeDocBlocks(contentRes.value?.data?.about?.docBlocks || []);
+          setCtaCopy(contentRes.value?.data?.settings?.ctaCopy || {});
         }
         if (blogsRes.status === 'fulfilled') {
           const blogs = blogsRes.value?.data?.blogs || blogsRes.value?.blogs;
@@ -107,6 +114,7 @@ export default function HomePage({ onOpenBooking }) {
           ? 'columns-1 sm:columns-2 lg:columns-3'
           : 'columns-2 md:columns-3 lg:columns-4';
   const aboutIntro = content.aboutIntro || content.aboutDescription || defaultHomeContent.aboutIntro;
+  const aboutDetails = (content.aboutDetails || []).filter(Boolean);
   const legacyStats = [
     { value: content.stats?.tigers || "50+", label: "Tigers Protected" },
     { value: content.stats?.sqKm || content.stats?.forestArea || content.stats?.acres || "820+", label: "Sq Km of Forest" },
@@ -232,12 +240,26 @@ export default function HomePage({ onOpenBooking }) {
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-950 dark:text-white tracking-tight font-serif">
               {content.aboutTitle || "The Sanctuary Legacy"}
             </h2>
-            <div className="prose-balanced text-sm leading-7 text-gray-600 dark:text-gray-300 sm:text-base sm:leading-8">
+            <div id="about-rajaji-text" className="prose-balanced space-y-4 text-sm leading-7 text-gray-600 dark:text-gray-300 sm:text-base sm:leading-8">
               <p>{aboutIntro}</p>
+              {aboutOpen && aboutDetails.map((paragraph, index) => <p key={index}>{paragraph}</p>)}
             </div>
-            <Link to="/about" className="inline-flex items-center gap-2 text-sm font-bold text-emerald-700 transition hover:text-emerald-600 dark:text-emerald-400 dark:hover:text-emerald-300">
-              {content.aboutReadMoreLabel || "Read the full story"}<ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-            </Link>
+            {aboutDetails.length > 0 ? (
+              <button
+                type="button"
+                onClick={() => setAboutOpen((open) => !open)}
+                aria-expanded={aboutOpen}
+                aria-controls="about-rajaji-text"
+                className="inline-flex items-center gap-2 text-sm font-bold text-emerald-700 transition hover:text-emerald-600 dark:text-emerald-400 dark:hover:text-emerald-300"
+              >
+                {aboutOpen ? content.aboutReadLessLabel || "Show less" : content.aboutReadMoreLabel || "Read the full story"}
+                <ArrowRight className={`h-4 w-4 transition-transform ${aboutOpen ? '-rotate-90' : 'rotate-90'}`} />
+              </button>
+            ) : (
+              <Link to="/about" className="inline-flex items-center gap-2 text-sm font-bold text-emerald-700 transition hover:text-emerald-600 dark:text-emerald-400 dark:hover:text-emerald-300">
+                {content.aboutReadMoreLabel || "Read the full story"}<ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </Link>
+            )}
 
             <div className="grid grid-cols-2 gap-x-6 gap-y-5 border-l-2 border-safari-500 pl-6 sm:grid-cols-3">
               {aboutStats.map((stat, index) => (
@@ -250,6 +272,11 @@ export default function HomePage({ onOpenBooking }) {
           </div>
         </div>
       </section>
+
+      {/* The Home page document after its About section: overview, booking help, disclaimer */}
+      <div className="pb-16">
+        <DocSection blocks={homeDocBlocks} onBooking={onOpenBooking} message={ctaCopy.whatsappMessage} />
+      </div>
 
       {/* 3. CAPTURED MOMENTS GALLERY MOSAIC */}
       <section className="py-20 border-y border-emerald-950/10 dark:border-emerald-900/30 relative">
@@ -265,7 +292,7 @@ export default function HomePage({ onOpenBooking }) {
               </p>
             </div>
             <Link
-              to="/wildlife"
+              to="/wildlife-biodiversity-rajaji-tiger-reserve"
               className="inline-flex items-center gap-1.5 text-xs font-bold text-gray-900 dark:text-white hover:text-safari-600 dark:hover:text-safari-400 transition group"
             >
               <span>View Full Gallery</span>
@@ -413,8 +440,10 @@ export default function HomePage({ onOpenBooking }) {
       {/* 6. CALL TO ACTION SECTION */}
       <CallToAction
         onPrimaryClick={onOpenBooking}
-        primaryText="Book Permit Now"
-        secondaryText="Contact Ranger Office"
+        title={ctaCopy.title || undefined}
+        subtitle={ctaCopy.subtitle || undefined}
+        primaryText={ctaCopy.primaryLabel || "Book Permit Now"}
+        secondaryText={ctaCopy.secondaryLabel || "Contact Ranger Office"}
         secondaryLink="/contact"
         secondaryIcon={Phone}
         bgImage={safariImages.homeHero || safariImages.mistyDarkPines}

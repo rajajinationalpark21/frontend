@@ -16,7 +16,7 @@ import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { ROUTE_SEO, SITE_NAME, ZONE_SLUGS, breadcrumbTrail } from '../src/seo/routes.js';
+import { ROUTE_SEO, SITE_NAME, ZONE_SLUGS, breadcrumbTrail, sectionSeo } from '../src/seo/routes.js';
 import { blogPostingSchema, breadcrumbSchema, faqSchema, zoneSchema } from '../src/seo/schema.js';
 import { resolveSiteUrl } from '../vite.config.js';
 
@@ -81,6 +81,40 @@ const table = (headers, rows) =>
     : '';
 const section = (title, body) => (body ? h2(title) + body : '');
 
+// A client page document (CMS `docBlocks`) as plain HTML. `**bold**` and
+// `[text](/path)` are kept; gallery markers are dropped.
+const rich = (text) =>
+  esc(text)
+    .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+    .replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, '<a href="$2">$1</a>')
+    .replace(/\n/g, '<br>');
+
+function docHtml(blocks = []) {
+  return blocks
+    .map((block) => {
+      switch (block.t) {
+        case 'h2': return `<h2>${rich(block.text)}</h2>`;
+        case 'h3': return `<h3>${rich(block.text)}</h3>`;
+        case 'p': return `<p>${rich(block.text)}</p>`;
+        case 'note': case 'fact': return `<p><strong>${esc(block.label)}:</strong> ${rich(block.text)}</p>`;
+        case 'ul': case 'chips': return `<ul>${(block.items || []).map((item) => `<li>${rich(item)}</li>`).join('')}</ul>`;
+        case 'ol': return `<ol>${(block.items || []).map((item) => `<li>${rich(item)}</li>`).join('')}</ol>`;
+        case 'table': {
+          const [head = [], ...rows] = block.rows || [];
+          return table(head, rows);
+        }
+        case 'links': return ul((block.items || []).map((item) => link(item.to, item.label)));
+        case 'contact': return p([`Call / WhatsApp: ${(block.phones || []).join(' | ')}`, block.email && `Email: ${block.email}`].filter(Boolean).join(' · '));
+        case 'cta': return (block.items || []).some((item) => item.kind === 'booking') ? `<p>${link('/booking', 'Book your Rajaji Jeep Safari online')}</p>` : '';
+        default: return '';
+      }
+    })
+    .join('');
+}
+
+/** A page that is only its CMS section: heading and client document. */
+const docPage = (key) => (c) => `<h1>${esc(c[key]?.title || c[key]?.docTitle)}</h1>${p(c[key]?.subtitle)}${docHtml(c[key]?.docBlocks)}`;
+
 // ── Page bodies ─────────────────────────────────────────────────────────────
 function contactBlock(settings) {
   const contact = settings?.contact ?? {};
@@ -121,7 +155,7 @@ const BODY = {
       'Plan Your Safari',
       ul([
         link('/rajaji-national-park-jeep-safari-tickets-entry-fees-charges', 'Tickets, entry fees and safari charges'),
-        link('/wildlife', 'Wildlife and biodiversity of Rajaji Tiger Reserve'),
+        link('/wildlife-biodiversity-rajaji-tiger-reserve', 'Wildlife and biodiversity of Rajaji Tiger Reserve'),
         link('/faq', 'Rajaji Jeep Safari FAQ'),
         link('/booking', 'Book a Rajaji Jeep Safari online'),
       ])
@@ -176,9 +210,14 @@ const BODY = {
     p(c.activities.subtitle) +
     c.activities.items.map((a) => `<h2>${link(a.slug, a.title)}</h2>${p(a.tagline)}${p(a.desc)}`).join(''),
 
-  '/rafting': (c) =>
+  '/rajaji-jeep-safari': docPage('jeepSafari'),
+  '/rajaji-national-park-bird-watching-jungle-safari': docPage('birdWatching'),
+  '/trekking-in-rajaji': docPage('trekking'),
+  '/how-to-reach': docPage('howToReach'),
+
+  '/river-rafting-rishikesh': (c) =>
     `<h1>${esc(c.rafting.title)}</h1>` +
-    p(c.rafting.overview) +
+    (c.rafting.docBlocks?.length ? docHtml(c.rafting.docBlocks) : p(c.rafting.overview)) +
     section(
       'Rafting Stretches',
       table(
@@ -188,9 +227,9 @@ const BODY = {
     ) +
     section('Safety Guidelines', ul(c.rafting.safetyGuidelines.map(esc))),
 
-  '/stay': (c) =>
+  '/stay-near-rajaji-national-park': (c) =>
     `<h1>${esc(c.stay.title)}</h1>` +
-    p(c.stay.overview) +
+    (c.stay.docBlocks?.length ? docHtml(c.stay.docBlocks) : p(c.stay.overview)) +
     section(
       c.stay.wildBrook?.name || 'Eco Cottages',
       p(c.stay.wildBrook?.tagline) + p(c.stay.wildBrook?.location) + ul((c.stay.wildBrook?.features ?? []).map(esc))
@@ -201,8 +240,9 @@ const BODY = {
         p(c.stay.frhBookingInfo?.bookingRule)
     ),
 
-  '/wildlife': (c) =>
-    '<h1>Wildlife & Biodiversity of Rajaji Tiger Reserve</h1>' +
+  '/wildlife-biodiversity-rajaji-tiger-reserve': (c) =>
+    `<h1>${esc(c.fauna.hubDocTitle || 'Wildlife & Biodiversity of Rajaji Tiger Reserve')}</h1>` +
+    docHtml(c.fauna.hubDocBlocks) +
     [
       ['/mammals-of-rajaji-tiger-reserve', 'Mammals of Rajaji', c.fauna.overview],
       ['/birds-of-rajaji-national-park', 'Birds of Rajaji', c.birds.overview],
@@ -293,8 +333,9 @@ const NAV = [
   ['/', 'Home'],
   ['/zones', 'Safari Zones'],
   ['/rajaji-national-park-jeep-safari-tickets-entry-fees-charges', 'Tickets & Fees'],
-  ['/wildlife', 'Wildlife'],
+  ['/wildlife-biodiversity-rajaji-tiger-reserve', 'Wildlife'],
   ['/activities', 'Activities'],
+  ['/how-to-reach', 'How to Reach'],
   ['/blog', 'Blog'],
   ['/faq', 'FAQ'],
   ['/contact', 'Contact'],
@@ -305,7 +346,8 @@ const absolute = (value) => (/^https?:\/\//.test(value) ? value : `${SITE_URL}${
 
 function renderPage(template, page) {
   const url = `${SITE_URL}${page.path}`;
-  const title = page.title.includes('Rajaji') ? page.title : `${page.title} | Rajaji National Park`;
+  // A title set in the admin panel is used exactly as written.
+  const title = (page.cmsTitle || page.title.includes('Rajaji')) ? page.title : `${page.title} | Rajaji National Park`;
   const image = absolute(page.image || '/logo.png');
   const trail = breadcrumbTrail(page.path, page.name);
   const schemas = [...(page.schemas ?? []), ...(trail.length ? [breadcrumbSchema(trail, SITE_URL)] : [])];
@@ -373,11 +415,16 @@ async function main() {
   const pages = [];
 
   for (const [routePath, seo] of Object.entries(ROUTE_SEO)) {
+    // SEO settings saved in the admin panel win over the defaults in seo/routes.js.
+    const cms = sectionSeo(content, seo);
     pages.push({
       path: routePath,
       ...seo,
+      ...(cms.title ? { title: cms.title, cmsTitle: true } : {}),
+      ...(cms.description ? { description: cms.description } : {}),
+      ...(cms.keywords ? { keywords: cms.keywords } : {}),
       lastmod: content?.updatedAt?.slice(0, 10) ?? today,
-      body: content ? BODY[routePath](content, blogs) : '',
+      body: content && BODY[routePath] ? BODY[routePath](content, blogs) : '',
       schemas: content && routePath === '/faq' ? [faqSchema(content.faqs.items)] : [],
     });
   }

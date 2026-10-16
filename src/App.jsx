@@ -26,6 +26,8 @@ import BlogPage from './pages/BlogPage';
 import BlogPostPage from './pages/BlogPostPage';
 import FAQPage from './pages/FAQPage';
 import NotFoundPage from './pages/NotFoundPage';
+import CmsDocPage from './components/CmsDocPage';
+import CmsSlugRoute from './components/CmsSlugRoute';
 
 import { ThemeProvider } from './context/ThemeContext';
 
@@ -38,6 +40,8 @@ function ScrollToTop() {
 
   return null;
 }
+
+const ACTIVITIES_PARENT = { label: 'Activities at Rajaji', path: '/activities' };
 
 function MainLayout() {
   const navigate = useNavigate();
@@ -75,7 +79,8 @@ function MainLayout() {
           {/* 7 Zone Sub-pages */}
           <Route path="/chilla-jeep-safari" element={<SafariZoneDetailPage defaultSlug="chilla-jeep-safari" onOpenBooking={handleOpenBooking} />} />
           <Route path="/ranipur-gate-jeep-safari" element={<SafariZoneDetailPage defaultSlug="ranipur-gate-jeep-safari" onOpenBooking={handleOpenBooking} />} />
-          <Route path="/chillawali-jeep-safari" element={<SafariZoneDetailPage defaultSlug="chillawali-jeep-safari" onOpenBooking={handleOpenBooking} />} />
+          <Route path="/chillawali-jeep-safari-mohand-gate" element={<SafariZoneDetailPage defaultSlug="chillawali-jeep-safari-mohand-gate" onOpenBooking={handleOpenBooking} />} />
+          <Route path="/chillawali-jeep-safari" element={<Navigate to="/chillawali-jeep-safari-mohand-gate" replace />} />
           <Route path="/motichur-jeep-safari" element={<SafariZoneDetailPage defaultSlug="motichur-jeep-safari" onOpenBooking={handleOpenBooking} />} />
           <Route path="/jhilmil-jheel-safari" element={<SafariZoneDetailPage defaultSlug="jhilmil-jheel-safari" onOpenBooking={handleOpenBooking} />} />
           <Route path="/gohri-range-safari" element={<SafariZoneDetailPage defaultSlug="gohri-range-safari" onOpenBooking={handleOpenBooking} />} />
@@ -84,12 +89,21 @@ function MainLayout() {
 
           {/* 5. Page – Activities at Rajaji */}
           <Route path="/activities" element={<ActivitiesPage onOpenBooking={handleOpenBooking} />} />
-          <Route path="/rafting" element={<RaftingPage onOpenBooking={handleOpenBooking} />} />
-          <Route path="/activities/rafting" element={<RaftingPage onOpenBooking={handleOpenBooking} />} />
-          <Route path="/stay" element={<StayPage onOpenBooking={handleOpenBooking} />} />
+          <Route path="/rajaji-jeep-safari" element={<CmsDocPage section="jeepSafari" parent={ACTIVITIES_PARENT} onOpenBooking={handleOpenBooking} />} />
+          <Route path="/rajaji-national-park-bird-watching-jungle-safari" element={<CmsDocPage section="birdWatching" parent={ACTIVITIES_PARENT} onOpenBooking={handleOpenBooking} />} />
+          <Route path="/trekking-in-rajaji" element={<CmsDocPage section="trekking" parent={ACTIVITIES_PARENT} onOpenBooking={handleOpenBooking} />} />
+          <Route path="/river-rafting-rishikesh" element={<RaftingPage onOpenBooking={handleOpenBooking} />} />
+          <Route path="/rafting" element={<Navigate to="/river-rafting-rishikesh" replace />} />
+          <Route path="/activities/rafting" element={<Navigate to="/river-rafting-rishikesh" replace />} />
+          <Route path="/stay-near-rajaji-national-park" element={<StayPage onOpenBooking={handleOpenBooking} />} />
+          <Route path="/stay" element={<Navigate to="/stay-near-rajaji-national-park" replace />} />
+
+          {/* How to Reach (client site structure) */}
+          <Route path="/how-to-reach" element={<CmsDocPage section="howToReach" onOpenBooking={handleOpenBooking} />} />
 
           {/* 6. Page – Wildlife & Biodiversity */}
-          <Route path="/wildlife" element={<WildlifeHubPage onOpenBooking={handleOpenBooking} />} />
+          <Route path="/wildlife-biodiversity-rajaji-tiger-reserve" element={<WildlifeHubPage onOpenBooking={handleOpenBooking} />} />
+          <Route path="/wildlife" element={<Navigate to="/wildlife-biodiversity-rajaji-tiger-reserve" replace />} />
           
           {/* 5 Wildlife Sub-pages */}
           <Route path="/mammals-of-rajaji-tiger-reserve" element={<FaunaPage onOpenBooking={handleOpenBooking} />} />
@@ -131,11 +145,18 @@ function MainLayout() {
           <Route path="/faq" element={<FAQPage onOpenBooking={handleOpenBooking} />} />
 
           {/* Legacy URL redirects to client-requested pages */}
-          <Route path="/gallery" element={<Navigate to="/wildlife" replace />} />
-          <Route path="/chillawali-jeep-safari-mohand-gate" element={<Navigate to="/chillawali-jeep-safari" replace />} />
-          <Route path="/wildlife-biodiversity-rajaji-tiger-reserve" element={<Navigate to="/wildlife" replace />} />
+          <Route path="/gallery" element={<Navigate to="/wildlife-biodiversity-rajaji-tiger-reserve" replace />} />
           <Route path="/eco-tourism" element={<Navigate to="/activities" replace />} />
-          <Route path="/how-to-reach" element={<Navigate to="/contact" replace />} />
+
+          {/* Addresses the client documents link to */}
+          <Route path="/booking-form" element={<Navigate to="/booking" replace />} />
+          <Route path="/safari-zones" element={<Navigate to="/zones" replace />} />
+          <Route path="/tickets-entries" element={<Navigate to="/rajaji-national-park-jeep-safari-tickets-entry-fees-charges" replace />} />
+          <Route path="/safari-timings" element={<Navigate to="/rajaji-national-park-jeep-safari-tickets-entry-fees-charges" replace />} />
+          <Route path="/flora-fauna-rajaji-national-park" element={<Navigate to="/wildlife-biodiversity-rajaji-tiger-reserve" replace />} />
+
+          {/* A page URL changed in the admin panel */}
+          <Route path="/:slug" element={<CmsSlugRoute onOpenBooking={handleOpenBooking} />} />
           <Route path="/wildlife/birding-areas" element={<Navigate to="/birds-of-rajaji-national-park" replace />} />
           <Route path="/birding-areas" element={<Navigate to="/birds-of-rajaji-national-park" replace />} />
 

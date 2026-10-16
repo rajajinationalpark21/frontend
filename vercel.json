@@ -53,7 +53,7 @@
     },
     {
       "source": "/activities/rafting",
-      "destination": "/rafting",
+      "destination": "/river-rafting-rishikesh",
       "permanent": true
     },
     {
@@ -137,28 +137,13 @@
       "permanent": true
     },
     {
-      "source": "/chillawali-jeep-safari-mohand-gate",
-      "destination": "/chillawali-jeep-safari",
-      "permanent": true
-    },
-    {
-      "source": "/wildlife-biodiversity-rajaji-tiger-reserve",
-      "destination": "/wildlife",
-      "permanent": true
-    },
-    {
       "source": "/gallery",
-      "destination": "/wildlife",
+      "destination": "/wildlife-biodiversity-rajaji-tiger-reserve",
       "permanent": true
     },
     {
       "source": "/eco-tourism",
       "destination": "/activities",
-      "permanent": true
-    },
-    {
-      "source": "/how-to-reach",
-      "destination": "/contact",
       "permanent": true
     },
     {
@@ -169,6 +154,51 @@
     {
       "source": "/journal/:slug",
       "destination": "/blog/:slug",
+      "permanent": true
+    },
+    {
+      "source": "/chillawali-jeep-safari",
+      "destination": "/chillawali-jeep-safari-mohand-gate",
+      "permanent": true
+    },
+    {
+      "source": "/wildlife",
+      "destination": "/wildlife-biodiversity-rajaji-tiger-reserve",
+      "permanent": true
+    },
+    {
+      "source": "/stay",
+      "destination": "/stay-near-rajaji-national-park",
+      "permanent": true
+    },
+    {
+      "source": "/rafting",
+      "destination": "/river-rafting-rishikesh",
+      "permanent": true
+    },
+    {
+      "source": "/booking-form",
+      "destination": "/booking",
+      "permanent": true
+    },
+    {
+      "source": "/safari-zones",
+      "destination": "/zones",
+      "permanent": true
+    },
+    {
+      "source": "/tickets-entries",
+      "destination": "/rajaji-national-park-jeep-safari-tickets-entry-fees-charges",
+      "permanent": true
+    },
+    {
+      "source": "/safari-timings",
+      "destination": "/rajaji-national-park-jeep-safari-tickets-entry-fees-charges",
+      "permanent": true
+    },
+    {
+      "source": "/flora-fauna-rajaji-national-park",
+      "destination": "/wildlife-biodiversity-rajaji-tiger-reserve",
       "permanent": true
     }
   ],

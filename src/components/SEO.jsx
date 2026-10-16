@@ -1,6 +1,7 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { ROUTE_SEO, breadcrumbTrail, canonicalPath } from '../seo/routes';
+import { fetchContent } from '../api/client';
+import { ROUTE_SEO, breadcrumbTrail, canonicalPath, sectionSeo } from '../seo/routes';
 import { breadcrumbSchema } from '../seo/schema';
 import { SITE_URL } from '../seo/site';
 
@@ -12,8 +13,9 @@ const absoluteUrl = (value) =>
  * Updates document.title, meta descriptions, canonical URLs,
  * OpenGraph, Twitter Cards, and injects Schema.org JSON-LD.
  *
- * Static pages take their title/description from `seo/routes.js`; the props are
- * for pages whose metadata comes from the CMS (safari zones, blog posts).
+ * Static pages take their title/description from the SEO settings of their CMS
+ * section (edited in the admin panel), then from `seo/routes.js`; the props are
+ * for pages whose metadata comes from elsewhere in the CMS (safari zones, blog posts).
  */
 export default function SEO({
   title,
@@ -27,15 +29,22 @@ export default function SEO({
   const location = useLocation();
   const path = canonicalPath(location.pathname);
   const page = ROUTE_SEO[path];
+  const [content, setContent] = useState(null);
+  useEffect(() => {
+    if (!page?.section) return;
+    fetchContent().then((res) => setContent(res.data)).catch(() => {});
+  }, [page?.section]);
+  const cms = sectionSeo(content, page);
   const currentUrl = `${SITE_URL}${path}`;
   const finalImage = absoluteUrl(ogImage || '/logo.png');
 
-  const pageTitle = page?.title || title || 'Rajaji National Park';
-  const fullTitle = pageTitle.includes('Rajaji')
+  const pageTitle = cms.title || page?.title || title || 'Rajaji National Park';
+  // A title set in the admin panel is used exactly as written.
+  const fullTitle = (cms.title || pageTitle.includes('Rajaji'))
     ? pageTitle
     : `${pageTitle} | Rajaji National Park`;
-  const finalDescription = page?.description || description || '';
-  const finalKeywords = page?.keywords || keywords;
+  const finalDescription = cms.description || page?.description || description || '';
+  const finalKeywords = cms.keywords || page?.keywords || keywords;
 
   const trail = noindex ? [] : breadcrumbTrail(path, title?.split(' | ')[0]);
   const schemas = [

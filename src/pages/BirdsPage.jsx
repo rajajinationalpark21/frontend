@@ -6,6 +6,7 @@ import SEO from '../components/SEO';
 import GroupDropdownCard from '../components/GroupDropdownCard';
 import ThumbImage from '../components/ThumbImage';
 import PageHero from '../components/PageHero';
+import Breadcrumb from '../components/Breadcrumb';
 import { DocSection } from '../components/DocContent';
 
 export default function BirdsPage({ onOpenBooking }) {
@@ -58,8 +59,11 @@ export default function BirdsPage({ onOpenBooking }) {
         subtitle={heroSubtitle}
         image={data.heroImages?.length ? data.heroImages : heroBanner}
         fallbackImage={safariImages.kingfisher}
-        alt="Crested Kingfisher at Rajaji"
+        alt={data.heroImageAlt || "Crested Kingfisher at Rajaji"}
       />
+
+      {/* Link back to the Wildlife & Biodiversity main page (hub doc) */}
+      <Breadcrumb parent={{ label: 'Wildlife & Biodiversity', path: '/wildlife-biodiversity-rajaji-tiger-reserve' }} current="Birds of Rajaji" />
 
       {/* The client's page document: intro and sections not shown below */}
       <DocSection blocks={data.docBlocks} onBooking={onOpenBooking} />

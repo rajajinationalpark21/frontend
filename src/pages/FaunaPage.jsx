@@ -7,6 +7,7 @@ import SEO from '../components/SEO';
 import CoverImage from '../components/CoverImage';
 import ThumbImage from '../components/ThumbImage';
 import PageHero from '../components/PageHero';
+import Breadcrumb from '../components/Breadcrumb';
 import GroupDropdownCard from '../components/GroupDropdownCard';
 import { DocSection } from '../components/DocContent';
 import PhotoGallery from '../components/PhotoGallery';
@@ -50,8 +51,11 @@ export default function FaunaPage({ onOpenBooking }) {
         subtitle={heroSubtitle}
         image={data.heroImages?.length ? data.heroImages : heroBanner}
         fallbackImage={safariImages.walkingTiger}
-        alt="Royal Bengal Tiger in Rajaji"
+        alt={data.heroImageAlt || "Royal Bengal Tiger in Rajaji"}
       />
+
+      {/* Link back to the Wildlife & Biodiversity main page (hub doc) */}
+      <Breadcrumb parent={{ label: 'Wildlife & Biodiversity', path: '/wildlife-biodiversity-rajaji-tiger-reserve' }} current="Mammals of Rajaji" />
 
       {/* The client's page document: intro and sections not shown below */}
       <DocSection blocks={data.docBlocks} onBooking={onOpenBooking} />
@@ -116,7 +120,7 @@ export default function FaunaPage({ onOpenBooking }) {
                 <h3 className="font-serif text-2xl font-bold text-gray-900 dark:text-white">Reptilian Diversity</h3>
               </div>
               <Link
-                to="/reptiles-of-rajaji-national-park"
+                to="/reptiles-of-rajaji-tiger-reserve"
                 className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-700 dark:text-emerald-400 hover:text-emerald-600 dark:hover:text-emerald-300 uppercase tracking-wider transition"
               >
                 <span>Explore All Reptiles</span>

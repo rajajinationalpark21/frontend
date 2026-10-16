@@ -22,11 +22,13 @@ export default function SafariZoneDetailPage({ onOpenBooking, defaultSlug }) {
   const slug = defaultSlug || params.slug;
 
   const [zones, setZones] = useState([]);
+  const [settings, setSettings] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchContent()
       .then(res => {
+        setSettings(res.data?.settings || null);
         if (res.data?.safari?.zones && res.data.safari.zones.length > 0) {
           setZones(res.data.safari.zones);
         } else {
@@ -66,7 +68,12 @@ export default function SafariZoneDetailPage({ onOpenBooking, defaultSlug }) {
     }
   };
 
-  const phone = contactInfo.phone || "+91 98298 50501";
+  // The zone document's own numbers first, then the site contact numbers.
+  const zonePhones = currentZone.docBlocks?.find((block) => block.t === 'contact' && block.phones?.length)?.phones || [];
+  const sitePhones = [settings?.contact?.phone, settings?.contact?.tertiaryPhone].filter(Boolean);
+  const phones = zonePhones.length ? zonePhones : sitePhones.length ? sitePhones : [contactInfo.phone || "+91 98298 50501"];
+  const phone = phones[0];
+  const cta = settings?.ctaCopy || {};
   const whatsappNum = phone.replace(/\D/g, '');
   const whatsappMessage = `Hello! I would like to book a safari for ${currentZone.name} in Rajaji National Park.`;
   const whatsappUrl = `https://wa.me/${whatsappNum}?text=${encodeURIComponent(whatsappMessage)}`;
@@ -147,7 +154,7 @@ export default function SafariZoneDetailPage({ onOpenBooking, defaultSlug }) {
               className="lg:col-span-2 space-y-8 min-w-0"
               blocks={docBlocks}
               onBooking={handleBooking}
-              phones={[phone]}
+              phones={phones}
               message={whatsappMessage}
             />
           ) : (
@@ -263,7 +270,7 @@ export default function SafariZoneDetailPage({ onOpenBooking, defaultSlug }) {
               {/* Forest Imagery Background */}
               <div 
                 className="absolute inset-0 bg-cover bg-center opacity-25 pointer-events-none"
-                style={{ backgroundImage: `url("${currentZone.image || safariImages.chilaZone || safariImages.homeHero}")` }}
+                style={{ backgroundImage: `url("${currentZone.heroImage || currentZone.heroImages?.[0] || safariImages.homeHero}")` }}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#040b06]/90 via-[#07150c]/70 to-[#040b06]/85 pointer-events-none" />
 
@@ -292,13 +299,13 @@ export default function SafariZoneDetailPage({ onOpenBooking, defaultSlug }) {
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-safari-500/15 via-transparent to-transparent pointer-events-none" />
 
               <span className="relative z-10 inline-block px-3 py-1.5 rounded-full bg-emerald-950/90 border border-emerald-500/40 text-emerald-300 text-xs font-bold uppercase tracking-wider backdrop-blur-md">
-                Instant Permit Assistance
+                {cta.zoneSidebarKicker || 'Instant Permit Assistance'}
               </span>
               <h3 className="relative z-10 text-2xl font-serif font-extrabold text-white leading-snug">
                 Book Your {currentZone.name} Safari
               </h3>
               <p className="relative z-10 text-sm text-emerald-100/80 leading-relaxed font-light">
-                Permits are capped per day by the Forest Department. Reserve your date, Gypsy vehicle, and certified guide in advance.
+                {cta.zoneSidebarText || 'Permits are capped per day by the Forest Department. Reserve your date, Gypsy vehicle, and certified guide in advance.'}
               </p>
 
               <div className="relative z-10 space-y-3 pt-2">
@@ -318,12 +325,15 @@ export default function SafariZoneDetailPage({ onOpenBooking, defaultSlug }) {
                   <MessageSquare className="w-4 h-4" /> WhatsApp Booking
                 </a>
 
-                <a
-                  href={`tel:${phone.replace(/\s+/g, '')}`}
-                  className="w-full py-3.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-sm border border-white/15 backdrop-blur-sm transition flex items-center justify-center gap-2"
-                >
-                  <Phone className="w-4 h-4 text-emerald-400" /> Call: {phone}
-                </a>
+                {phones.map((number) => (
+                  <a
+                    key={number}
+                    href={`tel:${number.replace(/[^\d+]/g, '')}`}
+                    className="w-full py-3.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-sm border border-white/15 backdrop-blur-sm transition flex items-center justify-center gap-2"
+                  >
+                    <Phone className="w-4 h-4 text-emerald-400" /> Call: {number}
+                  </a>
+                ))}
               </div>
             </div>
 
@@ -367,15 +377,15 @@ export default function SafariZoneDetailPage({ onOpenBooking, defaultSlug }) {
       {/* Unified Call To Action matching HomePage */}
       <CallToAction
         title={`Ready to Book Your Safari in ${currentZone.name}?`}
-        subtitle={`Gypsy vehicles and permits for ${currentZone.name} are capped daily to preserve the natural ecosystem. Reserve early to guarantee your morning or afternoon drive.`}
+        subtitle={cta.zoneCtaSubtitle || `Gypsy vehicles and permits for ${currentZone.name} are capped daily to preserve the natural ecosystem. Reserve early to guarantee your morning or afternoon drive.`}
         primaryText={`Book ${currentZone.name} Safari`}
         onPrimaryClick={handleBooking}
         secondaryText={`Call ${phone}`}
-        secondaryLink={`tel:${phone.replace(/\s+/g, '')}`}
+        secondaryLink={`tel:${phone.replace(/[^\d+]/g, '')}`}
         secondaryIcon={Phone}
         whatsappText="WhatsApp Booking"
         whatsappLink={whatsappUrl}
-        bgImage={currentZone.image || safariImages.chilaZone || safariImages.homeHero}
+        bgImage={currentZone.heroImage || currentZone.heroImages?.[0] || safariImages.homeHero}
       />
     </div>
   );

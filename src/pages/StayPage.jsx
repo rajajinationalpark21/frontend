@@ -5,6 +5,8 @@ import { fetchContent } from '../api/client';
 import SEO from '../components/SEO';
 import CallToAction from '../components/CallToAction';
 import PageHero from '../components/PageHero';
+import { DocSection } from '../components/DocContent';
+import PhotoGallery from '../components/PhotoGallery';
 
 export default function StayPage({ onOpenBooking }) {
   const [stay, setStay] = useState(null);
@@ -45,8 +47,16 @@ export default function StayPage({ onOpenBooking }) {
         subtitle={heroSubtitle}
         image={data.heroImages?.length ? data.heroImages : heroBanner}
         fallbackImage="/images/stay/gohari-safari.jpg"
-        alt="Stay in Rajaji"
+        alt={data.heroImageAlt || "Stay in Rajaji"}
       />
+
+      {/* The client's "Stay in Rajaji" document */}
+      <DocSection blocks={data.docBlocks} onBooking={onOpenBooking} />
+      {data.docBlocks?.length > 0 && (
+        <div className="pt-12">
+          <PhotoGallery title={data.galleryTitle} images={data.galleryImages || []} altPrefix={data.heroImageAlt || heroTitle} />
+        </div>
+      )}
 
       {/* Wild Brook Retreat Showcase */}
       <section className="relative z-10 py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

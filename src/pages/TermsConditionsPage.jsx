@@ -229,10 +229,10 @@ export default function TermsConditionsPage() {
       />
 
       <PageHero
-        title="Safari Regulations & Visitor Code of Conduct"
+        title={heroTitle}
         subtitle={heroSubtitle}
         image={parkRules.heroImages?.length ? parkRules.heroImages : heroBanner}
-        alt="Rajaji forest canopy trail"
+        alt={parkRules.heroImageAlt || "Rajaji forest canopy trail"}
       />
       {/* Quick rule summary */}
       <section className="relative z-10 border-b border-emerald-950/10 bg-[#f7f5ed] py-8 dark:border-emerald-900/40 dark:bg-[#07120a]">

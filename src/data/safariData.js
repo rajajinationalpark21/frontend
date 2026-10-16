@@ -335,7 +335,7 @@ export const safariZonesList = [
     ]
   },
   {
-    "slug": "chillawali-jeep-safari",
+    "slug": "chillawali-jeep-safari-mohand-gate",
     "name": "Chillawali Zone / Mohand Gate",
     "tag": "Peaceful Leopard Safari in the Shivalik Foothills",
     "entryGate": "Mohand Gate (near Ganeshpur, Dehradun–Haridwar highway)",

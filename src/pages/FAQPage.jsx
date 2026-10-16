@@ -94,7 +94,7 @@ export default function FAQPage({ onOpenBooking }) {
         subtitle={heroSubtitle}
         image={content?.faqs?.heroImages?.length ? content.faqs.heroImages : heroBanner}
         fallbackImage={safariImages.walkingTiger}
-        alt="Rajaji National Park wildlife"
+        alt={content?.faqs?.heroImageAlt || "Rajaji National Park wildlife"}
       />
 
       {/* FAQ Accordion Section */}

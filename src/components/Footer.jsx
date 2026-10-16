@@ -19,7 +19,9 @@ export default function Footer() {
   const footerData = settings.footer || {};
 
   const brandTitle = footerData.brandTitle || contactInfo.footerBrand.title;
-  const footerDisplayTitle = footerData.brandShortTitle || "Rajaji Safari";
+  // The footer brand line of the client's Tickets document ("RAJAJI NATIONAL PARK – SAFARI BOOKING").
+  const footerDisplayTitle = footerData.brandTitle || footerData.brandShortTitle || "Rajaji Safari";
+  const brandDesc = footerData.brandDesc;
   const address = contact.address || contactInfo.address;
   const phone = contact.phone || contactInfo.phone;
   const secondaryPhone = contact.secondaryPhone || contactInfo.secondaryPhone;
@@ -27,6 +29,8 @@ export default function Footer() {
   const email = contact.email || contactInfo.email;
   const youtubeUrl = social.youtube || contactInfo.social.youtube;
   const instagramUrl = social.instagram || contactInfo.social.instagram;
+  const facebookUrl = social.facebook;
+  const twitterUrl = social.twitter;
 
   // Active zones list
   const zones = (content?.safari?.zones && content.safari.zones.length > 0)
@@ -72,10 +76,12 @@ export default function Footer() {
               </div>
             </Link>
 
+            {brandDesc && <p className="text-xs leading-relaxed text-gray-400 max-w-sm">{brandDesc}</p>}
+
             <div className="space-y-1.5 text-xs text-gray-300 pt-1">
               <div className="flex items-start gap-2">
                 <MapPin className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-                <span>{address}</span>
+                <span><span className="font-semibold text-gray-200">Address:</span> {address}</span>
               </div>
               <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
                 <Phone className="w-4 h-4 text-emerald-400 shrink-0" />
@@ -101,6 +107,32 @@ export default function Footer() {
 
             {/* Social Icons & Booking Button */}
             <div className="flex items-center gap-3 pt-2">
+              {facebookUrl && (
+                <a
+                  href={facebookUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Rajaji Safari on Facebook"
+                  className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 text-blue-400 flex items-center justify-center hover:scale-110 transition shadow-sm hover:bg-white/10"
+                >
+                  <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.413c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.236 2.686.236v2.97h-1.513c-1.49 0-1.956.93-1.956 1.886v2.264h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z" />
+                  </svg>
+                </a>
+              )}
+              {twitterUrl && (
+                <a
+                  href={twitterUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Rajaji Safari on X (Twitter)"
+                  className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 text-gray-200 flex items-center justify-center hover:scale-110 transition shadow-sm hover:bg-white/10"
+                >
+                  <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                  </svg>
+                </a>
+              )}
               {youtubeUrl && (
                 <a
                   href={youtubeUrl}
