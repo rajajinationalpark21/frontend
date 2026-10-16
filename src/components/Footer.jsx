@@ -62,10 +62,10 @@ export default function Footer() {
           {/* Column 1: Brand & Official Contact Desk */}
           <div className="space-y-3">
             <Link to="/" className="flex items-center gap-2.5 group w-fit">
-              <div className="w-10 h-10 rounded-xl bg-white dark:bg-gray-900 p-1 flex items-center justify-center border border-gray-100 dark:border-gray-800 shadow-sm shrink-0 group-hover:scale-105 transition">
+              <div className="w-10 h-10 rounded-xl bg-white p-0.5 flex items-center justify-center border border-gray-100 dark:border-emerald-900/60 shadow-sm shrink-0 group-hover:scale-105 transition">
                 <img 
                   src="/logo.png" 
-                  alt="Rajaji Tiger Reserve Logo" 
+                  alt="Rajaji National Park logo" 
                   className="w-full h-full object-contain"
                 />
               </div>

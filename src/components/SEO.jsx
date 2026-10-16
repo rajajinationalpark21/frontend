@@ -36,7 +36,7 @@ export default function SEO({
   }, [page?.section]);
   const cms = sectionSeo(content, page);
   const currentUrl = `${SITE_URL}${path}`;
-  const finalImage = absoluteUrl(ogImage || '/logo.png');
+  const finalImage = absoluteUrl(ogImage || '/og-image.png');
 
   const pageTitle = cms.title || page?.title || title || 'Rajaji National Park';
   // A title set in the admin panel is used exactly as written.

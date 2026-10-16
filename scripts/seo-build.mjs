@@ -351,7 +351,7 @@ function renderPage(template, page) {
   const url = `${SITE_URL}${page.path}`;
   // A title set in the admin panel is used exactly as written.
   const title = (page.cmsTitle || page.title.includes('Rajaji')) ? page.title : `${page.title} | Rajaji National Park`;
-  const image = absolute(page.image || '/logo.png');
+  const image = absolute(page.image || '/og-image.png');
   const trail = breadcrumbTrail(page.path, page.name);
   const schemas = [...(page.schemas ?? []), ...(trail.length ? [breadcrumbSchema(trail, SITE_URL)] : [])];
 

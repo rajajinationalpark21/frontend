@@ -145,10 +145,10 @@ export default function Navbar({ onOpenBooking }) {
           
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2.5 group shrink-0">
-            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-white dark:bg-gray-900 p-1 flex items-center justify-center border border-gray-200/80 dark:border-gray-800 shadow-sm group-hover:scale-105 transition shrink-0">
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-white p-0.5 flex items-center justify-center border border-gray-200/80 dark:border-emerald-900/60 shadow-sm group-hover:scale-105 transition shrink-0">
               <img 
                 src="/logo.png" 
-                alt="Rajaji National Park Logo" 
+                alt="Rajaji National Park logo" 
                 className="w-full h-full object-contain"
               />
             </div>
