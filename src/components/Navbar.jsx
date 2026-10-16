@@ -125,8 +125,11 @@ export default function Navbar({ onOpenBooking }) {
   const bookingEntry = fullMenu.find((entry) => entry.path === '/booking');
   const menu = fullMenu.filter((entry) => entry !== bookingEntry);
   const bookingLabel = bookingEntry?.label || 'Book Now';
-  // The Map button opens the same page as the menu's "How to Reach" entry.
-  const reachPath = fullMenu.find((entry) => /how to reach/i.test(entry.label))?.path || '/how-to-reach';
+  // The menu's "How to Reach" entry is the Map button on wide screens; the phone
+  // menu keeps it as a link because the phone Map button shows only an icon.
+  const reachEntry = fullMenu.find((entry) => /how to reach/i.test(entry.label));
+  const reachPath = reachEntry?.path || '/how-to-reach';
+  const desktopMenu = menu.filter((entry) => entry !== reachEntry);
 
   const isEntryActive = (entry) => {
     const path = location.pathname;
@@ -161,7 +164,7 @@ export default function Navbar({ onOpenBooking }) {
 
           {/* Desktop Navigation Links (the admin panel's Website Menu) */}
           <nav ref={dropdownRef} className="hidden xl:flex items-center gap-x-3.5 text-[13px] font-medium">
-            {menu.map((entry) => {
+            {desktopMenu.map((entry) => {
               const children = entry.children || [];
               if (children.length === 0) {
                 return (
