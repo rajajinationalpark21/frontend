@@ -132,11 +132,6 @@
       "permanent": true
     },
     {
-      "source": "/about",
-      "destination": "/",
-      "permanent": true
-    },
-    {
       "source": "/gallery",
       "destination": "/wildlife-biodiversity-rajaji-tiger-reserve",
       "permanent": true

@@ -20,6 +20,17 @@ export const ROUTE_SEO = {
     priority: 1.0,
     changefreq: 'weekly',
   },
+  '/about': {
+    name: 'About Rajaji',
+    section: 'about',
+    title: 'About Rajaji National Park | Rajaji Tiger Reserve, Uttarakhand',
+    description:
+      'About Rajaji Tiger Reserve in the Shiwalik foothills of Uttarakhand: its forests, rivers and wildlife, including tigers and Asian elephants, and help booking a Rajaji Jeep Safari.',
+    keywords:
+      'About Rajaji National Park, Rajaji Tiger Reserve, Rajaji National Park wildlife, Shiwalik forests, Rajaji Jeep Safari booking',
+    priority: 0.8,
+    changefreq: 'monthly',
+  },
   '/rajaji-national-park-jeep-safari-tickets-entry-fees-charges': {
     name: 'Tickets, Entry Fees & Charges',
     section: 'tickets',
@@ -289,7 +300,6 @@ export const ALIASES = {
   '/book': '/booking',
   '/safari/book': '/booking',
   '/journal': '/blog',
-  '/about': '/',
   '/gallery': '/wildlife-biodiversity-rajaji-tiger-reserve',
   '/chillawali-jeep-safari': '/chillawali-jeep-safari-mohand-gate',
   '/eco-tourism': '/activities',

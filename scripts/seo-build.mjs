@@ -213,6 +213,10 @@ const BODY = {
     p(c.activities.subtitle) +
     c.activities.items.map((a) => `<h2>${link(a.slug, a.title)}</h2>${p(a.tagline)}${p(a.desc)}`).join(''),
 
+  '/about': (c) =>
+    `<h1>${esc(c.about?.title)}</h1>` +
+    [c.about?.overviewIntro, ...(c.about?.overviewParagraphs ?? [])].map(p).join('') +
+    docHtml(c.about?.docBlocks),
   '/rajaji-jeep-safari': docPage('jeepSafari'),
   '/rajaji-national-park-bird-watching-jungle-safari': docPage('birdWatching'),
   '/trekking-in-rajaji': docPage('trekking'),
@@ -334,6 +338,7 @@ function blogBody(post) {
 // ── Document assembly ───────────────────────────────────────────────────────
 const NAV = [
   ['/', 'Home'],
+  ['/about', 'About Rajaji'],
   ['/zones', 'Safari Zones'],
   ['/rajaji-national-park-jeep-safari-tickets-entry-fees-charges', 'Tickets & Fees'],
   ['/wildlife-biodiversity-rajaji-tiger-reserve', 'Wildlife'],
