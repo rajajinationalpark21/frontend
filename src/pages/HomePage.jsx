@@ -19,7 +19,6 @@ import { slugify } from '../utils/slugify';
 import SEO from '../components/SEO';
 import FeedbackSection from '../components/FeedbackSection';
 import CallToAction from '../components/CallToAction';
-import { DocSection } from '../components/DocContent';
 import PageLoader from '../components/PageLoader';
 import HeroImageRotator from '../components/HeroImageRotator';
 
@@ -58,7 +57,6 @@ export default function HomePage({ onOpenBooking }) {
   const [loading, setLoading] = useState(true);
   const [recentBlogs, setRecentBlogs] = useState([]);
   // The rest of the "Page – Home About Rajaji" document and the shared booking wording.
-  const [homeDocBlocks, setHomeDocBlocks] = useState([]);
   const [ctaCopy, setCtaCopy] = useState({});
   const [aboutOpen, setAboutOpen] = useState(false);
 
@@ -70,7 +68,6 @@ export default function HomePage({ onOpenBooking }) {
           if (home) {
             setContent(home);
           }
-          setHomeDocBlocks(contentRes.value?.data?.about?.docBlocks || []);
           setCtaCopy(contentRes.value?.data?.settings?.ctaCopy || {});
         }
         if (blogsRes.status === 'fulfilled') {
@@ -272,11 +269,6 @@ export default function HomePage({ onOpenBooking }) {
           </div>
         </div>
       </section>
-
-      {/* The Home page document after its About section: overview, booking help, disclaimer */}
-      <div className="pb-16">
-        <DocSection blocks={homeDocBlocks} onBooking={onOpenBooking} message={ctaCopy.whatsappMessage} />
-      </div>
 
       {/* 3. CAPTURED MOMENTS GALLERY MOSAIC */}
       <section className="py-20 border-y border-emerald-950/10 dark:border-emerald-900/30 relative">
