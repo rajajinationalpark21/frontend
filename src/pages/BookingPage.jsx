@@ -20,6 +20,7 @@ import {
 import { safariImages, contactInfo } from '../data/safariData';
 import { fetchContent } from '../api/client';
 import { submitBooking } from '../api/client';
+import HoneypotField from '../components/HoneypotField';
 import SEO from '../components/SEO';
 import PageHero from '../components/PageHero';
 
@@ -53,6 +54,7 @@ const NON_SAFARI_SLUGS = ['chaurasi-kutiya-beatles-ashram'];
 
 export default function BookingPage() {
   const [zones, setZones] = useState(DEFAULT_ZONES);
+  const [honeypot, setHoneypot] = useState('');
   const [bookingContent, setBookingContent] = useState(DEFAULT_BOOKING_CONTENT);
   const [selectedZone, setSelectedZone] = useState(DEFAULT_ZONES[0].id);
   const [date, setDate] = useState(() => {
@@ -125,6 +127,7 @@ export default function BookingPage() {
         shift: slot,
         guests,
         specialRequests,
+        website_hp: honeypot,
       });
 
       setBookingConfirmed({
@@ -271,7 +274,9 @@ export default function BookingPage() {
           /* Main Booking Form */
           <div className="max-w-3xl mx-auto">
             <div className="bg-[#fdfcf8]/90 dark:bg-[#0c1f13]/90 backdrop-blur-md rounded-3xl p-6 sm:p-10 border border-emerald-950/10 dark:border-emerald-500/20 shadow-sm">
-              <form onSubmit={handleBookingSubmit} className="space-y-8">
+              <form onSubmit={handleBookingSubmit} className="space-y-8 relative">
+                {/* Spam trap, checked by the server */}
+                <HoneypotField value={honeypot} onChange={setHoneypot} />
                 {/* 1. SELECT SAFARI ZONE */}
                 <div>
                   <label className="block text-sm font-bold text-gray-900 dark:text-white mb-3 flex items-center justify-between">

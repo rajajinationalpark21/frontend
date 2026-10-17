@@ -11,6 +11,7 @@ import {
   Loader2
 } from 'lucide-react';
 import { submitFeedback } from '../api/client';
+import HoneypotField from './HoneypotField';
 
 const ZONES = [
   'Chilla Range',
@@ -32,6 +33,7 @@ const RATING_LABELS = {
 
 export default function FeedbackModal({ isOpen, onClose, onFeedbackSubmitted }) {
   const [rating, setRating] = useState(5);
+  const [honeypot, setHoneypot] = useState('');
   const [hoverRating, setHoverRating] = useState(0);
   const [name, setName] = useState('');
   const [location, setLocation] = useState('');
@@ -87,6 +89,7 @@ export default function FeedbackModal({ isOpen, onClose, onFeedbackSubmitted }) 
       zone,
       location: location.trim() || 'Visitor Guest',
       comment: comment.trim(),
+      website_hp: honeypot,
     };
 
     try {
@@ -164,7 +167,9 @@ export default function FeedbackModal({ isOpen, onClose, onFeedbackSubmitted }) 
               </p>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-4 relative">
+              {/* Spam trap, checked by the server */}
+              <HoneypotField value={honeypot} onChange={setHoneypot} />
               {error && (
                 <div className="p-3 rounded-xl bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-800/50 text-red-700 dark:text-red-300 text-xs">
                   {error}

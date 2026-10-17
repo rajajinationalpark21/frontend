@@ -12,6 +12,7 @@ import { safariImages, faqs, contactInfo } from '../data/safariData';
 import { fetchContent, submitContact } from '../api/client';
 import SEO from '../components/SEO';
 import PageHero from '../components/PageHero';
+import HoneypotField from '../components/HoneypotField';
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -63,12 +64,6 @@ export default function ContactPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Silent drop if honeypot was filled by an automated bot
-    if (honeypot) {
-      console.warn("Spam bot submission trapped.");
-      return;
-    }
-
     if (isSubmitting || cooldown) return;
 
     setIsSubmitting(true);
@@ -80,6 +75,7 @@ export default function ContactPage() {
         phone: formData.phone,
         subject: formData.subject,
         message: formData.message,
+        website_hp: honeypot,
       });
       setSubmitted(true);
       setCooldown(true);
@@ -247,19 +243,8 @@ export default function ContactPage() {
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-6 text-sm">
-                  {/* Invisible Honeypot Trap against automated spam bots */}
-                  <div className="opacity-0 absolute -z-10 select-none pointer-events-none h-0 w-0 overflow-hidden" aria-hidden="true">
-                    <label htmlFor="website_hp">Leave this empty</label>
-                    <input
-                      id="website_hp"
-                      type="text"
-                      name="website_hp"
-                      value={honeypot}
-                      onChange={(e) => setHoneypot(e.target.value)}
-                      tabIndex={-1}
-                      autoComplete="off"
-                    />
-                  </div>
+                  {/* Spam trap, checked by the server */}
+                  <HoneypotField value={honeypot} onChange={setHoneypot} />
 
                   {/* Row 1: Name & Email */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
