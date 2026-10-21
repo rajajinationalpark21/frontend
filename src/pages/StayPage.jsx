@@ -7,6 +7,9 @@ import CallToAction from '../components/CallToAction';
 import PageHero from '../components/PageHero';
 import { DocSection } from '../components/DocContent';
 import PhotoGallery from '../components/PhotoGallery';
+import { cmsText } from '../utils/cmsText';
+
+const DEFAULT_FRH_COLUMNS = ["Forest Rest House", "Suites Available", "Current Status", "Entry Gate Access", "Setting & Atmosphere"];
 
 export default function StayPage({ onOpenBooking }) {
   const [stay, setStay] = useState(null);
@@ -31,6 +34,14 @@ export default function StayPage({ onOpenBooking }) {
   const wildBrook = data.wildBrook || {};
   const forestRestHouses = data.forestRestHouses || [];
   const frhBookingInfo = data.frhBookingInfo || {};
+  const cta = data.ctaBand || {};
+  const wildBrookButton = cmsText(wildBrook.buttonText, 'Inquire for Wild Brook Booking');
+  const frhEyebrow = cmsText(data.frhEyebrow, 'Colonial Heritage Forest Lodges');
+  const frhTitle = cmsText(data.frhTitle, 'Forest Rest Houses (FRH) of Rajaji');
+  const frhIntro = cmsText(data.frhIntro, 'Managed directly by the Uttarakhand Forest Department, these historic colonial-era rest houses offer rustic charm, prime wildlife proximity, and complete seclusion.');
+  const frhColumns = DEFAULT_FRH_COLUMNS.map((fallback, index) => cmsText(data.frhColumns?.[index], fallback));
+  const frhBookingTitle = cmsText(frhBookingInfo.title, 'How to Book Forest Rest Houses');
+  const frhBookingButton = cmsText(frhBookingInfo.buttonText, 'Safari & Stay Assistance');
 
   const heroTitle = data.title;
   const heroSubtitle = data.subtitle || data.overview;
@@ -89,20 +100,22 @@ export default function StayPage({ onOpenBooking }) {
                   <span>{(wildBrook.email || '').split('/')[0]}</span>
                 </div>
               </div>
-              <div className="pt-2">
-                <button 
-                  onClick={onOpenBooking} 
-                  className="px-7 py-3.5 rounded-xl bg-gradient-to-r from-emerald-500 to-safari-600 hover:from-emerald-600 hover:to-safari-700 text-white font-bold text-xs uppercase tracking-wider transition shadow-lg shadow-emerald-950/50 hover:shadow-emerald-500/25"
-                >
-                  Inquire for Wild Brook Booking
-                </button>
-              </div>
+              {wildBrookButton && (
+                <div className="pt-2">
+                  <button 
+                    onClick={onOpenBooking} 
+                    className="px-7 py-3.5 rounded-xl bg-gradient-to-r from-emerald-500 to-safari-600 hover:from-emerald-600 hover:to-safari-700 text-white font-bold text-xs uppercase tracking-wider transition shadow-lg shadow-emerald-950/50 hover:shadow-emerald-500/25"
+                  >
+                    {wildBrookButton}
+                  </button>
+                </div>
+              )}
             </div>
             <div className="space-y-4">
               <div className="rounded-2xl overflow-hidden shadow-md aspect-[4/3] bg-gray-100 dark:bg-gray-800">
                 <img 
                   src={(wildBrook.mainImage && wildBrook.mainImage.trim()) || "/images/stay/wild-brook-stream.jpg"} 
-                  alt="Wild Brook Retreat valley stream" 
+                  alt={cmsText(wildBrook.mainImageAlt, 'Wild Brook Retreat valley stream')} 
                   className="w-full h-full object-cover hover:scale-105 transition duration-700" 
                 />
               </div>
@@ -110,14 +123,14 @@ export default function StayPage({ onOpenBooking }) {
                 <div className="rounded-xl overflow-hidden shadow-sm aspect-[4/3] bg-gray-100 dark:bg-gray-800">
                   <img 
                     src={(wildBrook.leafImage && wildBrook.leafImage.trim()) || "/images/stay/rajaji-foliage.jpg"} 
-                    alt="Native Rajaji forest foliage" 
+                    alt={cmsText(wildBrook.leafImageAlt, 'Native Rajaji forest foliage')} 
                     className="w-full h-full object-cover hover:scale-105 transition duration-500" 
                   />
                 </div>
                 <div className="rounded-xl overflow-hidden shadow-sm aspect-[4/3] bg-gray-100 dark:bg-gray-800">
                   <img 
                     src={(wildBrook.sunsetImage && wildBrook.sunsetImage.trim()) || "/images/stay/gohari-wildlife.png"} 
-                    alt="Spotted deer in Gohri meadow" 
+                    alt={cmsText(wildBrook.sunsetImageAlt, 'Spotted deer in Gohri meadow')} 
                     className="w-full h-full object-cover hover:scale-105 transition duration-500" 
                   />
                 </div>
@@ -131,15 +144,21 @@ export default function StayPage({ onOpenBooking }) {
       <section className="relative z-10 py-16 border-t border-emerald-900/15">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-10 max-w-3xl">
-            <span className="text-xs font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-400 block mb-1">
-              Colonial Heritage Forest Lodges
-            </span>
-            <h2 className="text-3xl sm:text-4xl font-serif font-extrabold text-gray-900 dark:text-emerald-50">
-              Forest Rest Houses (FRH) of Rajaji
-            </h2>
-            <p className="text-sm text-gray-600 dark:text-emerald-100/75 mt-2 leading-relaxed font-light">
-              Managed directly by the Uttarakhand Forest Department, these historic colonial-era rest houses offer rustic charm, prime wildlife proximity, and complete seclusion.
-            </p>
+            {frhEyebrow && (
+              <span className="text-xs font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-400 block mb-1">
+                {frhEyebrow}
+              </span>
+            )}
+            {frhTitle && (
+              <h2 className="text-3xl sm:text-4xl font-serif font-extrabold text-gray-900 dark:text-emerald-50">
+                {frhTitle}
+              </h2>
+            )}
+            {frhIntro && (
+              <p className="text-sm text-gray-600 dark:text-emerald-100/75 mt-2 leading-relaxed font-light">
+                {frhIntro}
+              </p>
+            )}
           </div>
 
           <div className="bg-[#fdfcf8]/90 dark:bg-[#0c1f13]/90 backdrop-blur-md rounded-2xl overflow-hidden border border-emerald-900/15 dark:border-emerald-800/40 shadow-sm mb-10">
@@ -147,11 +166,9 @@ export default function StayPage({ onOpenBooking }) {
               <table className="w-full text-left text-sm">
                 <thead className="bg-emerald-50/80 dark:bg-emerald-950/60 text-emerald-900 dark:text-emerald-300 font-semibold text-xs uppercase tracking-wider border-b border-emerald-900/15">
                   <tr>
-                    <th className="px-6 py-4">Forest Rest House</th>
-                    <th className="px-6 py-4">Suites Available</th>
-                    <th className="px-6 py-4">Current Status</th>
-                    <th className="px-6 py-4">Entry Gate Access</th>
-                    <th className="px-6 py-4">Setting & Atmosphere</th>
+                    {frhColumns.map((column, index) => (
+                      <th key={index} className="px-6 py-4">{column}</th>
+                    ))}
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-emerald-900/10 dark:divide-emerald-900/30">
@@ -194,24 +211,26 @@ export default function StayPage({ onOpenBooking }) {
             <div className="relative z-10 space-y-3 max-w-2xl">
               <h3 className="text-xl sm:text-2xl font-serif font-bold text-white flex items-center gap-2">
                 <Building2 className="w-5 h-5 text-emerald-400" />
-                How to Book Forest Rest Houses
+                {frhBookingTitle}
               </h3>
               <p className="text-xs sm:text-sm text-emerald-100/80 leading-relaxed font-light">
                 {frhBookingInfo.bookingRule}
               </p>
               <div className="text-xs text-emerald-200/70 pt-2 space-y-1">
-                <div><strong>Authority:</strong> {frhBookingInfo.authority}</div>
-                <div><strong>Address:</strong> {frhBookingInfo.address}</div>
-                <div><strong>Office Tel:</strong> {frhBookingInfo.phone}</div>
+                {frhBookingInfo.authority && <div><strong>Authority:</strong> {frhBookingInfo.authority}</div>}
+                {frhBookingInfo.address && <div><strong>Address:</strong> {frhBookingInfo.address}</div>}
+                {frhBookingInfo.phone && <div><strong>Office Tel:</strong> {frhBookingInfo.phone}</div>}
               </div>
             </div>
             <div className="relative z-10 shrink-0 flex flex-col gap-3 w-full md:w-auto">
-              <button 
-                onClick={onOpenBooking} 
-                className="px-7 py-3.5 rounded-xl bg-gradient-to-r from-emerald-500 to-safari-600 hover:from-emerald-600 hover:to-safari-700 text-white font-bold text-xs uppercase tracking-wider transition shadow-lg shadow-emerald-950/50 hover:shadow-emerald-500/25 text-center"
-              >
-                Safari & Stay Assistance
-              </button>
+              {frhBookingButton && (
+                <button 
+                  onClick={onOpenBooking} 
+                  className="px-7 py-3.5 rounded-xl bg-gradient-to-r from-emerald-500 to-safari-600 hover:from-emerald-600 hover:to-safari-700 text-white font-bold text-xs uppercase tracking-wider transition shadow-lg shadow-emerald-950/50 hover:shadow-emerald-500/25 text-center"
+                >
+                  {frhBookingButton}
+                </button>
+              )}
             </div>
           </div>
         </div>
@@ -219,14 +238,14 @@ export default function StayPage({ onOpenBooking }) {
 
       {/* Unified Call To Action matching HomePage */}
       <CallToAction
-        title="Experience a Night Inside the Sanctuary?"
-        subtitle="Wake up to the sounds of the jungle. Book official Forest Rest Houses or nearby eco-resorts combined with morning gypsy safari permits."
-        primaryText="Plan Safari & Stay"
+        title={cmsText(cta.title, "Experience a Night Inside the Sanctuary?")}
+        subtitle={cmsText(cta.subtitle, "Wake up to the sounds of the jungle. Book official Forest Rest Houses or nearby eco-resorts combined with morning gypsy safari permits.")}
+        primaryText={cmsText(cta.primaryText, "Plan Safari & Stay")}
         onPrimaryClick={onOpenBooking}
-        secondaryText="View Safari Zones"
-        secondaryLink="/zones"
+        secondaryText={cmsText(cta.secondaryText, "View Safari Zones")}
+        secondaryLink={cta.secondaryLink || "/zones"}
         secondaryIcon={Building2}
-        bgImage={safariImages.chilaZone || safariImages.homeHero}
+        bgImage={cta.bgImage || safariImages.chilaZone || safariImages.homeHero}
       />
     </div>
   );

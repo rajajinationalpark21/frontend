@@ -7,6 +7,7 @@ import SEO from '../components/SEO';
 import PageLoader from '../components/PageLoader';
 import CallToAction from '../components/CallToAction';
 import PageHero from '../components/PageHero';
+import { cmsText } from '../utils/cmsText';
 
 const fallbackActivities = [
   {
@@ -70,6 +71,8 @@ export default function ActivitiesPage({ onOpenBooking }) {
   const pageTitle = content?.activities?.title || "Activities at Rajaji National Park";
   const pageSubtitle = content?.activities?.subtitle || "From adrenaline-fueled 4x4 jeep safaris and white-water rafting to secluded forest stays in the foothills of Uttarakhand.";
   const heroBanner = content?.activities?.heroBanner || safariImages.safariJeepSavannah;
+  const cta = content?.activities?.ctaBand || {};
+  const cardButtonText = cmsText(content?.activities?.cardButtonText, 'Book Now');
 
   return (
     <div className="relative min-h-screen bg-[#faf8f5] dark:bg-[#07120a] transition-colors">
@@ -130,12 +133,14 @@ export default function ActivitiesPage({ onOpenBooking }) {
                       <span>{act.cta || 'Learn More'}</span>
                       <ArrowRight className="w-4 h-4" />
                     </Link>
-                    <button
-                      onClick={() => onOpenBooking ? onOpenBooking() : navigate('/booking')}
-                      className="px-5 py-2.5 rounded-xl bg-emerald-500/15 hover:bg-emerald-600 hover:text-white text-emerald-800 dark:text-emerald-300 text-xs font-bold transition"
-                    >
-                      Book Now
-                    </button>
+                    {cardButtonText && (
+                      <button
+                        onClick={() => onOpenBooking ? onOpenBooking() : navigate('/booking')}
+                        className="px-5 py-2.5 rounded-xl bg-emerald-500/15 hover:bg-emerald-600 hover:text-white text-emerald-800 dark:text-emerald-300 text-xs font-bold transition"
+                      >
+                        {cardButtonText}
+                      </button>
+                    )}
                   </div>
                 </div>
               </div>
@@ -146,14 +151,14 @@ export default function ActivitiesPage({ onOpenBooking }) {
 
       {/* Unified Call To Action matching HomePage */}
       <CallToAction
-        title="Ready to Plan Your Jungle Expedition?"
-        subtitle="From sunrise birding excursions to high-adrenaline river rafting and core zone jeep safaris, book your slots with registered government naturalists."
-        primaryText="Book Safari Activity"
+        title={cmsText(cta.title, "Ready to Plan Your Jungle Expedition?")}
+        subtitle={cmsText(cta.subtitle, "From sunrise birding excursions to high-adrenaline river rafting and core zone jeep safaris, book your slots with registered government naturalists.")}
+        primaryText={cmsText(cta.primaryText, "Book Safari Activity")}
         onPrimaryClick={() => onOpenBooking ? onOpenBooking() : navigate('/booking')}
-        secondaryText="View Safari Zones"
-        secondaryLink="/zones"
+        secondaryText={cmsText(cta.secondaryText, "View Safari Zones")}
+        secondaryLink={cta.secondaryLink || "/zones"}
         secondaryIcon={ArrowRight}
-        bgImage={safariImages.chilaZone || safariImages.homeHero}
+        bgImage={cta.bgImage || safariImages.chilaZone || safariImages.homeHero}
       />
     </div>
   );

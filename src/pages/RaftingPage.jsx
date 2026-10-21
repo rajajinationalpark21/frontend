@@ -9,6 +9,7 @@ import CoverImage from '../components/CoverImage';
 import PageHero from '../components/PageHero';
 import { DocSection } from '../components/DocContent';
 import PhotoGallery from '../components/PhotoGallery';
+import { cmsText } from '../utils/cmsText';
 
 const fallbackRaftingStretches = [
   {
@@ -66,6 +67,11 @@ export default function RaftingPage({ onOpenBooking }) {
   const pageSubtitle = raftingData.subtitle || "Combine your Rajaji wildlife jeep safari with world-renowned white-water rafting along the sacred Ganges river as it carves through the forested Shivalik valleys of Uttarakhand.";
   const heroBanner = raftingData.heroBanner || safariImages.riverCruise;
   const safetyRules = raftingData.safetyGuidelines || [];
+  const eyebrow = cmsText(raftingData.stretchesEyebrow, 'RIVER EXPEDITION CIRCUITS');
+  const stretchesTitle = cmsText(raftingData.stretchesTitle, 'Available Rafting Stretches');
+  const stretchesIntro = cmsText(raftingData.stretchesIntro, 'All runs include certified rescue kayakers, international safety helmets, lifejackets, and professional instruction.');
+  const stretchButtonText = cmsText(raftingData.stretchButtonText, 'Book This Stretch');
+  const safetyTitle = cmsText(raftingData.safetyTitle, 'Rafting Safety Protocols');
 
   return (
     <div className="relative min-h-screen bg-[#fbfcfa] dark:bg-gray-950 transition-colors">
@@ -89,15 +95,21 @@ export default function RaftingPage({ onOpenBooking }) {
       {/* Stretches List */}
       <section className="relative z-10 py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         <div className="text-center max-w-2xl mx-auto space-y-2">
-          <span className="text-xs font-bold uppercase tracking-widest text-emerald-600 dark:text-emerald-400 block">
-            RIVER EXPEDITION CIRCUITS
-          </span>
-          <h2 className="font-serif text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white">
-            Available Rafting Stretches
-          </h2>
-          <p className="text-sm text-gray-600 dark:text-gray-400">
-            All runs include certified rescue kayakers, international safety helmets, lifejackets, and professional instruction.
-          </p>
+          {eyebrow && (
+            <span className="text-xs font-bold uppercase tracking-widest text-emerald-600 dark:text-emerald-400 block">
+              {eyebrow}
+            </span>
+          )}
+          {stretchesTitle && (
+            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white">
+              {stretchesTitle}
+            </h2>
+          )}
+          {stretchesIntro && (
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              {stretchesIntro}
+            </p>
+          )}
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -126,14 +138,18 @@ export default function RaftingPage({ onOpenBooking }) {
                 </p>
 
                 <div className="space-y-2 pt-3 border-t border-gray-100 dark:border-gray-800 text-xs">
-                  <div className="flex items-center justify-between text-gray-700 dark:text-gray-300">
-                    <span className="text-gray-400">Duration:</span>
-                    <span className="font-semibold">{run.duration}</span>
-                  </div>
-                  <div className="flex items-center justify-between text-gray-700 dark:text-gray-300">
-                    <span className="text-gray-400">Rapids:</span>
-                    <span className="font-semibold text-right max-w-[160px] truncate">{run.rapids}</span>
-                  </div>
+                  {run.duration && (
+                    <div className="flex items-center justify-between text-gray-700 dark:text-gray-300">
+                      <span className="text-gray-400">Duration:</span>
+                      <span className="font-semibold">{run.duration}</span>
+                    </div>
+                  )}
+                  {run.rapids && (
+                    <div className="flex items-center justify-between text-gray-700 dark:text-gray-300">
+                      <span className="text-gray-400">Rapids:</span>
+                      <span className="font-semibold text-right max-w-[160px] truncate">{run.rapids}</span>
+                    </div>
+                  )}
                 </div>
               </div>
 
@@ -141,12 +157,14 @@ export default function RaftingPage({ onOpenBooking }) {
                 <div className="font-sans text-xl font-bold text-emerald-700 dark:text-emerald-400 tabular-nums tracking-normal">
                   {run.price}
                 </div>
-                <button
-                  onClick={() => onOpenBooking ? onOpenBooking() : navigate('/booking')}
-                  className="w-full py-3.5 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider transition shadow-md"
-                >
-                  Book This Stretch
-                </button>
+                {stretchButtonText && (
+                  <button
+                    onClick={() => onOpenBooking ? onOpenBooking() : navigate('/booking')}
+                    className="w-full py-3.5 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider transition shadow-md"
+                  >
+                    {stretchButtonText}
+                  </button>
+                )}
               </div>
             </div>
           ))}
@@ -156,7 +174,7 @@ export default function RaftingPage({ onOpenBooking }) {
         {safetyRules.length > 0 && (
           <div className="mt-12 bg-[#fdfcf8]/90 dark:bg-[#0c1f13]/90 backdrop-blur-md rounded-3xl p-8 sm:p-10 border border-emerald-950/10 dark:border-emerald-500/20 shadow-sm">
             <h3 className="font-serif text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-              <ShieldCheck className="w-5 h-5 text-emerald-600 dark:text-emerald-400" /> Rafting Safety Protocols
+              <ShieldCheck className="w-5 h-5 text-emerald-600 dark:text-emerald-400" /> {safetyTitle}
             </h3>
             <ul className="grid grid-cols-1 md:grid-cols-2 gap-3.5 text-sm text-gray-600 dark:text-gray-300">
               {safetyRules.map((rule, idx) => (
