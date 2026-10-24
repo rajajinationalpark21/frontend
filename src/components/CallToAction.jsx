@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Ticket, ArrowRight, ShieldCheck, Compass, CheckCircle2, MessageSquare, Sparkles } from 'lucide-react';
 import { safariImages } from '../data/safariData';
+import RichText from './RichText';
 
 export default function CallToAction({
   badgeText,
@@ -83,7 +84,7 @@ export default function CallToAction({
 
           {subtitle && (
             <p className="text-gray-200/90 text-xs sm:text-sm md:text-base max-w-xl mx-auto leading-relaxed">
-              {subtitle}
+              <RichText text={subtitle} />
             </p>
           )}
 

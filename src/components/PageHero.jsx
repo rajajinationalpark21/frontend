@@ -1,5 +1,6 @@
 import React from "react";
 import HeroImageRotator from "./HeroImageRotator";
+import RichText from './RichText';
 
 /**
  * The shared full-bleed page heading used across the public site. Every page
@@ -35,7 +36,7 @@ export default function PageHero({
           </h1>
           {subtitle && (
             <p className="mx-auto max-w-2xl text-base font-normal leading-relaxed text-gray-200/95 sm:text-lg">
-              {subtitle}
+              <RichText text={subtitle} />
             </p>
           )}
         </div>

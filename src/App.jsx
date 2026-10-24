@@ -30,12 +30,15 @@ import CmsDocPage from './components/CmsDocPage';
 import CmsSlugRoute from './components/CmsSlugRoute';
 
 import { ThemeProvider } from './context/ThemeContext';
+import { countPageView } from './api/client';
 
+/** On every page change: back to the top, and count the view for the admin dashboard. */
 function ScrollToTop() {
   const { pathname } = useLocation();
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'instant' });
+    countPageView(pathname);
   }, [pathname]);
 
   return null;
@@ -45,7 +48,9 @@ const ACTIVITIES_PARENT = { label: 'Activities at Rajaji', path: '/activities' }
 
 function MainLayout() {
   const navigate = useNavigate();
-  const handleOpenBooking = () => navigate('/booking');
+  // A zone slug opens the form with that zone already selected; click events are ignored.
+  const handleOpenBooking = (zone) =>
+    navigate(typeof zone === 'string' && zone ? `/booking?zone=${encodeURIComponent(zone)}` : '/booking');
 
   return (
     <div className="flex flex-col min-h-screen">

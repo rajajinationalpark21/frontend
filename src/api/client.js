@@ -72,3 +72,25 @@ export function submitBooking(data) {
   });
 }
 
+
+/**
+ * Counts a page view for the admin dashboard. Sent as text/plain so the browser
+ * needs no CORS preflight, and with sendBeacon so it never delays navigation.
+ * No cookies and no personal data are sent.
+ */
+let lastCounted = "";
+export function countPageView(path) {
+  if (typeof window === "undefined" || path === lastCounted) return;
+  lastCounted = path;
+  // The previous page on this site is not a referrer worth counting.
+  const referrer = document.referrer && !document.referrer.startsWith(window.location.origin) ? document.referrer : "";
+  const body = JSON.stringify({ path, referrer });
+  const url = `${API_BASE}/visits`;
+  try {
+    const blob = new Blob([body], { type: "text/plain" });
+    if (navigator.sendBeacon && navigator.sendBeacon(url, blob)) return;
+    fetch(url, { method: "POST", body, headers: { "Content-Type": "text/plain" }, keepalive: true }).catch(() => {});
+  } catch {
+    // Counting must never break the page.
+  }
+}

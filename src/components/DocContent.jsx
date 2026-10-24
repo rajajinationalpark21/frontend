@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Check, Info, Mail, MapPin, MessageSquare, Phone } from 'lucide-react';
+import RichText from './RichText';
 
 /**
  * Renders a client page document (backend `docBlocks`, produced by
@@ -18,33 +19,6 @@ const slugify = (text) =>
 const telHref = (phone) => `tel:${phone.replace(/[^\d+]/g, '')}`;
 const waHref = (phone, message) =>
   `https://wa.me/${phone.replace(/\D/g, '')}${message ? `?text=${encodeURIComponent(message)}` : ''}`;
-
-// "**bold** text, [a link](/booking)\nnext line" -> React nodes
-function RichText({ text }) {
-  return text.split('\n').map((line, lineIndex) => (
-    <React.Fragment key={lineIndex}>
-      {lineIndex > 0 && <br />}
-      {line.split(/(\*\*[^*]+\*\*|\[[^\]]+\]\([^)\s]+\))/g).map((part, index) => {
-        if (part.startsWith('**') && part.endsWith('**')) {
-          return (
-            <strong key={index} className="font-semibold text-gray-900 dark:text-emerald-50">
-              {part.slice(2, -2)}
-            </strong>
-          );
-        }
-        const link = part.match(/^\[([^\]]+)\]\(([^)\s]+)\)$/);
-        if (link) {
-          return (
-            <Link key={index} to={link[2]} className="font-semibold text-emerald-700 dark:text-emerald-400 underline underline-offset-2 hover:text-emerald-600">
-              {link[1]}
-            </Link>
-          );
-        }
-        return <React.Fragment key={index}>{part}</React.Fragment>;
-      })}
-    </React.Fragment>
-  ));
-}
 
 function DocTable({ rows }) {
   const [head, ...body] = rows;
@@ -176,7 +150,7 @@ function Block({ block, ctx }) {
           <MapPin className="w-5 h-5 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
           <p className="text-base text-gray-700 dark:text-emerald-100/80 leading-relaxed">
             <strong className="font-semibold text-gray-900 dark:text-emerald-50">{block.label}: </strong>
-            {block.text}
+            <RichText text={block.text} />
           </p>
         </div>
       );
@@ -185,7 +159,7 @@ function Block({ block, ctx }) {
         <ul className="flex flex-wrap gap-2.5">
           {block.items.map((item) => (
             <li key={item} className="rounded-full bg-emerald-50/70 dark:bg-[#07150c]/60 border border-emerald-900/10 dark:border-emerald-800/30 px-4 py-2 text-sm font-semibold text-gray-800 dark:text-emerald-100/90">
-              {item}
+              <RichText text={item} />
             </li>
           ))}
         </ul>

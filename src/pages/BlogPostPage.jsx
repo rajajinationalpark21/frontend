@@ -244,7 +244,7 @@ export default function BlogPostPage() {
       <div className="pattern-leaf-delicate pointer-events-none z-0" aria-hidden="true" />
 
       <SEO
-        title={`${article.title} | Rajaji Safari Blog`}
+        title={article.title.length > 42 ? article.title : `${article.title} | Rajaji Safari Blog`}
         description={article.excerpt}
         keywords={`${article.category.toLowerCase()}, rajaji national park, rajaji tiger reserve, rajaji jeep safari`}
         ogImage={article.image}
@@ -394,7 +394,7 @@ export default function BlogPostPage() {
                   Experience Rajaji Firsthand
                 </h3>
                 <p className="text-xs text-gray-600 dark:text-gray-300 leading-relaxed mb-5">
-                  Book registered 4x4 Gypsy safari permits with certified forest guides across Chilla, Motichur, Gohri & Jhilmil ranges.
+                  Book registered 4x4 Gypsy safari permits with certified forest guides across the Chilla, Motichur, Ranipur, Mohand–Chillawali, Jhilmil Jheel & Gohri zones.
                 </p>
                 <Link
                   to="/booking"

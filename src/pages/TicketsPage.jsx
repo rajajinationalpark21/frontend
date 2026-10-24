@@ -9,6 +9,7 @@ import CallToAction from '../components/CallToAction';
 import PageHero from '../components/PageHero';
 import DocContent from '../components/DocContent';
 import PhotoGallery from '../components/PhotoGallery';
+import RichText from '../components/RichText';
 
 export default function TicketsPage({ onOpenBooking }) {
   const [tickets, setTickets] = useState(null);
@@ -115,7 +116,7 @@ export default function TicketsPage({ onOpenBooking }) {
               </div>
               <div>
                 <span className="font-bold text-gray-900 dark:text-white block">Season Calendar</span>
-                <span className="text-gray-600 dark:text-gray-400 text-xs">{timings.openDates}</span>
+                <span className="text-gray-600 dark:text-gray-400 text-xs"><RichText text={timings.openDates} /></span>
               </div>
             </div>
             <div className="flex items-start gap-3.5">
@@ -124,7 +125,7 @@ export default function TicketsPage({ onOpenBooking }) {
               </div>
               <div>
                 <span className="font-bold text-gray-900 dark:text-white block">Summer Shift Timings</span>
-                <span className="text-gray-600 dark:text-gray-400 text-xs">{timings.summer}</span>
+                <span className="text-gray-600 dark:text-gray-400 text-xs"><RichText text={timings.summer} /></span>
               </div>
             </div>
             <div className="flex items-start gap-3.5">
@@ -133,7 +134,7 @@ export default function TicketsPage({ onOpenBooking }) {
               </div>
               <div>
                 <span className="font-bold text-gray-900 dark:text-white block">Winter Shift Timings</span>
-                <span className="text-gray-600 dark:text-gray-400 text-xs">{timings.winter}</span>
+                <span className="text-gray-600 dark:text-gray-400 text-xs"><RichText text={timings.winter} /></span>
               </div>
             </div>
           </div>
@@ -183,7 +184,7 @@ export default function TicketsPage({ onOpenBooking }) {
                       <td className="px-6 py-4 font-bold text-gray-900 dark:text-white">{row.category}</td>
                       <td className="px-6 py-4 font-sans font-bold text-emerald-700 dark:text-emerald-400 tabular-nums">{row.indian}</td>
                       <td className="px-6 py-4 font-sans font-bold text-amber-700 dark:text-amber-400 tabular-nums">{row.foreigner}</td>
-                      <td className="px-6 py-4 text-xs text-gray-500 dark:text-gray-400">{row.note}</td>
+                      <td className="px-6 py-4 text-xs text-gray-500 dark:text-gray-400"><RichText text={row.note} /></td>
                     </tr>
                   ))}
                 </tbody>
@@ -237,7 +238,7 @@ export default function TicketsPage({ onOpenBooking }) {
                       <span className="font-bold text-gray-900 dark:text-white text-sm">{guide.type}</span>
                       <span className="font-sans font-bold text-emerald-700 dark:text-emerald-400 tabular-nums tracking-normal text-base">{guide.fee}</span>
                     </div>
-                    <span className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed block">{guide.note}</span>
+                    <span className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed block"><RichText text={guide.note} /></span>
                   </div>
                 ))}
 
@@ -289,7 +290,7 @@ export default function TicketsPage({ onOpenBooking }) {
                       <td className="px-6 py-4 font-sans font-bold text-emerald-700 dark:text-emerald-400 tabular-nums">{row.indian}</td>
                       <td className="px-6 py-4 font-sans font-bold text-amber-700 dark:text-amber-400 tabular-nums">{row.foreigner}</td>
                       <td className="px-6 py-4 font-sans font-semibold text-xs text-gray-700 dark:text-gray-300 tabular-nums">{row.security}</td>
-                      <td className="px-6 py-4 text-xs text-gray-500 dark:text-gray-400">{row.note}</td>
+                      <td className="px-6 py-4 text-xs text-gray-500 dark:text-gray-400"><RichText text={row.note} /></td>
                     </tr>
                   ))}
                 </tbody>
@@ -320,7 +321,7 @@ export default function TicketsPage({ onOpenBooking }) {
             {importantNotes.map((note, nIdx) => (
               <div key={nIdx} className="flex items-start gap-3 bg-gray-50/80 dark:bg-gray-800/60 p-4 rounded-2xl border border-gray-100 dark:border-gray-700/60">
                 <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
-                <span className="text-gray-700 dark:text-gray-300 leading-relaxed">{note}</span>
+                <span className="text-gray-700 dark:text-gray-300 leading-relaxed"><RichText text={note} /></span>
               </div>
             ))}
           </div>

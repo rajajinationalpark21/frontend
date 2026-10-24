@@ -8,6 +8,7 @@ import { faqSchema } from '../seo/schema';
 import PageLoader from '../components/PageLoader';
 import CallToAction from '../components/CallToAction';
 import PageHero from '../components/PageHero';
+import RichText from '../components/RichText';
 
 const fallbackFaqs = [
   {
@@ -125,7 +126,7 @@ export default function FAQPage({ onOpenBooking }) {
 
                 {isOpen && (
                   <div className="px-6 pb-6 pt-2 text-sm text-gray-600 dark:text-emerald-100/80 leading-relaxed font-light border-t border-emerald-900/10 dark:border-emerald-800/30">
-                    <p>{faq.a}</p>
+                    <p><RichText text={faq.a} /></p>
                   </div>
                 )}
               </div>

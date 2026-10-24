@@ -4,6 +4,7 @@ import { fetchContent } from '../api/client';
 import { ROUTE_SEO, breadcrumbTrail, canonicalPath, sectionSeo } from '../seo/routes';
 import { breadcrumbSchema } from '../seo/schema';
 import { SITE_URL } from '../seo/site';
+import { plainText } from '../utils/plainText';
 
 const absoluteUrl = (value) =>
   /^https?:\/\//.test(value) ? value : `${SITE_URL}${value.startsWith('/') ? '' : '/'}${value}`;
@@ -40,10 +41,10 @@ export default function SEO({
 
   const pageTitle = cms.title || page?.title || title || 'Rajaji National Park';
   // A title set in the admin panel is used exactly as written.
-  const fullTitle = (cms.title || pageTitle.includes('Rajaji'))
+  const fullTitle = plainText((cms.title || pageTitle.includes('Rajaji'))
     ? pageTitle
-    : `${pageTitle} | Rajaji National Park`;
-  const finalDescription = cms.description || page?.description || description || '';
+    : `${pageTitle} | Rajaji National Park`);
+  const finalDescription = plainText(cms.description || page?.description || description || '');
   const finalKeywords = cms.keywords || page?.keywords || keywords;
 
   const trail = noindex ? [] : breadcrumbTrail(path, title?.split(' | ')[0]);

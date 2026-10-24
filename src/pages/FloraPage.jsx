@@ -8,6 +8,7 @@ import PageHero from '../components/PageHero';
 import Breadcrumb from '../components/Breadcrumb';
 import { DocSection } from '../components/DocContent';
 import PhotoGallery from '../components/PhotoGallery';
+import RichText from '../components/RichText';
 
 export default function FloraPage({ onOpenBooking }) {
   const [flora, setFlora] = useState(null);
@@ -121,7 +122,7 @@ export default function FloraPage({ onOpenBooking }) {
                   {tree.scientific}
                 </p>
                 <p className="text-xs sm:text-sm text-gray-600 dark:text-emerald-100/70 leading-relaxed">
-                  {tree.desc}
+                  <RichText text={tree.desc} />
                 </p>
               </div>
             </div>

@@ -12,9 +12,10 @@ export const ROUTE_SEO = {
   '/': {
     name: 'Home',
     section: 'home',
-    title: 'Rajaji National Park Jeep Safari Booking | Rajaji Tiger Reserve, Uttarakhand',
+    title:
+      'Rajaji National Park Jeep Safari Booking | Uttarakhand',
     description:
-      'Book a Rajaji National Park jeep safari in the Chilla, Motichur, Ranipur, Jhilmil Jheel, Mohand and Gohri zones. Entry fees, safari timings, zones and booking help near Haridwar and Rishikesh.',
+      'Book a Rajaji National Park jeep safari in Chilla, Motichur, Ranipur, Jhilmil, Mohand or Gohri. Fees, timings and booking help near Haridwar & Rishikesh.',
     keywords:
       'Rajaji National Park, Rajaji National Park Jeep Safari, Rajaji Tiger Reserve safari booking, Rajaji jungle safari, Chilla jeep safari, safari near Haridwar, safari near Rishikesh',
     priority: 1.0,
@@ -25,7 +26,7 @@ export const ROUTE_SEO = {
     section: 'about',
     title: 'About Rajaji National Park | Rajaji Tiger Reserve, Uttarakhand',
     description:
-      'About Rajaji Tiger Reserve in the Shiwalik foothills of Uttarakhand: its forests, rivers and wildlife, including tigers and Asian elephants, and help booking a Rajaji Jeep Safari.',
+      'About Rajaji Tiger Reserve in Uttarakhand\'s Shiwalik foothills: its forests, rivers, tigers and Asian elephants, and help booking a Rajaji Jeep Safari.',
     keywords:
       'About Rajaji National Park, Rajaji Tiger Reserve, Rajaji National Park wildlife, Shiwalik forests, Rajaji Jeep Safari booking',
     priority: 0.8,
@@ -56,9 +57,10 @@ export const ROUTE_SEO = {
   '/zones': {
     name: 'Safari Zones',
     section: 'safari',
-    title: 'Rajaji Jeep Safari Zones | Chilla, Motichur, Ranipur, Jhilmil, Mohand & Gohri',
+    title:
+      'Rajaji Jeep Safari Zones | Chilla, Motichur, Ranipur & More',
     description:
-      'Compare the jeep safari zones of Rajaji Tiger Reserve: Chilla, Ranipur, Motichur, Chillawali (Mohand), Jhilmil Jheel and Gohri. Entry gates, gypsy cost, timings and wildlife near Haridwar and Rishikesh.',
+      'Compare Rajaji Tiger Reserve safari zones: Chilla, Ranipur, Motichur, Mohand–Chillawali, Jhilmil Jheel and Gohri. Gates, gypsy cost, timings and wildlife.',
     keywords:
       'Rajaji safari zones, Chilla Jeep Safari, Motichur Jeep Safari, Ranipur Gate Jeep Safari, Jhilmil Jeep Safari, Gohri Jeep Safari, Mohand Chillawali Jeep Safari',
     priority: 0.9,
@@ -70,6 +72,8 @@ export const ROUTE_SEO = {
     title: 'Activities at Rajaji National Park | Jeep Safari, Stay & Rafting',
     description:
       'Things to do at Rajaji National Park: jeep safari, forest stays and river rafting on the Ganga near Rishikesh and Haridwar.',
+    keywords:
+      'Rajaji National Park activities, Rajaji Jeep Safari, bird watching in Rajaji, trekking in Rajaji, river rafting Rishikesh, stay near Rajaji National Park',
     priority: 0.7,
     changefreq: 'monthly',
   },
@@ -80,6 +84,8 @@ export const ROUTE_SEO = {
     title: 'Jeep Safari in Rajaji National Park, Uttarakhand',
     description:
       'Plan a Rajaji National Park Jeep Safari: choose your date, zone and shift, share guest details, confirm availability and arrive at the safari gate on time.',
+    keywords:
+      'Rajaji Jeep Safari, Rajaji National Park jeep safari booking, Rajaji jungle safari, gypsy safari Rajaji, Rajaji safari timings',
     priority: 0.8,
     changefreq: 'monthly',
   },
@@ -100,6 +106,8 @@ export const ROUTE_SEO = {
     title: 'Trekking Trails in Rajaji National Park, Uttarakhand',
     description:
       'Trekking areas around Rajaji National Park: Chilla to Kunao, Phanduwala, Ranipur Range, Kansrao and Motichur Range, subject to Forest Department permission.',
+    keywords:
+      'Trekking in Rajaji, Rajaji National Park trekking, Chilla to Kunao trek, Rajaji nature trails',
     priority: 0.6,
     changefreq: 'monthly',
   },
@@ -110,6 +118,8 @@ export const ROUTE_SEO = {
     title: 'River Rafting in Rishikesh near Rajaji National Park',
     description:
       'White water rafting on the Ganga in Rishikesh, next to Rajaji Tiger Reserve. Rafting stretches, grades, duration and safety guidelines.',
+    keywords:
+      'River rafting Rishikesh, Ganga rafting, Shivpuri rafting, Brahmpuri rafting, rafting near Rajaji National Park',
     priority: 0.6,
     changefreq: 'monthly',
   },
@@ -120,6 +130,8 @@ export const ROUTE_SEO = {
     title: 'Stay in Rajaji National Park | Forest Rest Houses & Eco Cottages',
     description:
       'Where to stay in and around Rajaji National Park: Forest Rest Houses and eco cottages near the Chilla, Motichur, Ranipur and Gohri safari zones.',
+    keywords:
+      'Stay near Rajaji National Park, Rajaji forest rest house, Rajaji eco cottages, stay near Chilla Rajaji',
     priority: 0.6,
     changefreq: 'monthly',
   },
@@ -127,9 +139,12 @@ export const ROUTE_SEO = {
     name: 'Wildlife & Biodiversity',
     section: 'fauna',
     seoPrefix: 'hub',
-    title: 'Wildlife & Biodiversity of Rajaji Tiger Reserve | Mammals, Birds, Reptiles & Flora',
+    title:
+      'Wildlife & Biodiversity of Rajaji Tiger Reserve',
     description:
-      'Explore the wildlife and biodiversity of Rajaji Tiger Reserve in Uttarakhand: Asian elephants, Bengal tigers, leopards, around 400 bird species, reptiles, butterflies and flora.',
+      'Wildlife of Rajaji Tiger Reserve, Uttarakhand: Asian elephants, Bengal tigers, leopards, birds, reptiles, butterflies and the Sal forests they live in.',
+    keywords:
+      'Rajaji wildlife, Rajaji Tiger Reserve biodiversity, animals in Rajaji National Park, Rajaji flora and fauna',
     priority: 0.8,
     changefreq: 'monthly',
   },
@@ -148,9 +163,10 @@ export const ROUTE_SEO = {
     name: 'Birds of Rajaji',
     section: 'birds',
     parent: '/wildlife-biodiversity-rajaji-tiger-reserve',
-    title: 'Birds of Rajaji National Park | Bird Watching in Rajaji Tiger Reserve',
+    title:
+      'Birds of Rajaji National Park | Bird Watching in Rajaji',
     description:
-      'Rajaji National Park supports approximately 400 species of birds across Sal forests, grasslands and riverine habitats. Plan a birdwatching safari in Rajaji Tiger Reserve.',
+      'Rajaji National Park supports about 400 bird species across Sal forests, grasslands and rivers. Plan a bird watching safari in Rajaji Tiger Reserve.',
     keywords: 'Birds of Rajaji National Park, bird watching in Rajaji, Rajaji birding, Great Hornbill Rajaji',
     priority: 0.7,
     changefreq: 'monthly',
@@ -159,9 +175,10 @@ export const ROUTE_SEO = {
     name: 'Butterflies of Rajaji',
     section: 'butterflies',
     parent: '/wildlife-biodiversity-rajaji-tiger-reserve',
-    title: 'Butterflies of Rajaji National Park | Butterfly Species & Checklist',
+    title:
+      'Butterflies of Rajaji National Park | Species & Checklist',
     description:
-      'Butterfly species of Rajaji Tiger Reserve, including Blue Pansy, Common Mormon, Great Eggfly, Peacock Pansy and Plain Tiger, with the best time for butterfly watching.',
+      'Butterflies of Rajaji Tiger Reserve, including Blue Pansy, Common Mormon, Great Eggfly, Peacock Pansy and Plain Tiger, and the best time to see them.',
     keywords:
       'Butterflies of Rajaji National Park, Rajaji butterfly species, Butterflies of Rajaji Tiger Reserve, butterfly watching in Rajaji',
     priority: 0.6,
@@ -192,18 +209,22 @@ export const ROUTE_SEO = {
   '/how-to-reach': {
     name: 'How to Reach',
     section: 'howToReach',
-    title: 'How to Reach Rajaji National Park | Chilla, Ranipur, Motichur, Jhilmil & Gohri',
+    title:
+      'How to Reach Rajaji National Park | All Safari Zones',
     description:
       'How to reach the Rajaji National Park safari zones by road, train and air from Haridwar, Rishikesh, Dehradun and Delhi.',
+    keywords:
+      'How to reach Rajaji National Park, Rajaji National Park from Delhi, Chilla gate Haridwar, Rajaji from Rishikesh, Rajaji from Dehradun',
     priority: 0.7,
     changefreq: 'monthly',
   },
   '/booking': {
     name: 'Book Safari',
     section: 'booking',
-    title: 'Book Rajaji Jeep Safari Online | Rajaji National Park Safari Booking',
+    title:
+      'Book Rajaji Jeep Safari Online | Safari Booking',
     description:
-      'Send your Rajaji jeep safari booking request online. Choose your date, slot and safari zone, and our team confirms availability, charges and permit details by WhatsApp or email.',
+      'Send a Rajaji jeep safari booking request: choose your date, slot and zone, and our team confirms availability, charges and permits by WhatsApp or email.',
     keywords: 'Rajaji National Park safari booking, Rajaji Jeep Safari booking, book Rajaji safari online',
     priority: 0.9,
     changefreq: 'monthly',
@@ -212,7 +233,9 @@ export const ROUTE_SEO = {
     name: 'Contact',
     title: 'Contact Rajaji Safari Booking Desk | Call & WhatsApp',
     description:
-      'Call or WhatsApp the Rajaji safari booking desk for jeep safari availability, zone selection and booking help. Chilla Jungle Safari Gate, Haridwar and Rishikesh, Uttarakhand.',
+      'Call or WhatsApp the Rajaji safari booking desk for jeep safari availability, zone selection and booking help. Chilla Gate, near Haridwar and Rishikesh.',
+    keywords:
+      'Contact Rajaji safari booking, Rajaji jeep safari phone number, Rajaji safari WhatsApp, Chilla safari booking desk',
     priority: 0.7,
     changefreq: 'monthly',
   },
@@ -221,6 +244,8 @@ export const ROUTE_SEO = {
     title: 'Rajaji Safari Blog | Wildlife Stories, Zone Guides & Travel Tips',
     description:
       'Wildlife stories, safari zone guides, birding notes and travel tips from Rajaji National Park and Rajaji Tiger Reserve.',
+    keywords:
+      'Rajaji National Park blog, Rajaji safari tips, Rajaji wildlife stories, Rajaji safari zone guide',
     priority: 0.7,
     changefreq: 'weekly',
   },
@@ -229,7 +254,7 @@ export const ROUTE_SEO = {
     section: 'faqs',
     title: 'Rajaji Jeep Safari FAQ | Cost, Entry Fee, Timings & Booking',
     description:
-      'Answers to common questions about Rajaji National Park Jeep Safari: cost, entry fee, jeep permit fee, timings, zones from Haridwar and Rishikesh, and advance booking.',
+      'Common questions about the Rajaji National Park Jeep Safari: cost, entry and jeep permit fees, timings, zones near Haridwar and Rishikesh, and booking.',
     keywords:
       'How much is the Rajaji National Park Jeep Safari, Rajaji National Park entry fee, Rajaji safari timings, book Rajaji Jeep Safari online',
     priority: 0.8,

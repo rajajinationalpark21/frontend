@@ -7,6 +7,7 @@ import SEO from '../components/SEO';
 import CallToAction from '../components/CallToAction';
 import PageHero from '../components/PageHero';
 import DocContent from '../components/DocContent';
+import RichText from '../components/RichText';
 
 export default function WildlifeHubPage() {
   const [content, setContent] = useState(null);
@@ -145,7 +146,7 @@ export default function WildlifeHubPage() {
                     {cat.title}
                   </h3>
                   <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
-                    {cat.description}
+                    <RichText text={cat.description} />
                   </p>
                 </div>
 

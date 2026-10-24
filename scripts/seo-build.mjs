@@ -68,7 +68,7 @@ const esc = (value) =>
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;');
 
-const p = (text) => (text ? `<p>${esc(text)}</p>` : '');
+const p = (text) => (text ? `<p>${rich(text)}</p>` : '');
 const h2 = (text) => `<h2>${esc(text)}</h2>`;
 const ul = (items) =>
   items?.length ? `<ul>${items.map((item) => `<li>${item}</li>`).join('')}</ul>` : '';
@@ -83,11 +83,21 @@ const section = (title, body) => (body ? h2(title) + body : '');
 
 // A client page document (CMS `docBlocks`) as plain HTML. `**bold**` and
 // `[text](/path)` are kept; gallery markers are dropped.
-const rich = (text) =>
-  esc(text)
+// Admin marks: **bold**, *italic*, [label](/path).
+function rich(text) {
+  return esc(text)
     .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*([^*\s][^*]*)\*/g, '<em>$1</em>')
     .replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, '<a href="$2">$1</a>')
     .replace(/\n/g, '<br>');
+}
+
+/** Text without the admin marks, for titles and meta tags. */
+const plain = (text) =>
+  String(text ?? '')
+    .replace(/\*\*([^*]+)\*\*/g, '$1')
+    .replace(/\*([^*\s][^*]*)\*/g, '$1')
+    .replace(/\[([^\]]+)\]\([^)\s]+\)/g, '$1');
 
 function docHtml(blocks = []) {
   return blocks
@@ -353,9 +363,10 @@ const NAV = [
 const absolute = (value) => (/^https?:\/\//.test(value) ? value : `${SITE_URL}${value}`);
 
 function renderPage(template, page) {
+  page = { ...page, description: plain(page.description) };
   const url = `${SITE_URL}${page.path}`;
   // A title set in the admin panel is used exactly as written.
-  const title = (page.cmsTitle || page.title.includes('Rajaji')) ? page.title : `${page.title} | Rajaji National Park`;
+  const title = plain((page.cmsTitle || page.title.includes('Rajaji')) ? page.title : `${page.title} | Rajaji National Park`);
   const image = absolute(page.image || '/og-image.png');
   const trail = breadcrumbTrail(page.path, page.name);
   const schemas = [...(page.schemas ?? []), ...(trail.length ? [breadcrumbSchema(trail, SITE_URL)] : [])];
@@ -457,7 +468,8 @@ async function main() {
     pages.push({
       path: `/blog/${post.slug}`,
       name: post.title,
-      title: `${post.title} | Rajaji Safari Blog`,
+      // Long post titles go without the blog suffix so they stay readable in search results.
+      title: post.title.length > 42 ? post.title : `${post.title} | Rajaji Safari Blog`,
       description: post.summary,
       image: post.image,
       type: 'article',

@@ -15,6 +15,7 @@ import CallToAction from '../components/CallToAction';
 import PageHero from '../components/PageHero';
 import DocContent from '../components/DocContent';
 import PhotoGallery from '../components/PhotoGallery';
+import RichText from '../components/RichText';
 
 export default function SafariZoneDetailPage({ onOpenBooking, defaultSlug }) {
   const params = useParams();
@@ -62,9 +63,9 @@ export default function SafariZoneDetailPage({ onOpenBooking, defaultSlug }) {
 
   const handleBooking = () => {
     if (onOpenBooking) {
-      onOpenBooking();
+      onOpenBooking(currentZone?.slug);
     } else {
-      navigate('/booking');
+      navigate(currentZone?.slug ? `/booking?zone=${currentZone.slug}` : '/booking');
     }
   };
 
@@ -170,7 +171,7 @@ export default function SafariZoneDetailPage({ onOpenBooking, defaultSlug }) {
                 About {currentZone.name}
               </h2>
               <p className="text-base sm:text-lg text-gray-600 dark:text-emerald-100/80 leading-relaxed font-light">
-                {currentZone.description}
+                <RichText text={currentZone.description} />
               </p>
 
               {currentZone.landscape && (
@@ -179,7 +180,7 @@ export default function SafariZoneDetailPage({ onOpenBooking, defaultSlug }) {
                     Landscape & Terrain
                   </h3>
                   <p className="text-sm text-gray-600 dark:text-emerald-100/70 leading-relaxed">
-                    {currentZone.landscape}
+                    <RichText text={currentZone.landscape} />
                   </p>
                 </div>
               )}
@@ -199,7 +200,7 @@ export default function SafariZoneDetailPage({ onOpenBooking, defaultSlug }) {
                         <Check className="w-3.5 h-3.5 stroke-[3]" />
                       </div>
                       <span className="text-sm font-semibold text-gray-800 dark:text-emerald-100/90">
-                        {item}
+                        <RichText text={item} />
                       </span>
                     </div>
                   ))}

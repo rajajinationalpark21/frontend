@@ -7,6 +7,7 @@ import SEO from '../components/SEO';
 import PageHero from '../components/PageHero';
 import PageLoader from '../components/PageLoader';
 import DocContent from '../components/DocContent';
+import RichText from '../components/RichText';
 
 const fallback = {
   title: 'About Rajaji National Park',
@@ -56,7 +57,7 @@ export default function AboutPage({ onOpenBooking }) {
           <article>
             {!docBlocks && <h2 className="mb-7 font-serif text-3xl font-bold tracking-tight text-gray-950 dark:text-white sm:text-4xl">{content.overviewTitle}</h2>}
             <div className="prose-balanced space-y-5 text-[15px] leading-8 text-gray-600 dark:text-gray-300 sm:text-base">
-              {paragraphs.map((paragraph, index) => <p key={index}>{paragraph}</p>)}
+              {paragraphs.map((paragraph, index) => <p key={index}><RichText text={paragraph} /></p>)}
             </div>
           </article>
 

@@ -7,6 +7,7 @@ import SEO from '../components/SEO';
 import PageLoader from '../components/PageLoader';
 import CallToAction from '../components/CallToAction';
 import PageHero from '../components/PageHero';
+import RichText from '../components/RichText';
 
 export default function SafariZonesPage({ onOpenBooking }) {
   const [safariZonesData, setSafariZonesData] = useState(safariZonesList);
@@ -74,7 +75,7 @@ export default function SafariZonesPage({ onOpenBooking }) {
       />
 
       {/* Zone selector */}
-      <section className="sticky top-16 sm:top-[72px] z-30 border-b border-emerald-950/10 bg-[#f7f5ed]/95 py-4 shadow-[0_8px_20px_rgba(7,18,10,0.05)] backdrop-blur-md transition-colors dark:border-emerald-900/40 dark:bg-[#07120a]/95">
+      <section className="sticky top-[68px] sm:top-[76px] z-30 border-b border-emerald-950/10 bg-[#f7f5ed]/95 py-4 shadow-[0_8px_20px_rgba(7,18,10,0.05)] backdrop-blur-md transition-colors dark:border-emerald-900/40 dark:bg-[#07120a]/95">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-3">
             <h2 className="text-base font-bold text-gray-950 dark:text-white">Choose a safari zone</h2>
@@ -139,7 +140,7 @@ export default function SafariZonesPage({ onOpenBooking }) {
                   {zone.name}
                 </h2>
                 <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 mt-2 leading-relaxed">
-                  {zone.description}
+                  <RichText text={zone.description} />
                 </p>
               </div>
 
@@ -193,7 +194,7 @@ export default function SafariZonesPage({ onOpenBooking }) {
               </div>
               <div className="mt-8 space-y-3">
                 <button 
-                  onClick={onOpenBooking} 
+                  onClick={() => onOpenBooking(zone.slug)} 
                   className="w-full py-3 rounded-xl bg-safari-600 hover:bg-safari-700 text-white font-bold text-xs uppercase tracking-wider transition shadow-sm"
                 >
                   Book This Zone

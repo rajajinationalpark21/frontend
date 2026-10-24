@@ -8,6 +8,7 @@ import ThumbImage from '../components/ThumbImage';
 import PageHero from '../components/PageHero';
 import Breadcrumb from '../components/Breadcrumb';
 import { DocSection } from '../components/DocContent';
+import RichText from '../components/RichText';
 
 export default function BirdsPage({ onOpenBooking }) {
   const [birds, setBirds] = useState(null);
@@ -101,7 +102,7 @@ export default function BirdsPage({ onOpenBooking }) {
                 {data.watchingTitle || 'Bird Watching in Rajaji National Park'}
               </h2>
               {watchingParagraphs.map((paragraph, idx) => (
-                <p key={idx} className="text-sm sm:text-base leading-7 text-gray-600 dark:text-gray-300">{paragraph}</p>
+                <p key={idx} className="text-sm sm:text-base leading-7 text-gray-600 dark:text-gray-300"><RichText text={paragraph} /></p>
               ))}
             </div>
             {notableSpecies.length > 0 && (

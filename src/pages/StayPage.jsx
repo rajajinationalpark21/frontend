@@ -8,6 +8,7 @@ import PageHero from '../components/PageHero';
 import { DocSection } from '../components/DocContent';
 import PhotoGallery from '../components/PhotoGallery';
 import { cmsText } from '../utils/cmsText';
+import RichText from '../components/RichText';
 
 const DEFAULT_FRH_COLUMNS = ["Forest Rest House", "Suites Available", "Current Status", "Entry Gate Access", "Setting & Atmosphere"];
 
@@ -76,7 +77,7 @@ export default function StayPage({ onOpenBooking }) {
             <div className="space-y-6">
               <div>
                 <h2 className="text-3xl sm:text-4xl font-serif font-bold text-gray-900 dark:text-emerald-50">{wildBrook.name}</h2>
-                <p className="text-emerald-700 dark:text-emerald-400 font-semibold text-base mt-1">{wildBrook.tagline}</p>
+                <p className="text-emerald-700 dark:text-emerald-400 font-semibold text-base mt-1"><RichText text={wildBrook.tagline} /></p>
               </div>
               <div className="text-sm text-gray-600 dark:text-emerald-100/80 flex items-start gap-2">
                 <MapPin className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
@@ -86,7 +87,7 @@ export default function StayPage({ onOpenBooking }) {
                 {(wildBrook.features || []).map((feat, fIdx) => (
                   <div key={fIdx} className="flex items-start gap-3 text-xs sm:text-sm text-gray-700 dark:text-emerald-100/80">
                     <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
-                    <span>{feat}</span>
+                    <span><RichText text={feat} /></span>
                   </div>
                 ))}
               </div>
@@ -156,7 +157,7 @@ export default function StayPage({ onOpenBooking }) {
             )}
             {frhIntro && (
               <p className="text-sm text-gray-600 dark:text-emerald-100/75 mt-2 leading-relaxed font-light">
-                {frhIntro}
+                <RichText text={frhIntro} />
               </p>
             )}
           </div>
@@ -214,7 +215,7 @@ export default function StayPage({ onOpenBooking }) {
                 {frhBookingTitle}
               </h3>
               <p className="text-xs sm:text-sm text-emerald-100/80 leading-relaxed font-light">
-                {frhBookingInfo.bookingRule}
+                <RichText text={frhBookingInfo.bookingRule} />
               </p>
               <div className="text-xs text-emerald-200/70 pt-2 space-y-1">
                 {frhBookingInfo.authority && <div><strong>Authority:</strong> {frhBookingInfo.authority}</div>}

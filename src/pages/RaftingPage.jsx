@@ -10,6 +10,7 @@ import PageHero from '../components/PageHero';
 import { DocSection } from '../components/DocContent';
 import PhotoGallery from '../components/PhotoGallery';
 import { cmsText } from '../utils/cmsText';
+import RichText from '../components/RichText';
 
 const fallbackRaftingStretches = [
   {
@@ -107,7 +108,7 @@ export default function RaftingPage({ onOpenBooking }) {
           )}
           {stretchesIntro && (
             <p className="text-sm text-gray-600 dark:text-gray-400">
-              {stretchesIntro}
+              <RichText text={stretchesIntro} />
             </p>
           )}
         </div>
@@ -134,7 +135,7 @@ export default function RaftingPage({ onOpenBooking }) {
                 </h3>
 
                 <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
-                  {run.desc}
+                  <RichText text={run.desc} />
                 </p>
 
                 <div className="space-y-2 pt-3 border-t border-gray-100 dark:border-gray-800 text-xs">
@@ -180,7 +181,7 @@ export default function RaftingPage({ onOpenBooking }) {
               {safetyRules.map((rule, idx) => (
                 <li key={idx} className="flex items-start gap-2.5 bg-gray-50/80 dark:bg-gray-800/50 p-3.5 rounded-2xl border border-gray-100 dark:border-gray-700/60">
                   <Check className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
-                  <span>{rule}</span>
+                  <span><RichText text={rule} /></span>
                 </li>
               ))}
             </ul>

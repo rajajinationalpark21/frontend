@@ -8,6 +8,7 @@ import PageLoader from '../components/PageLoader';
 import CallToAction from '../components/CallToAction';
 import PageHero from '../components/PageHero';
 import { cmsText } from '../utils/cmsText';
+import RichText from '../components/RichText';
 
 const fallbackActivities = [
   {
@@ -121,7 +122,7 @@ export default function ActivitiesPage({ onOpenBooking }) {
                       {act.title}
                     </h3>
                     <p className="text-sm text-gray-600 dark:text-emerald-100/75 leading-relaxed mt-2.5 font-light">
-                      {act.desc}
+                      <RichText text={act.desc} />
                     </p>
                   </div>
 

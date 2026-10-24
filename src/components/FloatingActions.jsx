@@ -63,7 +63,7 @@ export default function FloatingActions({ onOpenBooking }) {
       <a
         href={`tel:${rawPhone}`}
         aria-label="Call Rajaji Safari Desk"
-        className="group relative flex items-center justify-center w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-safari-600 hover:bg-safari-700 text-white shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 active:scale-95"
+        className="attention-pulse group relative flex items-center justify-center w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-safari-600 hover:bg-safari-700 text-white shadow-xl hover:shadow-2xl transition-[background-color,transform] duration-300 hover:scale-105 active:scale-95"
       >
         <Phone className="w-5 h-5 sm:w-5 sm:h-5 text-white" />
         <span className="hidden sm:block absolute right-full mr-3 px-3 py-1.5 rounded-full bg-gray-900/90 backdrop-blur-sm text-white text-xs font-semibold whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none shadow-md">

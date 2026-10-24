@@ -141,25 +141,18 @@ export default function Navbar({ onOpenBooking }) {
   return (
     <header className="sticky top-0 z-50 bg-[#fdfcf8]/95 dark:bg-[#07120a]/95 backdrop-blur-md border-b border-emerald-950/10 dark:border-emerald-900/40 transition-all">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 sm:h-18">
+        <div className="flex items-center justify-between h-[68px] sm:h-[76px]">
           
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2.5 group shrink-0">
-            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-white p-0.5 flex items-center justify-center border border-gray-200/80 dark:border-emerald-900/60 shadow-sm group-hover:scale-105 transition shrink-0">
-              <img 
-                src="/logo.png" 
-                alt="Rajaji National Park logo" 
-                className="w-full h-full object-contain"
-              />
-            </div>
-            <div>
-              <span className="text-base sm:text-lg font-bold tracking-tight text-gray-950 dark:text-white group-hover:text-safari-600 transition block leading-none font-serif">
-                Rajaji
-              </span>
-              <span className="text-[9px] sm:text-[10px] font-bold uppercase tracking-widest text-emerald-600 dark:text-emerald-400 block mt-0.5">
-                National Park
-              </span>
-            </div>
+          {/* The full logo. Its white background blends into the cream bar; on dark it sits on a cream plaque. */}
+          <Link to="/" aria-label="Rajaji National Park – home" className="group shrink-0 rounded-xl dark:bg-[#f7f5ed] dark:px-2 dark:py-1">
+            <img
+              src="/logo-full.png"
+              alt="Rajaji National Park"
+              width="960"
+              height="400"
+              className="h-12 sm:h-14 w-auto mix-blend-multiply dark:mix-blend-normal group-hover:opacity-90 transition"
+            />
           </Link>
 
           {/* Desktop Navigation Links (the admin panel's Website Menu) */}
@@ -260,7 +253,7 @@ export default function Navbar({ onOpenBooking }) {
             </div>
             <button
               onClick={onOpenBooking}
-              className="inline-flex items-center justify-center whitespace-nowrap px-5 py-2.5 text-sm font-bold text-white bg-safari-500 hover:bg-safari-600 active:scale-[0.98] rounded-full shadow-sm hover:shadow-md transition duration-200"
+              className="attention-pulse inline-flex items-center justify-center whitespace-nowrap px-5 py-2.5 text-sm font-bold text-white bg-safari-500 hover:bg-safari-600 active:scale-[0.98] rounded-full shadow-sm hover:shadow-md transition-colors duration-200"
             >
               {bookingLabel}
             </button>
@@ -282,7 +275,7 @@ export default function Navbar({ onOpenBooking }) {
             </div>
             <button
               onClick={onOpenBooking}
-              className="px-3.5 py-1.5 text-xs font-bold text-white bg-safari-500 rounded-full"
+              className="attention-pulse px-3.5 py-1.5 text-xs font-bold text-white bg-safari-500 rounded-full"
             >
               {bookingLabel}
             </button>

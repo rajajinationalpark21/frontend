@@ -27,6 +27,7 @@ import SEO from '../components/SEO';
 import PageLoader from '../components/PageLoader';
 import CallToAction from '../components/CallToAction';
 import PageHero from '../components/PageHero';
+import RichText from '../components/RichText';
 
 const defaultPolicies = [
   {
@@ -256,7 +257,7 @@ export default function TermsConditionsPage() {
       </section>
 
       {/* 2. INTERACTIVE CONTROLS: TABS & REAL-TIME SEARCH FILTER */}
-      <section className="sticky top-16 sm:top-[72px] z-30 bg-[#f7f5ed]/95 dark:bg-[#07120a]/95 backdrop-blur-md border-b border-emerald-950/10 dark:border-emerald-900/40 py-4 shadow-sm transition-colors">
+      <section className="sticky top-[68px] sm:top-[76px] z-30 bg-[#f7f5ed]/95 dark:bg-[#07120a]/95 backdrop-blur-md border-b border-emerald-950/10 dark:border-emerald-900/40 py-4 shadow-sm transition-colors">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4">
           
           {/* Segmented Pill Tabs */}
@@ -379,7 +380,7 @@ export default function TermsConditionsPage() {
                       </h3>
 
                       <p className="text-xs sm:text-sm text-gray-600 dark:text-emerald-100/80 leading-relaxed mt-2.5 font-normal">
-                        {p.desc}
+                        <RichText text={p.desc} />
                       </p>
                     </div>
 
@@ -387,7 +388,7 @@ export default function TermsConditionsPage() {
                     <div className="mt-5 pt-4 border-t border-gray-100 dark:border-gray-800/80 flex items-center justify-between">
                       <span className="text-[11px] font-semibold text-emerald-800 dark:text-emerald-400/90 flex items-center gap-1.5">
                         <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
-                        {p.highlight}
+                        <RichText text={p.highlight} />
                       </span>
                       <span className="text-xs font-bold text-gray-400 group-hover:text-safari-500 transition-transform group-hover:translate-x-0.5">
                         →
@@ -454,7 +455,7 @@ export default function TermsConditionsPage() {
                             {item.title}
                           </h4>
                           <p className="text-xs text-gray-600 dark:text-emerald-100/75 leading-relaxed mt-1">
-                            {item.desc}
+                            <RichText text={item.desc} />
                           </p>
                         </div>
                       </div>
@@ -501,7 +502,7 @@ export default function TermsConditionsPage() {
                             {item.title}
                           </h4>
                           <p className="text-xs text-gray-600 dark:text-rose-100/75 leading-relaxed mt-1">
-                            {item.desc}
+                            <RichText text={item.desc} />
                           </p>
                         </div>
                       </div>

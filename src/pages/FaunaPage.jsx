@@ -11,6 +11,7 @@ import Breadcrumb from '../components/Breadcrumb';
 import GroupDropdownCard from '../components/GroupDropdownCard';
 import { DocSection } from '../components/DocContent';
 import PhotoGallery from '../components/PhotoGallery';
+import RichText from '../components/RichText';
 
 export default function FaunaPage({ onOpenBooking }) {
   const [fauna, setFauna] = useState(null);
@@ -83,7 +84,7 @@ export default function FaunaPage({ onOpenBooking }) {
                     <ShieldCheck className="w-5 h-5 text-emerald-600" />
                   </div>
                   <h3 className="font-serif text-2xl font-bold text-gray-900 dark:text-white mb-2">{animal.name}</h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">{animal.details}</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed"><RichText text={animal.details} /></p>
                 </div>
               </div>
             ))}

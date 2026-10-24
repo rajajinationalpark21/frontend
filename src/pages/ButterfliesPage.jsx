@@ -8,6 +8,7 @@ import PageHero from '../components/PageHero';
 import Breadcrumb from '../components/Breadcrumb';
 import { DocSection } from '../components/DocContent';
 import PhotoGallery from '../components/PhotoGallery';
+import RichText from '../components/RichText';
 
 export default function ButterfliesPage({ onOpenBooking }) {
   const [butterflies, setButterflies] = useState(null);
@@ -78,7 +79,7 @@ export default function ButterfliesPage({ onOpenBooking }) {
               Best Time for Butterfly Watching in Rajaji
             </h2>
             <p className="text-sm sm:text-base text-gray-600 dark:text-emerald-100/80 font-light leading-relaxed">
-              {data.mudPuddling}
+              <RichText text={data.mudPuddling} />
             </p>
           </div>
         </div>

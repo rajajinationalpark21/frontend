@@ -21,6 +21,7 @@ import FeedbackSection from '../components/FeedbackSection';
 import CallToAction from '../components/CallToAction';
 import PageLoader from '../components/PageLoader';
 import HeroImageRotator from '../components/HeroImageRotator';
+import RichText from '../components/RichText';
 
 const fallbackGallery = [
   safariImages.walkingTiger,
@@ -159,7 +160,7 @@ export default function HomePage({ onOpenBooking }) {
           <div className="flex flex-wrap items-center justify-center gap-3.5">
             <button
               onClick={onOpenBooking}
-              className="px-7 py-3.5 rounded-full bg-safari-500 hover:bg-safari-400 text-white font-bold text-sm shadow-xl shadow-safari-500/30 hover:shadow-safari-400/40 active:scale-95 transition-all duration-200 cursor-pointer"
+              className="attention-pulse px-7 py-3.5 rounded-full bg-safari-500 hover:bg-safari-400 text-white font-bold text-sm active:scale-95 transition-colors duration-200 cursor-pointer"
             >
               Book Safari Permit
             </button>
@@ -238,8 +239,8 @@ export default function HomePage({ onOpenBooking }) {
               {content.aboutTitle || "The Sanctuary Legacy"}
             </h2>
             <div id="about-rajaji-text" className="prose-balanced space-y-4 text-sm leading-7 text-gray-600 dark:text-gray-300 sm:text-base sm:leading-8">
-              <p>{aboutIntro}</p>
-              {aboutOpen && aboutDetails.map((paragraph, index) => <p key={index}>{paragraph}</p>)}
+              <p><RichText text={aboutIntro} /></p>
+              {aboutOpen && aboutDetails.map((paragraph, index) => <p key={index}><RichText text={paragraph} /></p>)}
             </div>
             {aboutDetails.length > 0 ? (
               <button

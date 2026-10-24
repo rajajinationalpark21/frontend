@@ -13,6 +13,7 @@ import { fetchContent, submitContact } from '../api/client';
 import SEO from '../components/SEO';
 import PageHero from '../components/PageHero';
 import HoneypotField from '../components/HoneypotField';
+import RichText from '../components/RichText';
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -150,12 +151,12 @@ export default function ContactPage() {
                     <span className="text-[11px] font-bold text-gray-400 dark:text-gray-400 uppercase tracking-wider block">
                       CALL US
                     </span>
-                    {callNumbers.map((number, index) => (
+                    {contactName && (
+                      <p className="text-base sm:text-lg font-bold text-gray-950 dark:text-white mt-1 leading-snug">{contactName}</p>
+                    )}
+                    {callNumbers.map((number) => (
                       <a key={number} href={telHref(number)} className="text-sm font-semibold text-gray-900 dark:text-white hover:text-emerald-600 dark:hover:text-emerald-400 transition block mt-0.5">
                         {number}
-                        {index === 0 && contactName && (
-                          <span className="text-xs text-gray-500 dark:text-gray-400 font-normal"> ({contactName})</span>
-                        )}
                       </a>
                     ))}
                     <span className="text-xs text-gray-500 dark:text-gray-400 block mt-0.5">Call / WhatsApp</span>
@@ -397,7 +398,7 @@ export default function ContactPage() {
 
                 {isOpen && (
                   <div className="px-5 sm:px-6 pb-5 pt-1 text-xs sm:text-sm text-gray-600 dark:text-gray-300 leading-relaxed border-t border-gray-100 dark:border-gray-800/80">
-                    {faq.answer}
+                    <RichText text={faq.answer} />
                   </div>
                 )}
               </div>

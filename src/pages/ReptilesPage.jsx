@@ -9,6 +9,7 @@ import CoverImage from '../components/CoverImage';
 import PageHero from '../components/PageHero';
 import { DocSection } from '../components/DocContent';
 import PhotoGallery from '../components/PhotoGallery';
+import RichText from '../components/RichText';
 
 const defaultReptiles = [
   {
@@ -160,13 +161,13 @@ export default function ReptilesPage({ onOpenBooking }) {
                 </p>
 
                 <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
-                  {rep.description}
+                  <RichText text={rep.description} />
                 </p>
               </div>
 
               <div className="pt-3 border-t border-emerald-900/10 dark:border-emerald-800/40 text-xs text-gray-500 dark:text-gray-400">
                 <span className="font-semibold text-gray-700 dark:text-gray-300">Prime Habitat: </span>
-                {rep.habitat}
+                <RichText text={rep.habitat} />
               </div>
             </div>
           ))}

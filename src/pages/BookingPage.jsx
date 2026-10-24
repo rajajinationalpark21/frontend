@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { 
   ShieldCheck, 
   Calendar, 
@@ -23,6 +23,7 @@ import { submitBooking } from '../api/client';
 import HoneypotField from '../components/HoneypotField';
 import SEO from '../components/SEO';
 import PageHero from '../components/PageHero';
+import RichText from '../components/RichText';
 
 const DEFAULT_BOOKING_CONTENT = {
   heroTitle: 'Book Your Rajaji Jeep Safari',
@@ -56,7 +57,12 @@ export default function BookingPage() {
   const [zones, setZones] = useState(DEFAULT_ZONES);
   const [honeypot, setHoneypot] = useState('');
   const [bookingContent, setBookingContent] = useState(DEFAULT_BOOKING_CONTENT);
-  const [selectedZone, setSelectedZone] = useState(DEFAULT_ZONES[0].id);
+  // "Book This Zone" links here as /booking?zone=<slug>.
+  const [searchParams] = useSearchParams();
+  const requestedZone = searchParams.get('zone') || '';
+  const [selectedZone, setSelectedZone] = useState(
+    DEFAULT_ZONES.some((zone) => zone.id === requestedZone) ? requestedZone : DEFAULT_ZONES[0].id
+  );
   const [date, setDate] = useState(() => {
     const d = new Date();
     d.setDate(d.getDate() + 3);
@@ -89,7 +95,9 @@ export default function BookingPage() {
             image: z.heroImage || safariImages.safariJeepSavannah,
           }));
           setZones(mapped);
-          if (mapped.length > 0 && !selectedZone) {
+          if (mapped.some((zone) => zone.id === requestedZone)) {
+            setSelectedZone(requestedZone);
+          } else if (mapped.length > 0 && !mapped.some((zone) => zone.id === selectedZone)) {
             setSelectedZone(mapped[0].id);
           }
         }
@@ -194,14 +202,14 @@ export default function BookingPage() {
           <div>
             <h2 className="font-serif text-2xl font-bold text-gray-950 dark:text-white sm:text-3xl">{bookingContent.overviewTitle}</h2>
             <div className="prose-balanced mt-4 space-y-3 text-sm leading-7 text-gray-600 dark:text-gray-300">
-              {(bookingContent.overviewParagraphs || []).map((paragraph, index) => <p key={index}>{paragraph}</p>)}
+              {(bookingContent.overviewParagraphs || []).map((paragraph, index) => <p key={index}><RichText text={paragraph} /></p>)}
             </div>
           </div>
           <div className="rounded-2xl bg-emerald-950 p-5 text-emerald-50">
             <h3 className="font-serif text-xl font-bold">{bookingContent.enquiryTitle}</h3>
             <p className="mt-2 text-sm leading-6 text-emerald-100/85">{bookingContent.enquirySubtitle}</p>
             <ul className="mt-5 space-y-2 text-sm">
-              {(bookingContent.assistanceItems || []).map((item, index) => <li className="flex gap-2" key={index}><CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-emerald-300" />{item}</li>)}
+              {(bookingContent.assistanceItems || []).map((item, index) => <li className="flex gap-2" key={index}><CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-emerald-300" /><RichText text={item} /></li>)}
             </ul>
           </div>
         </section>
@@ -486,7 +494,7 @@ export default function BookingPage() {
                   </button>
                   <p className="text-center text-[11px] text-gray-400 dark:text-gray-500 mt-3 flex items-center justify-center gap-1.5">
                     <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
-                    {bookingContent.responseMessage}
+                    <RichText text={bookingContent.responseMessage} />
                   </p>
                 </div>
               </form>
@@ -500,7 +508,7 @@ export default function BookingPage() {
               </h4>
               <ul className="space-y-3 text-xs text-gray-600 dark:text-gray-300">
                 {(bookingContent.guidelines?.length ? bookingContent.guidelines : ['Carry the original photo ID used for the inquiry for gate verification.', 'Arrive at the designated zone entry gate before the scheduled reporting time.', 'Follow sanctuary protocols and instructions at the gate.']).map((item, index) => (
-                  <li className="flex items-start gap-2" key={index}><CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600" /><span>{item}</span></li>
+                  <li className="flex items-start gap-2" key={index}><CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600" /><span><RichText text={item} /></span></li>
                 ))}
               </ul>
             </div>
@@ -535,7 +543,7 @@ export default function BookingPage() {
                 </div>
               </div>
             </div>
-            {bookingContent.disclaimerParagraphs?.length > 0 && <div className="mt-6 rounded-2xl border border-amber-200 bg-amber-50/80 p-5 text-xs leading-6 text-amber-900 dark:border-amber-900/50 dark:bg-amber-950/20 dark:text-amber-200"><h4 className="font-bold">{bookingContent.disclaimerTitle}</h4>{bookingContent.disclaimerParagraphs.map((paragraph, index) => <p className="mt-2" key={index}>{paragraph}</p>)}</div>}
+            {bookingContent.disclaimerParagraphs?.length > 0 && <div className="mt-6 rounded-2xl border border-amber-200 bg-amber-50/80 p-5 text-xs leading-6 text-amber-900 dark:border-amber-900/50 dark:bg-amber-950/20 dark:text-amber-200"><h4 className="font-bold">{bookingContent.disclaimerTitle}</h4>{bookingContent.disclaimerParagraphs.map((paragraph, index) => <p className="mt-2" key={index}><RichText text={paragraph} /></p>)}</div>}
           </div>
         )}
       </div>
