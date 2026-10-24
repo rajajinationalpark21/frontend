@@ -398,6 +398,7 @@ export default function BlogPostPage() {
                 </p>
                 <Link
                   to="/booking"
+                  state={{ toForm: true }}
                   className="w-full inline-flex items-center justify-center gap-2 py-3 px-5 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider shadow transition"
                 >
                   Inquire Safari Permit <ArrowRight className="w-3.5 h-3.5" />

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link, useLocation, useSearchParams } from 'react-router-dom';
 import { 
   ShieldCheck, 
   Calendar, 
@@ -57,6 +57,17 @@ export default function BookingPage() {
   const [bookingContent, setBookingContent] = useState(DEFAULT_BOOKING_CONTENT);
   // "Book This Zone" links here as /booking?zone=<slug>.
   const [searchParams] = useSearchParams();
+  const location = useLocation();
+  // Book buttons ask for the form itself, so it is in view straight away (on phones
+  // the page header alone fills the screen), even when already on this page.
+  const toForm = location.state?.toForm;
+  useEffect(() => {
+    if (!toForm) return undefined;
+    const timer = window.setTimeout(() => {
+      document.getElementById('booking-form')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 60);
+    return () => window.clearTimeout(timer);
+  }, [toForm]);
   const requestedZone = searchParams.get('zone') || '';
   const [selectedZone, setSelectedZone] = useState(
     DEFAULT_ZONES.some((zone) => zone.id === requestedZone) ? requestedZone : DEFAULT_ZONES[0].id
@@ -280,7 +291,7 @@ export default function BookingPage() {
           /* Main Booking Form */
           <div className="max-w-3xl mx-auto">
             <div className="bg-[#fdfcf8]/90 dark:bg-[#0c1f13]/90 backdrop-blur-md rounded-3xl p-6 sm:p-10 border border-emerald-950/10 dark:border-emerald-500/20 shadow-sm">
-              <form onSubmit={handleBookingSubmit} className="space-y-8 relative">
+              <form id="booking-form" onSubmit={handleBookingSubmit} className="space-y-8 relative scroll-mt-24">
                 {/* Spam trap, checked by the server */}
                 <HoneypotField value={honeypot} onChange={setHoneypot} />
                 {/* 1. SELECT SAFARI ZONE */}

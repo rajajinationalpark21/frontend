@@ -175,6 +175,7 @@ export default function Footer() {
               )}
               <Link
                 to="/booking"
+                state={{ toForm: true }}
                 className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-safari-500 hover:bg-safari-400 text-white text-xs font-bold transition ml-1 shadow-md"
               >
                 <Ticket className="w-3.5 h-3.5" /> Book Online

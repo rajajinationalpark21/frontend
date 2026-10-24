@@ -49,9 +49,12 @@ const ACTIVITIES_PARENT = { label: 'Activities at Rajaji', path: '/activities' }
 
 function MainLayout() {
   const navigate = useNavigate();
-  // A zone slug opens the form with that zone already selected; click events are ignored.
+  // Every Book button lands on the booking form itself (scrolled into view), also when
+  // the visitor is already on /booking. A zone slug pre-selects that zone; click events are ignored.
   const handleOpenBooking = (zone) =>
-    navigate(typeof zone === 'string' && zone ? `/booking?zone=${encodeURIComponent(zone)}` : '/booking');
+    navigate(typeof zone === 'string' && zone ? `/booking?zone=${encodeURIComponent(zone)}` : '/booking', {
+      state: { toForm: Date.now() },
+    });
 
   // Once the site content is in, fetch every page's header photo in the background.
   useEffect(() => {
