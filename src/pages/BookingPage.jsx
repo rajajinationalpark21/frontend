@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation, useSearchParams } from 'react-router-dom';
 import { 
   ShieldCheck, 
@@ -60,14 +60,27 @@ export default function BookingPage() {
   const location = useLocation();
   // Book buttons ask for the form itself, so it is in view straight away (on phones
   // the page header alone fills the screen), even when already on this page.
+  // It jumps rather than glides: the text above the form arrives from the CMS a
+  // moment later, so the jump is repeated once then, unless the visitor has scrolled.
   const toForm = location.state?.toForm;
+  const formJump = useRef(null);
+  const jumpToForm = () => {
+    const form = document.getElementById('booking-form');
+    if (!form) return;
+    const top = form.getBoundingClientRect().top + window.scrollY - parseFloat(getComputedStyle(form).scrollMarginTop || '0');
+    window.scrollTo({ top, behavior: 'instant' });
+    formJump.current = Math.round(window.scrollY);
+  };
   useEffect(() => {
     if (!toForm) return undefined;
-    const timer = window.setTimeout(() => {
-      document.getElementById('booking-form')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 60);
+    formJump.current = null;
+    const timer = window.setTimeout(jumpToForm, 60);
     return () => window.clearTimeout(timer);
   }, [toForm]);
+  useEffect(() => {
+    // Content above the form has loaded: re-align, if the visitor is still where we put them.
+    if (toForm && formJump.current !== null && Math.abs(window.scrollY - formJump.current) < 4) jumpToForm();
+  }, [bookingContent, zones]); // eslint-disable-line react-hooks/exhaustive-deps
   const requestedZone = searchParams.get('zone') || '';
   const [selectedZone, setSelectedZone] = useState(
     DEFAULT_ZONES.some((zone) => zone.id === requestedZone) ? requestedZone : DEFAULT_ZONES[0].id
