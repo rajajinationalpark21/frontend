@@ -4,7 +4,7 @@ import SEO from './SEO';
 import PageHero from './PageHero';
 import Breadcrumb from './Breadcrumb';
 import PageLoader from './PageLoader';
-import DocContent from './DocContent';
+import DocContent, { DOC_WIDTH } from './DocContent';
 import PhotoGallery from './PhotoGallery';
 import ZoomableImage from './ZoomableImage';
 import NotFoundPage from '../pages/NotFoundPage';
@@ -43,8 +43,8 @@ export default function CmsDocPage({ section, parent, onOpenBooking }) {
       {parent && <Breadcrumb parent={parent} current={title} />}
 
       {page.mapImage && (
-        <section className="relative z-10 pt-8 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <figure className="bg-[#fdfcf8]/90 dark:bg-[#0c1f13]/90 rounded-3xl p-3 sm:p-5 border border-emerald-900/15 dark:border-emerald-800/40 shadow-sm">
+        <section className={`relative z-10 pt-8 ${DOC_WIDTH}`}>
+          <figure className="mx-auto max-w-5xl bg-[#fdfcf8]/90 dark:bg-[#0c1f13]/90 rounded-3xl p-3 sm:p-5 border border-emerald-900/15 dark:border-emerald-800/40 shadow-sm">
             <ZoomableImage src={page.mapImage} alt={page.mapImageAlt || `${title} – route map`} />
             <figcaption className="mt-3 text-center text-xs text-gray-500 dark:text-emerald-200/60">
               Map not to scale · Double-tap to zoom, drag to move
@@ -53,7 +53,7 @@ export default function CmsDocPage({ section, parent, onOpenBooking }) {
         </section>
       )}
 
-      <section className="relative z-10 pt-8 pb-16 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className={`relative z-10 pt-8 pb-16 ${DOC_WIDTH}`}>
         <DocContent
           blocks={page.docBlocks || []}
           onBooking={onOpenBooking}

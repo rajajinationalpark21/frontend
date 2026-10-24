@@ -50,8 +50,6 @@ const DEFAULT_ZONES = [
   { id: 'gohri-range-safari', name: 'Gohri Range Safari', tag: 'Peaceful Buffer-Zone Safari near Rishikesh & Haridwar', distance: '', highlights: 'Quiet forest routes, elephant and deer habitats, birdwatching', gates: 'Gohri Range (near Rishikesh and Haridwar)', image: safariImages.safariJeepSavannah },
 ];
 
-// Chaurasi Kutiya is a walk-in heritage site, not a safari that can be booked.
-const NON_SAFARI_SLUGS = ['chaurasi-kutiya-beatles-ashram'];
 
 export default function BookingPage() {
   const [zones, setZones] = useState(DEFAULT_ZONES);
@@ -85,7 +83,7 @@ export default function BookingPage() {
         if (booking) setBookingContent((current) => ({ ...current, ...booking }));
         const safari = data?.data?.safari || data?.safari;
         if (safari?.zones && safari.zones.length > 0) {
-          const mapped = safari.zones.filter((z) => !NON_SAFARI_SLUGS.includes(z.slug)).map((z, i) => ({
+          const mapped = safari.zones.map((z, i) => ({
             id: z.slug || `zone-${i}`,
             name: z.name,
             tag: z.tag || 'Safari Zone',

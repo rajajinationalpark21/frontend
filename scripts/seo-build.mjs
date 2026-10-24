@@ -19,6 +19,7 @@ import { fileURLToPath } from 'node:url';
 import { ROUTE_SEO, SITE_NAME, ZONE_SLUGS, breadcrumbTrail, sectionSeo } from '../src/seo/routes.js';
 import { blogPostingSchema, breadcrumbSchema, faqSchema, zoneSchema } from '../src/seo/schema.js';
 import { resolveSiteUrl } from '../vite.config.js';
+import { HERO_SIZES, firstHeroImage, heroSrc, heroSrcSet } from '../src/utils/heroImage.js';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const DIST = path.join(ROOT, 'dist');
@@ -387,6 +388,18 @@ function renderPage(template, page) {
   html = setMeta(html, 'name', 'twitter:image', image);
   html = html.replace(/(<link rel="canonical" href=")[^"]*(")/, (_, open, close) => open + esc(url) + close);
 
+  // Start downloading the header photo with the HTML, before the app's code
+  // runs, so the header shows its photo instead of an empty dark box.
+  if (page.image && page.preloadHeader !== false) {
+    const srcset = heroSrcSet(page.image);
+    const preload =
+      `<link rel="preload" as="image" href="${esc(heroSrc(page.image))}"` +
+      (srcset ? ` imagesrcset="${esc(srcset)}" imagesizes="${HERO_SIZES}"` : '') +
+      ' fetchpriority="high" />';
+    html = html.replace('</head>', () => `  ${preload}
+  </head>`);
+  }
+
   if (schemas.length) {
     // Same id the <SEO> component manages, so React swaps it instead of duplicating it.
     const json = JSON.stringify(schemas).replace(/</g, '\\u003c');
@@ -469,11 +482,15 @@ async function main() {
   for (const [routePath, seo] of Object.entries(ROUTE_SEO)) {
     // SEO settings saved in the admin panel win over the defaults in seo/routes.js.
     const cms = sectionSeo(content, seo);
-    // The page's header photo, for link previews and the image sitemap.
+    // The page's header photo (the one its page component shows first): preloaded
+    // with the HTML, and used for link previews and the image sitemap.
     const section = seo.section ? content?.[seo.section] : null;
-    const image = routePath === '/wildlife-biodiversity-rajaji-tiger-reserve'
-      ? section?.hubHeroImages?.[0] || section?.hubHeroBanner
-      : section?.heroImages?.[0] || section?.heroBanner;
+    const image =
+      routePath === '/wildlife-biodiversity-rajaji-tiger-reserve'
+        ? section?.hubHeroBanner || firstHeroImage(section)
+        : routePath === '/about'
+          ? firstHeroImage(content?.home, { list: 'aboutImages', single: 'aboutImage' })
+          : firstHeroImage(section);
     pages.push({
       path: routePath,
       ...(image ? { image } : {}),
@@ -494,7 +511,7 @@ async function main() {
       name: zone.name,
       title: zone.seoTitle || `${zone.name} | Rajaji National Park Jeep Safari`,
       description: zone.metaDescription || zone.description?.slice(0, 160),
-      image: zone.heroImage,
+      image: firstHeroImage(zone, { single: 'heroImage' }),
       priority: 0.8,
       changefreq: 'monthly',
       lastmod: content.updatedAt?.slice(0, 10) ?? today,
@@ -511,6 +528,7 @@ async function main() {
       title: post.title.length > 42 ? post.title : `${post.title} | Rajaji Safari Blog`,
       description: post.summary,
       image: post.image,
+      preloadHeader: false, // the post page shows its photo in its own layout
       type: 'article',
       priority: 0.6,
       changefreq: 'monthly',

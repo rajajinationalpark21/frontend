@@ -30,7 +30,8 @@ import CmsDocPage from './components/CmsDocPage';
 import CmsSlugRoute from './components/CmsSlugRoute';
 
 import { ThemeProvider } from './context/ThemeContext';
-import { countPageView } from './api/client';
+import { countPageView, fetchContent } from './api/client';
+import { warmHeaderPhotos } from './utils/warmHeaderPhotos';
 
 /** On every page change: back to the top, and count the view for the admin dashboard. */
 function ScrollToTop() {
@@ -51,6 +52,11 @@ function MainLayout() {
   // A zone slug opens the form with that zone already selected; click events are ignored.
   const handleOpenBooking = (zone) =>
     navigate(typeof zone === 'string' && zone ? `/booking?zone=${encodeURIComponent(zone)}` : '/booking');
+
+  // Once the site content is in, fetch every page's header photo in the background.
+  useEffect(() => {
+    fetchContent().then((res) => warmHeaderPhotos(res?.data)).catch(() => {});
+  }, []);
 
   return (
     <div className="flex flex-col min-h-screen">

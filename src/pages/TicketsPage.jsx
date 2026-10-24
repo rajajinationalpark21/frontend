@@ -7,7 +7,7 @@ import SEO from '../components/SEO';
 import PageLoader from '../components/PageLoader';
 import CallToAction from '../components/CallToAction';
 import PageHero from '../components/PageHero';
-import DocContent from '../components/DocContent';
+import DocContent, { DOC_WIDTH } from '../components/DocContent';
 import PhotoGallery from '../components/PhotoGallery';
 import RichText from '../components/RichText';
 
@@ -142,11 +142,11 @@ export default function TicketsPage({ onOpenBooking }) {
       </section>
 
       {/* Main Tariff Tables */}
-      <section className="relative z-10 py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
+      <section className={`relative z-10 py-16 space-y-16 ${DOC_WIDTH}`}>
         
         {docBlocks ? (
           <DocContent
-            className="max-w-5xl mx-auto space-y-8"
+            className="space-y-8"
             blocks={docBlocks}
             onBooking={onOpenBooking || (() => navigate('/booking'))}
             phones={[phone]}

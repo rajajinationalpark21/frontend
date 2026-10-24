@@ -13,7 +13,7 @@ import { zoneSchema } from '../seo/schema';
 import PageLoader from '../components/PageLoader';
 import CallToAction from '../components/CallToAction';
 import PageHero from '../components/PageHero';
-import DocContent from '../components/DocContent';
+import DocContent, { DOC_WIDTH } from '../components/DocContent';
 import PhotoGallery from '../components/PhotoGallery';
 import RichText from '../components/RichText';
 
@@ -146,7 +146,7 @@ export default function SafariZoneDetailPage({ onOpenBooking, defaultSlug }) {
       </section>
 
       {/* Main Content Body */}
-      <section className="relative z-10 py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className={`relative z-10 py-16 ${DOC_WIDTH}`}>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
           
           {/* Main 2 Columns: Description & Features */}

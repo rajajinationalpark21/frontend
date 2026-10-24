@@ -6,7 +6,7 @@ import { fetchContent } from '../api/client';
 import SEO from '../components/SEO';
 import CallToAction from '../components/CallToAction';
 import PageHero from '../components/PageHero';
-import DocContent from '../components/DocContent';
+import DocContent, { DOC_WIDTH } from '../components/DocContent';
 import RichText from '../components/RichText';
 
 export default function WildlifeHubPage() {
@@ -97,7 +97,7 @@ export default function WildlifeHubPage() {
       />
 
       {docBlocks ? (
-        <section className="relative z-10 py-16 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <section className={`relative z-10 py-16 ${DOC_WIDTH}`}>
           <DocContent
             blocks={docBlocks}
             onBooking={() => navigate('/booking')}

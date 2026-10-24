@@ -36,11 +36,8 @@ export default function FeedbackSection() {
   const loopItems = [...baseList, ...baseList];
 
   return (
-    <section id="reviews" className="py-20 bg-[#f7f5ed]/90 dark:bg-[#08110a]/80 border-t border-emerald-900/10 dark:border-emerald-900/40 transition-colors overflow-hidden relative">
-      {/* Subtle Botanical Leaf Texture */}
-      <div 
-        className="absolute inset-0 opacity-[0.035] pointer-events-none pattern-leaf-delicate"
-      />
+    <section id="reviews" className="py-20 overflow-hidden relative">
+      {/* No background of its own: the page's leaf texture runs straight through, without a seam. */}
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10 relative z-10">
 

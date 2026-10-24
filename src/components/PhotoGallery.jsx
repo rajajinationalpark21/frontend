@@ -1,4 +1,5 @@
 import React from 'react';
+import { DOC_WIDTH } from './DocContent';
 
 /**
  * Masonry grid of a page's photos (backend `galleryImages`, edited in the admin panel).
@@ -8,7 +9,7 @@ export default function PhotoGallery({ title, images = [], altPrefix = title, em
   const photos = images.filter(Boolean);
   if (photos.length === 0) return null;
   return (
-    <section className={embedded ? 'relative' : 'relative z-10 pb-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'}>
+    <section className={embedded ? 'relative' : `relative z-10 pb-16 ${DOC_WIDTH}`}>
       {title && (
         <h2 className="text-2xl sm:text-3xl font-bold text-gray-950 dark:text-white tracking-tight font-serif mb-8">
           {title}

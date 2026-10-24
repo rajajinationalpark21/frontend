@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { HelpCircle, ChevronDown, ChevronUp, Phone, MessageSquare, Ticket, Sparkles } from 'lucide-react';
+import { HelpCircle, ChevronDown, Phone, MessageSquare, Ticket, Sparkles } from 'lucide-react';
 import { contactInfo, safariImages } from '../data/safariData';
 import { fetchContent } from '../api/client';
 import SEO from '../components/SEO';
@@ -9,6 +9,8 @@ import PageLoader from '../components/PageLoader';
 import CallToAction from '../components/CallToAction';
 import PageHero from '../components/PageHero';
 import RichText from '../components/RichText';
+import { hoverToOpen } from '../utils/canHover';
+import AnswerReveal from '../components/AnswerReveal';
 
 const fallbackFaqs = [
   {
@@ -106,29 +108,33 @@ export default function FAQPage({ onOpenBooking }) {
             return (
               <div
                 key={idx}
-                className="bg-[#fdfcf8]/90 dark:bg-[#0c1f13]/90 backdrop-blur-md rounded-2xl border border-emerald-900/15 dark:border-emerald-800/40 shadow-sm overflow-hidden transition-all duration-300"
+                // With a mouse, pointing at a question opens its answer (and closes the others).
+                {...hoverToOpen(() => setOpenIdx(idx))}
+                className={`bg-[#fdfcf8]/90 dark:bg-[#0c1f13]/90 backdrop-blur-md rounded-2xl border overflow-hidden transition-[border-color,box-shadow] duration-300 ${
+                  isOpen ? 'border-emerald-600/30 dark:border-emerald-400/30 shadow-md' : 'border-emerald-900/15 dark:border-emerald-800/40 shadow-sm hover:border-emerald-600/25'
+                }`}
               >
                 <button
                   onClick={() => setOpenIdx(isOpen ? -1 : idx)}
+                  aria-expanded={isOpen}
+                  aria-controls={`faq-answer-${idx}`}
                   className="w-full p-6 text-left flex items-center justify-between gap-4 font-serif font-bold text-base sm:text-lg text-gray-900 dark:text-emerald-50 hover:text-emerald-700 dark:hover:text-emerald-400 transition"
                 >
                   <span>{faq.q}</span>
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition ${
-                    isOpen ? 'bg-emerald-500/20 text-emerald-600 dark:text-emerald-400' : 'bg-[#f5f2e8]/80 dark:bg-[#07150c] text-gray-500 dark:text-emerald-400/60'
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition duration-300 ${
+                    isOpen ? 'bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 rotate-180' : 'bg-[#f5f2e8]/80 dark:bg-[#07150c] text-gray-500 dark:text-emerald-400/60'
                   }`}>
-                    {isOpen ? (
-                      <ChevronUp className="w-4 h-4 stroke-[2.5]" />
-                    ) : (
-                      <ChevronDown className="w-4 h-4" />
-                    )}
+                    <ChevronDown className="w-4 h-4" />
                   </div>
                 </button>
 
-                {isOpen && (
-                  <div className="px-6 pb-6 pt-2 text-sm text-gray-600 dark:text-emerald-100/80 leading-relaxed font-light border-t border-emerald-900/10 dark:border-emerald-800/30">
-                    <p><RichText text={faq.a} /></p>
-                  </div>
-                )}
+                <AnswerReveal
+                  open={isOpen}
+                  id={`faq-answer-${idx}`}
+                  className="px-6 pb-6 pt-3 text-sm text-gray-600 dark:text-emerald-100/80 leading-relaxed font-light border-t border-emerald-900/10 dark:border-emerald-800/30"
+                >
+                  <p><RichText text={faq.a} /></p>
+                </AnswerReveal>
               </div>
             );
           })}

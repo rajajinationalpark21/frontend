@@ -59,7 +59,6 @@ export default function HomePage({ onOpenBooking }) {
   const [recentBlogs, setRecentBlogs] = useState([]);
   // The rest of the "Page – Home About Rajaji" document and the shared booking wording.
   const [ctaCopy, setCtaCopy] = useState({});
-  const [aboutOpen, setAboutOpen] = useState(false);
 
   useEffect(() => {
     Promise.allSettled([fetchContent(), fetchBlogs()])
@@ -112,7 +111,6 @@ export default function HomePage({ onOpenBooking }) {
           ? 'columns-1 sm:columns-2 lg:columns-3'
           : 'columns-2 md:columns-3 lg:columns-4';
   const aboutIntro = content.aboutIntro || content.aboutDescription || defaultHomeContent.aboutIntro;
-  const aboutDetails = (content.aboutDetails || []).filter(Boolean);
   const legacyStats = [
     { value: content.stats?.tigers || "50+", label: "Tigers Protected" },
     { value: content.stats?.sqKm || content.stats?.forestArea || content.stats?.acres || "820+", label: "Sq Km of Forest" },
@@ -240,24 +238,11 @@ export default function HomePage({ onOpenBooking }) {
             </h2>
             <div id="about-rajaji-text" className="prose-balanced space-y-4 text-sm leading-7 text-gray-600 dark:text-gray-300 sm:text-base sm:leading-8">
               <p><RichText text={aboutIntro} /></p>
-              {aboutOpen && aboutDetails.map((paragraph, index) => <p key={index}><RichText text={paragraph} /></p>)}
             </div>
-            {aboutDetails.length > 0 ? (
-              <button
-                type="button"
-                onClick={() => setAboutOpen((open) => !open)}
-                aria-expanded={aboutOpen}
-                aria-controls="about-rajaji-text"
-                className="inline-flex items-center gap-2 text-sm font-bold text-emerald-700 transition hover:text-emerald-600 dark:text-emerald-400 dark:hover:text-emerald-300"
-              >
-                {aboutOpen ? content.aboutReadLessLabel || "Show less" : content.aboutReadMoreLabel || "Read the full story"}
-                <ArrowRight className={`h-4 w-4 transition-transform ${aboutOpen ? '-rotate-90' : 'rotate-90'}`} />
-              </button>
-            ) : (
-              <Link to="/about" className="inline-flex items-center gap-2 text-sm font-bold text-emerald-700 transition hover:text-emerald-600 dark:text-emerald-400 dark:hover:text-emerald-300">
-                {content.aboutReadMoreLabel || "Read the full story"}<ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </Link>
-            )}
+            {/* The rest of the story is on the About page. */}
+            <Link to="/about" className="inline-flex items-center gap-2 text-sm font-bold text-emerald-700 transition hover:text-emerald-600 dark:text-emerald-400 dark:hover:text-emerald-300">
+              {content.aboutReadMoreLabel || "Read the full story"}<ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+            </Link>
 
             <div className="grid grid-cols-2 gap-x-6 gap-y-5 border-l-2 border-safari-500 pl-6 sm:grid-cols-3">
               {aboutStats.map((stat, index) => (

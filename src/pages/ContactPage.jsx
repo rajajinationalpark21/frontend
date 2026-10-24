@@ -4,7 +4,6 @@ import {
   Phone, 
   Mail, 
   Send, 
-  Map, 
   CheckCircle2,
   ChevronDown 
 } from 'lucide-react';
@@ -14,6 +13,8 @@ import SEO from '../components/SEO';
 import PageHero from '../components/PageHero';
 import HoneypotField from '../components/HoneypotField';
 import RichText from '../components/RichText';
+import { hoverToOpen } from '../utils/canHover';
+import AnswerReveal from '../components/AnswerReveal';
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -25,6 +26,7 @@ export default function ContactPage() {
   });
   const [honeypot, setHoneypot] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState('');
   const [cooldown, setCooldown] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [openFaqs, setOpenFaqs] = useState({ 0: true });
@@ -41,6 +43,17 @@ export default function ContactPage() {
   const callNumbers = phones.length ? phones : [contactInfo.safari.phone];
   const contactName = siteContact?.name || contactInfo.safari.name;
   const email = siteContact?.email || contactInfo.email;
+  // The admin pastes Google's "Embed a map" code (or its link); until then the
+  // map searches the Map URL's place, or the address.
+  const pastedEmbed = String(siteContact?.mapEmbed || '').match(/https:\/\/www\.google\.com\/maps\/embed\?[^"'\s<>]+/)?.[0]?.replace(/&amp;/g, '&');
+  const mapPlace = (() => {
+    try {
+      return new URL(siteContact?.mapUrl || contactInfo.mapUrl || '').searchParams.get('q');
+    } catch {
+      return null;
+    }
+  })() || address;
+  const mapEmbedSrc = pastedEmbed || `https://www.google.com/maps?q=${encodeURIComponent(mapPlace)}&output=embed`;
   const telHref = (number) => `tel:${number.replace(/[^\d+]/g, '')}`;
 
   const toggleFaq = (index) => {
@@ -66,6 +79,11 @@ export default function ContactPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (isSubmitting || cooldown) return;
+    setSubmitError('');
+    if (formData.phone.replace(/\D/g, '').length < 10) {
+      setSubmitError('Please enter your phone or WhatsApp number (at least 10 digits) so our safari desk can reply.');
+      return;
+    }
 
     setIsSubmitting(true);
 
@@ -90,8 +108,7 @@ export default function ContactPage() {
       setTimeout(() => setSubmitted(false), 3000);
       setTimeout(() => setCooldown(false), 30000);
     } catch (err) {
-      console.error("Contact form error:", err);
-      alert("Failed to send message. Please try again.");
+      setSubmitError(err?.message || 'Your message could not be sent. Please try again, or call or WhatsApp us.');
     } finally {
       setIsSubmitting(false);
     }
@@ -151,9 +168,16 @@ export default function ContactPage() {
                     <span className="text-[11px] font-bold text-gray-400 dark:text-gray-400 uppercase tracking-wider block">
                       CALL US
                     </span>
-                    {contactName && (
-                      <p className="text-base sm:text-lg font-bold text-gray-950 dark:text-white mt-1 leading-snug">{contactName}</p>
-                    )}
+                    {contactName && (() => {
+                      // "Rajaji Safari Desk / Dr. Chaturbhuj": the desk as a label, the person in bold.
+                      const [desk, person] = contactName.includes(' / ') ? contactName.split(' / ') : ['', contactName];
+                      return (
+                        <div className="mt-1">
+                          {desk && <span className="block text-xs font-medium text-gray-500 dark:text-gray-400">{desk}</span>}
+                          <p className="text-lg font-bold leading-snug text-gray-950 dark:text-white">{person}</p>
+                        </div>
+                      );
+                    })()}
                     {callNumbers.map((number) => (
                       <a key={number} href={telHref(number)} className="text-sm font-semibold text-gray-900 dark:text-white hover:text-emerald-600 dark:hover:text-emerald-400 transition block mt-0.5">
                         {number}
@@ -191,59 +215,44 @@ export default function ContactPage() {
               </div>
             </div>
 
-            {/* 3D Map Preview Card */}
-            <div className="relative bg-[#fdfcf8]/90 dark:bg-[#0c1f13]/90 backdrop-blur-md rounded-3xl p-6 shadow-sm border border-emerald-950/10 dark:border-emerald-500/20 overflow-hidden flex flex-col items-center justify-center min-h-[220px] group transition-colors">
-              {/* Map vector stylization */}
-              <div className="absolute inset-0 bg-gradient-to-br from-[#07150c]/5 to-[#07150c]/10 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center">
-                <div className="w-32 h-32 rounded-full bg-emerald-100/40 dark:bg-emerald-900/30 blur-2xl absolute" />
-                <svg className="w-48 h-48 opacity-25 stroke-gray-500 dark:stroke-gray-600" fill="none" viewBox="0 0 100 100">
-                  <path d="M10 20 L40 10 L70 20 L90 10 L90 80 L70 90 L40 80 L10 90 Z" strokeWidth="2" strokeDasharray="3 3"/>
-                  <path d="M40 10 L40 80 M70 20 L70 90" strokeWidth="2"/>
-                </svg>
-                {/* 3D-styled Pin */}
-                <div className="absolute text-emerald-600 group-hover:scale-110 transition duration-300">
-                  <MapPin className="w-16 h-16 fill-emerald-100/80 dark:fill-emerald-950/80 text-emerald-600 dark:text-emerald-400 drop-shadow-md" />
-                </div>
-              </div>
-
-              {/* View on Maps Button */}
-              <a
-                href="https://www.google.com/maps/search/?api=1&query=Rajaji+National+Park+Uttarakhand"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="relative z-10 px-6 py-2.5 bg-white/95 dark:bg-gray-800/95 backdrop-blur-md rounded-full text-xs font-bold text-gray-900 dark:text-white shadow-md hover:shadow-lg border border-gray-100 dark:border-gray-700 flex items-center gap-2 hover:text-emerald-600 dark:hover:text-emerald-400 transition"
-              >
-                <Map className="w-4 h-4 text-emerald-600" />
-                View on Google Maps
-              </a>
+            {/* The map itself, from the admin's Google Maps embed */}
+            <div className="relative bg-[#fdfcf8]/90 dark:bg-[#0c1f13]/90 backdrop-blur-md rounded-3xl p-2 shadow-sm border border-emerald-950/10 dark:border-emerald-500/20 overflow-hidden">
+              <iframe
+                title={`Map: ${address}`}
+                src={mapEmbedSrc}
+                className="block w-full h-[300px] sm:h-[340px] rounded-[20px] border-0"
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                allowFullScreen
+              />
             </div>
           </div>
 
           {/* Right Column: Send a Message Form */}
-          <div className="lg:col-span-8">
-            <div className="bg-[#fdfcf8]/90 dark:bg-[#0c1f13]/90 backdrop-blur-md rounded-3xl p-8 sm:p-12 shadow-sm border border-emerald-950/10 dark:border-emerald-500/20">
+          <div className="lg:col-span-8 lg:self-stretch">
+            <div className="flex h-full flex-col bg-[#fdfcf8]/90 dark:bg-[#0c1f13]/90 backdrop-blur-md rounded-3xl p-6 sm:p-10 lg:p-12 shadow-sm border border-emerald-950/10 dark:border-emerald-500/20">
               <div className="mb-8">
                 <span className="text-xs font-bold uppercase tracking-widest text-emerald-600 dark:text-emerald-400 mb-1 block">
-                  EXPEDITION INQUIRY
+                  Safari enquiry
                 </span>
                 <h2 className="font-serif text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white tracking-tight">
-                  Send a Message
+                  Send us a message
                 </h2>
-                <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-1">
-                  Fill out the form below and we'll get back to you within 24 hours.
+                <p className="text-sm text-gray-500 dark:text-gray-400 mt-1.5">
+                  Our safari desk replies by phone, WhatsApp or email. For the quickest answer, call or WhatsApp us.
                 </p>
               </div>
 
               {submitted ? (
                 <div className="py-16 text-center space-y-3 bg-emerald-50/70 dark:bg-emerald-950/30 rounded-2xl p-6 border border-emerald-200/60 dark:border-emerald-800/40">
                   <CheckCircle2 className="w-12 h-12 text-emerald-600 mx-auto" />
-                  <h3 className="font-serif text-xl font-bold text-gray-900 dark:text-white">Message Delivered!</h3>
+                  <h3 className="font-serif text-xl font-bold text-gray-900 dark:text-white">Message sent</h3>
                   <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 max-w-sm mx-auto">
-                    Thank you, {formData.name}. Our expedition coordination desk has received your request and will contact you shortly.
+                    Thank you, {formData.name}. Our safari desk has your message and will contact you shortly.
                   </p>
                 </div>
               ) : (
-                <form onSubmit={handleSubmit} className="space-y-6 text-sm">
+                <form onSubmit={handleSubmit} className="flex flex-1 flex-col gap-6 text-sm">
                   {/* Spam trap, checked by the server */}
                   <HoneypotField value={honeypot} onChange={setHoneypot} />
 
@@ -251,13 +260,14 @@ export default function ContactPage() {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div>
                       <label className="block text-xs sm:text-sm font-semibold text-gray-900 dark:text-white mb-2">
-                        Your Name
+                        Your name
                       </label>
                       <input
                         type="text"
                         required
                         maxLength={120}
-                        placeholder="John Doe"
+                        autoComplete="name"
+                        placeholder="Your full name"
                         value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                         className="w-full px-4 py-3 text-sm bg-gray-50/80 dark:bg-gray-800/90 border border-gray-200 dark:border-gray-700 rounded-2xl focus:outline-none focus:bg-white dark:focus:bg-gray-800 focus:border-emerald-600 dark:focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-500 font-medium"
@@ -266,13 +276,13 @@ export default function ContactPage() {
 
                     <div>
                       <label className="block text-xs sm:text-sm font-semibold text-gray-900 dark:text-white mb-2">
-                        Email Address
+                        Email <span className="font-normal text-gray-400">(optional)</span>
                       </label>
                       <input
                         type="email"
-                        required
                         maxLength={160}
-                        placeholder="john@example.com"
+                        autoComplete="email"
+                        placeholder="you@example.com"
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                         className="w-full px-4 py-3 text-sm bg-gray-50/80 dark:bg-gray-800/90 border border-gray-200 dark:border-gray-700 rounded-2xl focus:outline-none focus:bg-white dark:focus:bg-gray-800 focus:border-emerald-600 dark:focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-500 font-medium"
@@ -284,12 +294,15 @@ export default function ContactPage() {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div>
                       <label className="block text-xs sm:text-sm font-semibold text-gray-900 dark:text-white mb-2">
-                        Phone Number
+                        Phone / WhatsApp
                       </label>
                       <input
                         type="tel"
+                        required
                         maxLength={30}
-                        placeholder="+1 (555) 000-0000"
+                        autoComplete="tel"
+                        inputMode="tel"
+                        placeholder="+91 98765 43210"
                         value={formData.phone}
                         onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                         className="w-full px-4 py-3 text-sm bg-gray-50/80 dark:bg-gray-800/90 border border-gray-200 dark:border-gray-700 rounded-2xl focus:outline-none focus:bg-white dark:focus:bg-gray-800 focus:border-emerald-600 dark:focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-500 font-medium"
@@ -298,7 +311,7 @@ export default function ContactPage() {
 
                     <div>
                       <label className="block text-xs sm:text-sm font-semibold text-gray-900 dark:text-white mb-2">
-                        Subject
+                        What is it about?
                       </label>
                       <select
                         value={formData.subject}
@@ -314,36 +327,43 @@ export default function ContactPage() {
                     </div>
                   </div>
 
-                  {/* Row 3: How can we help? */}
-                  <div>
+                  {/* Row 3: the message, taking any extra height */}
+                  <div className="flex flex-1 flex-col">
                     <label className="block text-xs sm:text-sm font-semibold text-gray-900 dark:text-white mb-2">
-                      How can we help?
+                      Your message
                     </label>
                     <textarea
                       rows="6"
                       required
                       maxLength={4000}
-                      placeholder="Tell us more about your plans..."
+                      placeholder="Preferred dates, safari zone, number of people, any questions…"
                       value={formData.message}
                       onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                      className="w-full px-4 py-3 text-sm bg-gray-50/80 dark:bg-gray-800/90 border border-gray-200 dark:border-gray-700 rounded-2xl focus:outline-none focus:bg-white dark:focus:bg-gray-800 focus:border-emerald-600 dark:focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-500 font-medium resize-none"
+                      className="min-h-[160px] flex-1 w-full px-4 py-3 text-sm bg-gray-50/80 dark:bg-gray-800/90 border border-gray-200 dark:border-gray-700 rounded-2xl focus:outline-none focus:bg-white dark:focus:bg-gray-800 focus:border-emerald-600 dark:focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-500 font-medium resize-none"
                     ></textarea>
                   </div>
 
-                  {/* Submit Button aligned Right */}
-                  <div className="flex justify-end pt-2">
+                  {submitError && (
+                    <p role="alert" className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700 dark:border-red-900/50 dark:bg-red-950/30 dark:text-red-300">
+                      {submitError}
+                    </p>
+                  )}
+
+                  {/* Submit */}
+                  <div className="flex flex-col-reverse items-stretch gap-3 sm:flex-row sm:items-center sm:justify-between">
+                    <p className="text-xs text-gray-500 dark:text-gray-400">We only use your details to reply to this message.</p>
                     <button
                       type="submit"
                       disabled={isSubmitting || cooldown}
-                      className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold text-xs uppercase tracking-wider shadow-md hover:shadow-lg transition duration-200 active:scale-95"
+                      className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full bg-emerald-700 hover:bg-emerald-800 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold text-sm shadow-md hover:shadow-lg transition duration-200 active:scale-[0.98] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-700"
                     >
                       {isSubmitting ? (
                         'Sending...'
                       ) : cooldown ? (
-                        'Sent! Please wait 30s'
+                        'Sent – you can send another in 30 s'
                       ) : (
                         <>
-                          Send Message
+                          Send message
                           <Send className="w-3.5 h-3.5 fill-white" />
                         </>
                       )}
@@ -376,13 +396,18 @@ export default function ContactPage() {
             return (
               <div
                 key={idx}
-                className="bg-[#fdfcf8]/90 dark:bg-[#0c1f13]/90 backdrop-blur-md border border-emerald-950/10 dark:border-emerald-500/20 rounded-2xl shadow-sm transition-all duration-200 overflow-hidden"
+                // With a mouse, pointing at a question opens its answer (and closes the others).
+                {...hoverToOpen(() => setOpenFaqs({ [idx]: true }))}
+                className={`bg-[#fdfcf8]/90 dark:bg-[#0c1f13]/90 backdrop-blur-md border rounded-2xl transition-[border-color,box-shadow] duration-300 overflow-hidden ${
+                  isOpen ? 'border-emerald-600/30 dark:border-emerald-400/30 shadow-md' : 'border-emerald-950/10 dark:border-emerald-500/20 shadow-sm hover:border-emerald-600/25'
+                }`}
               >
                 <button
                   type="button"
                   onClick={() => toggleFaq(idx)}
                   className="w-full text-left py-4 sm:py-5 px-5 sm:px-6 flex items-center justify-between gap-4 group cursor-pointer focus:outline-none"
                   aria-expanded={isOpen}
+                  aria-controls={`contact-faq-${idx}`}
                 >
                   <span className="text-sm sm:text-base font-bold text-gray-900 dark:text-white group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition-colors">
                     {faq.question}
@@ -396,11 +421,13 @@ export default function ContactPage() {
                   </div>
                 </button>
 
-                {isOpen && (
-                  <div className="px-5 sm:px-6 pb-5 pt-1 text-xs sm:text-sm text-gray-600 dark:text-gray-300 leading-relaxed border-t border-gray-100 dark:border-gray-800/80">
-                    <RichText text={faq.answer} />
-                  </div>
-                )}
+                <AnswerReveal
+                  open={isOpen}
+                  id={`contact-faq-${idx}`}
+                  className="px-5 sm:px-6 pb-5 pt-3 text-xs sm:text-sm text-gray-600 dark:text-gray-300 leading-relaxed border-t border-gray-100 dark:border-gray-800/80"
+                >
+                  <RichText text={faq.answer} />
+                </AnswerReveal>
               </div>
             );
           })}

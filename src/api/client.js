@@ -79,12 +79,28 @@ export function submitBooking(data) {
  * No cookies and no personal data are sent.
  */
 let lastCounted = "";
+
+/**
+ * True only on a browser's first page view ever on this site. The browser keeps
+ * the date of its first visit; nothing identifying is sent, just this yes/no.
+ * Browsers that block storage are never marked new (so new visitors are not overcounted).
+ */
+function isFirstVisit() {
+  try {
+    if (localStorage.getItem("rnp_first_visit")) return false;
+    localStorage.setItem("rnp_first_visit", new Date().toISOString().slice(0, 10));
+    return localStorage.getItem("rnp_first_visit") !== null;
+  } catch {
+    return false;
+  }
+}
+
 export function countPageView(path) {
   if (typeof window === "undefined" || path === lastCounted) return;
   lastCounted = path;
   // The previous page on this site is not a referrer worth counting.
   const referrer = document.referrer && !document.referrer.startsWith(window.location.origin) ? document.referrer : "";
-  const body = JSON.stringify({ path, referrer });
+  const body = JSON.stringify({ path, referrer, firstVisit: isFirstVisit() });
   const url = `${API_BASE}/visits`;
   try {
     const blob = new Blob([body], { type: "text/plain" });
