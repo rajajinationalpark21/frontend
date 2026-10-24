@@ -2,6 +2,17 @@
   "trailingSlash": false,
   "redirects": [
     {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "rajajinationalparkdemo.vercel.app"
+        }
+      ],
+      "destination": "https://www.rajajiinationalpark.com/:path*",
+      "permanent": true
+    },
+    {
       "source": "/tickets",
       "destination": "/rajaji-national-park-jeep-safari-tickets-entry-fees-charges",
       "permanent": true

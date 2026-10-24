@@ -19,6 +19,11 @@ npm run dev             # http://localhost:5173
 |---|---|
 | `VITE_API_BASE` | Backend API base URL. If unset, the code falls back to the production API, so set it for local work |
 | `VITE_SITE_URL` | Public site address, used for canonical URLs, the sitemap and link previews. On Vercel it defaults to the project's production domain |
+| `VITE_GOOGLE_SITE_VERIFICATION` | Optional. Google Search Console's HTML-tag code (the `content` value; comma-separate several). Added to every page |
+| `VITE_GOOGLE_VERIFICATION_FILE` | Optional. Google's HTML-file method: the file name it gives you, e.g. `google1a2b3c.html`. The build writes the file |
+| `VITE_BING_SITE_VERIFICATION` | Optional. Bing Webmaster Tools' meta-tag code |
+
+Search engines: the build writes `sitemap.xml` (with each page's header photo), `robots.txt` and `llms.txt` for `VITE_SITE_URL`. The verification codes are only needed for a URL-prefix property; a Search Console **Domain** property is verified with a DNS TXT record instead. `vercel.json` sends `rajajinationalparkdemo.vercel.app` to `www.rajajiinationalpark.com` so search engines see one site.
 
 ## Scripts
 

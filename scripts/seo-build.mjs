@@ -412,8 +412,41 @@ async function writePage(routePath, html) {
 }
 
 // ── Main ────────────────────────────────────────────────────────────────────
+/**
+ * Search engine ownership checks, set in the build environment (Vercel → Settings
+ * → Environment Variables) with the codes Google Search Console and Bing
+ * Webmaster Tools give you:
+ *   VITE_GOOGLE_SITE_VERIFICATION  the content="…" code of the HTML-tag method
+ *                                  (several, comma-separated, for several properties)
+ *   VITE_GOOGLE_VERIFICATION_FILE  or the file name of the HTML-file method, e.g. google1a2b3c.html
+ *   VITE_BING_SITE_VERIFICATION    the content="…" code of Bing's meta-tag method
+ * Not needed when the site is verified with a DNS TXT record (Search Console's
+ * "Domain" property), which is the recommended way.
+ */
+function verificationTags() {
+  const list = (value) => String(value || '').split(',').map((code) => code.trim()).filter(Boolean);
+  return [
+    ...list(env.VITE_GOOGLE_SITE_VERIFICATION).map((code) => `<meta name="google-site-verification" content="${esc(code)}" />`),
+    ...list(env.VITE_BING_SITE_VERIFICATION).map((code) => `<meta name="msvalidate.01" content="${esc(code)}" />`),
+  ];
+}
+
+async function writeVerificationFile() {
+  const file = String(env.VITE_GOOGLE_VERIFICATION_FILE || '').trim();
+  if (!file) return '';
+  if (!/^google[a-z0-9]+\.html$/i.test(file)) {
+    console.warn(`[seo] VITE_GOOGLE_VERIFICATION_FILE "${file}" is not a Google verification file name; skipped.`);
+    return '';
+  }
+  await writeFile(path.join(DIST, file), `google-site-verification: ${file}`);
+  return file;
+}
+
 async function main() {
-  const template = await readFile(path.join(DIST, 'index.html'), 'utf8');
+  let template = await readFile(path.join(DIST, 'index.html'), 'utf8');
+  const tags = verificationTags();
+  if (tags.length) template = template.replace('</head>', () => `  ${tags.join('\n    ')}\n  </head>`);
+  const verificationFile = await writeVerificationFile();
 
   // Fallback document for URLs with no prerendered file (aliases, 404s, posts
   // published since the last build). It must not claim the home page's canonical.
@@ -436,8 +469,14 @@ async function main() {
   for (const [routePath, seo] of Object.entries(ROUTE_SEO)) {
     // SEO settings saved in the admin panel win over the defaults in seo/routes.js.
     const cms = sectionSeo(content, seo);
+    // The page's header photo, for link previews and the image sitemap.
+    const section = seo.section ? content?.[seo.section] : null;
+    const image = routePath === '/wildlife-biodiversity-rajaji-tiger-reserve'
+      ? section?.hubHeroImages?.[0] || section?.hubHeroBanner
+      : section?.heroImages?.[0] || section?.heroBanner;
     pages.push({
       path: routePath,
+      ...(image ? { image } : {}),
       ...seo,
       ...(cms.title ? { title: cms.title, cmsTitle: true } : {}),
       ...(cms.description ? { description: cms.description } : {}),
@@ -485,13 +524,17 @@ async function main() {
     await writePage(page.path, renderPage(template, page));
   }
 
+  // Each page's header photo is listed too, so it can appear in Google Images.
+  const imageTag = (page) =>
+    page.image && /^https?:\/\//.test(page.image) ? `\n    <image:image><image:loc>${esc(page.image)}</image:loc></image:image>` : '';
   const sitemap =
-    '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
+    '<?xml version="1.0" encoding="UTF-8"?>\n' +
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">\n' +
     pages
       .map(
         (page) =>
           `  <url>\n    <loc>${esc(SITE_URL + page.path)}</loc>\n    <lastmod>${page.lastmod}</lastmod>\n` +
-          `    <changefreq>${page.changefreq}</changefreq>\n    <priority>${page.priority.toFixed(1)}</priority>\n  </url>`
+          `    <changefreq>${page.changefreq}</changefreq>\n    <priority>${page.priority.toFixed(1)}</priority>${imageTag(page)}\n  </url>`
       )
       .join('\n') +
     '\n</urlset>\n';
@@ -499,7 +542,11 @@ async function main() {
 
   await writeFile(
     path.join(DIST, 'robots.txt'),
-    `User-agent: *\nAllow: /\nDisallow: /admin/\nDisallow: /api/\n\nSitemap: ${SITE_URL}/sitemap.xml\n`
+    '# Rajaji National Park safari booking site. Every public page may be crawled.\n' +
+      'User-agent: *\nAllow: /\nDisallow: /admin/\nDisallow: /api/\n' +
+      // Booking links carry ?zone=…; the canonical page is /booking.
+      'Disallow: /booking?\n\n' +
+      `Sitemap: ${SITE_URL}/sitemap.xml\n`
   );
 
   const zones = content?.safari?.zones ?? [];
@@ -521,7 +568,9 @@ async function main() {
   await writeFile(path.join(DIST, 'llms.txt'), llms);
 
   console.log(
-    `[seo] ${SITE_URL}: ${pages.length} pages prerendered${content ? '' : ' (metadata only - API unreachable)'}, sitemap.xml, robots.txt, llms.txt written.`
+    `[seo] ${SITE_URL}: ${pages.length} pages prerendered${content ? '' : ' (metadata only - API unreachable)'}, sitemap.xml, robots.txt, llms.txt written.` +
+      (tags.length ? ` ${tags.length} verification tag(s).` : '') +
+      (verificationFile ? ` ${verificationFile} written.` : '')
   );
 }
 
