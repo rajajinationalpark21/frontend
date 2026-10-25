@@ -55,7 +55,7 @@ export default function FeedbackSection() {
           <div className="flex items-center gap-3.5 shrink-0">
             <button
               onClick={() => setIsModalOpen(true)}
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-safari-500 hover:bg-safari-400 active:scale-95 text-white font-bold text-xs sm:text-sm shadow-md hover:shadow-lg transition duration-200 cursor-pointer"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-safari-700 hover:bg-safari-600 active:scale-95 text-white font-bold text-xs sm:text-sm shadow-md hover:shadow-lg transition duration-200 cursor-pointer"
             >
               <PlusCircle className="w-4 h-4" />
               <span>Share Your Experience</span>

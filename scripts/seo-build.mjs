@@ -12,6 +12,7 @@
  *
  * Also writes sitemap.xml, robots.txt and llms.txt for the resolved site URL.
  */
+import { createHash } from 'node:crypto';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
@@ -474,6 +475,26 @@ async function main() {
   }
 
   const [contentRes, blogsRes] = await Promise.all([fetchJson('content/get'), fetchJson('blogs/get')]);
+
+  // The CMS responses are saved as one cached file that every page names and
+  // preloads, so the app renders its first screen without waiting for the API
+  // (src/api/client.js reads it, then refreshes from the API after the page loads).
+  // A file rather than inline JSON: parsing it inside each page's HTML cost seconds
+  // of main-thread time on phones, while the file downloads once per visit.
+  const snapshot = {};
+  if (contentRes) snapshot.content = contentRes;
+  if (blogsRes) snapshot.blogs = blogsRes;
+  let snapshotTags = '';
+  if (Object.keys(snapshot).length) {
+    const json = JSON.stringify(snapshot);
+    const file = `assets/cms-${createHash('sha1').update(json).digest('hex').slice(0, 10)}.json`;
+    await writeFile(path.join(DIST, file), json);
+    snapshotTags =
+      `<meta name="cms-snapshot" content="/${file}" />\n` +
+      `    <link rel="preload" href="/${file}" as="fetch" crossorigin="anonymous" />`;
+  }
+  const withSnapshot = (html) => (snapshotTags ? html.replace('</head>', () => `  ${snapshotTags}\n  </head>`) : html);
+  await writeFile(path.join(DIST, 'spa.html'), withSnapshot(template.replace(/\s*<link rel="canonical"[^>]*>/, '')));
   const content = contentRes?.data;
   const blogs = (blogsRes?.data?.blogs || blogsRes?.blogs || []).filter((b) => b.slug && b.published !== false);
   const today = new Date().toISOString().slice(0, 10);
@@ -539,7 +560,7 @@ async function main() {
   }
 
   for (const page of pages) {
-    await writePage(page.path, renderPage(template, page));
+    await writePage(page.path, withSnapshot(renderPage(template, page)));
   }
 
   // Each page's header photo is listed too, so it can appear in Google Images.

@@ -299,7 +299,7 @@ export default function FeedbackModal({ isOpen, onClose, onFeedbackSubmitted }) 
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl bg-safari-500 hover:bg-safari-600 text-white font-bold text-xs sm:text-sm shadow-md hover:shadow-lg active:scale-95 disabled:opacity-50 transition duration-200 cursor-pointer"
+                  className="inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl bg-safari-700 hover:bg-safari-600 text-white font-bold text-xs sm:text-sm shadow-md hover:shadow-lg active:scale-95 disabled:opacity-50 transition duration-200 cursor-pointer"
                 >
                   {isSubmitting ? (
                     <>

@@ -1,37 +1,38 @@
-import React, { useEffect } from 'react';
+import React, { Suspense, lazy, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import FloatingActions from './components/FloatingActions';
-
-// Client Sitemap Pages
-import HomePage from './pages/HomePage';
-import AboutPage from './pages/AboutPage';
-import TicketsPage from './pages/TicketsPage';
-import TermsConditionsPage from './pages/TermsConditionsPage';
-import SafariZonesPage from './pages/SafariZonesPage';
-import SafariZoneDetailPage from './pages/SafariZoneDetailPage';
-import ActivitiesPage from './pages/ActivitiesPage';
-import RaftingPage from './pages/RaftingPage';
-import StayPage from './pages/StayPage';
-import WildlifeHubPage from './pages/WildlifeHubPage';
-import FaunaPage from './pages/FaunaPage';
-import BirdsPage from './pages/BirdsPage';
-import ButterfliesPage from './pages/ButterfliesPage';
-import ReptilesPage from './pages/ReptilesPage';
-import FloraPage from './pages/FloraPage';
-import BookingPage from './pages/BookingPage';
-import ContactPage from './pages/ContactPage';
-import BlogPage from './pages/BlogPage';
-import BlogPostPage from './pages/BlogPostPage';
-import FAQPage from './pages/FAQPage';
-import NotFoundPage from './pages/NotFoundPage';
-import CmsDocPage from './components/CmsDocPage';
-import CmsSlugRoute from './components/CmsSlugRoute';
-
 import { ThemeProvider } from './context/ThemeContext';
 import { countPageView, fetchContent } from './api/client';
 import { warmHeaderPhotos } from './utils/warmHeaderPhotos';
+import PageLoader from './components/PageLoader';
+
+// Client Sitemap Pages. Home ships with the app; every other page loads on demand.
+import HomePage from './pages/HomePage';
+const AboutPage = lazy(() => import('./pages/AboutPage'));
+const TicketsPage = lazy(() => import('./pages/TicketsPage'));
+const TermsConditionsPage = lazy(() => import('./pages/TermsConditionsPage'));
+const SafariZonesPage = lazy(() => import('./pages/SafariZonesPage'));
+const SafariZoneDetailPage = lazy(() => import('./pages/SafariZoneDetailPage'));
+const ActivitiesPage = lazy(() => import('./pages/ActivitiesPage'));
+const RaftingPage = lazy(() => import('./pages/RaftingPage'));
+const StayPage = lazy(() => import('./pages/StayPage'));
+const WildlifeHubPage = lazy(() => import('./pages/WildlifeHubPage'));
+const FaunaPage = lazy(() => import('./pages/FaunaPage'));
+const BirdsPage = lazy(() => import('./pages/BirdsPage'));
+const ButterfliesPage = lazy(() => import('./pages/ButterfliesPage'));
+const ReptilesPage = lazy(() => import('./pages/ReptilesPage'));
+const FloraPage = lazy(() => import('./pages/FloraPage'));
+const BookingPage = lazy(() => import('./pages/BookingPage'));
+const ContactPage = lazy(() => import('./pages/ContactPage'));
+const BlogPage = lazy(() => import('./pages/BlogPage'));
+const BlogPostPage = lazy(() => import('./pages/BlogPostPage'));
+const FAQPage = lazy(() => import('./pages/FAQPage'));
+const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
+const CmsDocPage = lazy(() => import('./components/CmsDocPage'));
+const CmsSlugRoute = lazy(() => import('./components/CmsSlugRoute'));
+
 
 /** On every page change: back to the top, and count the view for the admin dashboard. */
 function ScrollToTop() {
@@ -66,6 +67,7 @@ function MainLayout() {
       <Navbar onOpenBooking={handleOpenBooking} />
       
       <main className="site-page-canvas flex-grow">
+        <Suspense fallback={<PageLoader />}>
         <Routes>
           {/* 1. Page – Home (About Rajaji) */}
           <Route path="/" element={<HomePage onOpenBooking={handleOpenBooking} />} />
@@ -177,6 +179,7 @@ function MainLayout() {
           {/* Catch-all Not Found */}
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
+        </Suspense>
       </main>
 
       <Footer />

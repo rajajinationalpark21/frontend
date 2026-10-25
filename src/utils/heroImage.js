@@ -23,3 +23,10 @@ export const HERO_SIZES = '100vw';
 /** The photo a page shows first in its header: the rotating list's first, else the single banner. */
 export const firstHeroImage = (section, { list = 'heroImages', single = 'heroBanner' } = {}) =>
   (Array.isArray(section?.[list]) && section[list].find(Boolean)) || section?.[single] || '';
+
+/**
+ * A copy of a CMS photo at most `width` pixels wide, in the browser's best format.
+ * Photos are stored at full camera size; cards and galleries show them far smaller.
+ * Non-Cloudinary photos come back unchanged.
+ */
+export const sizedImage = (src, width) => cloudinary(src, `f_auto,q_auto,w_${width}`) || src;

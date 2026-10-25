@@ -176,7 +176,7 @@ export default function Footer() {
               <Link
                 to="/booking"
                 state={{ toForm: true }}
-                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-safari-500 hover:bg-safari-400 text-white text-xs font-bold transition ml-1 shadow-md"
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-safari-700 hover:bg-safari-600 text-white text-xs font-bold transition ml-1 shadow-md"
               >
                 <Ticket className="w-3.5 h-3.5" /> Book Online
               </Link>
@@ -185,15 +185,15 @@ export default function Footer() {
 
           {/* Column 2: 7 Safari Zones */}
           <div className="space-y-2.5">
-            <h4 className="text-[11px] font-bold uppercase tracking-[0.08em] text-white flex items-center gap-1.5">
+            <h2 className="text-[11px] font-bold uppercase tracking-[0.08em] text-white flex items-center gap-1.5">
               Safari zones
-            </h4>
+            </h2>
             <ul className="space-y-1.5 text-xs sm:text-sm">
               {zones.slice(0, 4).map((z, idx) => (
                 <li key={idx}>
                   <Link
                     to={z.slug ? `/${z.slug}` : `/zones`}
-                    className="text-gray-400 hover:text-emerald-400 transition block truncate"
+                    className="text-gray-400 hover:text-emerald-400 transition block truncate py-1"
                   >
                     {z.name}
                   </Link>
@@ -208,9 +208,9 @@ export default function Footer() {
           </div>
 
           <div className="space-y-2.5">
-            <h4 className="text-[11px] font-bold uppercase tracking-[0.08em] text-white">
+            <h2 className="text-[11px] font-bold uppercase tracking-[0.08em] text-white">
               Plan your visit
-            </h4>
+            </h2>
             <ul className="space-y-2 text-xs sm:text-sm">
               <li>
                 <Link to="/activities" className="text-gray-400 hover:text-emerald-400 transition">

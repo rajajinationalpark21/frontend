@@ -49,7 +49,7 @@ export default function CallToAction({
         <div 
           className="absolute -top-10 -left-10 w-64 h-64 sm:w-80 sm:h-80 opacity-[0.14] pointer-events-none bg-contain bg-no-repeat rotate-180"
           style={{ 
-            backgroundImage: `url("/images/leaf%20for%20cta.jpg")`, 
+            backgroundImage: `url("/images/leaf-cta.webp")`, 
             filter: 'invert(1) hue-rotate(90deg) brightness(1.2)', 
             mixBlendMode: 'screen' 
           }}
@@ -120,7 +120,7 @@ export default function CallToAction({
             {primaryLink ? (
               <Link
                 to={primaryLink}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-3.5 rounded-full bg-safari-500 hover:bg-safari-400 text-white font-bold text-sm shadow-xl shadow-safari-500/25 hover:shadow-safari-400/40 active:scale-95 transition-all duration-200 cursor-pointer group"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-3.5 rounded-full bg-safari-700 hover:bg-safari-600 text-white font-bold text-sm shadow-xl shadow-safari-500/25 hover:shadow-safari-400/40 active:scale-95 transition-all duration-200 cursor-pointer group"
               >
                 {PrimaryIcon && <PrimaryIcon className="w-4 h-4 shrink-0" />}
                 <span>{primaryText}</span>
@@ -130,7 +130,7 @@ export default function CallToAction({
               <button
                 type="button"
                 onClick={onPrimaryClick}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-3.5 rounded-full bg-safari-500 hover:bg-safari-400 text-white font-bold text-sm shadow-xl shadow-safari-500/25 hover:shadow-safari-400/40 active:scale-95 transition-all duration-200 cursor-pointer group"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-3.5 rounded-full bg-safari-700 hover:bg-safari-600 text-white font-bold text-sm shadow-xl shadow-safari-500/25 hover:shadow-safari-400/40 active:scale-95 transition-all duration-200 cursor-pointer group"
               >
                 {PrimaryIcon && <PrimaryIcon className="w-4 h-4 shrink-0" />}
                 <span>{primaryText}</span>

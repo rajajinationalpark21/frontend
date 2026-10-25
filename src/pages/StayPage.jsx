@@ -9,6 +9,7 @@ import { DocSection } from '../components/DocContent';
 import PhotoGallery from '../components/PhotoGallery';
 import { cmsText } from '../utils/cmsText';
 import RichText from '../components/RichText';
+import { sizedImage } from '../utils/heroImage';
 
 const DEFAULT_FRH_COLUMNS = ["Forest Rest House", "Suites Available", "Current Status", "Entry Gate Access", "Setting & Atmosphere"];
 
@@ -115,7 +116,7 @@ export default function StayPage({ onOpenBooking }) {
             <div className="space-y-4">
               <div className="rounded-2xl overflow-hidden shadow-md aspect-[4/3] bg-gray-100 dark:bg-gray-800">
                 <img 
-                  src={(wildBrook.mainImage && wildBrook.mainImage.trim()) || "/images/stay/wild-brook-stream.jpg"} 
+                  src={sizedImage(wildBrook.mainImage?.trim(), 1000) || "/images/stay/wild-brook-stream.jpg"} 
                   alt={cmsText(wildBrook.mainImageAlt, 'Wild Brook Retreat valley stream')} 
                   className="w-full h-full object-cover hover:scale-105 transition duration-700" 
                 />
@@ -123,14 +124,14 @@ export default function StayPage({ onOpenBooking }) {
               <div className="grid grid-cols-2 gap-4">
                 <div className="rounded-xl overflow-hidden shadow-sm aspect-[4/3] bg-gray-100 dark:bg-gray-800">
                   <img 
-                    src={(wildBrook.leafImage && wildBrook.leafImage.trim()) || "/images/stay/rajaji-foliage.jpg"} 
+                    src={sizedImage(wildBrook.leafImage?.trim(), 500) || "/images/stay/rajaji-foliage.jpg"} 
                     alt={cmsText(wildBrook.leafImageAlt, 'Native Rajaji forest foliage')} 
                     className="w-full h-full object-cover hover:scale-105 transition duration-500" 
                   />
                 </div>
                 <div className="rounded-xl overflow-hidden shadow-sm aspect-[4/3] bg-gray-100 dark:bg-gray-800">
                   <img 
-                    src={(wildBrook.sunsetImage && wildBrook.sunsetImage.trim()) || "/images/stay/gohari-wildlife.png"} 
+                    src={sizedImage(wildBrook.sunsetImage?.trim(), 500) || "/images/stay/gohari-wildlife.png"} 
                     alt={cmsText(wildBrook.sunsetImageAlt, 'Spotted deer in Gohri meadow')} 
                     className="w-full h-full object-cover hover:scale-105 transition duration-500" 
                   />
@@ -195,7 +196,7 @@ export default function StayPage({ onOpenBooking }) {
             <div 
               className="absolute -top-10 -left-10 w-56 h-56 opacity-[0.16] pointer-events-none bg-contain bg-no-repeat rotate-180"
               style={{ 
-                backgroundImage: `url("/images/leaf%20for%20cta.jpg")`, 
+                backgroundImage: `url("/images/leaf-cta.webp")`, 
                 filter: 'invert(1) hue-rotate(90deg) brightness(1.2)', 
                 mixBlendMode: 'screen' 
               }}

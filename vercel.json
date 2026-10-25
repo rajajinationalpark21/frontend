@@ -210,7 +210,7 @@
   ],
   "rewrites": [
     {
-      "source": "/((?!assets/).*)",
+      "source": "/((?!assets/|\\.well-known/).*)",
       "destination": "/spa.html"
     }
   ],

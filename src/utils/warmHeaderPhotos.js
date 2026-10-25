@@ -44,6 +44,12 @@ export function warmHeaderPhotos(content) {
     if (src) load(src).then(next);
   };
   const start = () => { next(); next(); };
-  if ('requestIdleCallback' in window) window.requestIdleCallback(start, { timeout: 4000 });
-  else window.setTimeout(start, 2500);
+  // Only once the page in front of the visitor has fully loaded and the browser is idle;
+  // a forced start competed with the first page's own photos and rendering.
+  const whenIdle = () => {
+    if ('requestIdleCallback' in window) window.requestIdleCallback(start);
+    else window.setTimeout(start, 2500);
+  };
+  if (document.readyState === 'complete') whenIdle();
+  else window.addEventListener('load', whenIdle, { once: true });
 }

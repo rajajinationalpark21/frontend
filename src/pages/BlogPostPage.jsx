@@ -15,6 +15,7 @@ import { slugify } from '../utils/slugify';
 import SEO from '../components/SEO';
 import { SITE_URL } from '../seo/site';
 import { blogPostingSchema } from '../seo/schema';
+import { sizedImage } from '../utils/heroImage';
 
 function renderContent(rawContent) {
   if (!rawContent) return null;
@@ -312,7 +313,7 @@ export default function BlogPostPage() {
         {/* Featured Banner Image - Wide Cinematic */}
         <div className="rounded-3xl overflow-hidden shadow-2xl aspect-[16/9] sm:aspect-[21/9] max-h-[520px] bg-gray-100 dark:bg-gray-800 mb-12 border border-emerald-950/10 dark:border-emerald-500/20">
           <img
-            src={article.image}
+            src={sizedImage(article.image, 1600)}
             alt={article.title}
             className="w-full h-full object-cover"
           />
@@ -455,7 +456,7 @@ export default function BlogPostPage() {
                   >
                     <div className="aspect-[16/10] overflow-hidden bg-gray-100 dark:bg-gray-800">
                       <img
-                        src={rel.image}
+                        src={sizedImage(rel.image, 600)}
                         alt={rel.title}
                         className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
                       />

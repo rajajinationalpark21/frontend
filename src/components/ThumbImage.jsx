@@ -1,4 +1,5 @@
 import { Leaf } from 'lucide-react';
+import { sizedImage } from '../utils/heroImage';
 
 /**
  * Small list-row thumbnail with an icon placeholder when no image is set.
@@ -8,7 +9,7 @@ export default function ThumbImage({ src, alt, icon: Icon = Leaf, size = 48, cla
   const dims = { width: size, height: size };
 
   if (src) {
-    return <img src={src} alt={alt} style={dims} className={`rounded-xl object-cover shrink-0 ${className}`} />;
+    return <img src={sizedImage(src, size * 2)} alt={alt} style={dims} className={`rounded-xl object-cover shrink-0 ${className}`} />;
   }
 
   return (

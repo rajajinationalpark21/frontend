@@ -1,4 +1,5 @@
 import { Leaf } from 'lucide-react';
+import { sizedImage } from '../utils/heroImage';
 
 /**
  * Card header image with a themed forest placeholder when no image is set.
@@ -9,7 +10,7 @@ export default function CoverImage({ src, alt, icon: Icon = Leaf, aspect = 'aspe
     <div className={`relative overflow-hidden ${aspect} ${rounded} ${className}`}>
       {src ? (
         <>
-          <img src={src} alt={alt} className="w-full h-full object-cover group-hover:scale-105 transition duration-700" />
+          <img src={sizedImage(src, 800)} alt={alt} className="w-full h-full object-cover group-hover:scale-105 transition duration-700" />
           <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent" />
         </>
       ) : (

@@ -253,7 +253,7 @@ export default function Navbar({ onOpenBooking }) {
             </div>
             <button
               onClick={onOpenBooking}
-              className="attention-pulse inline-flex items-center justify-center whitespace-nowrap px-5 py-2.5 text-sm font-bold text-white bg-safari-500 hover:bg-safari-600 active:scale-[0.98] rounded-full shadow-sm hover:shadow-md transition-colors duration-200"
+              className="attention-pulse inline-flex items-center justify-center whitespace-nowrap px-5 py-2.5 text-sm font-bold text-white bg-safari-700 hover:bg-safari-600 active:scale-[0.98] rounded-full shadow-sm hover:shadow-md transition-colors duration-200"
             >
               {bookingLabel}
             </button>
@@ -275,7 +275,7 @@ export default function Navbar({ onOpenBooking }) {
             </div>
             <button
               onClick={onOpenBooking}
-              className="attention-pulse px-3.5 py-1.5 text-xs font-bold text-white bg-safari-500 rounded-full"
+              className="attention-pulse px-3.5 py-1.5 text-xs font-bold text-white bg-safari-700 rounded-full"
             >
               {bookingLabel}
             </button>
@@ -345,7 +345,7 @@ export default function Navbar({ onOpenBooking }) {
                 setMobileMenuOpen(false);
                 onOpenBooking();
               }}
-              className="w-full py-3 rounded-xl bg-safari-500 text-white font-bold text-center text-sm shadow-md active:scale-[0.98] transition"
+              className="w-full py-3 rounded-xl bg-safari-700 text-white font-bold text-center text-sm shadow-md active:scale-[0.98] transition"
             >
               {bookingLabel}
             </button>

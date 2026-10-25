@@ -22,6 +22,7 @@ import CallToAction from '../components/CallToAction';
 import PageLoader from '../components/PageLoader';
 import HeroImageRotator from '../components/HeroImageRotator';
 import RichText from '../components/RichText';
+import { sizedImage } from '../utils/heroImage';
 
 const fallbackGallery = [
   safariImages.walkingTiger,
@@ -61,24 +62,27 @@ export default function HomePage({ onOpenBooking }) {
   const [ctaCopy, setCtaCopy] = useState({});
 
   useEffect(() => {
-    Promise.allSettled([fetchContent(), fetchBlogs()])
-      .then(([contentRes, blogsRes]) => {
-        if (contentRes.status === 'fulfilled') {
-          const home = contentRes.value?.data?.home || contentRes.value?.home;
-          if (home) {
-            setContent(home);
-          }
-          setCtaCopy(contentRes.value?.data?.settings?.ctaCopy || {});
-        }
-        if (blogsRes.status === 'fulfilled') {
-          const blogs = blogsRes.value?.data?.blogs || blogsRes.value?.blogs;
-          if (Array.isArray(blogs) && blogs.length > 0) {
-            setRecentBlogs(blogs);
-          }
-        }
-      })
-      .catch((err) => {
-        console.error('Error fetching homepage data:', err);
+    // Each handler also runs again if the live CMS response replaces the copy
+    // embedded at build time.
+    const showContent = (res) => {
+      const home = res?.data?.home || res?.home;
+      if (home) {
+        setContent(home);
+      }
+      setCtaCopy(res?.data?.settings?.ctaCopy || {});
+    };
+    const showBlogs = (res) => {
+      const blogs = res?.data?.blogs || res?.blogs;
+      if (Array.isArray(blogs) && blogs.length > 0) {
+        setRecentBlogs(blogs);
+      }
+    };
+
+    Promise.allSettled([fetchContent().then(showContent), fetchBlogs().then(showBlogs)])
+      .then((results) => {
+        results
+          .filter((result) => result.status === 'rejected')
+          .forEach((result) => console.error('Error fetching homepage data:', result.reason));
       })
       .finally(() => {
         setLoading(false);
@@ -158,7 +162,7 @@ export default function HomePage({ onOpenBooking }) {
           <div className="flex flex-wrap items-center justify-center gap-3.5">
             <button
               onClick={onOpenBooking}
-              className="attention-pulse px-7 py-3.5 rounded-full bg-safari-500 hover:bg-safari-400 text-white font-bold text-sm active:scale-95 transition-colors duration-200 cursor-pointer"
+              className="attention-pulse px-7 py-3.5 rounded-full bg-safari-700 hover:bg-safari-600 text-white font-bold text-sm active:scale-95 transition-colors duration-200 cursor-pointer"
             >
               Book Safari Permit
             </button>
@@ -181,9 +185,9 @@ export default function HomePage({ onOpenBooking }) {
               <Sun className="w-5 h-5" />
             </div>
             <div>
-              <h4 className="font-bold text-gray-900 dark:text-white text-sm">Timings</h4>
+              <h2 className="font-bold text-gray-900 dark:text-white text-sm">Timings</h2>
               <p className="text-xs font-semibold text-gray-700 dark:text-gray-300 mt-0.5">{content.timings || "Morning & Evening Safaris"}</p>
-              <p className="text-[11px] text-gray-400 dark:text-gray-500">Timings change with the season</p>
+              <p className="text-[11px] text-gray-600 dark:text-gray-400">Timings change with the season</p>
             </div>
           </div>
 
@@ -193,9 +197,9 @@ export default function HomePage({ onOpenBooking }) {
               <Compass className="w-5 h-5" />
             </div>
             <div>
-              <h4 className="font-bold text-gray-900 dark:text-white text-sm">Zones</h4>
+              <h2 className="font-bold text-gray-900 dark:text-white text-sm">Zones</h2>
               <p className="text-xs font-semibold text-gray-700 dark:text-gray-300 mt-0.5">{content.zones || "Chilla, Motichur, Ranipur & more"}</p>
-              <p className="text-[11px] text-gray-400 dark:text-gray-500">6 safari zones plus Beatles Ashram</p>
+              <p className="text-[11px] text-gray-600 dark:text-gray-400">6 safari zones plus Beatles Ashram</p>
             </div>
           </div>
 
@@ -205,9 +209,9 @@ export default function HomePage({ onOpenBooking }) {
               <Shield className="w-5 h-5" />
             </div>
             <div>
-              <h4 className="font-bold text-gray-900 dark:text-white text-sm">Rules</h4>
+              <h2 className="font-bold text-gray-900 dark:text-white text-sm">Rules</h2>
               <p className="text-xs font-semibold text-gray-700 dark:text-gray-300 mt-0.5">{content.rules || "Do's & Don'ts Guide"}</p>
-              <p className="text-[11px] text-gray-400 dark:text-gray-500">Strict conservation policies</p>
+              <p className="text-[11px] text-gray-600 dark:text-gray-400">Strict conservation policies</p>
             </div>
           </div>
         </div>
@@ -220,7 +224,7 @@ export default function HomePage({ onOpenBooking }) {
           <div className="lg:col-span-6 relative">
             <div className="relative rounded-3xl overflow-hidden shadow-xl group aspect-[4/3] bg-gray-100 border border-gray-200/60 dark:border-gray-800">
               <img
-                src={content.aboutImage || safariImages.walkingTiger}
+                src={sizedImage(content.aboutImage, 1000) || safariImages.walkingTiger}
                 alt="Wildlife of Rajaji National Park"
                 className="w-full h-full object-cover object-center group-hover:scale-105 transition duration-700"
               />
@@ -286,7 +290,7 @@ export default function HomePage({ onOpenBooking }) {
                 className="mb-5 break-inside-avoid rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition group bg-gray-200 dark:bg-gray-800 border border-gray-100 dark:border-gray-800"
               >
                 <img
-                  src={src}
+                  src={sizedImage(src, 800)}
                   alt={`${content.galleryTitle || "Captured Moments"} photo ${index + 1}`}
                   loading="lazy"
                   className="w-full h-auto block group-hover:scale-105 transition duration-500"
@@ -325,7 +329,7 @@ export default function HomePage({ onOpenBooking }) {
               >
                 <div className="relative aspect-[16/10] overflow-hidden bg-gray-100 dark:bg-gray-800">
                   <img
-                    src={image}
+                    src={sizedImage(image, 800)}
                     alt={title}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
                   />

@@ -34,7 +34,7 @@ export default function NotFoundPage() {
         <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
           <Link
             to="/"
-            className="w-full sm:w-auto px-6 py-3 rounded-full bg-safari-500 hover:bg-safari-600 text-white font-bold text-xs shadow-md transition flex items-center justify-center gap-2"
+            className="w-full sm:w-auto px-6 py-3 rounded-full bg-safari-700 hover:bg-safari-600 text-white font-bold text-xs shadow-md transition flex items-center justify-center gap-2"
           >
             <Home className="w-4 h-4" /> Return to Base Camp
           </Link>

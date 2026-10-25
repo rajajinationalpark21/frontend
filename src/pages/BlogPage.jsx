@@ -8,6 +8,7 @@ import SEO from '../components/SEO';
 import { SITE_URL } from '../seo/site';
 import CallToAction from '../components/CallToAction';
 import PageHero from '../components/PageHero';
+import { sizedImage } from '../utils/heroImage';
 
 export default function BlogPage({ onOpenBooking }) {
   const [selectedCategory, setSelectedCategory] = useState('All Stories');
@@ -121,7 +122,7 @@ export default function BlogPage({ onOpenBooking }) {
             {/* Left: Featured Image */}
             <div className="lg:col-span-7 aspect-[16/10] lg:aspect-auto overflow-hidden bg-gray-100 dark:bg-gray-800">
               <img
-                src={featuredArticle.image}
+                src={sizedImage(featuredArticle.image, 1200)}
                 alt={featuredArticle.title}
                 className="w-full h-full object-cover group-hover:scale-105 transition duration-700"
               />
@@ -208,7 +209,7 @@ export default function BlogPage({ onOpenBooking }) {
                   {/* Article Image */}
                   <div className="aspect-[16/10] overflow-hidden bg-gray-100 dark:bg-gray-800">
                     <img
-                      src={article.image}
+                      src={sizedImage(article.image, 800)}
                       alt={article.title}
                       className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
                     />

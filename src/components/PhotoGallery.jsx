@@ -1,5 +1,6 @@
 import React from 'react';
 import { DOC_WIDTH } from './DocContent';
+import { sizedImage } from '../utils/heroImage';
 
 /**
  * Masonry grid of a page's photos (backend `galleryImages`, edited in the admin panel).
@@ -22,7 +23,7 @@ export default function PhotoGallery({ title, images = [], altPrefix = title, em
             className="mb-5 break-inside-avoid rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition group bg-gray-200 dark:bg-gray-800 border border-gray-100 dark:border-gray-800"
           >
             <img
-              src={src}
+              src={sizedImage(src, 800)}
               alt={`${altPrefix} photo ${index + 1}`}
               loading="lazy"
               className="w-full h-auto block group-hover:scale-105 transition duration-500"

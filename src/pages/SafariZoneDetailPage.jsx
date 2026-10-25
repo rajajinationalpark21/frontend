@@ -279,7 +279,7 @@ export default function SafariZoneDetailPage({ onOpenBooking, defaultSlug }) {
               <div 
                 className="absolute -top-10 -left-10 w-56 h-56 opacity-[0.16] pointer-events-none bg-contain bg-no-repeat rotate-180"
                 style={{ 
-                  backgroundImage: `url("/images/leaf%20for%20cta.jpg")`, 
+                  backgroundImage: `url("/images/leaf-cta.webp")`, 
                   filter: 'invert(1) hue-rotate(90deg) brightness(1.2)', 
                   mixBlendMode: 'screen' 
                 }}

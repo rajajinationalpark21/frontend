@@ -8,6 +8,7 @@ import CallToAction from '../components/CallToAction';
 import PageHero from '../components/PageHero';
 import DocContent, { DOC_WIDTH } from '../components/DocContent';
 import RichText from '../components/RichText';
+import { sizedImage } from '../utils/heroImage';
 
 export default function WildlifeHubPage() {
   const [content, setContent] = useState(null);
@@ -129,7 +130,7 @@ export default function WildlifeHubPage() {
               >
                 <div className="relative h-52 overflow-hidden">
                   <img
-                    src={cat.image}
+                    src={sizedImage(cat.image, 800)}
                     alt={cat.title}
                     className="w-full h-full object-cover group-hover:scale-105 transition duration-700"
                   />

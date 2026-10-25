@@ -9,6 +9,7 @@ import CallToAction from '../components/CallToAction';
 import PageHero from '../components/PageHero';
 import { cmsText } from '../utils/cmsText';
 import RichText from '../components/RichText';
+import { sizedImage } from '../utils/heroImage';
 
 const fallbackActivities = [
   {
@@ -103,7 +104,7 @@ export default function ActivitiesPage({ onOpenBooking }) {
               >
                 <div className="relative aspect-[16/9] overflow-hidden bg-gray-100 dark:bg-gray-800">
                   <img
-                    src={act.image || safariImages.safariJeepSavannah}
+                    src={sizedImage(act.image, 800) || safariImages.safariJeepSavannah}
                     alt={act.title}
                     className="w-full h-full object-cover group-hover:scale-105 transition duration-700"
                   />

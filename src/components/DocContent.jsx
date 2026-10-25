@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Check, Info, Mail, MapPin, MessageSquare, Phone } from 'lucide-react';
 import RichText from './RichText';
+import { sizedImage } from '../utils/heroImage';
 
 /**
  * Renders a client page document (backend `docBlocks`, produced by
@@ -203,7 +204,7 @@ function Block({ block, ctx }) {
                 className="group rounded-3xl overflow-hidden border border-emerald-900/15 dark:border-emerald-800/40 bg-white/70 dark:bg-[#07150c]/70 shadow-sm hover:shadow-xl hover:border-emerald-500/40 transition"
               >
                 <div className="relative h-44 overflow-hidden">
-                  <img src={ctx.linkImages[item.to]} alt={item.label} loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition duration-700" />
+                  <img src={sizedImage(ctx.linkImages[item.to], 600)} alt={item.label} loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition duration-700" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
                 </div>
                 <div className="p-5 space-y-1.5">
