@@ -18,7 +18,7 @@ import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { ROUTE_SEO, SITE_NAME, ZONE_SLUGS, breadcrumbTrail, sectionSeo } from '../src/seo/routes.js';
-import { blogPostingSchema, breadcrumbSchema, faqSchema, zoneSchema } from '../src/seo/schema.js';
+import { blogPostingSchema, breadcrumbSchema, contentSchemas, faqSchema, zoneSchema } from '../src/seo/schema.js';
 import { resolveSiteUrl } from '../vite.config.js';
 import { HERO_SIZES, firstHeroImage, heroSrc, heroSrcSet } from '../src/utils/heroImage.js';
 
@@ -161,7 +161,10 @@ const BODY = {
   '/': (c, blogs) =>
     `<h1>${esc(c.home.heroTitle)}</h1>` +
     p(c.home.heroSubtitle) +
-    section(c.home.aboutTitle || 'About Rajaji National Park', p(c.home.aboutDescription)) +
+    section(
+      c.home.aboutTitle || 'About Rajaji National Park',
+      p(c.home.aboutIntro || c.home.aboutDescription) + (c.home.aboutDetails ?? []).filter(Boolean).map(p).join('')
+    ) +
     section(
       'Rajaji Jeep Safari Zones',
       ul(c.safari.zones.map((z) => `${link(`/${z.slug}`, z.name)} – ${esc(z.tag)}`))
@@ -180,6 +183,9 @@ const BODY = {
 
   '/rajaji-national-park-jeep-safari-tickets-entry-fees-charges': (c) => {
     const t = c.tickets;
+    if (t.docBlocks?.length) {
+      return `<h1>${esc(t.docTitle || t.title)}</h1>` + p(t.subtitle) + docHtml(t.docBlocks) + contactBlock(c.settings);
+    }
     return (
       `<h1>${esc(t.title)}</h1>` +
       p(t.subtitle) +
@@ -275,6 +281,7 @@ const BODY = {
   '/mammals-of-rajaji-tiger-reserve': (c) =>
     `<h1>${esc(c.fauna.title)}</h1>` +
     p(c.fauna.overview) +
+    docHtml(c.fauna.docBlocks) +
     section('Prime Attractions', ul(c.fauna.primeAttractions.map((a) => `<strong>${esc(a.name)}</strong> (${esc(a.count)}): ${esc(a.details)}`))) +
     section('Herbivores', ul(c.fauna.herbivores.map((a) => `<strong>${esc(a.name)}</strong>: ${esc(a.info)}`))) +
     section('Carnivores', ul(c.fauna.carnivores.map((a) => `<strong>${esc(a.name)}</strong>: ${esc(a.info)}`))),
@@ -282,22 +289,26 @@ const BODY = {
   '/birds-of-rajaji-national-park': (c) =>
     `<h1>${esc(c.birds.title)}</h1>` +
     p(c.birds.overview) +
+    docHtml(c.birds.docBlocks) +
     c.birds.families.map((f) => h2(f.group) + p(f.desc) + ul(f.species.map(esc))).join(''),
 
   '/butterflies-of-rajaji-national-park': (c) =>
     `<h1>${esc(c.butterflies.title)}</h1>` +
     p(c.butterflies.overview) +
+    docHtml(c.butterflies.docBlocks) +
     section('Butterfly Species of Rajaji', ul(c.butterflies.species.map((s) => `<strong>${esc(s.name)}</strong> (${esc(s.family)}): ${esc(s.habitat)}`))) +
     section('Mud-Puddling', p(c.butterflies.mudPuddling)),
 
   '/reptiles-of-rajaji-tiger-reserve': (c) =>
     `<h1>${esc(c.reptiles.title)}</h1>` +
     p(c.reptiles.overview) +
+    docHtml(c.reptiles.docBlocks) +
     c.reptiles.species.map((s) => `<h2>${esc(s.name)} (<em>${esc(s.scientific)}</em>)</h2>${p(s.habitat && `Habitat: ${s.habitat}`)}${p(s.description)}`).join(''),
 
   '/flora-of-rajaji-national-park': (c) =>
     `<h1>${esc(c.flora.title)}</h1>` +
     p(c.flora.overview) +
+    docHtml(c.flora.docBlocks) +
     section('Forest Types by Altitude', ul(c.flora.altitudinalBands.map((b) => `<strong>${esc(b.band)}</strong>: ${esc(b.trees)}`))) +
     section(
       'Common Trees and Plants of Rajaji Tiger Reserve',
@@ -306,6 +317,17 @@ const BODY = {
 
   '/booking': (c) =>
     '<h1>Book Rajaji Jeep Safari Online</h1>' +
+    (c.booking?.overviewParagraphs?.length
+      ? section(c.booking.overviewTitle || 'Rajaji Jeep Safari Booking', c.booking.overviewParagraphs.map(p).join(''))
+      : '') +
+    (c.booking?.assistanceItems?.length
+      ? section(c.booking.enquiryTitle || 'Our team can assist with', p(c.booking.enquirySubtitle) + ul(c.booking.assistanceItems.map(esc)))
+      : '') +
+    (c.booking?.onlineBookingDescription ? section(c.booking.onlineBookingTitle || 'Book Online', p(c.booking.onlineBookingDescription)) : '') +
+    (c.booking?.guidelines?.length ? section(c.booking.guidelinesTitle || 'Booking Guidelines', ul(c.booking.guidelines.map(esc))) : '') +
+    (c.booking?.disclaimerParagraphs?.length
+      ? section(c.booking.disclaimerTitle || 'Disclaimer', c.booking.disclaimerParagraphs.map(p).join(''))
+      : '') +
     p('Choose your safari date, morning or afternoon slot and safari zone, share the visitor details needed for the permit, and our team will confirm availability, applicable charges and reporting details by WhatsApp or email.') +
     section('Safari Zones', ul(c.safari.zones.map((z) => link(`/${z.slug}`, z.name)))) +
     contactBlock(c.settings),
@@ -324,6 +346,16 @@ const BODY = {
 };
 
 function zoneBody(zone, content) {
+  if (zone.docBlocks?.length) {
+    return (
+      `<h1>${esc(zone.docTitle || zone.name)}</h1>` +
+      p(zone.docKicker?.join(' · ') || zone.tag) +
+      zoneFacts(zone) +
+      docHtml(zone.docBlocks) +
+      `<p>${link('/rajaji-national-park-jeep-safari-tickets-entry-fees-charges', 'Rajaji safari tickets, entry fees and charges')} · ${link('/zones', 'All Rajaji safari zones')}</p>` +
+      contactBlock(content.settings)
+    );
+  }
   return (
     `<h1>${esc(zone.name)}</h1>` +
     p(zone.tag) +
@@ -465,6 +497,10 @@ async function main() {
   // Fallback document for URLs with no prerendered file (aliases, 404s, posts
   // published since the last build). It must not claim the home page's canonical.
   await writeFile(path.join(DIST, 'spa.html'), template.replace(/\s*<link rel="canonical"[^>]*>/, ''));
+  // Vercel serves 404.html, with a 404 status, for addresses that match no page or
+  // rewrite; the app inside shows its "page not found" screen.
+  const notFound = (html) => html.replace(/(<meta name="robots" content=")[^"]*(")/, '$1noindex, follow$2');
+  await writeFile(path.join(DIST, '404.html'), notFound(template.replace(/\s*<link rel="canonical"[^>]*>/, '')));
 
   if (!SITE_URL) {
     console.warn(
@@ -495,6 +531,7 @@ async function main() {
   }
   const withSnapshot = (html) => (snapshotTags ? html.replace('</head>', () => `  ${snapshotTags}\n  </head>`) : html);
   await writeFile(path.join(DIST, 'spa.html'), withSnapshot(template.replace(/\s*<link rel="canonical"[^>]*>/, '')));
+  await writeFile(path.join(DIST, '404.html'), notFound(withSnapshot(template.replace(/\s*<link rel="canonical"[^>]*>/, ''))));
   const content = contentRes?.data;
   const blogs = (blogsRes?.data?.blogs || blogsRes?.blogs || []).filter((b) => b.slug && b.published !== false);
   const today = new Date().toISOString().slice(0, 10);
@@ -521,7 +558,10 @@ async function main() {
       ...(cms.keywords ? { keywords: cms.keywords } : {}),
       lastmod: content?.updatedAt?.slice(0, 10) ?? today,
       body: content && BODY[routePath] ? BODY[routePath](content, blogs) : '',
-      schemas: content && routePath === '/faq' ? [faqSchema(content.faqs.items)] : [],
+      schemas: [
+        ...(content && routePath === '/faq' ? [faqSchema(content.faqs.items)] : []),
+        ...contentSchemas({ path: routePath, section: seo.section, content, siteUrl: SITE_URL }),
+      ],
     });
   }
 
@@ -537,7 +577,7 @@ async function main() {
       changefreq: 'monthly',
       lastmod: content.updatedAt?.slice(0, 10) ?? today,
       body: zoneBody(zone, content),
-      schemas: [zoneSchema(zone, SITE_URL)],
+      schemas: [zoneSchema(zone, SITE_URL), ...contentSchemas({ path: `/${zone.slug}`, content, siteUrl: SITE_URL })],
     });
   }
 

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { fetchContent } from '../api/client';
 import { ROUTE_SEO, breadcrumbTrail, canonicalPath, sectionSeo } from '../seo/routes';
-import { breadcrumbSchema } from '../seo/schema';
+import { breadcrumbSchema, contentSchemas } from '../seo/schema';
 import { SITE_URL } from '../seo/site';
 import { plainText } from '../utils/plainText';
 
@@ -32,9 +32,9 @@ export default function SEO({
   const page = ROUTE_SEO[path];
   const [content, setContent] = useState(null);
   useEffect(() => {
-    if (!page?.section) return;
+    if (noindex) return;
     fetchContent().then((res) => setContent(res.data)).catch(() => {});
-  }, [page?.section]);
+  }, [noindex]);
   const cms = sectionSeo(content, page);
   const currentUrl = `${SITE_URL}${path}`;
   const finalImage = absoluteUrl(ogImage || '/og-image.png');
@@ -51,6 +51,8 @@ export default function SEO({
   const schemas = [
     ...(Array.isArray(schemaJson) ? schemaJson : schemaJson ? [schemaJson] : []),
     ...(trail.length > 0 ? [breadcrumbSchema(trail, SITE_URL)] : []),
+    // Same derived markup the prerendered page carries (FAQ, safari prices).
+    ...(noindex ? [] : contentSchemas({ path, section: page?.section, content, siteUrl: SITE_URL })),
   ];
   const schemaText = schemas.length > 0 ? JSON.stringify(schemas) : '';
 

@@ -291,7 +291,7 @@ export default function HomePage({ onOpenBooking }) {
               >
                 <img
                   src={sizedImage(src, 800)}
-                  alt={`${content.galleryTitle || "Captured Moments"} photo ${index + 1}`}
+                  alt={`Wildlife and jeep safari moment in Rajaji National Park, photo ${index + 1}`}
                   loading="lazy"
                   className="w-full h-auto block group-hover:scale-105 transition duration-500"
                 />
@@ -365,7 +365,7 @@ export default function HomePage({ onOpenBooking }) {
             <>
               <div className="group bg-[#fdfcf8]/90 dark:bg-[#0c1610]/90 backdrop-blur-sm rounded-2xl overflow-hidden border border-emerald-950/10 dark:border-emerald-500/20 shadow-sm flex flex-col">
                 <div className="relative aspect-[16/10] overflow-hidden bg-gray-100 dark:bg-gray-800">
-                  <img src={safariImages.tigerEye} alt="Wildlife" className="w-full h-full object-cover" />
+                  <img src={safariImages.tigerEye} alt="Close-up of a tiger's eye" className="w-full h-full object-cover" />
                   <span className="absolute top-3.5 left-3.5 bg-[#fdfcf8]/95 dark:bg-gray-900/95 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-bold tracking-wider text-gray-900 dark:text-white uppercase shadow-sm border border-emerald-900/10 dark:border-gray-800">SIGHTING REPORT</span>
                 </div>
                 <div className="p-6 flex-1 flex flex-col justify-between space-y-3">
@@ -381,7 +381,7 @@ export default function HomePage({ onOpenBooking }) {
               </div>
               <div className="group bg-[#fdfcf8]/90 dark:bg-[#0c1610]/90 backdrop-blur-sm rounded-2xl overflow-hidden border border-emerald-950/10 dark:border-emerald-500/20 shadow-sm flex flex-col">
                 <div className="relative aspect-[16/10] overflow-hidden bg-gray-100 dark:bg-gray-800">
-                  <img src={safariImages.mistyHills} alt="Forest" className="w-full h-full object-cover" />
+                  <img src={safariImages.mistyHills} alt="Misty forested hills" className="w-full h-full object-cover" />
                   <span className="absolute top-3.5 left-3.5 bg-[#fdfcf8]/95 dark:bg-gray-900/95 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-bold tracking-wider text-gray-900 dark:text-white uppercase shadow-sm border border-emerald-900/10 dark:border-gray-800">TRAVEL GUIDE</span>
                 </div>
                 <div className="p-6 flex-1 flex flex-col justify-between space-y-3">
@@ -397,7 +397,7 @@ export default function HomePage({ onOpenBooking }) {
               </div>
               <div className="group bg-[#fdfcf8]/90 dark:bg-[#0c1610]/90 backdrop-blur-sm rounded-2xl overflow-hidden border border-emerald-950/10 dark:border-emerald-500/20 shadow-sm flex flex-col">
                 <div className="relative aspect-[16/10] overflow-hidden bg-gray-100 dark:bg-gray-800">
-                  <img src={safariImages.rangerSolo} alt="Conservation" className="w-full h-full object-cover" />
+                  <img src={safariImages.rangerSolo} alt="Forest ranger on patrol" className="w-full h-full object-cover" />
                   <span className="absolute top-3.5 left-3.5 bg-[#fdfcf8]/95 dark:bg-gray-900/95 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-bold tracking-wider text-gray-900 dark:text-white uppercase shadow-sm border border-emerald-900/10 dark:border-gray-800">CONSERVATION</span>
                 </div>
                 <div className="p-6 flex-1 flex flex-col justify-between space-y-3">

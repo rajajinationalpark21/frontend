@@ -2,6 +2,17 @@
   "trailingSlash": false,
   "redirects": [
     {
+      "source": "/",
+      "has": [
+        {
+          "type": "host",
+          "value": "rajajinationalparkdemo.vercel.app"
+        }
+      ],
+      "destination": "https://www.rajajiinationalpark.com/",
+      "permanent": true
+    },
+    {
       "source": "/:path*",
       "has": [
         {
@@ -210,7 +221,11 @@
   ],
   "rewrites": [
     {
-      "source": "/((?!assets/|\\.well-known/).*)",
+      "source": "/blog/:slug([^/.]+)",
+      "destination": "/spa.html"
+    },
+    {
+      "source": "/:slug([^/.]+)",
       "destination": "/spa.html"
     }
   ],

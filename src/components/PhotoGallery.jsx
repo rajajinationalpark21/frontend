@@ -24,7 +24,7 @@ export default function PhotoGallery({ title, images = [], altPrefix = title, em
           >
             <img
               src={sizedImage(src, 800)}
-              alt={`${altPrefix} photo ${index + 1}`}
+              alt={`${altPrefix}, photo ${index + 1} of ${images.length}`}
               loading="lazy"
               className="w-full h-auto block group-hover:scale-105 transition duration-500"
             />

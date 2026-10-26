@@ -253,7 +253,7 @@ export const contactInfo = {
   },
   social: {
     youtube: "https://www.youtube.com/user/viru644",
-    instagram: "http://instagram.com/rajaji_national_park_veeru",
+    instagram: "https://www.instagram.com/rajaji_national_park_veeru/",
     facebook: "https://facebook.com",
     twitter: "https://twitter.com",
   },
