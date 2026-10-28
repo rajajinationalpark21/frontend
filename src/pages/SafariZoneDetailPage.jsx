@@ -373,7 +373,12 @@ export default function SafariZoneDetailPage({ onOpenBooking, defaultSlug }) {
       </section>
 
       {/* Zone gallery: every client photo for this zone, managed in the backend */}
-      <PhotoGallery title={`${currentZone.name} Gallery`} images={currentZone.galleryImages} />
+      <PhotoGallery
+        title={`${currentZone.name} Gallery`}
+        images={currentZone.galleryImages}
+        alts={currentZone.galleryAlts}
+        altPrefix={currentZone.name}
+      />
 
       {/* Unified Call To Action matching HomePage */}
       <CallToAction

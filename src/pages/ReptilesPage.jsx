@@ -174,7 +174,7 @@ export default function ReptilesPage({ onOpenBooking }) {
         </div>
 
         {/* Photo gallery: photos added in the admin panel */}
-        <PhotoGallery title={repData.galleryTitle || 'Reptiles of Rajaji – Photo Gallery'} images={repData.galleryImages} embedded />
+        <PhotoGallery title={repData.galleryTitle || 'Reptiles of Rajaji – Photo Gallery'} images={repData.galleryImages} alts={repData.galleryAlts} embedded />
 
         {/* Safety & Guidelines Alert */}
         <div className="bg-amber-50/70 dark:bg-amber-950/20 border border-amber-200/60 dark:border-amber-800/40 rounded-3xl p-8 space-y-3">

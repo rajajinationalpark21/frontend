@@ -18,6 +18,7 @@ import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { ROUTE_SEO, SITE_NAME, ZONE_SLUGS, breadcrumbTrail, sectionSeo } from '../src/seo/routes.js';
+import { blogSeoTitle } from '../src/seo/blogTitle.js';
 import { blogPostingSchema, breadcrumbSchema, contentSchemas, faqSchema, zoneSchema } from '../src/seo/schema.js';
 import { resolveSiteUrl } from '../vite.config.js';
 import { HERO_SIZES, firstHeroImage, heroSrc, heroSrcSet } from '../src/utils/heroImage.js';
@@ -585,8 +586,7 @@ async function main() {
     pages.push({
       path: `/blog/${post.slug}`,
       name: post.title,
-      // Long post titles go without the blog suffix so they stay readable in search results.
-      title: post.title.length > 42 ? post.title : `${post.title} | Rajaji Safari Blog`,
+      title: blogSeoTitle(post),
       description: post.summary,
       image: post.image,
       preloadHeader: false, // the post page shows its photo in its own layout

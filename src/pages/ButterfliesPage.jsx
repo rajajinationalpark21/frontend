@@ -109,7 +109,7 @@ export default function ButterfliesPage({ onOpenBooking }) {
         </div>
 
         {/* Photo gallery: photos added in the admin panel */}
-        <PhotoGallery title={data.galleryTitle || 'Butterflies of Rajaji – Photo Gallery'} images={data.galleryImages} embedded />
+        <PhotoGallery title={data.galleryTitle || 'Butterflies of Rajaji – Photo Gallery'} images={data.galleryImages} alts={data.galleryAlts} embedded />
 
         {/* CTA with Deep Forest & Tiger Stencil */}
         <div className="relative overflow-hidden p-8 sm:p-10 rounded-3xl bg-[#07150c] text-white border border-emerald-800/40 shadow-2xl flex flex-col sm:flex-row items-center justify-between gap-6">

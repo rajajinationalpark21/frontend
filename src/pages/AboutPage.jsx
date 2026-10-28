@@ -9,6 +9,7 @@ import PageLoader from '../components/PageLoader';
 import DocContent, { DOC_WIDTH } from '../components/DocContent';
 import RichText from '../components/RichText';
 import { sizedImage } from '../utils/heroImage';
+import { galleryAlt } from '../utils/galleryAlt';
 
 const fallback = {
   title: 'About Rajaji National Park',
@@ -118,7 +119,7 @@ export default function AboutPage({ onOpenBooking }) {
             <section className={`mt-8 grid grid-cols-2 gap-4 md:grid-cols-3 ${DOC_WIDTH}`}>
               {strip.map((src, index) => (
                 <div key={`${src}-${index}`} className="group aspect-[4/3] overflow-hidden rounded-2xl bg-gray-200 shadow-sm dark:bg-gray-800">
-                  <img src={sizedImage(src, 600)} alt={`Wildlife of Rajaji Tiger Reserve ${index + 1}`} loading="lazy" className="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
+                  <img src={sizedImage(src, 600)} alt={galleryAlt(content.galleryAlts, index, `Wildlife of Rajaji Tiger Reserve, photo ${index + 1}`)} loading="lazy" className="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
                 </div>
               ))}
             </section>

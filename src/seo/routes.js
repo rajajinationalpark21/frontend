@@ -241,7 +241,7 @@ export const ROUTE_SEO = {
   },
   '/blog': {
     name: 'Blog',
-    title: 'Rajaji Safari Blog | Wildlife Stories, Zone Guides & Travel Tips',
+    title: 'Rajaji Safari Blog | Wildlife Stories & Travel Tips',
     description:
       'Wildlife stories, safari zone guides, birding notes and travel tips from Rajaji National Park and Rajaji Tiger Reserve.',
     keywords:

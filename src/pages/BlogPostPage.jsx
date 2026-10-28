@@ -13,6 +13,7 @@ import { blogArticles, safariImages } from '../data/safariData';
 import { fetchBlog, fetchBlogs } from '../api/client';
 import { slugify } from '../utils/slugify';
 import SEO from '../components/SEO';
+import { blogSeoTitle } from '../seo/blogTitle';
 import { SITE_URL } from '../seo/site';
 import { blogPostingSchema } from '../seo/schema';
 import { sizedImage } from '../utils/heroImage';
@@ -162,6 +163,7 @@ export default function BlogPostPage() {
             readTime: blog.readTime || '5 min read',
             image: blog.image || safariImages.tigerEye,
             excerpt: blog.summary || '',
+            seoTitle: blog.seoTitle || '',
             content: blog.content || '',
             quote: blog.quote || '',
             quoteAuthor: blog.quoteAuthor || '',
@@ -245,7 +247,7 @@ export default function BlogPostPage() {
       <div className="pattern-leaf-delicate pointer-events-none z-0" aria-hidden="true" />
 
       <SEO
-        title={article.title.length > 42 ? article.title : `${article.title} | Rajaji Safari Blog`}
+        title={blogSeoTitle(article)}
         description={article.excerpt}
         keywords={`${article.category.toLowerCase()}, rajaji national park, rajaji tiger reserve, rajaji jeep safari`}
         ogImage={article.image}

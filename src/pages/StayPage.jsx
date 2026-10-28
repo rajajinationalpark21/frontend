@@ -67,7 +67,7 @@ export default function StayPage({ onOpenBooking }) {
       <DocSection blocks={data.docBlocks} onBooking={onOpenBooking} />
       {data.docBlocks?.length > 0 && (
         <div className="pt-12">
-          <PhotoGallery title={data.galleryTitle} images={data.galleryImages || []} altPrefix={data.heroImageAlt || heroTitle} />
+          <PhotoGallery title={data.galleryTitle} images={data.galleryImages || []} alts={data.galleryAlts} altPrefix={heroTitle} />
         </div>
       )}
 

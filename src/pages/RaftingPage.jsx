@@ -89,7 +89,7 @@ export default function RaftingPage({ onOpenBooking }) {
       <DocSection blocks={raftingData.docBlocks} onBooking={onOpenBooking} />
       {raftingData.docBlocks?.length > 0 && (
         <div className="relative z-10 pt-12">
-          <PhotoGallery title={raftingData.galleryTitle} images={raftingData.galleryImages || []} altPrefix={raftingData.heroImageAlt || pageTitle} />
+          <PhotoGallery title={raftingData.galleryTitle} images={raftingData.galleryImages || []} alts={raftingData.galleryAlts} altPrefix={pageTitle} />
         </div>
       )}
 

@@ -1,14 +1,19 @@
 import React from 'react';
 import { DOC_WIDTH } from './DocContent';
 import { sizedImage } from '../utils/heroImage';
+import { galleryAlt } from '../utils/galleryAlt';
 
 /**
  * Masonry grid of a page's photos (backend `galleryImages`, edited in the admin panel).
+ * `alts` are the photos' descriptions (`galleryAlts`); a photo without one is
+ * described from `altPrefix`.
  * `embedded` drops the outer page padding when it sits inside a page section.
  */
-export default function PhotoGallery({ title, images = [], altPrefix = title, embedded = false }) {
-  const photos = images.filter(Boolean);
+export default function PhotoGallery({ title, images = [], alts = [], altPrefix = title, embedded = false }) {
+  // Pair each photo with its description before dropping empty slots.
+  const photos = images.map((src, index) => ({ src, alt: galleryAlt(alts, index, '') })).filter((photo) => photo.src);
   if (photos.length === 0) return null;
+  const place = /rajaji/i.test(altPrefix || '') ? '' : ', Rajaji National Park';
   return (
     <section className={embedded ? 'relative' : `relative z-10 pb-16 ${DOC_WIDTH}`}>
       {title && (
@@ -17,14 +22,14 @@ export default function PhotoGallery({ title, images = [], altPrefix = title, em
         </h2>
       )}
       <div className="columns-1 sm:columns-2 lg:columns-3 gap-5">
-        {photos.map((src, index) => (
+        {photos.map(({ src, alt }, index) => (
           <div
             key={`${src}-${index}`}
             className="mb-5 break-inside-avoid rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition group bg-gray-200 dark:bg-gray-800 border border-gray-100 dark:border-gray-800"
           >
             <img
               src={sizedImage(src, 800)}
-              alt={`${altPrefix}, photo ${index + 1} of ${images.length}`}
+              alt={alt || `${altPrefix}${place}, photo ${index + 1} of ${photos.length}`}
               loading="lazy"
               className="w-full h-auto block group-hover:scale-105 transition duration-500"
             />

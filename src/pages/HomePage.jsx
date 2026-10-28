@@ -23,6 +23,7 @@ import PageLoader from '../components/PageLoader';
 import HeroImageRotator from '../components/HeroImageRotator';
 import RichText from '../components/RichText';
 import { sizedImage } from '../utils/heroImage';
+import { galleryAlt } from '../utils/galleryAlt';
 
 const fallbackGallery = [
   safariImages.walkingTiger,
@@ -291,7 +292,7 @@ export default function HomePage({ onOpenBooking }) {
               >
                 <img
                   src={sizedImage(src, 800)}
-                  alt={`Wildlife and jeep safari moment in Rajaji National Park, photo ${index + 1}`}
+                  alt={galleryAlt(uploadedGallery.length ? content.galleryAlts : [], index, `Wildlife and jeep safari moment in Rajaji National Park, photo ${index + 1}`)}
                   loading="lazy"
                   className="w-full h-auto block group-hover:scale-105 transition duration-500"
                 />
@@ -301,120 +302,70 @@ export default function HomePage({ onOpenBooking }) {
         </div>
       </section>
 
-      {/* 4. TALES FROM THE JUNGLE SECTION */}
-      <section className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-        <div className="text-center max-w-2xl mx-auto mb-14">
-          <h2 className="text-3xl sm:text-4xl font-bold text-gray-950 dark:text-white tracking-tight font-serif">
-            Tales from the Jungle
-          </h2>
-        </div>
+      {/* 4. TALES FROM THE JUNGLE: real blog posts only; the section stays hidden until they load */}
+      {displayBlogs.length > 0 && (
+        <section className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+          <div className="text-center max-w-2xl mx-auto mb-14">
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-950 dark:text-white tracking-tight font-serif">
+              Tales from the Jungle
+            </h2>
+          </div>
 
-        {/* 3 Editorial Blog Cards Matching Reference */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {displayBlogs.length > 0 ? displayBlogs.map((blog) => {
-            const blogId = blog._id || blog.id;
-            const title = blog.title || 'Untitled';
-            const slug = blog.slug || slugify(title) || blogId;
-            const date = blog.createdAt
-              ? new Date(blog.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
-              : '';
-            const image = blog.image || safariImages.tigerEye;
-            const excerpt = blog.summary || blog.excerpt || '';
-            const category = blog.category || 'Sightings';
-            return (
-              <Link
-                key={blogId}
-                to={`/blog/${slug}`}
-                className="group bg-[#fdfcf8]/90 dark:bg-[#0c1610]/90 backdrop-blur-sm rounded-2xl overflow-hidden border border-emerald-950/10 dark:border-emerald-500/20 shadow-sm hover:shadow-xl hover:border-safari-500/40 transition-all duration-300 flex flex-col cursor-pointer"
-              >
-                <div className="relative aspect-[16/10] overflow-hidden bg-gray-100 dark:bg-gray-800">
-                  <img
-                    src={sizedImage(image, 800)}
-                    alt={title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
-                  />
-                  <span className="absolute top-3.5 left-3.5 bg-[#fdfcf8]/95 dark:bg-gray-900/95 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-bold tracking-wider text-gray-900 dark:text-white uppercase shadow-sm border border-emerald-900/10 dark:border-gray-800">
-                    {category}
-                  </span>
-                </div>
-                <div className="p-6 flex-1 flex flex-col justify-between space-y-3">
-                  <div>
-                    {date && (
-                      <div className="flex items-center gap-1.5 text-xs text-gray-400 dark:text-gray-400 mb-2">
-                        <Calendar className="w-3.5 h-3.5" /> {date}
-                      </div>
-                    )}
-                    <h3 className="text-lg font-bold text-gray-950 dark:text-white group-hover:text-safari-600 dark:group-hover:text-safari-400 transition-colors duration-200 leading-snug font-serif">
-                      {title}
-                    </h3>
-                    {excerpt && (
-                      <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 mt-2 line-clamp-2 leading-relaxed">
-                        {excerpt}
-                      </p>
-                    )}
+          {/* 3 Editorial Blog Cards Matching Reference */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {displayBlogs.map((blog) => {
+              const blogId = blog._id || blog.id;
+              const title = blog.title || 'Untitled';
+              const slug = blog.slug || slugify(title) || blogId;
+              const date = blog.createdAt
+                ? new Date(blog.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+                : '';
+              const image = blog.image || safariImages.tigerEye;
+              const excerpt = blog.summary || blog.excerpt || '';
+              const category = blog.category || 'Sightings';
+              return (
+                <Link
+                  key={blogId}
+                  to={`/blog/${slug}`}
+                  className="group bg-[#fdfcf8]/90 dark:bg-[#0c1610]/90 backdrop-blur-sm rounded-2xl overflow-hidden border border-emerald-950/10 dark:border-emerald-500/20 shadow-sm hover:shadow-xl hover:border-safari-500/40 transition-all duration-300 flex flex-col cursor-pointer"
+                >
+                  <div className="relative aspect-[16/10] overflow-hidden bg-gray-100 dark:bg-gray-800">
+                    <img
+                      src={sizedImage(image, 800)}
+                      alt={title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
+                    />
+                    <span className="absolute top-3.5 left-3.5 bg-[#fdfcf8]/95 dark:bg-gray-900/95 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-bold tracking-wider text-gray-900 dark:text-white uppercase shadow-sm border border-emerald-900/10 dark:border-gray-800">
+                      {category}
+                    </span>
                   </div>
-                  <div className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-gray-900 dark:text-white group-hover:text-safari-600 dark:group-hover:text-safari-400 transition-colors pt-2">
-                    <span>Read Story</span>
-                    <ArrowRight className="w-3.5 h-3.5 text-safari-500 group-hover:translate-x-1.5 transition-transform duration-300" />
+                  <div className="p-6 flex-1 flex flex-col justify-between space-y-3">
+                    <div>
+                      {date && (
+                        <div className="flex items-center gap-1.5 text-xs text-gray-400 dark:text-gray-400 mb-2">
+                          <Calendar className="w-3.5 h-3.5" /> {date}
+                        </div>
+                      )}
+                      <h3 className="text-lg font-bold text-gray-950 dark:text-white group-hover:text-safari-600 dark:group-hover:text-safari-400 transition-colors duration-200 leading-snug font-serif">
+                        {title}
+                      </h3>
+                      {excerpt && (
+                        <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 mt-2 line-clamp-2 leading-relaxed">
+                          {excerpt}
+                        </p>
+                      )}
+                    </div>
+                    <div className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-gray-900 dark:text-white group-hover:text-safari-600 dark:group-hover:text-safari-400 transition-colors pt-2">
+                      <span>Read Story</span>
+                      <ArrowRight className="w-3.5 h-3.5 text-safari-500 group-hover:translate-x-1.5 transition-transform duration-300" />
+                    </div>
                   </div>
-                </div>
-              </Link>
-            );
-          }) : (
-            /* Fallback matching reference design articles */
-            <>
-              <div className="group bg-[#fdfcf8]/90 dark:bg-[#0c1610]/90 backdrop-blur-sm rounded-2xl overflow-hidden border border-emerald-950/10 dark:border-emerald-500/20 shadow-sm flex flex-col">
-                <div className="relative aspect-[16/10] overflow-hidden bg-gray-100 dark:bg-gray-800">
-                  <img src={safariImages.tigerEye} alt="Close-up of a tiger's eye" className="w-full h-full object-cover" />
-                  <span className="absolute top-3.5 left-3.5 bg-[#fdfcf8]/95 dark:bg-gray-900/95 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-bold tracking-wider text-gray-900 dark:text-white uppercase shadow-sm border border-emerald-900/10 dark:border-gray-800">SIGHTING REPORT</span>
-                </div>
-                <div className="p-6 flex-1 flex flex-col justify-between space-y-3">
-                  <div>
-                    <h3 className="text-lg font-bold text-gray-950 dark:text-white leading-snug font-serif">Rare Black Panther Spotted in Zone 4</h3>
-                    <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 mt-2 line-clamp-2 leading-relaxed">A once in a lifetime sighting happened yesterday evening during the routine patrol...</p>
-                  </div>
-                  <div className="inline-flex items-center gap-1.5 text-xs font-bold text-gray-900 dark:text-white pt-2">
-                    <span>Read Story</span>
-                    <ArrowRight className="w-3.5 h-3.5 text-safari-500" />
-                  </div>
-                </div>
-              </div>
-              <div className="group bg-[#fdfcf8]/90 dark:bg-[#0c1610]/90 backdrop-blur-sm rounded-2xl overflow-hidden border border-emerald-950/10 dark:border-emerald-500/20 shadow-sm flex flex-col">
-                <div className="relative aspect-[16/10] overflow-hidden bg-gray-100 dark:bg-gray-800">
-                  <img src={safariImages.mistyHills} alt="Misty forested hills" className="w-full h-full object-cover" />
-                  <span className="absolute top-3.5 left-3.5 bg-[#fdfcf8]/95 dark:bg-gray-900/95 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-bold tracking-wider text-gray-900 dark:text-white uppercase shadow-sm border border-emerald-900/10 dark:border-gray-800">TRAVEL GUIDE</span>
-                </div>
-                <div className="p-6 flex-1 flex flex-col justify-between space-y-3">
-                  <div>
-                    <h3 className="text-lg font-bold text-gray-950 dark:text-white leading-snug font-serif">Best Season to Visit for Bird Watching</h3>
-                    <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 mt-2 line-clamp-2 leading-relaxed">Winter brings migratory birds from across the continent. Here is your guide to the best spots...</p>
-                  </div>
-                  <div className="inline-flex items-center gap-1.5 text-xs font-bold text-gray-900 dark:text-white pt-2">
-                    <span>Read Story</span>
-                    <ArrowRight className="w-3.5 h-3.5 text-safari-500" />
-                  </div>
-                </div>
-              </div>
-              <div className="group bg-[#fdfcf8]/90 dark:bg-[#0c1610]/90 backdrop-blur-sm rounded-2xl overflow-hidden border border-emerald-950/10 dark:border-emerald-500/20 shadow-sm flex flex-col">
-                <div className="relative aspect-[16/10] overflow-hidden bg-gray-100 dark:bg-gray-800">
-                  <img src={safariImages.rangerSolo} alt="Forest ranger on patrol" className="w-full h-full object-cover" />
-                  <span className="absolute top-3.5 left-3.5 bg-[#fdfcf8]/95 dark:bg-gray-900/95 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-bold tracking-wider text-gray-900 dark:text-white uppercase shadow-sm border border-emerald-900/10 dark:border-gray-800">CONSERVATION</span>
-                </div>
-                <div className="p-6 flex-1 flex flex-col justify-between space-y-3">
-                  <div>
-                    <h3 className="text-lg font-bold text-gray-950 dark:text-white leading-snug font-serif">Our New Anti-Poaching Initiative</h3>
-                    <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 mt-2 line-clamp-2 leading-relaxed">Technology meets nature as we deploy smart sensors across the core zone borders...</p>
-                  </div>
-                  <div className="inline-flex items-center gap-1.5 text-xs font-bold text-gray-900 dark:text-white pt-2">
-                    <span>Read Story</span>
-                    <ArrowRight className="w-3.5 h-3.5 text-safari-500" />
-                  </div>
-                </div>
-              </div>
-            </>
-          )}
-        </div>
-      </section>
+                </Link>
+              );
+            })}
+          </div>
+        </section>
+      )}
 
       {/* 5. VISITOR REVIEWS & FEEDBACK SECTION */}
       <FeedbackSection />

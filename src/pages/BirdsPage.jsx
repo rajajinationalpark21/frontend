@@ -10,6 +10,7 @@ import Breadcrumb from '../components/Breadcrumb';
 import { DocSection } from '../components/DocContent';
 import RichText from '../components/RichText';
 import { sizedImage } from '../utils/heroImage';
+import { galleryAlt } from '../utils/galleryAlt';
 
 export default function BirdsPage({ onOpenBooking }) {
   const [birds, setBirds] = useState(null);
@@ -180,7 +181,7 @@ export default function BirdsPage({ onOpenBooking }) {
             <div className="columns-1 sm:columns-2 lg:columns-3 gap-5">
               {gallery.map((src, idx) => (
                 <div key={`${src}-${idx}`} className="mb-5 break-inside-avoid rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition group bg-gray-200 dark:bg-gray-800 border border-gray-100 dark:border-gray-800">
-                  <img src={sizedImage(src, 800)} alt={`Bird photographed in Rajaji National Park ${idx + 1}`} loading="lazy" className="w-full h-auto block group-hover:scale-105 transition duration-500" />
+                  <img src={sizedImage(src, 800)} alt={galleryAlt(data.galleryAlts, idx, `Bird photographed in Rajaji National Park, photo ${idx + 1}`)} loading="lazy" className="w-full h-auto block group-hover:scale-105 transition duration-500" />
                 </div>
               ))}
             </div>

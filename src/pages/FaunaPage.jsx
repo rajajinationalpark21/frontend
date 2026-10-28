@@ -143,7 +143,7 @@ export default function FaunaPage({ onOpenBooking }) {
         )}
       </section>
 
-      <PhotoGallery title={data.galleryTitle || 'Mammals of Rajaji – Photo Gallery'} images={data.galleryImages} />
+      <PhotoGallery title={data.galleryTitle || 'Mammals of Rajaji – Photo Gallery'} images={data.galleryImages} alts={data.galleryAlts} />
     </div>
   );
 }

@@ -130,7 +130,7 @@ export default function FloraPage({ onOpenBooking }) {
         </div>
 
         {/* Photo gallery: photos added in the admin panel */}
-        <PhotoGallery title={data.galleryTitle || 'Flora of Rajaji – Photo Gallery'} images={data.galleryImages} embedded />
+        <PhotoGallery title={data.galleryTitle || 'Flora of Rajaji – Photo Gallery'} images={data.galleryImages} alts={data.galleryAlts} embedded />
 
         {/* Experience Box with Forest Tone, Leaf Watermark & Tiger Stencil */}
         <div className="relative overflow-hidden bg-gradient-to-br from-[#07150c] via-[#091b10] to-[#040b06] text-white p-8 sm:p-10 rounded-3xl border border-safari-500/30 shadow-2xl flex flex-col md:flex-row items-center justify-between gap-8">

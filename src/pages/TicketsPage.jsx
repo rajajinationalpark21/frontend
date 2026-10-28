@@ -329,7 +329,7 @@ export default function TicketsPage({ onOpenBooking }) {
 
       </section>
 
-      <PhotoGallery title="Rajaji Jeep Safari Photos" images={data.galleryImages} />
+      <PhotoGallery title="Rajaji Jeep Safari Photos" images={data.galleryImages} alts={data.galleryAlts} altPrefix="Rajaji National Park jeep safari" />
 
       {/* Unified Call To Action matching HomePage */}
       <CallToAction

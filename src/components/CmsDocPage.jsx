@@ -62,7 +62,7 @@ export default function CmsDocPage({ section, parent, onOpenBooking }) {
         />
       </section>
 
-      <PhotoGallery title={page.galleryTitle} images={page.galleryImages || []} altPrefix={page.heroImageAlt || title} />
+      <PhotoGallery title={page.galleryTitle} images={page.galleryImages || []} alts={page.galleryAlts} altPrefix={title} />
     </div>
   );
 }
