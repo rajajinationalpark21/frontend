@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { ArrowRight, CheckCircle2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { fetchContent } from '../api/client';
-import { safariImages, contactInfo } from '../data/safariData';
+import { safariImages } from '../data/safariData';
+import { siteWhatsapp } from '../utils/sitePhones';
 import SEO from '../components/SEO';
 import PageHero from '../components/PageHero';
 import PageLoader from '../components/PageLoader';
@@ -23,6 +24,7 @@ const fallback = {
 export default function AboutPage({ onOpenBooking }) {
   const [content, setContent] = useState(fallback);
   const [home, setHome] = useState({});
+  const [settings, setSettings] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -31,6 +33,7 @@ export default function AboutPage({ onOpenBooking }) {
         const data = result?.data || result || {};
         setContent((current) => ({ ...current, ...(data.about || {}) }));
         setHome(data.home || {});
+        setSettings(data.settings || null);
       })
       .catch(() => {})
       .finally(() => setLoading(false));
@@ -53,7 +56,7 @@ export default function AboutPage({ onOpenBooking }) {
   const overviewBlocks = beforeStrip[0]?.t === 'h2' ? beforeStrip.slice(1, overviewEnd === -1 ? undefined : overviewEnd) : [];
   const overviewIsText = overviewBlocks.length > 0 && overviewBlocks.every((block) => block.t === 'p');
   const restBeforeStrip = overviewIsText ? beforeStrip.slice(overviewEnd === -1 ? beforeStrip.length : overviewEnd) : beforeStrip;
-  const docProps = { onBooking: onOpenBooking, phones: [contactInfo.whatsapp], message: 'Hello! I would like to book a Rajaji Jeep Safari.' };
+  const docProps = { onBooking: onOpenBooking, phones: [siteWhatsapp(settings)], message: 'Hello! I would like to book a Rajaji Jeep Safari.' };
 
   return (
     <div className="min-h-screen bg-[#fafaf7] text-gray-800 dark:bg-[#070c09] dark:text-gray-100">

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Ticket, DollarSign, Camera, Car, ShieldCheck, AlertCircle, HelpCircle, CheckCircle2, Loader2, Phone, Video, ArrowRight } from 'lucide-react';
-import { safariImages, contactInfo } from '../data/safariData';
+import { safariImages } from '../data/safariData';
+import { sitePhone, siteWhatsapp } from '../utils/sitePhones';
 import { fetchContent } from '../api/client';
 import SEO from '../components/SEO';
 import PageLoader from '../components/PageLoader';
@@ -13,12 +14,16 @@ import RichText from '../components/RichText';
 
 export default function TicketsPage({ onOpenBooking }) {
   const [tickets, setTickets] = useState(null);
+  const [settings, setSettings] = useState(null);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
     fetchContent()
-      .then(res => setTickets(res.data.tickets))
+      .then(res => {
+        setTickets(res.data.tickets);
+        setSettings(res.data.settings);
+      })
       .catch(() => {})
       .finally(() => setLoading(false));
   }, []);
@@ -86,8 +91,8 @@ export default function TicketsPage({ onOpenBooking }) {
   const filmingFees = (data.filmingFees && data.filmingFees.length > 0) ? data.filmingFees : defaultFilming;
   const importantNotes = (data.importantNotes && data.importantNotes.length > 0) ? data.importantNotes : defaultImportantNotes;
 
-  const phone = contactInfo.phone || "+91 98298 50501";
-  const whatsappUrl = `https://wa.me/${phone.replace(/\D/g, '')}?text=${encodeURIComponent("Hello! I would like to book a Rajaji National Park Jeep Safari and check permit availability.")}`;
+  const phone = sitePhone(settings);
+  const whatsappUrl = `https://wa.me/${siteWhatsapp(settings).replace(/\D/g, '')}?text=${encodeURIComponent("Hello! I would like to book a Rajaji National Park Jeep Safari and check permit availability.")}`;
 
   return (
     <div className="relative min-h-screen bg-[#fbfcfa] dark:bg-gray-950 transition-colors">

@@ -17,7 +17,8 @@ import {
   ChevronRight,
   Info
 } from 'lucide-react';
-import { safariImages, contactInfo } from '../data/safariData';
+import { safariImages } from '../data/safariData';
+import { sitePhone, siteWhatsapp } from '../utils/sitePhones';
 import { fetchContent } from '../api/client';
 import { submitBooking } from '../api/client';
 import HoneypotField from '../components/HoneypotField';
@@ -99,10 +100,12 @@ export default function BookingPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [bookingConfirmed, setBookingConfirmed] = useState(null);
   const [submitError, setSubmitError] = useState('');
+  const [siteSettings, setSiteSettings] = useState(null);
 
   useEffect(() => {
     fetchContent()
       .then((data) => {
+        setSiteSettings(data?.data?.settings || data?.settings || null);
         const booking = data?.data?.booking || data?.booking;
         if (booking) setBookingContent((current) => ({ ...current, ...booking }));
         const safari = data?.data?.safari || data?.safari;
@@ -178,7 +181,8 @@ export default function BookingPage() {
     }
   };
 
-  const whatsappNumber = contactInfo.safari.whatsapp.replace(/\D/g, '') || "919660871429";
+  const whatsappNumber = siteWhatsapp(siteSettings).replace(/\D/g, '');
+  const callPhone = sitePhone(siteSettings);
   const getWhatsAppMessage = () => {
     if (!bookingConfirmed) return '';
     return encodeURIComponent(
@@ -493,8 +497,8 @@ export default function BookingPage() {
                       <AlertCircle className="w-4 h-4 mt-0.5 shrink-0" />
                       <span>
                         Your inquiry was not sent. {submitError} Please try again, or call us on{' '}
-                        <a href={`tel:${contactInfo.safari.phone.replace(/\s/g, '')}`} className="font-bold underline">
-                          {contactInfo.safari.phone}
+                        <a href={`tel:${callPhone.replace(/[^\d+]/g, '')}`} className="font-bold underline">
+                          {callPhone}
                         </a>
                         .
                       </span>
@@ -558,7 +562,7 @@ export default function BookingPage() {
                   {bookingContent.contactAddress || 'Call or message our coordinators directly for booking assistance.'}
                 </p>
                 <div className="pt-4 flex flex-col sm:flex-row sm:items-center gap-4">
-                  {(bookingContent.contactPhones?.length ? bookingContent.contactPhones : [{ number: contactInfo.safari.phone }]).map((contact, index) => (
+                  {(bookingContent.contactPhones?.length ? bookingContent.contactPhones : [{ number: callPhone }]).map((contact, index) => (
                     <a key={`${contact.number}-${index}`} href={`tel:${contact.number.replace(/[^\d+]/g, '')}`} className="inline-flex items-center gap-2 text-xs font-bold text-white hover:text-emerald-300"><Phone className="h-3.5 w-3.5 text-emerald-400" /> {contact.number}</a>
                   ))}
                   <a href={`https://wa.me/${whatsappNumber}`} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-xs font-bold text-[#25D366] hover:underline">WhatsApp Permit Desk Available</a>

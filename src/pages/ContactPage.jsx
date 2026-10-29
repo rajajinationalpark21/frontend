@@ -8,6 +8,7 @@ import {
   ChevronDown 
 } from 'lucide-react';
 import { safariImages, faqs, contactInfo } from '../data/safariData';
+import { Link } from 'react-router-dom';
 import { fetchContent, submitContact } from '../api/client';
 import SEO from '../components/SEO';
 import PageHero from '../components/PageHero';
@@ -33,9 +34,14 @@ export default function ContactPage() {
 
   // Contact details are edited in the admin panel (Settings → Website Details).
   const [siteContact, setSiteContact] = useState(null);
+  // Questions are edited in the admin panel (FAQ page).
+  const [siteFaqs, setSiteFaqs] = useState(null);
   useEffect(() => {
     fetchContent()
-      .then((res) => setSiteContact(res.data?.settings?.contact || null))
+      .then((res) => {
+        setSiteContact(res.data?.settings?.contact || null);
+        setSiteFaqs(res.data?.faqs || null);
+      })
       .catch(() => {});
   }, []);
   const address = siteContact?.address || contactInfo.address;
@@ -55,6 +61,11 @@ export default function ContactPage() {
   })() || address;
   const mapEmbedSrc = pastedEmbed || `https://www.google.com/maps?q=${encodeURIComponent(mapPlace)}&output=embed`;
   const telHref = (number) => `tel:${number.replace(/[^\d+]/g, '')}`;
+  // The first questions of the FAQ page; the built-in ones only until it has any.
+  const adminFaqs = (siteFaqs?.items || []).filter((item) => item.q && item.a).map((item) => ({ question: item.q, answer: item.a }));
+  const allFaqs = adminFaqs.length ? adminFaqs : faqs;
+  const contactFaqs = allFaqs.slice(0, 6);
+  const faqPagePath = `/${siteFaqs?.slug || 'faq'}`;
 
   const toggleFaq = (index) => {
     setOpenFaqs((prev) => ({
@@ -66,7 +77,7 @@ export default function ContactPage() {
   const contactFaqSchema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    "mainEntity": faqs.map((faq) => ({
+    "mainEntity": contactFaqs.map((faq) => ({
       "@type": "Question",
       "name": faq.question,
       "acceptedAnswer": {
@@ -386,12 +397,12 @@ export default function ContactPage() {
             Frequently Asked Questions
           </h2>
           <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-2 max-w-lg mx-auto">
-            Essential information regarding safari permits, timings, gear recommendations, and family visit guidelines.
+            {siteFaqs?.subtitle || 'Essential information regarding safari permits, timings, gear recommendations, and family visit guidelines.'}
           </p>
         </div>
 
         <div className="space-y-3">
-          {faqs.map((faq, idx) => {
+          {contactFaqs.map((faq, idx) => {
             const isOpen = !!openFaqs[idx];
             return (
               <div
@@ -432,6 +443,14 @@ export default function ContactPage() {
             );
           })}
         </div>
+
+        {allFaqs.length > contactFaqs.length && (
+          <div className="text-center mt-8">
+            <Link to={faqPagePath} className="inline-flex items-center gap-1.5 text-sm font-bold text-emerald-700 dark:text-emerald-400 hover:underline">
+              See all {allFaqs.length} questions
+            </Link>
+          </div>
+        )}
       </section>
     </div>
   );

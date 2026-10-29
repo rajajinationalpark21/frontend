@@ -188,7 +188,7 @@ export default function HomePage({ onOpenBooking }) {
             <div>
               <h2 className="font-bold text-gray-900 dark:text-white text-sm">Timings</h2>
               <p className="text-xs font-semibold text-gray-700 dark:text-gray-300 mt-0.5">{content.timings || "Morning & Evening Safaris"}</p>
-              <p className="text-[11px] text-gray-600 dark:text-gray-400">Timings change with the season</p>
+              <p className="text-[11px] text-gray-600 dark:text-gray-400">{content.timingsNote || "Timings change with the season"}</p>
             </div>
           </div>
 
@@ -200,7 +200,7 @@ export default function HomePage({ onOpenBooking }) {
             <div>
               <h2 className="font-bold text-gray-900 dark:text-white text-sm">Zones</h2>
               <p className="text-xs font-semibold text-gray-700 dark:text-gray-300 mt-0.5">{content.zones || "Chilla, Motichur, Ranipur & more"}</p>
-              <p className="text-[11px] text-gray-600 dark:text-gray-400">6 safari zones plus Beatles Ashram</p>
+              <p className="text-[11px] text-gray-600 dark:text-gray-400">{content.zonesNote || "6 safari zones plus Beatles Ashram"}</p>
             </div>
           </div>
 
@@ -212,7 +212,7 @@ export default function HomePage({ onOpenBooking }) {
             <div>
               <h2 className="font-bold text-gray-900 dark:text-white text-sm">Rules</h2>
               <p className="text-xs font-semibold text-gray-700 dark:text-gray-300 mt-0.5">{content.rules || "Do's & Don'ts Guide"}</p>
-              <p className="text-[11px] text-gray-600 dark:text-gray-400">Strict conservation policies</p>
+              <p className="text-[11px] text-gray-600 dark:text-gray-400">{content.rulesNote || "Strict conservation policies"}</p>
             </div>
           </div>
         </div>
@@ -307,7 +307,7 @@ export default function HomePage({ onOpenBooking }) {
         <section className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="text-center max-w-2xl mx-auto mb-14">
             <h2 className="text-3xl sm:text-4xl font-bold text-gray-950 dark:text-white tracking-tight font-serif">
-              Tales from the Jungle
+              {content.blogTitle || 'Tales from the Jungle'}
             </h2>
           </div>
 
@@ -368,7 +368,7 @@ export default function HomePage({ onOpenBooking }) {
       )}
 
       {/* 5. VISITOR REVIEWS & FEEDBACK SECTION */}
-      <FeedbackSection />
+      <FeedbackSection title={content.reviewsTitle} subtitle={content.reviewsSubtitle} />
 
       {/* 6. CALL TO ACTION SECTION */}
       <CallToAction

@@ -8,7 +8,7 @@ import {
 import { fetchFeedback } from '../api/client';
 import FeedbackModal from './FeedbackModal';
 
-export default function FeedbackSection() {
+export default function FeedbackSection({ title, subtitle }) {
   const [feedbacks, setFeedbacks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -45,10 +45,10 @@ export default function FeedbackSection() {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div>
             <h2 className="text-3xl sm:text-4xl font-bold text-gray-950 dark:text-white tracking-tight font-serif">
-              Stories & Ratings from the Trail
+              {title || 'Stories & Ratings from the Trail'}
             </h2>
             <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 max-w-xl mt-2 leading-relaxed">
-              Unfiltered reflections from naturalists, wildlife photographers, and families who journeyed through the Sal forests and river corridors of Rajaji.
+              {subtitle || 'Unfiltered reflections from naturalists, wildlife photographers, and families who journeyed through the Sal forests and river corridors of Rajaji.'}
             </p>
           </div>
 

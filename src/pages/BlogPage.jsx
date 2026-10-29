@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Search, ArrowRight, X, Ticket, Sparkles, Phone } from 'lucide-react';
-import { blogArticles, safariImages } from '../data/safariData';
+import { safariImages } from '../data/safariData';
 import { fetchBlogs } from '../api/client';
 import { slugify } from '../utils/slugify';
 import SEO from '../components/SEO';
@@ -13,12 +13,8 @@ import { sizedImage } from '../utils/heroImage';
 export default function BlogPage({ onOpenBooking }) {
   const [selectedCategory, setSelectedCategory] = useState('All Stories');
   const [searchQuery, setSearchQuery] = useState('');
-  const [articles, setArticles] = useState(
-    blogArticles.map((a) => ({
-      ...a,
-      slug: a.slug || slugify(a.title) || a.id,
-    }))
-  );
+  const [articles, setArticles] = useState([]);
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     fetchBlogs()
@@ -51,7 +47,8 @@ export default function BlogPage({ onOpenBooking }) {
           );
         }
       })
-      .catch(() => {});
+      .catch(() => {})
+      .finally(() => setLoaded(true));
   }, []);
 
   const blogSchema = {
@@ -193,9 +190,11 @@ export default function BlogPage({ onOpenBooking }) {
 
         {/* 4. STORIES GRID */}
         {filteredArticles.length === 0 ? (
-          <div className="py-16 text-center text-gray-500 dark:text-gray-400 text-sm">
-            No articles found matching "{searchQuery}" in {selectedCategory}.
-          </div>
+          loaded && featuredArticle && (
+            <div className="py-16 text-center text-gray-500 dark:text-gray-400 text-sm">
+              No articles found matching "{searchQuery}" in {selectedCategory}.
+            </div>
+          )
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-14">
             {filteredArticles.map((article) => {

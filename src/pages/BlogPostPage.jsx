@@ -9,7 +9,8 @@ import {
   ArrowRight,
   Check
 } from 'lucide-react';
-import { blogArticles, safariImages } from '../data/safariData';
+import { safariImages } from '../data/safariData';
+import NotFoundPage from './NotFoundPage';
 import { fetchBlog, fetchBlogs } from '../api/client';
 import { slugify } from '../utils/slugify';
 import SEO from '../components/SEO';
@@ -108,113 +109,92 @@ function renderContent(rawContent) {
   return elements;
 }
 
+/** A post from the API in the shape this page renders. */
+const toArticle = (blog) => ({
+  id: blog._id || blog.id,
+  slug: blog.slug || slugify(blog.title) || blog._id,
+  title: blog.title || 'Untitled',
+  category: blog.category || 'Uncategorized',
+  date: blog.createdAt
+    ? new Date(blog.createdAt).toLocaleDateString('en-US', {
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric',
+      })
+    : '',
+  readTime: blog.readTime || '5 min read',
+  image: blog.image || safariImages.tigerEye,
+  excerpt: blog.summary || '',
+  seoTitle: blog.seoTitle || '',
+  content: blog.content || '',
+  quote: blog.quote || '',
+  quoteAuthor: blog.quoteAuthor || '',
+});
+
 export default function BlogPostPage() {
   const { slug, id } = useParams();
   const blogParam = slug || id;
   const [article, setArticle] = useState(null);
   const [relatedArticles, setRelatedArticles] = useState([]);
   const [copied, setCopied] = useState(false);
+  const [notFound, setNotFound] = useState(false);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'instant' });
 
-    // 1. Try finding in local blogArticles first for instant render
-    const localMatch = blogArticles.find(
-      (a) =>
-        a.slug === blogParam ||
-        a.id === blogParam ||
-        slugify(a.title) === blogParam ||
-        a.title.toLowerCase().replace(/[^a-z0-9]+/g, '-') === blogParam
-    );
+    setNotFound(false);
+    const showRelated = (blogs) => {
+      const others = blogs
+        .filter(
+          (b) =>
+            (b.slug || slugify(b.title) || b._id) !== blogParam &&
+            (b._id || b.id) !== blogParam
+        )
+        .slice(0, 3)
+        .map((b) => ({
+          id: b._id || b.id,
+          slug: b.slug || slugify(b.title) || b._id,
+          title: b.title,
+          category: b.category,
+          image: b.image || safariImages.tigerEye,
+          excerpt: b.summary || '',
+        }));
+      if (others.length > 0) setRelatedArticles(others);
+    };
 
-    if (localMatch) {
-      setArticle({
-        ...localMatch,
-        slug: localMatch.slug || slugify(localMatch.title) || localMatch.id,
-      });
-      setRelatedArticles(
-        blogArticles
-          .filter((a) => a.id !== localMatch.id && (a.slug || slugify(a.title)) !== blogParam)
-          .slice(0, 3)
-          .map((a) => ({
-            ...a,
-            slug: a.slug || slugify(a.title) || a.id,
-          }))
-      );
-    }
-
-    // 2. Query backend API
     fetchBlog(blogParam)
       .then((data) => {
         const blog = data?.data?.blog || data?.blog;
-        if (blog) {
-          const fetchedArticle = {
-            id: blog._id || blog.id,
-            slug: blog.slug || slugify(blog.title) || blog._id,
-            title: blog.title || 'Untitled',
-            category: blog.category || 'Uncategorized',
-            date: blog.createdAt
-              ? new Date(blog.createdAt).toLocaleDateString('en-US', {
-                  month: 'short',
-                  day: 'numeric',
-                  year: 'numeric',
-                })
-              : '',
-            readTime: blog.readTime || '5 min read',
-            image: blog.image || safariImages.tigerEye,
-            excerpt: blog.summary || '',
-            seoTitle: blog.seoTitle || '',
-            content: blog.content || '',
-            quote: blog.quote || '',
-            quoteAuthor: blog.quoteAuthor || '',
-          };
-          setArticle(fetchedArticle);
-
-          // Fetch related articles
-          fetchBlogs()
-            .then((res) => {
-              const blogs = res?.data?.blogs || res?.blogs || [];
-              const others = blogs
-                .filter(
-                  (b) =>
-                    (b.slug || slugify(b.title) || b._id) !== blogParam &&
-                    (b._id || b.id) !== blogParam
-                )
-                .slice(0, 3)
-                .map((b) => ({
-                  id: b._id || b.id,
-                  slug: b.slug || slugify(b.title) || b._id,
-                  title: b.title,
-                  category: b.category,
-                  image: b.image || safariImages.tigerEye,
-                  excerpt: b.summary || '',
-                }));
-
-              if (others.length > 0) {
-                setRelatedArticles(others);
-              }
-            })
-            .catch(() => {});
+        if (!blog) {
+          setNotFound(true);
+          return;
         }
+        setArticle(toArticle(blog));
+        fetchBlogs()
+          .then((res) => showRelated(res?.data?.blogs || res?.blogs || []))
+          .catch(() => {});
       })
       .catch(() => {
-        // If API fails and local didn't match, fallback to first article
-        if (!localMatch) {
-          const fallback = blogArticles[0];
-          setArticle({
-            ...fallback,
-            slug: fallback.slug || slugify(fallback.title) || fallback.id,
-          });
-          setRelatedArticles(
-            blogArticles.slice(1, 4).map((a) => ({
-              ...a,
-              slug: a.slug || slugify(a.title) || a.id,
-            }))
-          );
-        }
+        // The API is asleep or the post is gone: look in the blog list (its
+        // build-time copy loads without the API); a post that is not there is "not found".
+        fetchBlogs()
+          .then((res) => {
+            const blogs = res?.data?.blogs || res?.blogs || [];
+            const blog = blogs.find(
+              (b) => (b.slug || slugify(b.title)) === blogParam || (b._id || b.id) === blogParam
+            );
+            if (!blog) {
+              setNotFound(true);
+              return;
+            }
+            setArticle(toArticle(blog));
+            showRelated(blogs);
+          })
+          .catch(() => setNotFound(true));
       });
   }, [blogParam]);
 
+  if (notFound) return <NotFoundPage />;
   if (!article) return null;
 
   const articleSchema = blogPostingSchema(

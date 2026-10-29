@@ -21,7 +21,8 @@ import {
   Scale,
   Ban
 } from 'lucide-react';
-import { contactInfo, safariImages } from '../data/safariData';
+import { safariImages } from '../data/safariData';
+import { sitePhone, siteWhatsapp } from '../utils/sitePhones';
 import { fetchContent } from '../api/client';
 import SEO from '../components/SEO';
 import PageLoader from '../components/PageLoader';
@@ -192,8 +193,8 @@ export default function TermsConditionsPage() {
     return <PageLoader />;
   }
 
-  const phone = contactInfo.phone || "+91 98298 50501";
-  const whatsappUrl = `https://wa.me/${phone.replace(/\D/g, '')}?text=${encodeURIComponent("Hello! I have a question regarding Rajaji safari booking terms and cancellation policy.")}`;
+  const phone = sitePhone(content?.settings);
+  const whatsappUrl = `https://wa.me/${siteWhatsapp(content?.settings).replace(/\D/g, '')}?text=${encodeURIComponent("Hello! I have a question regarding Rajaji safari booking terms and cancellation policy.")}`;
 
   const parkRules = content?.parkRules || {};
   const heroTitle = parkRules.title || "Rajaji Safari Terms, Rules & Visitor Protocol";

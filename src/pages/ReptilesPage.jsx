@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ShieldCheck, Sparkles, AlertCircle, ArrowRight, Compass, Phone, PawPrint } from 'lucide-react';
 import { fetchContent } from '../api/client';
-import { safariImages, contactInfo } from '../data/safariData';
+import { safariImages } from '../data/safariData';
 import SEO from '../components/SEO';
 import PageLoader from '../components/PageLoader';
 import CoverImage from '../components/CoverImage';
@@ -99,7 +99,6 @@ export default function ReptilesPage({ onOpenBooking }) {
     return <PageLoader />;
   }
 
-  const phone = contactInfo.phone || "+91 98298 50501";
   const repData = content?.reptiles || {};
   const heroTitle = repData.title || "Reptiles of Rajaji Tiger Reserve";
   const heroSubtitle = repData.subtitle || overview || "Rajaji Tiger Reserve in Uttarakhand supports a rich diversity of reptiles across its Shivalik hill forests, perennial riverbeds, grasslands, and wetlands. While secretive and well-camouflaged, these cold-blooded apex species are critical indicators of healthy forest ecology.";
