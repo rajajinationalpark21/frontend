@@ -101,10 +101,10 @@ export const contactInfo = {
     phone: "+91 99829 07130",
   },
   social: {
-    youtube: "https://www.youtube.com/user/viru644",
+    youtube: "https://www.youtube.com/channel/UCgmpJ_YaTCn4iKZOku5CPQQ",
     instagram: "https://www.instagram.com/rajaji_national_park_veeru/",
-    facebook: "https://facebook.com",
-    twitter: "https://twitter.com",
+    facebook: "https://www.facebook.com/profile.php?id=61595475305975",
+    twitter: "https://x.com/rajajiiNpark",
   },
   footerBrand: {
     title: "RAJAJI NATIONAL PARK – SAFARI BOOKING",

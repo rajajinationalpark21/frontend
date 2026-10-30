@@ -29,8 +29,8 @@ export default function Footer() {
   const email = contact.email || contactInfo.email;
   const youtubeUrl = social.youtube || contactInfo.social.youtube;
   const instagramUrl = social.instagram || contactInfo.social.instagram;
-  const facebookUrl = social.facebook;
-  const twitterUrl = social.twitter;
+  const facebookUrl = social.facebook || contactInfo.social.facebook;
+  const twitterUrl = social.twitter || contactInfo.social.twitter;
   const telegramUrl = social.telegram;
 
   // Active zones list
