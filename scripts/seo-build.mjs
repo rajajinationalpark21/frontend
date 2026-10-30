@@ -371,13 +371,27 @@ function zoneBody(zone, content) {
   );
 }
 
+/** A post's text as the page shows it: `## ` and `### ` headings, `- ` lists, paragraphs. */
 function blogBody(post) {
-  const paragraphs = String(post.content ?? '')
-    .replace(/<[^>]+>/g, ' ')
-    .split(/\n{2,}/)
-    .map((text) => text.trim())
-    .filter(Boolean);
-  return `<article><h1>${esc(post.title)}</h1>${p(post.summary)}${paragraphs.map(p).join('')}</article>`;
+  const html = [];
+  let paragraph = [];
+  let list = [];
+  const flush = () => {
+    if (paragraph.length) html.push(p(paragraph.join(' ')));
+    if (list.length) html.push(`<ul>${list.map((item) => `<li>${rich(item)}</li>`).join('')}</ul>`);
+    paragraph = [];
+    list = [];
+  };
+  for (const raw of String(post.content ?? '').replace(/<[^>]+>/g, ' ').split('\n')) {
+    const line = raw.trim();
+    if (!line) flush();
+    else if (line.startsWith('### ')) { flush(); html.push(`<h3>${esc(line.slice(4))}</h3>`); }
+    else if (line.startsWith('## ')) { flush(); html.push(h2(line.slice(3))); }
+    else if (/^[-*]\s+/.test(line)) { if (paragraph.length) { html.push(p(paragraph.join(' '))); paragraph = []; } list.push(line.replace(/^[-*]\s+/, '')); }
+    else { if (list.length) { html.push(`<ul>${list.map((item) => `<li>${rich(item)}</li>`).join('')}</ul>`); list = []; } paragraph.push(line); }
+  }
+  flush();
+  return `<article><h1>${esc(post.title)}</h1>${p(post.summary)}${html.join('')}</article>`;
 }
 
 // ── Document assembly ───────────────────────────────────────────────────────

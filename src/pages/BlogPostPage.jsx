@@ -18,6 +18,10 @@ import { blogSeoTitle } from '../seo/blogTitle';
 import { SITE_URL } from '../seo/site';
 import { blogPostingSchema } from '../seo/schema';
 import { sizedImage } from '../utils/heroImage';
+import RichText from '../components/RichText';
+
+// Paragraphs and list items support **bold**, *italic* and [links](/path).
+const STRONG = 'font-bold text-gray-950 dark:text-white';
 
 function renderContent(rawContent) {
   if (!rawContent) return null;
@@ -34,7 +38,7 @@ function renderContent(rawContent) {
       if (text) {
         elements.push(
           <p key={`p-${key}`} className="text-base sm:text-lg leading-[1.8] text-gray-700 dark:text-gray-300 mb-6 font-normal">
-            {text}
+            <RichText text={text} strongClassName={STRONG} />
           </p>
         );
       }
@@ -48,11 +52,7 @@ function renderContent(rawContent) {
         <ul key={`ul-${key}`} className="space-y-3 my-5 pl-2 list-none border-l-2 border-emerald-600/30 dark:border-emerald-500/30">
           {currentList.map((it, i) => (
             <li key={i} className="pl-3 text-base sm:text-lg leading-[1.75] text-gray-700 dark:text-gray-300">
-              {it.includes('**') ? (
-                it.split('**').map((seg, sIdx) => 
-                  sIdx % 2 === 1 ? <strong key={sIdx} className="font-bold text-gray-950 dark:text-white">{seg}</strong> : seg
-                )
-              ) : it}
+              <RichText text={it} strongClassName={STRONG} />
             </li>
           ))}
         </ul>
