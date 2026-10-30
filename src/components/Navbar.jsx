@@ -147,10 +147,10 @@ export default function Navbar({ onOpenBooking }) {
           {/* The full logo. Its white background blends into the cream bar; on dark it sits on a cream plaque. */}
           <Link to="/" aria-label="Rajaji National Park – home" className="group shrink-0 rounded-xl dark:bg-[#f7f5ed] dark:px-2 dark:py-1">
             <img
-              src="/logo-full.png"
+              src="/logo-full.webp"
               alt="Rajaji National Park"
-              width="960"
-              height="400"
+              width="384"
+              height="160"
               className="h-12 sm:h-14 w-auto mix-blend-multiply dark:mix-blend-normal group-hover:opacity-90 transition"
             />
           </Link>

@@ -24,6 +24,7 @@ import HeroImageRotator from '../components/HeroImageRotator';
 import RichText from '../components/RichText';
 import { sizedImage } from '../utils/heroImage';
 import { galleryAlt } from '../utils/galleryAlt';
+import useNearViewport from '../utils/useNearViewport';
 
 const fallbackGallery = [
   safariImages.walkingTiger,
@@ -61,6 +62,9 @@ export default function HomePage({ onOpenBooking }) {
   const [recentBlogs, setRecentBlogs] = useState([]);
   // The rest of the "Page – Home About Rajaji" document and the shared booking wording.
   const [ctaCopy, setCtaCopy] = useState({});
+  // The photo frame downloads its photos only as the visitor scrolls toward it.
+  const [galleryRef, galleryNear] = useNearViewport('600px');
+  const [blogsRef, blogsNear] = useNearViewport('600px');
 
   useEffect(() => {
     // Each handler also runs again if the live CMS response replaces the copy
@@ -227,6 +231,7 @@ export default function HomePage({ onOpenBooking }) {
               <img
                 src={sizedImage(content.aboutImage, 1000) || safariImages.walkingTiger}
                 alt="Wildlife of Rajaji National Park"
+                loading="lazy"
                 className="w-full h-full object-cover object-center group-hover:scale-105 transition duration-700"
               />
               {/* EST. 1983 Badge */}
@@ -284,8 +289,8 @@ export default function HomePage({ onOpenBooking }) {
           </div>
 
           {/* Masonry frame: columns and photo sizes follow the number of photos */}
-          <div className={`${galleryColumns} gap-5`}>
-            {displayGallery.map((src, index) => (
+          <div ref={galleryRef} className={`${galleryColumns} gap-5`}>
+            {galleryNear && displayGallery.map((src, index) => (
               <div
                 key={`${src}-${index}`}
                 className="mb-5 break-inside-avoid rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition group bg-gray-200 dark:bg-gray-800 border border-gray-100 dark:border-gray-800"
@@ -312,7 +317,7 @@ export default function HomePage({ onOpenBooking }) {
           </div>
 
           {/* 3 Editorial Blog Cards Matching Reference */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div ref={blogsRef} className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {displayBlogs.map((blog) => {
               const blogId = blog._id || blog.id;
               const title = blog.title || 'Untitled';
@@ -330,11 +335,14 @@ export default function HomePage({ onOpenBooking }) {
                   className="group bg-[#fdfcf8]/90 dark:bg-[#0c1610]/90 backdrop-blur-sm rounded-2xl overflow-hidden border border-emerald-950/10 dark:border-emerald-500/20 shadow-sm hover:shadow-xl hover:border-safari-500/40 transition-all duration-300 flex flex-col cursor-pointer"
                 >
                   <div className="relative aspect-[16/10] overflow-hidden bg-gray-100 dark:bg-gray-800">
-                    <img
-                      src={sizedImage(image, 800)}
-                      alt={title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
-                    />
+                    {blogsNear && (
+                      <img
+                        src={sizedImage(image, 800)}
+                        alt={title}
+                        loading="lazy"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
+                      />
+                    )}
                     <span className="absolute top-3.5 left-3.5 bg-[#fdfcf8]/95 dark:bg-gray-900/95 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-bold tracking-wider text-gray-900 dark:text-white uppercase shadow-sm border border-emerald-900/10 dark:border-gray-800">
                       {category}
                     </span>

@@ -256,7 +256,7 @@
 
 /* Stencil tiger watermark overlay for dark & sanctuary sections */
 .bg-tiger-watermark {
-  background-image: url('/images/tiger%20for%20bg%20overlay.jpg');
+  background-image: url('/images/tiger-bg-overlay.webp');
   background-repeat: no-repeat;
   background-position: right bottom;
   background-size: contain;

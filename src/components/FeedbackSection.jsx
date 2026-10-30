@@ -7,14 +7,17 @@ import {
 } from 'lucide-react';
 import { fetchFeedback } from '../api/client';
 import FeedbackModal from './FeedbackModal';
+import useNearViewport from '../utils/useNearViewport';
 
 export default function FeedbackSection({ title, subtitle }) {
   const [feedbacks, setFeedbacks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  // Reviews are fetched only as the visitor scrolls toward them.
+  const [sectionRef, near] = useNearViewport();
 
   useEffect(() => {
-    setLoading(true);
+    if (!near) return;
     fetchFeedback()
       .then((res) => {
         const apiFeedbacks = res?.feedbacks || res?.data?.feedbacks || [];
@@ -24,7 +27,7 @@ export default function FeedbackSection({ title, subtitle }) {
         setFeedbacks([]);
       })
       .finally(() => setLoading(false));
-  }, []);
+  }, [near]);
 
   const handleFeedbackSubmitted = () => {
     setIsModalOpen(false);
@@ -36,7 +39,7 @@ export default function FeedbackSection({ title, subtitle }) {
   const loopItems = [...baseList, ...baseList];
 
   return (
-    <section id="reviews" className="py-20 overflow-hidden relative">
+    <section ref={sectionRef} id="reviews" className="py-20 overflow-hidden relative">
       {/* No background of its own: the page's leaf texture runs straight through, without a seam. */}
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10 relative z-10">

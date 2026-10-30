@@ -1,4 +1,5 @@
 import { HERO_SIZES, firstHeroImage, heroSrc, heroSrcSet } from './heroImage';
+import { afterPageSettles } from './afterPageSettles';
 
 /** Every page's first header photo in the CMS content, without repeats. */
 function headerPhotos(content) {
@@ -43,13 +44,7 @@ export function warmHeaderPhotos(content) {
     const src = queue.shift();
     if (src) load(src).then(next);
   };
-  const start = () => { next(); next(); };
-  // Only once the page in front of the visitor has fully loaded and the browser is idle;
-  // a forced start competed with the first page's own photos and rendering.
-  const whenIdle = () => {
-    if ('requestIdleCallback' in window) window.requestIdleCallback(start);
-    else window.setTimeout(start, 2500);
-  };
-  if (document.readyState === 'complete') whenIdle();
-  else window.addEventListener('load', whenIdle, { once: true });
+  // Only once the page in front of the visitor has settled; an earlier start
+  // competed with the first page's own photos and rendering.
+  afterPageSettles(() => { next(); next(); });
 }

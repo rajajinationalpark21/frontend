@@ -1,3 +1,5 @@
+import { afterPageSettles } from "../utils/afterPageSettles";
+
 const rawBase =
   import.meta.env.VITE_API_BASE ||
   import.meta.env.VITE_BASE_URL_API ||
@@ -61,9 +63,8 @@ function refreshAfterLoad(key, endpoint, built) {
         }
       })
       .catch(() => { delete waiting[key]; }); // keep showing the build-time copy
-  // Wait for the page to finish loading so the check doesn't compete with first paint.
-  if (document.readyState === "complete") refresh();
-  else window.addEventListener("load", refresh, { once: true });
+  // The check waits until the first screen has loaded, so it never competes with it.
+  afterPageSettles(refresh);
 }
 
 function once(key, endpoint) {
@@ -161,13 +162,31 @@ export function countPageView(path) {
   lastCounted = path;
   // The previous page on this site is not a referrer worth counting.
   const referrer = document.referrer && !document.referrer.startsWith(window.location.origin) ? document.referrer : "";
-  const body = JSON.stringify({ path, referrer, firstVisit: isFirstVisit() });
+  pendingViews.push(JSON.stringify({ path, referrer, firstVisit: isFirstVisit() }));
+  if (viewsSettled) sendViews();
+  else if (pendingViews.length === 1) {
+    // The first view goes out once the page has settled, or as the visitor leaves.
+    afterPageSettles(() => {
+      viewsSettled = true;
+      sendViews();
+    });
+    window.addEventListener("pagehide", sendViews);
+  }
+}
+
+const pendingViews = [];
+let viewsSettled = false;
+
+function sendViews() {
   const url = `${API_BASE}/visits`;
-  try {
-    const blob = new Blob([body], { type: "text/plain" });
-    if (navigator.sendBeacon && navigator.sendBeacon(url, blob)) return;
-    fetch(url, { method: "POST", body, headers: { "Content-Type": "text/plain" }, keepalive: true }).catch(() => {});
-  } catch {
-    // Counting must never break the page.
+  while (pendingViews.length) {
+    const body = pendingViews.shift();
+    try {
+      const blob = new Blob([body], { type: "text/plain" });
+      if (navigator.sendBeacon && navigator.sendBeacon(url, blob)) continue;
+      fetch(url, { method: "POST", body, headers: { "Content-Type": "text/plain" }, keepalive: true }).catch(() => {});
+    } catch {
+      // Counting must never break the page.
+    }
   }
 }

@@ -9,6 +9,8 @@ import { HERO_SIZES, heroSrc, heroSrcSet } from "../utils/heroImage";
  * The first photo shows as soon as it arrives, with no loading animation. It is
  * usually already there: each prerendered page preloads its own header photo,
  * and the site fetches the other pages' header photos in the background.
+ * The other photos of a rotation download halfway to the first change, so they
+ * never compete with the first one.
  */
 export default function HeroImageRotator({ image, fallbackImage, alt = "", imagePosition = "center 35%", interval = 6000 }) {
   const imageList = (Array.isArray(image) ? image : [image]).filter(Boolean);
@@ -16,6 +18,7 @@ export default function HeroImageRotator({ image, fallbackImage, alt = "", image
   const [failedImages, setFailedImages] = useState([]);
   // Fading starts with the first rotation, so the first photo never fades in.
   const [rotated, setRotated] = useState(false);
+  const [loadRest, setLoadRest] = useState(false);
   // Start over when the page hands in a different image set.
   const [currentImage, setCurrentImage] = useState(image);
   if (image !== currentImage) {
@@ -31,6 +34,12 @@ export default function HeroImageRotator({ image, fallbackImage, alt = "", image
 
   useEffect(() => {
     if (displayImages.length < 2) return undefined;
+    const preload = window.setTimeout(() => setLoadRest(true), interval / 2);
+    return () => window.clearTimeout(preload);
+  }, [displayImages.length, interval]);
+
+  useEffect(() => {
+    if (displayImages.length < 2) return undefined;
     const timer = window.setInterval(() => {
       setRotated(true);
       setActiveIndex((index) => (index + 1) % displayImages.length);
@@ -38,7 +47,7 @@ export default function HeroImageRotator({ image, fallbackImage, alt = "", image
     return () => window.clearInterval(timer);
   }, [displayImages.length, interval]);
 
-  return displayImages.map((src, index) => (
+  return displayImages.map((src, index) => (loadRest || index === shownIndex) && (
     <img
       key={src}
       src={heroSrc(src)}

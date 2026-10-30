@@ -3,9 +3,12 @@ import { Link } from 'react-router-dom';
 import { MapPin, Phone, Mail, Ticket } from 'lucide-react';
 import { contactInfo, safariZonesList } from '../data/safariData';
 import { fetchContent } from '../api/client';
+import useNearViewport from '../utils/useNearViewport';
 
 export default function Footer() {
   const [content, setContent] = useState(null);
+  // The tiger watermark downloads only as the visitor scrolls toward the footer.
+  const [footerRef, near] = useNearViewport();
 
   useEffect(() => {
     fetchContent()
@@ -39,7 +42,7 @@ export default function Footer() {
     : safariZonesList;
 
   return (
-    <footer className="bg-[#07120a] text-gray-200 border-t border-safari-900/30 pt-10 pb-20 sm:pb-10 transition-colors relative overflow-hidden">
+    <footer ref={footerRef} className="bg-[#07120a] text-gray-200 border-t border-safari-900/30 pt-10 pb-20 sm:pb-10 transition-colors relative overflow-hidden">
       {/* Ambient Botanical Pattern Texture */}
       <div 
         className="absolute inset-0 opacity-[0.03] pointer-events-none pattern-leaf-delicate invert"
@@ -49,7 +52,7 @@ export default function Footer() {
       <div 
         className="absolute -bottom-10 right-4 w-72 sm:w-96 h-80 sm:h-96 opacity-[0.07] pointer-events-none bg-contain bg-right-bottom bg-no-repeat"
         style={{ 
-          backgroundImage: `url("/images/tiger%20for%20bg%20overlay.jpg")`, 
+          backgroundImage: near ? `url("/images/tiger-bg-overlay.webp")` : undefined,
           filter: 'invert(1) brightness(1.2)', 
           mixBlendMode: 'screen' 
         }}
@@ -65,8 +68,10 @@ export default function Footer() {
             <Link to="/" className="flex items-center gap-2.5 group w-fit">
               <div className="w-10 h-10 rounded-xl bg-white p-0.5 flex items-center justify-center border border-gray-100 dark:border-emerald-900/60 shadow-sm shrink-0 group-hover:scale-105 transition">
                 <img 
-                  src="/logo.png" 
-                  alt="Rajaji National Park logo" 
+                  src="/logo.webp"
+                  alt="Rajaji National Park logo"
+                  width="128"
+                  height="128"
                   className="w-full h-full object-contain"
                 />
               </div>

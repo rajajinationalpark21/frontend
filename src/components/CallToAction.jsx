@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Ticket, ArrowRight, ShieldCheck, Compass, CheckCircle2, MessageSquare, Sparkles } from 'lucide-react';
 import { safariImages } from '../data/safariData';
 import RichText from './RichText';
+import useNearViewport from '../utils/useNearViewport';
 
 export default function CallToAction({
   badgeText,
@@ -33,15 +34,17 @@ export default function CallToAction({
     if (!link) return false;
     return link.startsWith('http://') || link.startsWith('https://') || link.startsWith('tel:') || link.startsWith('mailto:');
   };
+  // The band's background photos download only as the visitor scrolls toward it.
+  const [sectionRef, near] = useNearViewport();
 
   return (
-    <section className={`py-14 sm:py-20 px-4 sm:px-6 lg:px-8 bg-safari-50/40 dark:bg-black/40 transition-colors relative overflow-hidden ${className}`}>
+    <section ref={sectionRef} className={`py-14 sm:py-20 px-4 sm:px-6 lg:px-8 bg-safari-50/40 dark:bg-black/40 transition-colors relative overflow-hidden ${className}`}>
       <div className={`max-w-6xl mx-auto rounded-3xl relative overflow-hidden bg-gradient-to-br from-[#07150c] via-[#091b10] to-[#040b06] text-white p-8 sm:p-14 lg:p-16 shadow-2xl border border-safari-500/30 text-center ${containerClassName}`}>
         
         {/* Crisp Background Forest Imagery */}
         <div 
           className="absolute inset-0 bg-cover bg-center opacity-25 pointer-events-none"
-          style={{ backgroundImage: `url("${bgImage || safariImages.homeHero || safariImages.mistyDarkPines}")` }}
+          style={near ? { backgroundImage: `url("${bgImage || safariImages.homeHero || safariImages.mistyDarkPines}")` } : undefined}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-[#040b06]/90 via-[#07150c]/70 to-[#040b06]/85 pointer-events-none" />
 
@@ -49,7 +52,7 @@ export default function CallToAction({
         <div 
           className="absolute -top-10 -left-10 w-64 h-64 sm:w-80 sm:h-80 opacity-[0.14] pointer-events-none bg-contain bg-no-repeat rotate-180"
           style={{ 
-            backgroundImage: `url("/images/leaf-cta.webp")`, 
+            backgroundImage: near ? `url("/images/leaf-cta.webp")` : undefined,
             filter: 'invert(1) hue-rotate(90deg) brightness(1.2)', 
             mixBlendMode: 'screen' 
           }}
@@ -59,7 +62,7 @@ export default function CallToAction({
         <div 
           className="absolute -bottom-8 -right-8 sm:right-2 sm:bottom-0 w-64 sm:w-96 h-72 sm:h-[110%] opacity-[0.18] sm:opacity-[0.22] pointer-events-none bg-contain bg-right-bottom bg-no-repeat"
           style={{ 
-            backgroundImage: `url("/images/tiger%20for%20bg%20overlay.jpg")`, 
+            backgroundImage: near ? `url("/images/tiger-bg-overlay.webp")` : undefined,
             filter: 'invert(1) brightness(1.3) contrast(1.1)', 
             mixBlendMode: 'screen' 
           }}
