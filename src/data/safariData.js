@@ -102,7 +102,7 @@ export const contactInfo = {
   },
   social: {
     youtube: "https://www.youtube.com/channel/UCgmpJ_YaTCn4iKZOku5CPQQ",
-    instagram: "https://www.instagram.com/rajaji_national_park_veeru/",
+    instagram: "https://www.instagram.com/rajajijeepsafari/",
     facebook: "https://www.facebook.com/profile.php?id=61595475305975",
     twitter: "https://x.com/rajajiiNpark",
   },
