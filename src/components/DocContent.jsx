@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Check, Info, Mail, MapPin, MessageSquare, Phone } from 'lucide-react';
 import RichText from './RichText';
+import { linkPath } from '../seo/routes';
 import { sizedImage } from '../utils/heroImage';
 
 /**
@@ -200,7 +201,7 @@ function Block({ block, ctx }) {
             {block.items.map((item) => (
               <Link
                 key={`${item.to}-${item.label}`}
-                to={item.to}
+                to={linkPath(item.to)}
                 className="group rounded-3xl overflow-hidden border border-emerald-900/15 dark:border-emerald-800/40 bg-white/70 dark:bg-[#07150c]/70 shadow-sm hover:shadow-xl hover:border-emerald-500/40 transition"
               >
                 <div className="relative h-44 overflow-hidden">
@@ -224,7 +225,7 @@ function Block({ block, ctx }) {
           {block.items.map((item) => (
             <Link
               key={`${item.to}-${item.label}`}
-              to={item.to}
+              to={linkPath(item.to)}
               className="group flex items-center justify-between gap-4 rounded-2xl border border-emerald-900/15 dark:border-emerald-800/40 bg-white/60 dark:bg-[#07150c]/60 p-4 hover:border-emerald-500/50 hover:bg-emerald-50/60 dark:hover:bg-emerald-900/20 transition"
             >
               <span>

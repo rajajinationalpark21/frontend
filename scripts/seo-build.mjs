@@ -17,7 +17,7 @@ import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { ROUTE_SEO, SITE_NAME, ZONE_SLUGS, breadcrumbTrail, sectionSeo } from '../src/seo/routes.js';
+import { ROUTE_SEO, SITE_NAME, ZONE_SLUGS, breadcrumbTrail, linkPath, relatedPages, sectionSeo } from '../src/seo/routes.js';
 import { blogSeoTitle } from '../src/seo/blogTitle.js';
 import { blogPostingSchema, breadcrumbSchema, contentSchemas, faqSchema, zoneSchema } from '../src/seo/schema.js';
 import { resolveSiteUrl } from '../vite.config.js';
@@ -75,7 +75,7 @@ const p = (text) => (text ? `<p>${rich(text)}</p>` : '');
 const h2 = (text) => `<h2>${esc(text)}</h2>`;
 const ul = (items) =>
   items?.length ? `<ul>${items.map((item) => `<li>${item}</li>`).join('')}</ul>` : '';
-const link = (href, text) => `<a href="${esc(href)}">${esc(text)}</a>`;
+const link = (href, text) => `<a href="${esc(linkPath(href))}">${esc(text)}</a>`;
 const table = (headers, rows) =>
   rows?.length
     ? `<table><thead><tr>${headers.map((h) => `<th>${esc(h)}</th>`).join('')}</tr></thead><tbody>${rows
@@ -91,7 +91,7 @@ function rich(text) {
   return esc(text)
     .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
     .replace(/\*([^*\s][^*]*)\*/g, '<em>$1</em>')
-    .replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, '<a href="$2">$1</a>')
+    .replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, (_, label, href) => `<a href="${linkPath(href)}">${label}</a>`)
     .replace(/\n/g, '<br>');
 }
 
@@ -333,7 +333,18 @@ const BODY = {
     section('Safari Zones', ul(c.safari.zones.map((z) => link(`/${z.slug}`, z.name)))) +
     contactBlock(c.settings),
 
-  '/contact': (c) => '<h1>Contact the Rajaji Safari Booking Desk</h1>' + contactBlock(c.settings),
+  // The contact page also shows the first six FAQ answers (src/pages/ContactPage.jsx).
+  '/contact': (c) =>
+    '<h1>Contact the Rajaji Safari Booking Desk</h1>' +
+    contactBlock(c.settings) +
+    section(
+      'Common Questions',
+      (c.faqs?.items || [])
+        .filter((item) => item.q && item.a)
+        .slice(0, 6)
+        .map((item) => `<h3>${esc(item.q)}</h3>${p(item.a)}`)
+        .join('')
+    ),
 
   '/blog': (c, blogs) =>
     '<h1>Rajaji Safari Blog</h1>' +
@@ -613,8 +624,13 @@ async function main() {
     });
   }
 
+  // The same "Explore more" links each page shows at its foot (src/components/RelatedPages.jsx).
+  const related = (routePath) => {
+    const items = relatedPages(routePath, { zones: content?.safari?.zones || [], posts: blogs });
+    return items.length ? section('Explore more of Rajaji', ul(items.map((item) => link(item.path, item.name)))) : '';
+  };
   for (const page of pages) {
-    await writePage(page.path, withSnapshot(renderPage(template, page)));
+    await writePage(page.path, withSnapshot(renderPage(template, { ...page, body: page.body + related(page.path) })));
   }
 
   // Each page's header photo is listed too, so it can appear in Google Images.

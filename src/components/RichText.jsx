@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { linkPath } from '../seo/routes';
 
 // One inline mark: **bold**, *italic* or [label](/path).
 const MARK = /(\*\*[^*]+\*\*|\*[^*\s][^*]*\*|\[[^\]]+\]\([^)\s]+\))/g;
@@ -23,7 +24,7 @@ export default function RichText({ text, strongClassName = 'font-semibold text-g
         const link = part.match(/^\[([^\]]+)\]\(([^)\s]+)\)$/);
         if (link) {
           return (
-            <Link key={index} to={link[2]} className="font-semibold text-emerald-700 dark:text-emerald-400 underline underline-offset-2 hover:text-emerald-600">
+            <Link key={index} to={linkPath(link[2])} className="font-semibold text-emerald-700 dark:text-emerald-400 underline underline-offset-2 hover:text-emerald-600">
               {link[1]}
             </Link>
           );

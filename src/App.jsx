@@ -7,6 +7,7 @@ import { ThemeProvider } from './context/ThemeContext';
 import { countPageView, fetchContent } from './api/client';
 import { warmHeaderPhotos } from './utils/warmHeaderPhotos';
 import PageLoader from './components/PageLoader';
+import RelatedPages from './components/RelatedPages';
 
 // Client Sitemap Pages. Home ships with the app; every other page loads on demand.
 import HomePage from './pages/HomePage';
@@ -180,6 +181,7 @@ function MainLayout() {
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
         </Suspense>
+        <RelatedPages />
       </main>
 
       <Footer />

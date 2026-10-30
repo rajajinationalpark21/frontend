@@ -24,7 +24,7 @@ export const ROUTE_SEO = {
   '/about': {
     name: 'About Rajaji',
     section: 'about',
-    title: 'About Rajaji National Park | Rajaji Tiger Reserve, Uttarakhand',
+    title: 'About Rajaji National Park | Rajaji Tiger Reserve',
     description:
       'About Rajaji Tiger Reserve in Uttarakhand\'s Shiwalik foothills: its forests, rivers, tigers and Asian elephants, and help booking a Rajaji Jeep Safari.',
     keywords:
@@ -343,6 +343,85 @@ export function canonicalPath(pathname) {
     if (path.startsWith(from)) return to + path.slice(from.length);
   }
   return path;
+}
+
+/**
+ * A link target as the page's canonical address, so links written with an old
+ * address in the CMS (`/wildlife`) point straight at the page instead of a redirect.
+ * External links and anchors are returned unchanged.
+ */
+export function linkPath(to) {
+  if (typeof to !== 'string' || !to.startsWith('/') || to.startsWith('//')) return to;
+  const [, path, rest = ''] = to.match(/^([^?#]*)(.*)$/);
+  return canonicalPath(path || '/') + rest;
+}
+
+const TICKETS = '/rajaji-national-park-jeep-safari-tickets-entry-fees-charges';
+const BOOKING = '/booking';
+
+/** Zone names for links when the CMS has not loaded; the CMS names win when given. */
+const ZONE_NAMES = {
+  'chilla-jeep-safari': 'Chilla Jeep Safari',
+  'ranipur-gate-jeep-safari': 'Ranipur Gate Jeep Safari',
+  'chillawali-jeep-safari-mohand-gate': 'Chillawali (Mohand Gate) Jeep Safari',
+  'motichur-jeep-safari': 'Motichur Jeep Safari',
+  'jhilmil-jheel-safari': 'Jhilmil Jheel Safari',
+  'gohri-range-safari': 'Gohri Range Safari',
+  'chaurasi-kutiya-beatles-ashram': 'Chaurasi Kutiya (Beatles Ashram)',
+};
+
+/**
+ * Up to six other pages worth reading next, as `{ name, path }`: the same
+ * section's pages first, then the safari essentials (zones, fees, how to reach,
+ * booking). Shown at the foot of each page and in its prerendered HTML so
+ * visitors and search engines can follow the site's structure.
+ *
+ * @param {string} pathname  the current page
+ * @param {{ zones?: {slug: string, name?: string}[], posts?: {slug: string, title: string}[] }} cms
+ */
+export function relatedPages(pathname, { zones = [], posts = [] } = {}) {
+  const path = canonicalPath(pathname);
+  if (path === '/' || path === BOOKING) return [];
+
+  const zoneName = (slug) => zones.find((zone) => zone.slug === slug)?.name || ZONE_NAMES[slug];
+  const entry = (to) => {
+    const slug = to.slice(1);
+    if (ZONE_SLUGS.includes(slug)) return { name: zoneName(slug), path: to };
+    if (to.startsWith('/blog/')) {
+      const post = posts.find((item) => `/blog/${item.slug}` === to);
+      return post ? { name: post.title, path: to } : null;
+    }
+    return ROUTE_SEO[to] ? { name: ROUTE_SEO[to].name, path: to } : null;
+  };
+
+  const page = ROUTE_SEO[path];
+  const parent = page?.parent;
+  let candidates;
+  if (ZONE_SLUGS.includes(path.slice(1))) {
+    // Neighbouring zones, in the site's zone order, then fees and booking.
+    const others = ZONE_SLUGS.filter((slug) => `/${slug}` !== path && slug !== 'chaurasi-kutiya-beatles-ashram');
+    const start = Math.max(0, ZONE_SLUGS.indexOf(path.slice(1)));
+    const ordered = [...others.slice(start), ...others.slice(0, start)];
+    candidates = [...ordered.slice(0, 3).map((slug) => `/${slug}`), TICKETS, '/how-to-reach', BOOKING];
+  } else if (parent || Object.values(ROUTE_SEO).some((seo) => seo.parent === path)) {
+    // A section hub or one of its pages: the hub and its other pages.
+    const hub = parent || path;
+    const siblings = Object.keys(ROUTE_SEO).filter((key) => ROUTE_SEO[key].parent === hub);
+    candidates = [hub, ...siblings, '/zones', BOOKING];
+  } else if (path.startsWith('/blog/')) {
+    // Two other posts, then the planning pages a reader is likely to need.
+    const others = posts.filter((post) => `/blog/${post.slug}` !== path).slice(0, 2).map((post) => `/blog/${post.slug}`);
+    candidates = [...others, '/zones', TICKETS, '/how-to-reach', BOOKING];
+  } else {
+    candidates = ['/zones', TICKETS, '/how-to-reach', '/faq', '/activities', BOOKING];
+  }
+
+  const seen = new Set([path]);
+  return candidates
+    .filter((to) => !seen.has(to) && seen.add(to))
+    .map(entry)
+    .filter(Boolean)
+    .slice(0, 6);
 }
 
 /** Home > parent > page, as `{ name, path }` steps. Empty for the home page. */
