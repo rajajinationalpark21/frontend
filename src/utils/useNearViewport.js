@@ -8,10 +8,15 @@ import { useEffect, useState } from 'react';
  */
 export default function useNearViewport(margin = '400px') {
   const [element, setElement] = useState(null);
-  const [near, setNear] = useState(() => typeof IntersectionObserver === 'undefined');
+  // Always false at first, also in the build that prerenders pages, so both draw the same.
+  const [near, setNear] = useState(false);
 
   useEffect(() => {
     if (near || !element) return undefined;
+    if (typeof IntersectionObserver === 'undefined') {
+      setNear(true);
+      return undefined;
+    }
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries.some((entry) => entry.isIntersecting)) {

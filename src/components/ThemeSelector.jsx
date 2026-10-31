@@ -17,15 +17,13 @@ export default function ThemeSelector() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const activeTheme = themes[currentTheme] || themes.emerald;
-
   return (
     <div className="relative" ref={dropdownRef}>
       {/* Elegant, compact circular theme button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="relative flex items-center justify-center w-9 h-9 rounded-full border border-gray-200/80 dark:border-gray-800 bg-white/90 dark:bg-gray-900/90 hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300 hover:border-safari-500/40 dark:hover:border-safari-500/40 transition-all duration-200 shadow-sm hover:shadow active:scale-95 focus:outline-none"
-        title={`Theme: ${activeTheme.name}`}
+        title="Change theme"
         aria-label="Change theme"
       >
         <Palette className="w-4 h-4 text-gray-600 dark:text-gray-300 hover:text-safari-600 dark:hover:text-safari-400 transition-colors" />

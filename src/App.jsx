@@ -192,13 +192,20 @@ function MainLayout() {
   );
 }
 
-export default function App() {
+/** The whole site inside a router: the browser's (App) or the build's (entry-server.jsx). */
+export function AppShell() {
   return (
     <ThemeProvider>
-      <Router>
-        <ScrollToTop />
-        <MainLayout />
-      </Router>
+      <ScrollToTop />
+      <MainLayout />
     </ThemeProvider>
+  );
+}
+
+export default function App() {
+  return (
+    <Router>
+      <AppShell />
+    </Router>
   );
 }

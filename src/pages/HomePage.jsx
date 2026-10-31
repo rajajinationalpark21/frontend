@@ -14,7 +14,7 @@ import {
   Phone
 } from 'lucide-react';
 import { safariImages } from '../data/safariData';
-import { fetchContent, fetchBlogs } from '../api/client';
+import { fetchContent, fetchBlogs, primedBlogs, primedContent } from '../api/client';
 import { slugify } from '../utils/slugify';
 import SEO from '../components/SEO';
 import FeedbackSection from '../components/FeedbackSection';
@@ -57,11 +57,14 @@ const defaultHomeContent = {
 };
 
 export default function HomePage({ onOpenBooking }) {
-  const [content, setContent] = useState(defaultHomeContent);
-  const [loading, setLoading] = useState(true);
-  const [recentBlogs, setRecentBlogs] = useState([]);
+  // A prerendered home page starts from the build-time content, so the page is
+  // drawn at once (and the same in the build and the browser); otherwise it loads.
+  const primedHome = primedContent()?.home;
+  const [content, setContent] = useState(primedHome || defaultHomeContent);
+  const [loading, setLoading] = useState(!primedHome);
+  const [recentBlogs, setRecentBlogs] = useState(() => primedBlogs() || []);
   // The rest of the "Page – Home About Rajaji" document and the shared booking wording.
-  const [ctaCopy, setCtaCopy] = useState({});
+  const [ctaCopy, setCtaCopy] = useState(() => primedContent()?.settings?.ctaCopy || {});
   // The photo frame downloads its photos only as the visitor scrolls toward it.
   const [galleryRef, galleryNear] = useNearViewport('600px');
   const [blogsRef, blogsNear] = useNearViewport('600px');
@@ -323,7 +326,7 @@ export default function HomePage({ onOpenBooking }) {
               const title = blog.title || 'Untitled';
               const slug = blog.slug || slugify(title) || blogId;
               const date = blog.createdAt
-                ? new Date(blog.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+                ? new Date(blog.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'Asia/Kolkata' })
                 : '';
               const image = blog.image || safariImages.tigerEye;
               const excerpt = blog.summary || blog.excerpt || '';

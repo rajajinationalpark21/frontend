@@ -39,6 +39,22 @@ const snapshotFile = snapshotUrl
   ? fetch(snapshotUrl).then((res) => (res.ok ? res.json() : {})).catch(() => ({}))
   : Promise.resolve({});
 
+// The same copy, readable without waiting once primed: the build primes it before
+// prerendering a page, and the browser before attaching to that prerendered page,
+// so both draw the same markup from the same content.
+const primed = {};
+
+export function primeSnapshot(snapshot) {
+  Object.assign(primed, snapshot || {});
+}
+
+export function loadSnapshot() {
+  return snapshotFile.then(primeSnapshot);
+}
+
+export const primedContent = () => primed.content?.data || null;
+export const primedBlogs = () => primed.blogs?.blogs || null;
+
 // Success callbacks that saw the build-time copy, called again once with the live
 // response if it differs, so pages show admin edits made since the last build.
 const waiting = {};

@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { MapPin, Phone, Mail, Ticket } from 'lucide-react';
 import { contactInfo, safariZonesList } from '../data/safariData';
-import { fetchContent } from '../api/client';
+import { fetchContent, primedContent } from '../api/client';
 import useNearViewport from '../utils/useNearViewport';
 
 export default function Footer() {
-  const [content, setContent] = useState(null);
+  const [content, setContent] = useState(primedContent);
   // The tiger watermark downloads only as the visitor scrolls toward the footer.
   const [footerRef, near] = useNearViewport();
 

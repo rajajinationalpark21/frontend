@@ -25,7 +25,9 @@ function seenThisVisit() {
  * `boxClass` aligns the bubble with its button and `arrowClass` puts the arrow under it.
  */
 export default function MapNudge({ boxClass = 'right-0', arrowClass = 'right-8' }) {
-  const [mounted] = useState(() => !seenThisVisit());
+  // Decided after the first draw: the build that prerenders the page has no visit to remember.
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(!seenThisVisit()), []);
   const [shown, setShown] = useState(false);
   const [line, setLine] = useState(0);
   const [lineShown, setLineShown] = useState(true);

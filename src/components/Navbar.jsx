@@ -20,7 +20,7 @@ import {
 } from 'lucide-react';
 import ThemeSelector from './ThemeSelector';
 import MapNudge from './MapNudge';
-import { fetchContent } from '../api/client';
+import { fetchContent, primedContent } from '../api/client';
 
 const MENU_ICONS = [
   [/bird/i, Feather],
@@ -110,12 +110,16 @@ export default function Navbar({ onOpenBooking }) {
     { label: 'Contact', path: '/contact', children: [] },
   ];
 
-  const [cmsMenu, setCmsMenu] = useState(null);
+  const cmsNavigation = (data) => {
+    const navigation = (data?.settings?.navigation || []).filter((entry) => entry.label && entry.path);
+    return navigation.length ? navigation : null;
+  };
+  const [cmsMenu, setCmsMenu] = useState(() => cmsNavigation(primedContent()));
   useEffect(() => {
     fetchContent()
       .then((res) => {
-        const navigation = (res.data?.settings?.navigation || []).filter((entry) => entry.label && entry.path);
-        if (navigation.length) setCmsMenu(navigation);
+        const navigation = cmsNavigation(res.data);
+        if (navigation) setCmsMenu(navigation);
       })
       .catch(() => {});
   }, []);

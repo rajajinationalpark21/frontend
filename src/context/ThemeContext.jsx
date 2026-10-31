@@ -47,6 +47,8 @@ const ThemeContext = createContext();
 
 export function ThemeProvider({ children }) {
   const [currentTheme, setCurrentTheme] = useState(() => {
+    // The build prerenders pages without a browser, so without a saved theme.
+    if (typeof localStorage === 'undefined') return 'emerald';
     return localStorage.getItem('rajaji_theme') || 'emerald';
   });
 

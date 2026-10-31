@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { ChevronUp, Ticket, Phone } from 'lucide-react';
 import { contactInfo } from '../data/safariData';
-import { fetchContent } from '../api/client';
+import { fetchContent, primedContent } from '../api/client';
 
 export default function FloatingActions({ onOpenBooking }) {
   const [showScrollTop, setShowScrollTop] = useState(false);
-  const [contact, setContact] = useState(contactInfo);
+  const [contact, setContact] = useState(() => {
+    const site = primedContent()?.settings?.contact;
+    return { ...contactInfo, phone: site?.phone || contactInfo.phone, whatsapp: site?.whatsapp || contactInfo.whatsapp };
+  });
 
   useEffect(() => {
     fetchContent()
