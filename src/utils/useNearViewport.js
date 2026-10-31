@@ -1,5 +1,12 @@
 import { useEffect, useState } from 'react';
 
+// The build draws each page a second time with everything already near, only to note
+// which content the sections further down read (src/entry-server.jsx).
+let startNear = false;
+export const startEverythingNear = (value) => {
+  startNear = value;
+};
+
 /**
  * `[ref, near]`: `near` turns true once the element comes within `margin` of the
  * screen, and stays true. Photos, background images and API calls below the fold
@@ -9,7 +16,7 @@ import { useEffect, useState } from 'react';
 export default function useNearViewport(margin = '400px') {
   const [element, setElement] = useState(null);
   // Always false at first, also in the build that prerenders pages, so both draw the same.
-  const [near, setNear] = useState(false);
+  const [near, setNear] = useState(startNear);
 
   useEffect(() => {
     if (near || !element) return undefined;

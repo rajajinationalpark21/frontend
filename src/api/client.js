@@ -31,29 +31,74 @@ async function request(endpoint, options = {}) {
 const shared = {};
 
 // The build saves the CMS responses as one cached file and names it in each page
-// (scripts/seo-build.mjs), so the first screen renders without waiting for the API,
-// which can take close to a minute to wake. The live response loads after the page.
-const snapshotUrl =
-  typeof document !== "undefined" && document.querySelector('meta[name="cms-snapshot"]')?.content;
-const snapshotFile = snapshotUrl
-  ? fetch(snapshotUrl).then((res) => (res.ok ? res.json() : {})).catch(() => ({}))
-  : Promise.resolve({});
+// (scripts/seo-build.mjs), so pages render without waiting for the API, which can
+// take close to a minute to wake. The live response loads after the page.
+const meta = (name) =>
+  typeof document !== "undefined" ? document.querySelector(`meta[name="${name}"]`) : null;
+const readJson = (url) =>
+  url ? fetch(url).then((res) => (res.ok ? res.json() : {})).catch(() => ({})) : Promise.resolve({});
 
-// The same copy, readable without waiting once primed: the build primes it before
+// A prerendered page also names the small part of that file it was drawn from
+// (scripts/prerender-app.mjs), which is all it needs to show itself. The whole file
+// then waits until the page has settled, the visitor taps or types, or another page opens.
+const pagePart = meta("cms-page");
+const partPath = pagePart?.dataset.for;
+const onPartPage = () => Boolean(partPath) && window.location.pathname === partPath;
+
+let needWholeFile;
+const wholeFileNeeded = new Promise((resolve) => {
+  needWholeFile = resolve;
+});
+const wholeFile = wholeFileNeeded
+  .then(() => readJson(meta("cms-snapshot")?.content))
+  .then((snapshot) => {
+    if (snapshot.content) {
+      primeSnapshot(snapshot);
+      primedPath = ANY_PAGE;
+    }
+    return snapshot;
+  });
+
+let waitingForPage = false;
+function wholeFileWhenNeeded() {
+  if (!onPartPage()) needWholeFile();
+  else if (!waitingForPage) {
+    waitingForPage = true;
+    afterPageSettles(needWholeFile);
+    for (const type of ["pointerdown", "keydown", "touchstart"]) {
+      window.addEventListener(type, needWholeFile, { once: true, passive: true, capture: true });
+    }
+  }
+  return wholeFile;
+}
+
+// The content readable without waiting once primed: the build primes it before
 // prerendering a page, and the browser before attaching to that prerendered page,
-// so both draw the same markup from the same content.
+// so both draw the same markup from the same content. A page's part serves only that
+// page; other pages read nothing primed until the whole file has arrived.
 const primed = {};
+const ANY_PAGE = "*";
+let primedPath = ANY_PAGE;
 
 export function primeSnapshot(snapshot) {
   Object.assign(primed, snapshot || {});
 }
 
 export function loadSnapshot() {
-  return snapshotFile.then(primeSnapshot);
+  if (!onPartPage()) return wholeFileWhenNeeded().then(() => {});
+  return readJson(pagePart.content).then((part) => {
+    if (primedPath !== ANY_PAGE || !primed.content) {
+      primeSnapshot(part);
+      primedPath = partPath;
+    }
+    if (!part.content) needWholeFile();
+  });
 }
 
-export const primedContent = () => primed.content?.data || null;
-export const primedBlogs = () => primed.blogs?.blogs || null;
+const primedHere = () =>
+  primedPath === ANY_PAGE || typeof window === "undefined" || window.location.pathname === primedPath;
+export const primedContent = () => (primedHere() && primed.content?.data) || null;
+export const primedBlogs = () => (primedHere() && primed.blogs?.blogs) || null;
 
 // Success callbacks that saw the build-time copy, called again once with the live
 // response if it differs, so pages show admin edits made since the last build.
@@ -84,9 +129,11 @@ function refreshAfterLoad(key, endpoint, built) {
 }
 
 function once(key, endpoint) {
+  // Another page opened: it needs the whole file now.
+  if (waitingForPage && !onPartPage()) needWholeFile();
   if (!shared[key]) {
     waiting[key] = new Set();
-    shared[key] = snapshotFile.then((snapshot) => {
+    shared[key] = wholeFileWhenNeeded().then((snapshot) => {
       const built = snapshot?.[key];
       if (built) {
         refreshAfterLoad(key, endpoint, built);

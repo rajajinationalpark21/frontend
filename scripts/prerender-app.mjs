@@ -6,10 +6,13 @@
  *
  * Runs after scripts/seo-build.mjs, which writes the snapshot file and each page's
  * hidden search-engine text; on prerendered pages the real markup replaces that text.
+ * Each page also gets the part of the snapshot it read while drawn, a few KB instead
+ * of the whole site's content, which src/api/client.js loads first.
  *
  *   vite build && vite build --ssr src/entry-server.jsx --outDir dist-ssr
  *   node scripts/seo-build.mjs && node scripts/prerender-app.mjs
  */
+import { createHash } from 'node:crypto';
 import { readdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
@@ -50,17 +53,19 @@ function rootElement(html) {
 }
 
 /**
- * A drawn page needs no code for its first paint, so its code (and the CMS file the
- * code reads) starts downloading only after that paint. Otherwise phones fetch and
- * run the app before painting, which is exactly the wait the prerender removes.
- * A tab opened in the background draws no frames, so the page's load event starts
- * the code there instead, whichever comes first.
+ * A drawn page needs no code for its first paint, so its code (and its part of the
+ * CMS file, fetched alongside) starts downloading only after that paint. Otherwise
+ * phones fetch and run the app before painting, which is exactly the wait the
+ * prerender removes. A tab opened in the background draws no frames, so the page's
+ * load event starts the code there instead, whichever comes first.
  */
-function deferAppCode(html) {
+function deferAppCode(html, partFile) {
   const entry = html.match(/<script type="module" crossorigin src="([^"]+)"><\/script>\s*/);
   if (!entry) return html;
   const loader =
     '<script>(function(){var started;function start(){if(started)return;started=1;' +
+    'var p=document.createElement("link");p.rel="preload";p.as="fetch";p.crossOrigin="anonymous";' +
+    `p.href=${JSON.stringify(`/${partFile}`)};document.head.appendChild(p);` +
     'var s=document.createElement("script");s.type="module";s.crossOrigin="";' +
     `s.src=${JSON.stringify(entry[1])};document.head.appendChild(s)}` +
     'requestAnimationFrame(function(){setTimeout(start,0)});addEventListener("load",start,{once:true})})()</script>';
@@ -77,6 +82,7 @@ async function main() {
 
   const snapshots = new Map();
   let drawn = 0;
+  let partBytes = 0;
   for (const [route, file] of await pageFiles()) {
     const target = path.join(DIST, file);
     const html = await readFile(target, 'utf8');
@@ -90,15 +96,24 @@ async function main() {
       snapshots.set(snapshotFile, JSON.parse(await readFile(path.join(DIST, snapshotFile), 'utf8')));
     }
     const snapshot = snapshots.get(snapshotFile);
-    const markup = await render(route, snapshot);
+    const { html: markup, part } = await render(route, snapshot);
+    const partJson = JSON.stringify(part);
+    const partFile = `assets/cms-page-${createHash('sha1').update(partJson).digest('hex').slice(0, 10)}.json`;
+    await writeFile(path.join(DIST, partFile), partJson);
+    partBytes += partJson.length;
     const page =
       html.slice(0, root.start) +
       `<div id="root" data-prerendered="${route}">${markup}</div>` +
       html.slice(root.end);
-    await writeFile(target, deferAppCode(page));
+    const named = page.replace(
+      /(<meta name="cms-snapshot"[^>]*>)/,
+      (tag) => `${tag}
+    <meta name="cms-page" content="/${partFile}" data-for="${route}" />`
+    );
+    await writeFile(target, deferAppCode(named, partFile));
     drawn += 1;
   }
-  console.log(`[prerender] ${drawn} pages drawn at build time.`);
+  console.log(`[prerender] ${drawn} pages drawn at build time, content parts ${Math.round(partBytes / Math.max(drawn, 1) / 1024)} KB each on average.`);
 }
 
 main().catch((error) => {
