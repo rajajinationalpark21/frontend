@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Search, ArrowRight, X, Ticket, Sparkles, Phone } from 'lucide-react';
 import { safariImages } from '../data/safariData';
-import { fetchBlogs } from '../api/client';
+import { fetchBlogs, primedBlogs } from '../api/client';
 import { slugify } from '../utils/slugify';
 import SEO from '../components/SEO';
 import { SITE_URL } from '../seo/site';
@@ -10,41 +10,45 @@ import CallToAction from '../components/CallToAction';
 import PageHero from '../components/PageHero';
 import { sizedImage } from '../utils/heroImage';
 
+/** The blog list in the shape this page renders (dates in India time, as the build draws them). */
+const toArticles = (blogs) =>
+  blogs.map((b) => {
+    const title = b.title || 'Untitled';
+    const slug = b.slug || slugify(title) || (b._id || b.id);
+    return {
+      id: b._id || b.id,
+      slug,
+      title,
+      category: b.category || 'Uncategorized',
+      date: b.createdAt
+        ? new Date(b.createdAt).toLocaleDateString('en-US', {
+            month: 'short',
+            day: 'numeric',
+            year: 'numeric',
+            timeZone: 'Asia/Kolkata',
+          })
+        : '',
+      readTime: b.readTime || '5 min read',
+      image: b.image || safariImages.tigerEye,
+      featured: b.featured || false,
+      excerpt: b.summary || b.excerpt || '',
+      content: b.content || '',
+    };
+  });
+
 export default function BlogPage({ onOpenBooking }) {
   const [selectedCategory, setSelectedCategory] = useState('All Stories');
   const [searchQuery, setSearchQuery] = useState('');
-  const [articles, setArticles] = useState([]);
-  const [loaded, setLoaded] = useState(false);
+  // A prerendered page starts from the build-time blog list (see primedBlogs).
+  const [articles, setArticles] = useState(() => toArticles(primedBlogs() || []));
+  const [loaded, setLoaded] = useState(() => Boolean(primedBlogs()));
 
   useEffect(() => {
     fetchBlogs()
       .then((data) => {
         const blogs = data?.data?.blogs || data?.blogs;
         if (Array.isArray(blogs) && blogs.length > 0) {
-          setArticles(
-            blogs.map((b) => {
-              const title = b.title || 'Untitled';
-              const slug = b.slug || slugify(title) || (b._id || b.id);
-              return {
-                id: b._id || b.id,
-                slug,
-                title,
-                category: b.category || 'Uncategorized',
-                date: b.createdAt
-                  ? new Date(b.createdAt).toLocaleDateString('en-US', {
-                      month: 'short',
-                      day: 'numeric',
-                      year: 'numeric',
-                    })
-                  : '',
-                readTime: b.readTime || '5 min read',
-                image: b.image || safariImages.tigerEye,
-                featured: b.featured || false,
-                excerpt: b.summary || b.excerpt || '',
-                content: b.content || '',
-              };
-            })
-          );
+          setArticles(toArticles(blogs));
         }
       })
       .catch(() => {})

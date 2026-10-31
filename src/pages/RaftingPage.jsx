@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Waves, ShieldCheck, Clock, MapPin, Check, Sparkles } from 'lucide-react';
 import { safariImages } from '../data/safariData';
-import { fetchContent } from '../api/client';
+import { fetchContent, primedContent } from '../api/client';
 import SEO from '../components/SEO';
 import PageLoader from '../components/PageLoader';
 import CoverImage from '../components/CoverImage';
@@ -44,8 +44,9 @@ const fallbackRaftingStretches = [
 
 export default function RaftingPage({ onOpenBooking }) {
   const navigate = useNavigate();
-  const [content, setContent] = useState(null);
-  const [loading, setLoading] = useState(true);
+  // A prerendered page starts from the build-time content (see primedContent).
+  const [content, setContent] = useState(primedContent);
+  const [loading, setLoading] = useState(() => !primedContent());
 
   useEffect(() => {
     fetchContent()

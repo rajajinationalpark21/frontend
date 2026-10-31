@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Sparkles, Compass, CheckCircle2, Loader2 } from 'lucide-react';
 import { safariImages } from '../data/safariData';
-import { fetchContent } from '../api/client';
+import { fetchContent, primedContent } from '../api/client';
 import SEO from '../components/SEO';
 import GroupDropdownCard from '../components/GroupDropdownCard';
 import PageHero from '../components/PageHero';
@@ -11,8 +11,9 @@ import PhotoGallery from '../components/PhotoGallery';
 import RichText from '../components/RichText';
 
 export default function ButterfliesPage({ onOpenBooking }) {
-  const [butterflies, setButterflies] = useState(null);
-  const [loading, setLoading] = useState(true);
+  // A prerendered page starts from the build-time content (see primedContent).
+  const [butterflies, setButterflies] = useState(() => primedContent()?.butterflies ?? null);
+  const [loading, setLoading] = useState(() => !primedContent());
 
   useEffect(() => {
     fetchContent()

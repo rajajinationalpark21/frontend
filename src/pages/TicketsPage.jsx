@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Ticket, DollarSign, Camera, Car, ShieldCheck, AlertCircle, HelpCircle, CheckCircle2, Loader2, Phone, Video, ArrowRight } from 'lucide-react';
 import { safariImages } from '../data/safariData';
 import { sitePhone, siteWhatsapp } from '../utils/sitePhones';
-import { fetchContent } from '../api/client';
+import { fetchContent, primedContent } from '../api/client';
 import SEO from '../components/SEO';
 import PageLoader from '../components/PageLoader';
 import CallToAction from '../components/CallToAction';
@@ -13,9 +13,10 @@ import PhotoGallery from '../components/PhotoGallery';
 import RichText from '../components/RichText';
 
 export default function TicketsPage({ onOpenBooking }) {
-  const [tickets, setTickets] = useState(null);
-  const [settings, setSettings] = useState(null);
-  const [loading, setLoading] = useState(true);
+  // A prerendered page starts from the build-time content (see primedContent).
+  const [tickets, setTickets] = useState(() => primedContent()?.tickets ?? null);
+  const [settings, setSettings] = useState(() => primedContent()?.settings ?? null);
+  const [loading, setLoading] = useState(() => !primedContent());
   const navigate = useNavigate();
 
   useEffect(() => {

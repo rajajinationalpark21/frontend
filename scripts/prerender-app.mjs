@@ -1,5 +1,5 @@
 /**
- * Draws the home page's real markup into dist/index.html at build time, so phones
+ * Draws each page's real markup into its dist/<path>/index.html at build time, so phones
  * paint it as soon as the HTML and CSS arrive instead of after the app's code runs.
  * The browser then attaches to that markup (src/main.jsx), using the same CMS
  * snapshot the page was drawn from.
@@ -10,7 +10,7 @@
  *   vite build && vite build --ssr src/entry-server.jsx --outDir dist-ssr
  *   node scripts/seo-build.mjs && node scripts/prerender-app.mjs
  */
-import { readFile, writeFile } from 'node:fs/promises';
+import { readdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
@@ -18,8 +18,22 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const DIST = path.join(ROOT, 'dist');
 const SERVER_ENTRY = path.join(ROOT, 'dist-ssr', 'entry-server.js');
 
-// Pages drawn at build time; every other page still draws in the browser.
-const PRERENDERED = [['/', 'index.html']];
+// Every page seo-build wrote is drawn at build time, except these, which still draw in
+// the browser: the booking form fills in today's date and the ?zone= choice there.
+const SKIP = new Set(['/booking']);
+
+/** [route, file] for each page seo-build wrote (dist/index.html and dist/<path>/index.html). */
+async function pageFiles(dir = DIST, route = '') {
+  const pages = [];
+  for (const entry of await readdir(dir, { withFileTypes: true })) {
+    if (entry.isDirectory() && entry.name !== 'assets') {
+      pages.push(...(await pageFiles(path.join(dir, entry.name), `${route}/${entry.name}`)));
+    } else if (entry.name === 'index.html') {
+      pages.push([route || '/', path.relative(DIST, path.join(dir, entry.name))]);
+    }
+  }
+  return pages.filter(([page]) => !SKIP.has(page));
+}
 
 /** The `<div id="root">…</div>` element of a page, found by counting nested divs. */
 function rootElement(html) {
@@ -61,7 +75,9 @@ function deferAppCode(html) {
 async function main() {
   const { render } = await import(pathToFileURL(SERVER_ENTRY).href);
 
-  for (const [route, file] of PRERENDERED) {
+  const snapshots = new Map();
+  let drawn = 0;
+  for (const [route, file] of await pageFiles()) {
     const target = path.join(DIST, file);
     const html = await readFile(target, 'utf8');
     const snapshotFile = html.match(/<meta name="cms-snapshot" content="\/([^"]+)"/)?.[1];
@@ -70,15 +86,19 @@ async function main() {
       console.warn(`[prerender] ${route}: no CMS snapshot or root element, left to draw in the browser.`);
       continue;
     }
-    const snapshot = JSON.parse(await readFile(path.join(DIST, snapshotFile), 'utf8'));
-    const markup = render(route, snapshot);
+    if (!snapshots.has(snapshotFile)) {
+      snapshots.set(snapshotFile, JSON.parse(await readFile(path.join(DIST, snapshotFile), 'utf8')));
+    }
+    const snapshot = snapshots.get(snapshotFile);
+    const markup = await render(route, snapshot);
     const page =
       html.slice(0, root.start) +
       `<div id="root" data-prerendered="${route}">${markup}</div>` +
       html.slice(root.end);
     await writeFile(target, deferAppCode(page));
-    console.log(`[prerender] ${route} drawn at build time (${Math.round(markup.length / 1024)} KB of markup).`);
+    drawn += 1;
   }
+  console.log(`[prerender] ${drawn} pages drawn at build time.`);
 }
 
 main().catch((error) => {

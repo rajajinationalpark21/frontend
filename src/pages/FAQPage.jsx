@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { HelpCircle, ChevronDown, Phone, MessageSquare, Ticket, Sparkles } from 'lucide-react';
 import { contactInfo, safariImages } from '../data/safariData';
-import { fetchContent } from '../api/client';
+import { fetchContent, primedContent } from '../api/client';
 import SEO from '../components/SEO';
 import { faqSchema } from '../seo/schema';
 import PageLoader from '../components/PageLoader';
@@ -56,8 +56,9 @@ const fallbackFaqs = [
 ];
 
 export default function FAQPage({ onOpenBooking }) {
-  const [content, setContent] = useState(null);
-  const [loading, setLoading] = useState(true);
+  // A prerendered page starts from the build-time content (see primedContent).
+  const [content, setContent] = useState(primedContent);
+  const [loading, setLoading] = useState(() => !primedContent());
   const [openIdx, setOpenIdx] = useState(0);
   const [heroRatio, setHeroRatio] = useState(null);
 

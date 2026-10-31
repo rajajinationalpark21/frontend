@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Phone, Mail, MapPin, CheckCircle2, ShieldCheck, Building2, ExternalLink, Calendar, Loader2 } from 'lucide-react';
 import { safariImages } from '../data/safariData';
-import { fetchContent } from '../api/client';
+import { fetchContent, primedContent } from '../api/client';
 import SEO from '../components/SEO';
 import CallToAction from '../components/CallToAction';
 import PageHero from '../components/PageHero';
@@ -14,8 +14,9 @@ import { sizedImage } from '../utils/heroImage';
 const DEFAULT_FRH_COLUMNS = ["Forest Rest House", "Suites Available", "Current Status", "Entry Gate Access", "Setting & Atmosphere"];
 
 export default function StayPage({ onOpenBooking }) {
-  const [stay, setStay] = useState(null);
-  const [loading, setLoading] = useState(true);
+  // A prerendered page starts from the build-time content (see primedContent).
+  const [stay, setStay] = useState(() => primedContent()?.stay ?? null);
+  const [loading, setLoading] = useState(() => !primedContent());
 
   useEffect(() => {
     fetchContent()

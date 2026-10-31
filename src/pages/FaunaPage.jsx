@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Eye, ShieldCheck, Heart, Sparkles, Check, ArrowRight, Loader2, PawPrint } from 'lucide-react';
 import { safariImages } from '../data/safariData';
-import { fetchContent } from '../api/client';
+import { fetchContent, primedContent } from '../api/client';
 import SEO from '../components/SEO';
 import CoverImage from '../components/CoverImage';
 import ThumbImage from '../components/ThumbImage';
@@ -14,8 +14,9 @@ import PhotoGallery from '../components/PhotoGallery';
 import RichText from '../components/RichText';
 
 export default function FaunaPage({ onOpenBooking }) {
-  const [fauna, setFauna] = useState(null);
-  const [loading, setLoading] = useState(true);
+  // A prerendered page starts from the build-time content (see primedContent).
+  const [fauna, setFauna] = useState(() => primedContent()?.fauna ?? null);
+  const [loading, setLoading] = useState(() => !primedContent());
 
   useEffect(() => {
     fetchContent()

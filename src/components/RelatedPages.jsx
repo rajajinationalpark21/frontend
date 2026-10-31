@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
-import { fetchBlogs, fetchContent } from '../api/client';
+import { fetchBlogs, fetchContent, primedBlogs, primedContent } from '../api/client';
 import { relatedPages } from '../seo/routes';
 
 /**
@@ -11,9 +11,11 @@ import { relatedPages } from '../seo/routes';
  */
 export default function RelatedPages() {
   const { pathname } = useLocation();
-  const [zones, setZones] = useState([]);
-  const [posts, setPosts] = useState([]);
   const isPost = pathname.startsWith('/blog/');
+  // A prerendered page starts from the build-time content, so its links are in the HTML.
+  const publishedPosts = (blogs) => blogs.filter((post) => post.slug && post.published !== false);
+  const [zones, setZones] = useState(() => primedContent()?.safari?.zones || []);
+  const [posts, setPosts] = useState(() => (isPost ? publishedPosts(primedBlogs() || []) : []));
 
   useEffect(() => {
     fetchContent().then((res) => setZones(res?.data?.safari?.zones || [])).catch(() => {});
@@ -22,7 +24,7 @@ export default function RelatedPages() {
   useEffect(() => {
     if (!isPost) return;
     fetchBlogs()
-      .then((res) => setPosts((res?.data?.blogs || res?.blogs || []).filter((post) => post.slug && post.published !== false)))
+      .then((res) => setPosts(publishedPosts(res?.data?.blogs || res?.blogs || [])))
       .catch(() => {});
   }, [isPost]);
 

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { ArrowRight, CheckCircle2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { fetchContent } from '../api/client';
+import { fetchContent, primedContent } from '../api/client';
 import { safariImages } from '../data/safariData';
 import { siteWhatsapp } from '../utils/sitePhones';
 import SEO from '../components/SEO';
@@ -22,10 +22,12 @@ const fallback = {
 };
 
 export default function AboutPage({ onOpenBooking }) {
-  const [content, setContent] = useState(fallback);
-  const [home, setHome] = useState({});
-  const [settings, setSettings] = useState(null);
-  const [loading, setLoading] = useState(true);
+  // A prerendered page starts from the build-time content (see primedContent).
+  const primed = primedContent();
+  const [content, setContent] = useState(() => ({ ...fallback, ...(primed?.about || {}) }));
+  const [home, setHome] = useState(() => primed?.home || {});
+  const [settings, setSettings] = useState(() => primed?.settings || null);
+  const [loading, setLoading] = useState(!primed);
 
   useEffect(() => {
     fetchContent()

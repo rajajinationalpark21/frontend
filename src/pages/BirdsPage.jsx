@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Feather, Compass, Check, AlertCircle, Sparkles, MapPin, Loader2 } from 'lucide-react';
 import { safariImages } from '../data/safariData';
-import { fetchContent } from '../api/client';
+import { fetchContent, primedContent } from '../api/client';
 import SEO from '../components/SEO';
 import GroupDropdownCard from '../components/GroupDropdownCard';
 import ThumbImage from '../components/ThumbImage';
@@ -13,8 +13,9 @@ import { sizedImage } from '../utils/heroImage';
 import { galleryAlt } from '../utils/galleryAlt';
 
 export default function BirdsPage({ onOpenBooking }) {
-  const [birds, setBirds] = useState(null);
-  const [loading, setLoading] = useState(true);
+  // A prerendered page starts from the build-time content (see primedContent).
+  const [birds, setBirds] = useState(() => primedContent()?.birds ?? null);
+  const [loading, setLoading] = useState(() => !primedContent());
 
   useEffect(() => {
     fetchContent()

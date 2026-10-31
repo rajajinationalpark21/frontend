@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { fetchContent } from '../api/client';
+import { fetchContent, primedContent } from '../api/client';
 import SEO from './SEO';
 import PageHero from './PageHero';
 import Breadcrumb from './Breadcrumb';
@@ -15,7 +15,8 @@ import NotFoundPage from '../pages/NotFoundPage';
  * admin panel's Page Documents editor.
  */
 export default function CmsDocPage({ section, parent, onOpenBooking }) {
-  const [content, setContent] = useState(null);
+  // A prerendered page starts from the build-time content (see primedContent).
+  const [content, setContent] = useState(primedContent);
   const [failed, setFailed] = useState(false);
 
   useEffect(() => {

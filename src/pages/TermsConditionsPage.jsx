@@ -23,7 +23,7 @@ import {
 } from 'lucide-react';
 import { safariImages } from '../data/safariData';
 import { sitePhone, siteWhatsapp } from '../utils/sitePhones';
-import { fetchContent } from '../api/client';
+import { fetchContent, primedContent } from '../api/client';
 import SEO from '../components/SEO';
 import PageLoader from '../components/PageLoader';
 import CallToAction from '../components/CallToAction';
@@ -143,12 +143,32 @@ const defaultDonts = [
   },
 ];
 
+// The CMS's cancellation policy and park rules in the shape the page shows; null when not set.
+const policiesFrom = (data) =>
+  data?.tickets?.cancellationPolicy?.length
+    ? data.tickets.cancellationPolicy.map((item, idx) => {
+        const parts = item.split(': ');
+        return {
+          num: String(idx + 1).padStart(2, '0'),
+          tag: idx < 3 ? "Gate Protocol" : idx === 6 ? "Cancellation" : "Regulation",
+          title: parts[0] || `Policy ${idx + 1}`,
+          desc: parts[1] || item,
+          highlight: parts[0] || `Mandatory Rule #${idx + 1}`,
+        };
+      })
+    : null;
+const dosFrom = (data) =>
+  data?.parkRules?.dos?.length ? data.parkRules.dos.map(d => ({ title: d.title || "Do's Rule", desc: d.desc || d.title })) : null;
+const dontsFrom = (data) =>
+  data?.parkRules?.donts?.length ? data.parkRules.donts.map(d => ({ title: d.title || "Don'ts Rule", desc: d.desc || d.title })) : null;
+
 export default function TermsConditionsPage() {
-  const [policies, setPolicies] = useState(defaultPolicies);
-  const [dos, setDos] = useState(defaultDos);
-  const [donts, setDonts] = useState(defaultDonts);
-  const [content, setContent] = useState(null);
-  const [loading, setLoading] = useState(true);
+  // A prerendered page starts from the build-time content (see primedContent).
+  const [policies, setPolicies] = useState(() => policiesFrom(primedContent()) || defaultPolicies);
+  const [dos, setDos] = useState(() => dosFrom(primedContent()) || defaultDos);
+  const [donts, setDonts] = useState(() => dontsFrom(primedContent()) || defaultDonts);
+  const [content, setContent] = useState(primedContent);
+  const [loading, setLoading] = useState(() => !primedContent());
 
   // Dynamic filter state
   const [activeTab, setActiveTab] = useState("all"); // 'all' | 'policies' | 'dos' | 'donts'
@@ -159,31 +179,12 @@ export default function TermsConditionsPage() {
     fetchContent()
       .then(res => {
         setContent(res.data);
-        if (res.data?.tickets?.cancellationPolicy && res.data.tickets.cancellationPolicy.length > 0) {
-          const parsed = res.data.tickets.cancellationPolicy.map((item, idx) => {
-            const parts = item.split(': ');
-            return {
-              num: String(idx + 1).padStart(2, '0'),
-              tag: idx < 3 ? "Gate Protocol" : idx === 6 ? "Cancellation" : "Regulation",
-              title: parts[0] || `Policy ${idx + 1}`,
-              desc: parts[1] || item,
-              highlight: parts[0] || `Mandatory Rule #${idx + 1}`,
-            };
-          });
-          setPolicies(parsed);
-        }
-        if (res.data?.parkRules?.dos && res.data.parkRules.dos.length > 0) {
-          setDos(res.data.parkRules.dos.map(d => ({
-            title: d.title || "Do's Rule",
-            desc: d.desc || d.title,
-          })));
-        }
-        if (res.data?.parkRules?.donts && res.data.parkRules.donts.length > 0) {
-          setDonts(res.data.parkRules.donts.map(d => ({
-            title: d.title || "Don'ts Rule",
-            desc: d.desc || d.title,
-          })));
-        }
+        const parsed = policiesFrom(res.data);
+        if (parsed) setPolicies(parsed);
+        const parkDos = dosFrom(res.data);
+        if (parkDos) setDos(parkDos);
+        const parkDonts = dontsFrom(res.data);
+        if (parkDonts) setDonts(parkDonts);
       })
       .catch(() => {})
       .finally(() => setLoading(false));

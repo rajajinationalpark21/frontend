@@ -11,7 +11,7 @@ import {
 } from 'lucide-react';
 import { safariImages } from '../data/safariData';
 import NotFoundPage from './NotFoundPage';
-import { fetchBlog, fetchBlogs } from '../api/client';
+import { fetchBlog, fetchBlogs, primedBlogs } from '../api/client';
 import { slugify } from '../utils/slugify';
 import SEO from '../components/SEO';
 import { blogSeoTitle } from '../seo/blogTitle';
@@ -120,6 +120,7 @@ const toArticle = (blog) => ({
         month: 'short',
         day: 'numeric',
         year: 'numeric',
+        timeZone: 'Asia/Kolkata',
       })
     : '',
   readTime: blog.readTime || '5 min read',
@@ -131,11 +132,33 @@ const toArticle = (blog) => ({
   quoteAuthor: blog.quoteAuthor || '',
 });
 
+/** The post with this slug or id in a blog list. */
+const findPost = (blogs, param) =>
+  blogs.find((b) => (b.slug || slugify(b.title)) === param || (b._id || b.id) === param);
+
+/** Up to three other posts from a blog list, for "related stories". */
+const relatedFrom = (blogs, param) =>
+  blogs
+    .filter((b) => (b.slug || slugify(b.title) || b._id) !== param && (b._id || b.id) !== param)
+    .slice(0, 3)
+    .map((b) => ({
+      id: b._id || b.id,
+      slug: b.slug || slugify(b.title) || b._id,
+      title: b.title,
+      category: b.category,
+      image: b.image || safariImages.tigerEye,
+      excerpt: b.summary || '',
+    }));
+
 export default function BlogPostPage() {
   const { slug, id } = useParams();
   const blogParam = slug || id;
-  const [article, setArticle] = useState(null);
-  const [relatedArticles, setRelatedArticles] = useState([]);
+  // A prerendered post starts from the build-time blog list (see primedBlogs).
+  const [article, setArticle] = useState(() => {
+    const post = findPost(primedBlogs() || [], blogParam);
+    return post ? toArticle(post) : null;
+  });
+  const [relatedArticles, setRelatedArticles] = useState(() => relatedFrom(primedBlogs() || [], blogParam));
   const [copied, setCopied] = useState(false);
   const [notFound, setNotFound] = useState(false);
 
@@ -144,21 +167,7 @@ export default function BlogPostPage() {
 
     setNotFound(false);
     const showRelated = (blogs) => {
-      const others = blogs
-        .filter(
-          (b) =>
-            (b.slug || slugify(b.title) || b._id) !== blogParam &&
-            (b._id || b.id) !== blogParam
-        )
-        .slice(0, 3)
-        .map((b) => ({
-          id: b._id || b.id,
-          slug: b.slug || slugify(b.title) || b._id,
-          title: b.title,
-          category: b.category,
-          image: b.image || safariImages.tigerEye,
-          excerpt: b.summary || '',
-        }));
+      const others = relatedFrom(blogs, blogParam);
       if (others.length > 0) setRelatedArticles(others);
     };
 
@@ -180,9 +189,7 @@ export default function BlogPostPage() {
         fetchBlogs()
           .then((res) => {
             const blogs = res?.data?.blogs || res?.blogs || [];
-            const blog = blogs.find(
-              (b) => (b.slug || slugify(b.title)) === blogParam || (b._id || b.id) === blogParam
-            );
+            const blog = findPost(blogs, blogParam);
             if (!blog) {
               setNotFound(true);
               return;

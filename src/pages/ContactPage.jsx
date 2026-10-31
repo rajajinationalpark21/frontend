@@ -9,7 +9,7 @@ import {
 } from 'lucide-react';
 import { safariImages, faqs, contactInfo } from '../data/safariData';
 import { Link } from 'react-router-dom';
-import { fetchContent, submitContact } from '../api/client';
+import { fetchContent, primedContent, submitContact } from '../api/client';
 import SEO from '../components/SEO';
 import PageHero from '../components/PageHero';
 import HoneypotField from '../components/HoneypotField';
@@ -33,9 +33,10 @@ export default function ContactPage() {
   const [openFaqs, setOpenFaqs] = useState({ 0: true });
 
   // Contact details are edited in the admin panel (Settings → Website Details).
-  const [siteContact, setSiteContact] = useState(null);
+  // A prerendered page starts from the build-time content (see primedContent).
+  const [siteContact, setSiteContact] = useState(() => primedContent()?.settings?.contact || null);
   // Questions are edited in the admin panel (FAQ page).
-  const [siteFaqs, setSiteFaqs] = useState(null);
+  const [siteFaqs, setSiteFaqs] = useState(() => primedContent()?.faqs || null);
   useEffect(() => {
     fetchContent()
       .then((res) => {

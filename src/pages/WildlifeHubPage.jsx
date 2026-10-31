@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Feather, ShieldCheck, Trees, Sparkles, ArrowRight } from 'lucide-react';
 import { safariImages } from '../data/safariData';
-import { fetchContent } from '../api/client';
+import { fetchContent, primedContent } from '../api/client';
 import SEO from '../components/SEO';
 import CallToAction from '../components/CallToAction';
 import PageHero from '../components/PageHero';
@@ -11,7 +11,8 @@ import RichText from '../components/RichText';
 import { sizedImage } from '../utils/heroImage';
 
 export default function WildlifeHubPage() {
-  const [content, setContent] = useState(null);
+  // A prerendered page starts from the build-time content (see primedContent).
+  const [content, setContent] = useState(primedContent);
   const navigate = useNavigate();
 
   useEffect(() => {

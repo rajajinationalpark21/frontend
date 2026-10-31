@@ -6,7 +6,7 @@ import {
   HelpCircle, AlertCircle, Share2, Sparkles 
 } from 'lucide-react';
 import { safariZonesList, contactInfo, safariImages } from '../data/safariData';
-import { fetchContent } from '../api/client';
+import { fetchContent, primedContent } from '../api/client';
 import SEO from '../components/SEO';
 import { SITE_URL } from '../seo/site';
 import { zoneSchema } from '../seo/schema';
@@ -22,9 +22,11 @@ export default function SafariZoneDetailPage({ onOpenBooking, defaultSlug }) {
   const navigate = useNavigate();
   const slug = defaultSlug || params.slug;
 
-  const [zones, setZones] = useState([]);
-  const [settings, setSettings] = useState(null);
-  const [loading, setLoading] = useState(true);
+  // A prerendered page starts from the build-time content (see primedContent).
+  const primed = primedContent();
+  const [zones, setZones] = useState(() => (primed ? (primed.safari?.zones?.length ? primed.safari.zones : safariZonesList) : []));
+  const [settings, setSettings] = useState(() => primed?.settings || null);
+  const [loading, setLoading] = useState(!primed);
 
   useEffect(() => {
     fetchContent()

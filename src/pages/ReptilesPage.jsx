@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ShieldCheck, Sparkles, AlertCircle, ArrowRight, Compass, Phone, PawPrint } from 'lucide-react';
-import { fetchContent } from '../api/client';
+import { fetchContent, primedContent } from '../api/client';
 import { safariImages } from '../data/safariData';
 import SEO from '../components/SEO';
 import PageLoader from '../components/PageLoader';
@@ -71,10 +71,14 @@ const defaultReptiles = [
 ];
 
 export default function ReptilesPage({ onOpenBooking }) {
-  const [reptilesData, setReptilesData] = useState([]);
-  const [overview, setOverview] = useState("");
-  const [content, setContent] = useState(null);
-  const [loading, setLoading] = useState(true);
+  // A prerendered page starts from the build-time content (see primedContent).
+  const primed = primedContent();
+  const [reptilesData, setReptilesData] = useState(() =>
+    primed ? (primed.reptiles?.species?.length ? primed.reptiles.species : defaultReptiles) : []
+  );
+  const [overview, setOverview] = useState(() => primed?.reptiles?.overview || "");
+  const [content, setContent] = useState(primed);
+  const [loading, setLoading] = useState(!primed);
 
   useEffect(() => {
     fetchContent()

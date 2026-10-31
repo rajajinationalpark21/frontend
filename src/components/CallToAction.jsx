@@ -4,6 +4,7 @@ import { Ticket, ArrowRight, ShieldCheck, Compass, CheckCircle2, MessageSquare, 
 import { safariImages } from '../data/safariData';
 import RichText from './RichText';
 import useNearViewport from '../utils/useNearViewport';
+import { sizedImage } from '../utils/heroImage';
 
 export default function CallToAction({
   badgeText,
@@ -44,7 +45,7 @@ export default function CallToAction({
         {/* Crisp Background Forest Imagery */}
         <div 
           className="absolute inset-0 bg-cover bg-center opacity-25 pointer-events-none"
-          style={near ? { backgroundImage: `url("${bgImage || safariImages.homeHero || safariImages.mistyDarkPines}")` } : undefined}
+          style={near ? { backgroundImage: `url("${sizedImage(bgImage || safariImages.homeHero || safariImages.mistyDarkPines, 1200)}")` } : undefined}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-[#040b06]/90 via-[#07150c]/70 to-[#040b06]/85 pointer-events-none" />
 

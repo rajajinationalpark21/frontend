@@ -2,43 +2,48 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { MapPin, Compass, Check, ArrowRight } from 'lucide-react';
 import { safariImages, safariZonesList } from '../data/safariData';
-import { fetchContent } from '../api/client';
+import { fetchContent, primedContent } from '../api/client';
 import SEO from '../components/SEO';
 import PageLoader from '../components/PageLoader';
 import CallToAction from '../components/CallToAction';
 import PageHero from '../components/PageHero';
 import RichText from '../components/RichText';
 
+// The CMS zones merged with the built-in details they leave out; null when there are none.
+const mergedZones = (safari) =>
+  safari?.zones?.length
+    ? safari.zones.map((z, i) => {
+        const fallback = safariZonesList.find(fz => fz.slug === z.slug) || safariZonesList[i] || {};
+        return {
+          id: z.slug || `zone-${i}`,
+          slug: z.slug || fallback.slug,
+          name: z.name,
+          tag: z.tag || fallback.tag || 'Official Safari Zone',
+          description: z.description,
+          timings: z.timings || fallback.timings,
+          openSeason: z.openSeason || fallback.openSeason || '15th November to 15th June',
+          entryGate: z.entryGate || fallback.entryGate || 'Main Gate',
+          gypsyCost: z.gypsyCost || fallback.gypsyCost || '₹3,500 per gypsy',
+          highlights: (z.highlights && z.highlights.length > 0) ? z.highlights : (fallback.highlights || []),
+        };
+      })
+    : null;
+
 export default function SafariZonesPage({ onOpenBooking }) {
-  const [safariZonesData, setSafariZonesData] = useState(safariZonesList);
-  const [safariContent, setSafariContent] = useState(null);
+  // A prerendered page starts from the build-time content (see primedContent).
+  const primed = primedContent();
+  const [safariZonesData, setSafariZonesData] = useState(() => mergedZones(primed?.safari) || safariZonesList);
+  const [safariContent, setSafariContent] = useState(() => (primed ? primed.safari || {} : null));
   const [selectedZone, setSelectedZone] = useState('all');
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(!primed);
 
   useEffect(() => {
     fetchContent()
       .then(res => {
         const safari = res.data?.safari || {};
         setSafariContent(safari);
-        if (safari.zones && safari.zones.length > 0) {
-          // If DB zones have full info, use them
-          const merged = safari.zones.map((z, i) => {
-            const fallback = safariZonesList.find(fz => fz.slug === z.slug) || safariZonesList[i] || {};
-            return {
-              id: z.slug || `zone-${i}`,
-              slug: z.slug || fallback.slug,
-              name: z.name,
-              tag: z.tag || fallback.tag || 'Official Safari Zone',
-              description: z.description,
-              timings: z.timings || fallback.timings,
-              openSeason: z.openSeason || fallback.openSeason || '15th November to 15th June',
-              entryGate: z.entryGate || fallback.entryGate || 'Main Gate',
-              gypsyCost: z.gypsyCost || fallback.gypsyCost || '₹3,500 per gypsy',
-              highlights: (z.highlights && z.highlights.length > 0) ? z.highlights : (fallback.highlights || []),
-            };
-          });
-          setSafariZonesData(merged);
-        }
+        const merged = mergedZones(safari);
+        if (merged) setSafariZonesData(merged);
       })
       .catch(() => {})
       .finally(() => setLoading(false));
