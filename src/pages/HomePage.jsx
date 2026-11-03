@@ -18,6 +18,7 @@ import { fetchContent, fetchBlogs, primedBlogs, primedContent } from '../api/cli
 import { slugify } from '../utils/slugify';
 import SEO from '../components/SEO';
 import FeedbackSection from '../components/FeedbackSection';
+import PageFaqs from '../components/PageFaqs';
 import CallToAction from '../components/CallToAction';
 import PageLoader from '../components/PageLoader';
 import HeroImageRotator from '../components/HeroImageRotator';
@@ -65,6 +66,7 @@ export default function HomePage({ onOpenBooking }) {
   const [recentBlogs, setRecentBlogs] = useState(() => primedBlogs() || []);
   // The rest of the "Page – Home About Rajaji" document and the shared booking wording.
   const [ctaCopy, setCtaCopy] = useState(() => primedContent()?.settings?.ctaCopy || {});
+  const [siteFaqs, setSiteFaqs] = useState(() => primedContent()?.faqs || null);
   // The photo frame downloads its photos only as the visitor scrolls toward it.
   const [galleryRef, galleryNear] = useNearViewport('600px');
   const [blogsRef, blogsNear] = useNearViewport('600px');
@@ -78,6 +80,7 @@ export default function HomePage({ onOpenBooking }) {
         setContent(home);
       }
       setCtaCopy(res?.data?.settings?.ctaCopy || {});
+      if (res?.data?.faqs) setSiteFaqs(res.data.faqs);
     };
     const showBlogs = (res) => {
       const blogs = res?.data?.blogs || res?.blogs;
@@ -377,6 +380,9 @@ export default function HomePage({ onOpenBooking }) {
           </div>
         </section>
       )}
+
+      {/* Questions visitors ask most, from the FAQ page */}
+      <PageFaqs siteFaqs={siteFaqs} idPrefix="home-faq" subtitle={siteFaqs?.subtitle} />
 
       {/* 5. VISITOR REVIEWS & FEEDBACK SECTION */}
       <FeedbackSection title={content.reviewsTitle} subtitle={content.reviewsSubtitle} />

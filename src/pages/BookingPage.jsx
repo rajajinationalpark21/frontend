@@ -20,6 +20,7 @@ import {
 import { safariImages } from '../data/safariData';
 import { sitePhone, siteWhatsapp } from '../utils/sitePhones';
 import { fetchContent } from '../api/client';
+import PageFaqs from '../components/PageFaqs';
 import { submitBooking } from '../api/client';
 import HoneypotField from '../components/HoneypotField';
 import SEO from '../components/SEO';
@@ -101,11 +102,13 @@ export default function BookingPage() {
   const [bookingConfirmed, setBookingConfirmed] = useState(null);
   const [submitError, setSubmitError] = useState('');
   const [siteSettings, setSiteSettings] = useState(null);
+  const [siteFaqs, setSiteFaqs] = useState(null);
 
   useEffect(() => {
     fetchContent()
       .then((data) => {
         setSiteSettings(data?.data?.settings || data?.settings || null);
+        setSiteFaqs(data?.data?.faqs || data?.faqs || null);
         const booking = data?.data?.booking || data?.booking;
         if (booking) setBookingContent((current) => ({ ...current, ...booking }));
         const safari = data?.data?.safari || data?.safari;
@@ -573,6 +576,8 @@ export default function BookingPage() {
           </div>
         )}
       </div>
+
+      {siteFaqs && <PageFaqs siteFaqs={siteFaqs} topic={/book|advance|how many people|permit/i} idPrefix="booking-faq" />}
     </div>
   );
 }

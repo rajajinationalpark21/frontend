@@ -8,13 +8,28 @@ import DocContent, { DOC_WIDTH } from './DocContent';
 import PhotoGallery from './PhotoGallery';
 import ZoomableImage from './ZoomableImage';
 import NotFoundPage from '../pages/NotFoundPage';
+import PageFaqs from './PageFaqs';
+
+// The safari zones side by side, from each zone's facts (admin panel → Safari Zones).
+// Jeep zones only: the walking visits have no Gypsy fare to compare.
+function zonesAtAGlance(zones = []) {
+  const rows = zones
+    .filter((zone) => zone.slug && /gypsy/i.test(zone.gypsyCost || ''))
+    .map((zone) => [`[${zone.name}](/${zone.slug})`, zone.entryGate, zone.routeKm, zone.duration, zone.openSeason, zone.gypsyCost].map((cell) => cell || '–'));
+  if (!rows.length) return [];
+  return [
+    { t: 'h2', text: 'Rajaji Safari Zones at a Glance' },
+    { t: 'table', rows: [['Zone', 'Entry gate', 'Route', 'Duration', 'Season', 'Jeep cost'], ...rows] },
+  ];
+}
 
 /**
  * A page made entirely of its CMS section: header photos and heading, the
  * client's document, and the photo gallery. Everything on it is edited in the
- * admin panel's Page Documents editor.
+ * admin panel's Page Documents editor. `faqTopic` adds the FAQ page's questions
+ * on the page's subject, and `zoneTable` the safari zones side by side.
  */
-export default function CmsDocPage({ section, parent, onOpenBooking }) {
+export default function CmsDocPage({ section, parent, onOpenBooking, faqTopic, zoneTable = false }) {
   // A prerendered page starts from the build-time content (see primedContent).
   const [content, setContent] = useState(primedContent);
   const [failed, setFailed] = useState(false);
@@ -61,7 +76,12 @@ export default function CmsDocPage({ section, parent, onOpenBooking }) {
           phones={phones}
           message={content.settings?.ctaCopy?.whatsappMessage || ''}
         />
+        {zoneTable && (
+          <DocContent blocks={zonesAtAGlance(content.safari?.zones)} onBooking={onOpenBooking} phones={phones} className="mt-8" />
+        )}
       </section>
+
+      {faqTopic && <PageFaqs siteFaqs={content.faqs} topic={faqTopic} idPrefix={`${section}-faq`} />}
 
       <PhotoGallery title={page.galleryTitle} images={page.galleryImages || []} alts={page.galleryAlts} altPrefix={title} />
     </div>

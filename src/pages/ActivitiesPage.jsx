@@ -6,6 +6,7 @@ import { fetchContent, primedContent } from '../api/client';
 import SEO from '../components/SEO';
 import PageLoader from '../components/PageLoader';
 import CallToAction from '../components/CallToAction';
+import PageFaqs from '../components/PageFaqs';
 import PageHero from '../components/PageHero';
 import { cmsText } from '../utils/cmsText';
 import RichText from '../components/RichText';
@@ -151,6 +152,8 @@ export default function ActivitiesPage({ onOpenBooking }) {
           })}
         </div>
       </section>
+
+      <PageFaqs siteFaqs={content?.faqs} topic={/timings|advance|guaranteed|book/i} idPrefix="activities-faq" />
 
       {/* Unified Call To Action matching HomePage */}
       <CallToAction

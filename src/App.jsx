@@ -49,6 +49,12 @@ function ScrollToTop() {
 
 const ACTIVITIES_PARENT = { label: 'Activities at Rajaji', path: '/activities' };
 
+// Which of the FAQ page's questions each page shows (matched on the question).
+const FAQ_TOPICS = {
+  jeepSafari: /how much|entry fee|timings|permit|how many people|guaranteed/i,
+  howToReach: /haridwar|rishikesh|delhi|dehradun|reach/i,
+};
+
 function MainLayout() {
   const navigate = useNavigate();
   // Every Book button lands on the booking form itself (scrolled into view), also when
@@ -106,7 +112,7 @@ function MainLayout() {
 
           {/* 5. Page – Activities at Rajaji */}
           <Route path="/activities" element={<ActivitiesPage onOpenBooking={handleOpenBooking} />} />
-          <Route path="/rajaji-jeep-safari" element={<CmsDocPage section="jeepSafari" parent={ACTIVITIES_PARENT} onOpenBooking={handleOpenBooking} />} />
+          <Route path="/rajaji-jeep-safari" element={<CmsDocPage section="jeepSafari" parent={ACTIVITIES_PARENT} onOpenBooking={handleOpenBooking} faqTopic={FAQ_TOPICS.jeepSafari} zoneTable />} />
           <Route path="/rajaji-national-park-bird-watching-jungle-safari" element={<CmsDocPage section="birdWatching" parent={ACTIVITIES_PARENT} onOpenBooking={handleOpenBooking} />} />
           <Route path="/trekking-in-rajaji" element={<CmsDocPage section="trekking" parent={ACTIVITIES_PARENT} onOpenBooking={handleOpenBooking} />} />
           <Route path="/river-rafting-rishikesh" element={<RaftingPage onOpenBooking={handleOpenBooking} />} />
@@ -116,7 +122,7 @@ function MainLayout() {
           <Route path="/stay" element={<Navigate to="/stay-near-rajaji-national-park" replace />} />
 
           {/* How to Reach (client site structure) */}
-          <Route path="/how-to-reach" element={<CmsDocPage section="howToReach" onOpenBooking={handleOpenBooking} />} />
+          <Route path="/how-to-reach" element={<CmsDocPage section="howToReach" onOpenBooking={handleOpenBooking} faqTopic={FAQ_TOPICS.howToReach} />} />
 
           {/* 6. Page – Wildlife & Biodiversity */}
           <Route path="/wildlife-biodiversity-rajaji-tiger-reserve" element={<WildlifeHubPage onOpenBooking={handleOpenBooking} />} />

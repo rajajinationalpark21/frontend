@@ -4,18 +4,14 @@ import {
   Phone, 
   Mail, 
   Send, 
-  CheckCircle2,
-  ChevronDown 
+  CheckCircle2
 } from 'lucide-react';
 import { safariImages, faqs, contactInfo } from '../data/safariData';
-import { Link } from 'react-router-dom';
 import { fetchContent, primedContent, submitContact } from '../api/client';
 import SEO from '../components/SEO';
 import PageHero from '../components/PageHero';
 import HoneypotField from '../components/HoneypotField';
-import RichText from '../components/RichText';
-import { hoverToOpen } from '../utils/canHover';
-import AnswerReveal from '../components/AnswerReveal';
+import PageFaqs from '../components/PageFaqs';
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -30,7 +26,6 @@ export default function ContactPage() {
   const [submitError, setSubmitError] = useState('');
   const [cooldown, setCooldown] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-  const [openFaqs, setOpenFaqs] = useState({ 0: true });
 
   // Contact details are edited in the admin panel (Settings → Website Details).
   // A prerendered page starts from the build-time content (see primedContent).
@@ -66,14 +61,6 @@ export default function ContactPage() {
   const adminFaqs = (siteFaqs?.items || []).filter((item) => item.q && item.a).map((item) => ({ question: item.q, answer: item.a }));
   const allFaqs = adminFaqs.length ? adminFaqs : faqs;
   const contactFaqs = allFaqs.slice(0, 6);
-  const faqPagePath = `/${siteFaqs?.slug || 'faq'}`;
-
-  const toggleFaq = (index) => {
-    setOpenFaqs((prev) => ({
-      ...prev,
-      [index]: !prev[index],
-    }));
-  };
 
   const contactFaqSchema = {
     "@context": "https://schema.org",
@@ -389,70 +376,11 @@ export default function ContactPage() {
       </section>
 
       {/* 3. FREQUENTLY ASKED QUESTIONS SECTION */}
-      <section className="relative z-10 py-20 max-w-4xl mx-auto px-4 sm:px-6">
-        <div className="text-center mb-10">
-          <span className="inline-block text-xs font-bold uppercase tracking-widest text-emerald-600 dark:text-emerald-400 mb-2">
-            Help & Information
-          </span>
-          <h2 className="font-serif text-2xl sm:text-4xl font-bold text-gray-900 dark:text-white text-center tracking-tight">
-            Frequently Asked Questions
-          </h2>
-          <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-2 max-w-lg mx-auto">
-            {siteFaqs?.subtitle || 'Essential information regarding safari permits, timings, gear recommendations, and family visit guidelines.'}
-          </p>
-        </div>
-
-        <div className="space-y-3">
-          {contactFaqs.map((faq, idx) => {
-            const isOpen = !!openFaqs[idx];
-            return (
-              <div
-                key={idx}
-                // With a mouse, pointing at a question opens its answer (and closes the others).
-                {...hoverToOpen(() => setOpenFaqs({ [idx]: true }))}
-                className={`bg-[#fdfcf8]/90 dark:bg-[#0c1f13]/90 backdrop-blur-md border rounded-2xl transition-[border-color,box-shadow] duration-300 overflow-hidden ${
-                  isOpen ? 'border-emerald-600/30 dark:border-emerald-400/30 shadow-md' : 'border-emerald-950/10 dark:border-emerald-500/20 shadow-sm hover:border-emerald-600/25'
-                }`}
-              >
-                <button
-                  type="button"
-                  onClick={() => toggleFaq(idx)}
-                  className="w-full text-left py-4 sm:py-5 px-5 sm:px-6 flex items-center justify-between gap-4 group cursor-pointer focus:outline-none"
-                  aria-expanded={isOpen}
-                  aria-controls={`contact-faq-${idx}`}
-                >
-                  <span className="text-sm sm:text-base font-bold text-gray-900 dark:text-white group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition-colors">
-                    {faq.question}
-                  </span>
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-transform duration-300 ${
-                    isOpen 
-                      ? 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 rotate-180' 
-                      : 'bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400'
-                  }`}>
-                    <ChevronDown className="w-4 h-4" />
-                  </div>
-                </button>
-
-                <AnswerReveal
-                  open={isOpen}
-                  id={`contact-faq-${idx}`}
-                  className="px-5 sm:px-6 pb-5 pt-3 text-xs sm:text-sm text-gray-600 dark:text-gray-300 leading-relaxed border-t border-gray-100 dark:border-gray-800/80"
-                >
-                  <RichText text={faq.answer} />
-                </AnswerReveal>
-              </div>
-            );
-          })}
-        </div>
-
-        {allFaqs.length > contactFaqs.length && (
-          <div className="text-center mt-8">
-            <Link to={faqPagePath} className="inline-flex items-center gap-1.5 text-sm font-bold text-emerald-700 dark:text-emerald-400 hover:underline">
-              See all {allFaqs.length} questions
-            </Link>
-          </div>
-        )}
-      </section>
+      <PageFaqs
+        siteFaqs={siteFaqs}
+        idPrefix="contact-faq"
+        subtitle={siteFaqs?.subtitle || 'Essential information regarding safari permits, timings, gear recommendations, and family visit guidelines.'}
+      />
     </div>
   );
 }

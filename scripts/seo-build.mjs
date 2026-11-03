@@ -578,6 +578,8 @@ async function main() {
     pages.push({
       path: routePath,
       ...(image ? { image } : {}),
+      // The page's map, so it can appear in Google Images for "Rajaji map" searches.
+      ...(section?.mapImage ? { moreImages: [section.mapImage] } : {}),
       ...seo,
       ...(cms.title ? { title: cms.title, cmsTitle: true } : {}),
       ...(cms.description ? { description: cms.description } : {}),
@@ -633,9 +635,12 @@ async function main() {
     await writePage(page.path, withSnapshot(renderPage(template, { ...page, body: page.body + related(page.path) })));
   }
 
-  // Each page's header photo is listed too, so it can appear in Google Images.
+  // Each page's header photo (and map, if it has one) is listed too, so it can appear in Google Images.
   const imageTag = (page) =>
-    page.image && /^https?:\/\//.test(page.image) ? `\n    <image:image><image:loc>${esc(page.image)}</image:loc></image:image>` : '';
+    [page.image, ...(page.moreImages || [])]
+      .filter((src) => src && /^https?:\/\//.test(src))
+      .map((src) => `\n    <image:image><image:loc>${esc(src)}</image:loc></image:image>`)
+      .join('');
   const sitemap =
     '<?xml version="1.0" encoding="UTF-8"?>\n' +
     '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">\n' +

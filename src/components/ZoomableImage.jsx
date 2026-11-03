@@ -159,9 +159,10 @@ export default function ZoomableImage({ src, alt, className = '' }) {
         }`}
         style={{ touchAction: zoomed ? 'none' : 'pan-y' }}
       >
+        {/* The frame above reads out the description; the photo carries it too, for image search. */}
         <img
           src={src}
-          alt=""
+          alt={alt}
           draggable={false}
           decoding="async"
           className="w-full h-auto block will-change-transform transition-transform duration-150 ease-out motion-reduce:transition-none"
