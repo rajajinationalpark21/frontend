@@ -37,12 +37,28 @@ const CmsSlugRoute = lazy(() => import('./components/CmsSlugRoute'));
 
 /** On every page change: back to the top, and count the view for the admin dashboard. */
 function ScrollToTop() {
-  const { pathname } = useLocation();
+  const { pathname, hash } = useLocation();
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'instant' });
     countPageView(pathname);
   }, [pathname]);
+
+  useEffect(() => {
+    if (!hash) {
+      window.scrollTo({ top: 0, behavior: 'instant' });
+      return undefined;
+    }
+    // A link to a section (/tickets#timings) waits for the page to draw it, up to 4 seconds.
+    let tries = 0;
+    const timer = window.setInterval(() => {
+      const target = document.getElementById(decodeURIComponent(hash.slice(1)));
+      if (!target && ++tries < 40) return;
+      window.clearInterval(timer);
+      if (target) target.scrollIntoView({ block: 'start' });
+      else window.scrollTo({ top: 0, behavior: 'instant' });
+    }, 100);
+    return () => window.clearInterval(timer);
+  }, [pathname, hash]);
 
   return null;
 }

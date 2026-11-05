@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { 
-  Sun, 
-  Compass, 
-  Shield, 
+  Clock,
+  Compass,
+  Shield,
   ArrowRight, 
   ArrowUpRight, 
   Calendar,
@@ -19,6 +19,8 @@ import { slugify } from '../utils/slugify';
 import SEO from '../components/SEO';
 import FeedbackSection from '../components/FeedbackSection';
 import PageFaqs from '../components/PageFaqs';
+import QuickFactCards from '../components/QuickFactCards';
+import { quickLinkPaths } from '../utils/quickLinkPaths';
 import CallToAction from '../components/CallToAction';
 import PageLoader from '../components/PageLoader';
 import HeroImageRotator from '../components/HeroImageRotator';
@@ -67,6 +69,8 @@ export default function HomePage({ onOpenBooking }) {
   // The rest of the "Page – Home About Rajaji" document and the shared booking wording.
   const [ctaCopy, setCtaCopy] = useState(() => primedContent()?.settings?.ctaCopy || {});
   const [siteFaqs, setSiteFaqs] = useState(() => primedContent()?.faqs || null);
+  // Tickets, zones and rules for the cards under the header.
+  const [siteContent, setSiteContent] = useState(primedContent);
   // The photo frame downloads its photos only as the visitor scrolls toward it.
   const [galleryRef, galleryNear] = useNearViewport('600px');
   const [blogsRef, blogsNear] = useNearViewport('600px');
@@ -81,6 +85,7 @@ export default function HomePage({ onOpenBooking }) {
       }
       setCtaCopy(res?.data?.settings?.ctaCopy || {});
       if (res?.data?.faqs) setSiteFaqs(res.data.faqs);
+      if (res?.data) setSiteContent(res.data);
     };
     const showBlogs = (res) => {
       const blogs = res?.data?.blogs || res?.blogs;
@@ -184,49 +189,30 @@ export default function HomePage({ onOpenBooking }) {
               Explore Safari Zones
             </Link>
           </div>
+
+          {/* What visitors look for first, on the first screen */}
+          <nav aria-label="Quick links" className="mt-6 grid grid-cols-2 sm:flex sm:flex-wrap sm:justify-center gap-2.5 max-w-md sm:max-w-none mx-auto">
+            {[
+              { label: 'Entry Timings', to: quickLinkPaths(siteContent).timings, Icon: Clock },
+              { label: 'Tickets & Entries', to: quickLinkPaths(siteContent).tickets, Icon: Ticket },
+              { label: 'Safari Zones', to: quickLinkPaths(siteContent).zones, Icon: Compass },
+              { label: 'Park Rules', to: quickLinkPaths(siteContent).rules, Icon: Shield },
+            ].map(({ label, to, Icon }) => (
+              <Link
+                key={label}
+                to={to}
+                className="inline-flex min-h-11 items-center justify-center gap-1.5 rounded-full border border-white/40 bg-white/15 px-4 py-2.5 text-xs sm:text-sm font-semibold text-white backdrop-blur-sm hover:bg-white/25 active:scale-95 transition"
+              >
+                <Icon className="w-4 h-4 shrink-0" />
+                {label}
+              </Link>
+            ))}
+          </nav>
         </div>
       </section>
 
-      {/* 3 Floating Info Pill Capsules (Matching Reference Design) */}
-      <div className="relative z-20 -mt-8 sm:-mt-10 max-w-5xl mx-auto px-4 sm:px-6">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {/* Card 1: Timings */}
-          <div className="bg-[#fdfcf8]/90 dark:bg-[#0c1610]/90 backdrop-blur-md rounded-2xl sm:rounded-full px-6 py-4 shadow-xl border border-emerald-900/15 dark:border-emerald-500/25 flex items-center gap-4 text-left transition hover:-translate-y-1 duration-200">
-            <div className="w-11 h-11 rounded-full bg-emerald-50 dark:bg-emerald-950/60 flex items-center justify-center shrink-0 text-emerald-600 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-900/30">
-              <Sun className="w-5 h-5" />
-            </div>
-            <div>
-              <h2 className="font-bold text-gray-900 dark:text-white text-sm">Timings</h2>
-              <p className="text-xs font-semibold text-gray-700 dark:text-gray-300 mt-0.5">{content.timings || "Morning & Evening Safaris"}</p>
-              <p className="text-[11px] text-gray-600 dark:text-gray-400">{content.timingsNote || "Timings change with the season"}</p>
-            </div>
-          </div>
-
-          {/* Card 2: Zones */}
-          <div className="bg-[#fdfcf8]/90 dark:bg-[#0c1610]/90 backdrop-blur-md rounded-2xl sm:rounded-full px-6 py-4 shadow-xl border border-emerald-900/15 dark:border-emerald-500/25 flex items-center gap-4 text-left transition hover:-translate-y-1 duration-200">
-            <div className="w-11 h-11 rounded-full bg-emerald-50 dark:bg-emerald-950/60 flex items-center justify-center shrink-0 text-emerald-600 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-900/30">
-              <Compass className="w-5 h-5" />
-            </div>
-            <div>
-              <h2 className="font-bold text-gray-900 dark:text-white text-sm">Zones</h2>
-              <p className="text-xs font-semibold text-gray-700 dark:text-gray-300 mt-0.5">{content.zones || "Chilla, Motichur, Ranipur & more"}</p>
-              <p className="text-[11px] text-gray-600 dark:text-gray-400">{content.zonesNote || "6 safari zones plus Beatles Ashram"}</p>
-            </div>
-          </div>
-
-          {/* Card 3: Rules */}
-          <div className="bg-[#fdfcf8]/90 dark:bg-[#0c1610]/90 backdrop-blur-md rounded-2xl sm:rounded-full px-6 py-4 shadow-xl border border-emerald-900/15 dark:border-emerald-500/25 flex items-center gap-4 text-left transition hover:-translate-y-1 duration-200">
-            <div className="w-11 h-11 rounded-full bg-emerald-50 dark:bg-emerald-950/60 flex items-center justify-center shrink-0 text-emerald-600 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-900/30">
-              <Shield className="w-5 h-5" />
-            </div>
-            <div>
-              <h2 className="font-bold text-gray-900 dark:text-white text-sm">Rules</h2>
-              <p className="text-xs font-semibold text-gray-700 dark:text-gray-300 mt-0.5">{content.rules || "Do's & Don'ts Guide"}</p>
-              <p className="text-[11px] text-gray-600 dark:text-gray-400">{content.rulesNote || "Strict conservation policies"}</p>
-            </div>
-          </div>
-        </div>
-      </div>
+      {/* Timings, zones and rules at a glance, each linking to its page */}
+      <QuickFactCards home={content} site={siteContent} />
 
       {/* 2. THE SANCTUARY LEGACY (ABOUT RAJAJI) SECTION */}
       <section id="about-rajaji" className="pt-24 pb-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
