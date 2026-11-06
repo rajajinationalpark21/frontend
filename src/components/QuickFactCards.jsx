@@ -1,121 +1,89 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Check, Compass, Shield, Sun, X } from 'lucide-react';
+import { ChevronRight, Clock, Compass, Shield } from 'lucide-react';
 import { quickLinkPaths } from '../utils/quickLinkPaths';
 
-const CARD =
-  'bg-[#fdfcf8]/90 dark:bg-[#0c1610]/90 backdrop-blur-md rounded-2xl px-5 py-4 shadow-xl border border-emerald-900/15 dark:border-emerald-500/25 flex items-start gap-4 text-left transition hover:-translate-y-1 duration-200';
-const ICON =
-  'w-11 h-11 rounded-full bg-emerald-50 dark:bg-emerald-950/60 flex items-center justify-center shrink-0 text-emerald-600 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-900/30';
-const MORE = 'inline-block mt-1 py-1.5 text-xs font-bold text-emerald-700 dark:text-emerald-400 hover:underline';
+// "Jhilmil Jheel Safari & Conservation Reserve" → "Jhilmil Jheel", "Haridwar Zone / Ranipur Gate" → "Haridwar Zone".
+const shortName = (name) => name.split(/ Safari| & | – | \/ /)[0];
 
-// "Jhilmil Jheel Safari & Conservation Reserve" → "Jhilmil Jheel", for a list of names.
-const shortName = (name) => name.split(/ Safari| & | – /)[0];
-
-const HEADING_LINK = 'hover:text-emerald-700 dark:hover:text-emerald-400 hover:underline';
+// "15 Nov – 15 Feb: Morning 6:30 AM – 8:00 AM | Evening 1:30 PM – 3:00 PM"
+// → "15 Nov – 15 Feb · 6:30 AM & 1:30 PM". A text in any other shape is shown as it is.
+function seasonLine(text) {
+  const colon = text.indexOf(': ');
+  if (colon < 0) return text;
+  const starts = text
+    .slice(colon + 2)
+    .split('|')
+    .map((slot) => slot.match(/\d{1,2}:\d{2}\s*[AP]M/i)?.[0])
+    .filter(Boolean);
+  return starts.length ? `${text.slice(0, colon)} · ${starts.join(' & ')}` : text;
+}
 
 /**
- * The three cards under the home page's header: the safari timings, every zone and
- * the main park rules, each from its own page's content (admin panel → Tickets,
- * Safari Zones, Terms & Rules) and linking to that page. `home` holds the headings.
+ * The three cards under the home page's header: the safari timings, the zones and the
+ * park rules, each a single tap through to its page. The one line under each title
+ * comes from that page's content (admin panel → Tickets, Safari Zones, Terms & Rules);
+ * a note set on the home page in the admin panel takes its place.
  */
 export default function QuickFactCards({ home, site }) {
   const timings = site?.tickets?.timings || {};
-  const seasons = [timings.winter, timings.summer].filter(Boolean);
   const zones = (site?.safari?.zones || []).filter((zone) => zone.slug && zone.name);
   const rules = site?.parkRules || {};
-  const dos = (rules.dos || []).filter((rule) => rule.title).slice(0, 2);
-  const donts = (rules.donts || []).filter((rule) => rule.title).slice(0, 2);
+  const firstDo = (rules.dos || []).find((rule) => rule.title)?.title;
+  const firstDont = (rules.donts || []).find((rule) => rule.title)?.title;
   const paths = quickLinkPaths(site);
+
+  const season = timings.winter || timings.summer;
+  const cards = [
+    {
+      key: 'timings',
+      title: 'Timings',
+      Icon: Clock,
+      to: paths.timings,
+      detail: home.timingsNote || (season ? seasonLine(season) : home.timings || 'Morning & Evening Safaris'),
+    },
+    {
+      key: 'zones',
+      title: 'Zones',
+      Icon: Compass,
+      to: paths.zones,
+      detail:
+        home.zonesNote ||
+        (zones.length
+          ? `${zones.length} zones · ${zones.map((zone) => shortName(zone.name)).join(', ')}`
+          : home.zones || 'Chilla, Motichur, Ranipur & more'),
+    },
+    {
+      key: 'rules',
+      title: 'Rules',
+      Icon: Shield,
+      to: paths.rules,
+      detail: home.rulesNote || firstDo || firstDont || home.rules || "Do's & Don'ts Guide",
+    },
+  ];
 
   return (
     <div className="relative z-20 -mt-8 sm:-mt-10 max-w-6xl mx-auto px-4 sm:px-6">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className={CARD}>
-          <div className={ICON}>
-            <Sun className="w-5 h-5" />
-          </div>
-          <div className="min-w-0">
-            <h2 className="font-bold text-gray-900 dark:text-white text-sm">
-              <Link to={paths.timings} className={HEADING_LINK}>Timings</Link>
-            </h2>
-            <p className="text-xs font-semibold text-gray-700 dark:text-gray-300 mt-0.5">{home.timings || 'Morning & Evening Safaris'}</p>
-            {home.timingsNote && <p className="text-[11px] text-gray-600 dark:text-gray-400">{home.timingsNote}</p>}
-            {seasons.length > 0 ? (
-              <ul className="mt-2 space-y-1.5 text-[11px] leading-snug text-gray-600 dark:text-gray-400">
-                {seasons.map((season) => (
-                  <li key={season}>{season}</li>
-                ))}
-              </ul>
-            ) : (
-              !home.timingsNote && <p className="text-[11px] text-gray-600 dark:text-gray-400">Timings change with the season</p>
-            )}
-            <Link to={paths.timings} className={MORE}>All timings & fees →</Link>
-          </div>
-        </div>
-
-        <div className={CARD}>
-          <div className={ICON}>
-            <Compass className="w-5 h-5" />
-          </div>
-          <div className="min-w-0">
-            <h2 className="font-bold text-gray-900 dark:text-white text-sm">
-              <Link to={paths.zones} className={HEADING_LINK}>Zones</Link>
-            </h2>
-            <p className="text-xs font-semibold text-gray-700 dark:text-gray-300 mt-0.5">{home.zones || 'Chilla, Motichur, Ranipur & more'}</p>
-            {home.zonesNote && <p className="text-[11px] text-gray-600 dark:text-gray-400">{home.zonesNote}</p>}
-            {zones.length > 0 ? (
-              <ul className="mt-2 flex flex-wrap gap-1.5">
-                {zones.map((zone) => (
-                  <li key={zone.slug}>
-                    <Link
-                      to={`/${zone.slug}`}
-                      className="inline-block rounded-full border border-emerald-900/15 dark:border-emerald-500/25 px-3 py-1.5 text-xs font-semibold text-emerald-800 dark:text-emerald-300 hover:bg-emerald-50 dark:hover:bg-emerald-950/50"
-                    >
-                      {shortName(zone.name)}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              !home.zonesNote && <p className="text-[11px] text-gray-600 dark:text-gray-400">6 safari zones plus Beatles Ashram</p>
-            )}
-            <Link to={paths.zones} className={MORE}>Compare all zones →</Link>
-          </div>
-        </div>
-
-        <div className={CARD}>
-          <div className={ICON}>
-            <Shield className="w-5 h-5" />
-          </div>
-          <div className="min-w-0">
-            <h2 className="font-bold text-gray-900 dark:text-white text-sm">
-              <Link to={paths.rules} className={HEADING_LINK}>Rules</Link>
-            </h2>
-            <p className="text-xs font-semibold text-gray-700 dark:text-gray-300 mt-0.5">{home.rules || "Do's & Don'ts Guide"}</p>
-            {home.rulesNote && <p className="text-[11px] text-gray-600 dark:text-gray-400">{home.rulesNote}</p>}
-            {dos.length + donts.length > 0 ? (
-              <ul className="mt-2 space-y-1.5 text-[11px] leading-snug text-gray-600 dark:text-gray-400">
-                {dos.map((rule) => (
-                  <li key={rule.title} className="flex items-start gap-1.5">
-                    <Check className="w-3.5 h-3.5 mt-px shrink-0 text-emerald-600 dark:text-emerald-400" />
-                    {rule.title}
-                  </li>
-                ))}
-                {donts.map((rule) => (
-                  <li key={rule.title} className="flex items-start gap-1.5">
-                    <X className="w-3.5 h-3.5 mt-px shrink-0 text-red-600 dark:text-red-400" />
-                    {rule.title}
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              !home.rulesNote && <p className="text-[11px] text-gray-600 dark:text-gray-400">Strict conservation policies</p>
-            )}
-            <Link to={paths.rules} className={MORE}>All park rules →</Link>
-          </div>
-        </div>
-      </div>
+      <ul className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-3 lg:gap-4">
+        {cards.map(({ key, title, Icon, to, detail }) => (
+          <li key={key}>
+            <Link
+              to={to}
+              title={detail}
+              className="group flex h-full min-h-[4rem] items-center gap-3 rounded-2xl border border-emerald-900/10 dark:border-emerald-500/20 bg-white/95 dark:bg-[#0c1610]/95 backdrop-blur-md px-3.5 py-3 lg:px-4 shadow-lg shadow-emerald-950/10 hover:border-emerald-600/40 hover:-translate-y-0.5 hover:shadow-xl active:scale-[0.98] transition"
+            >
+              <span className="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center shrink-0 shadow-md shadow-emerald-600/25">
+                <Icon className="w-5 h-5" />
+              </span>
+              <div className="min-w-0 flex-1">
+                <h2 className="text-sm font-bold leading-tight text-gray-900 dark:text-white">{title}</h2>
+                <p className="mt-0.5 line-clamp-1 sm:line-clamp-2 lg:line-clamp-1 text-xs leading-snug text-gray-600 dark:text-gray-400">{detail}</p>
+              </div>
+              <ChevronRight className="w-4 h-4 shrink-0 text-emerald-600 dark:text-emerald-400 group-hover:translate-x-0.5 transition-transform" />
+            </Link>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
